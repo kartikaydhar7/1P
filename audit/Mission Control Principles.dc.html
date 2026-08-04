@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="utf-8"></meta>
+  <title>Design Principles — Mission Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"></link>
+  <style>
+    body { margin: 0; }
+    a { color: #0b6b3a; text-decoration: none; border-bottom: 1px solid #bfe0cc; }
+    a:hover { color: #0ea84f; border-bottom-color: #0ea84f; }
+  </style>
+</helmet>
+
+<x-import component-from-global-scope="doc-page" from="./doc-page.js" size="{{ paper }}" margin="0.8in" hint-size="100%,1400px">
+
+  <div slot="header" style="display:flex;justify-content:space-between;align-items:baseline;padding:0 0 8px;border-bottom:1px solid #e5eae6;">
+    <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#94a399;">Sprouts.ai · Mission Control design principles</span>
+    <span style="font:400 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;">July 2026 · companion to the UX audit</span>
+  </div>
+  <div slot="footer" style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0 0;border-top:1px solid #e5eae6;">
+    <span style="font:400 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;">Internal — product &amp; design team</span>
+    <span style="font:400 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;">sources: Yablonski · Weiser &amp; Brown / Case · NN/g · agentic-UX field practice</span>
+  </div>
+
+  <div style="font-family:'Inter',sans-serif;color:#14211a;">
+
+    <div style="font:600 10.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#0b8f43;margin:18px 0 10px;">Design framework · Deep research synthesis</div>
+    <h1 style="font:650 30px/1.15 'Inter';letter-spacing:-0.022em;margin:0 0 6px;">Principles for Mission Control</h1>
+    <p style="font:400 15px/1.5 'Inter';color:#4c5a51;margin:0 0 20px;">The page today is a wall of tiles at equal volume: greeting, status pill, command bar, three chips, five KPI cards, an attention list, pipeline, signals and workflow rows — all shouting at once. This framework extends the team's six behavioral principles (Smart Defaults, Goal Gradient, Reciprocity, IKEA, Loss Aversion, Contrast — scored in the <a href="Sprouts UX Audit.dc.html">UX audit</a>) with twenty more, drawn from cognitive psychology, calm-technology research and current agentic-UX practice, each mapped to a concrete Mission Control move.</p>
+
+    <!-- THESIS -->
+    <div style="border:1px solid #cfe6d8;background:#f2faf5;border-radius:14px;padding:18px 20px;margin-bottom:26px;">
+      <div style="font:600 10px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#0b8f43;margin-bottom:7px;">The organizing thesis</div>
+      <p style="font:500 15px/1.55 'Inter';color:#14211a;margin:0 0 6px;">A briefing, not a dashboard.</p>
+      <p style="font:400 13px/1.6 'Inter';color:#3d4a42;margin:0;">Mission Control should behave like a calm chief of staff: it has already read everything, it opens with the one thing that matters, it keeps a short list of what needs your judgment, and it lets everything else hum in the periphery — visible, glanceable, silent. Every element must either inform a decision, request one, or leave the page.</p>
+    </div>
+
+    <!-- ═══ CLUSTER A ═══ -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #14211a;padding-bottom:8px;margin:6px 0 4px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">A · Attention &amp; density — the tile problem</h2>
+      <span style="font:600 10px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;">Weiser &amp; Brown · Case · Yablonski</span>
+    </div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">A1</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Calm periphery</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Technology should inform without demanding focus; information moves between the periphery and the center of attention, and lives in the periphery by default.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> The five KPI tiles are the periphery pretending to be the center. Compress them into one ambient status line (numbers + sparklines, no cards) that expands on demand; reserve the center for what needs the user.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">A2</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Hick's law</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Decision time grows with the number and complexity of choices.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Today the page offers ~12 competing actions. Offer ONE recommended action, one input (the command bar), and fold the rest behind "More". Paula should pre-decide the default.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">A3</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Miller's law &amp; chunking</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Working memory holds about 7±2 items; grouped information reads as one item.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Nine sibling blocks → three chunks: <em>The brief</em> (center), <em>Needs you</em> (max 3 open loops), <em>Ambient</em> (metrics + live workflows). Three is scannable; nine is homework.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">A4</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Von Restorff isolation</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Among similar objects, the one that differs is the one remembered.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Exactly one isolated element per view: the day's #1 recommended action gets the green treatment; everything else stays uniform. If three things are highlighted, nothing is.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">A5</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Serial position</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">People best remember the first and last items in a sequence.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Open with the single most consequential insight ("Philips' committee went quiet — $240k at risk"); close with the one next step. Housekeeping (sync status, uptime) belongs in the middle or the periphery.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">A6</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Pareto attention</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Roughly 80% of the value comes from 20% of the content; selective attention filters the rest anyway.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Instrument which tiles get clicked. Default-show the vital few; everything else earns its place back through use, not through stakeholder requests.</p></div></div>
+
+    <!-- ═══ CLUSTER B ═══ -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #14211a;padding-bottom:8px;margin:28px 0 4px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">B · Comprehension &amp; flow</h2>
+      <span style="font:600 10px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;">Nielsen · Yablonski · Doherty</span>
+    </div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">B1</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Jakob's law</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Users spend most of their time in other products and prefer interfaces that work like the ones they know.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Borrow mental models people already run daily: the morning briefing (news apps), the inbox-zero triage (email), the feed. "Dashboard with 9 widgets" is the one model nobody enjoys.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">B2</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Recognition over recall</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Minimize memory load: show context instead of making people retrieve it.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Every item carries its own context inline: logo, deal value, last touch, why it surfaced. Nobody should open a second tab to remember who Philips is.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">B3</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Doherty threshold</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Engagement holds when system response lands under ~400ms; perceived speed counts.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> The command bar must acknowledge instantly — echo the parsed intent within a beat, stream the thinking trace live (audit B4), never a spinner on a blank canvas.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">B4</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Fitts's law</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Time to reach a target is a function of its distance and size.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> The recommended action's button should be the largest target on the page, adjacent to the insight it resolves — not a 12px text link at the row's far end.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">B5</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Tesler's law</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Every system has irreducible complexity; the only question is who absorbs it.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> This is the product's whole pitch: Paula absorbs the 20-tool GTM stack. Mission Control must embody it — the user sees conclusions and decisions, not the machinery. Machinery is available on demand (trace, logs), never ambient.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">B6</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Postel's law</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Be liberal in what you accept, conservative in what you send.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> The command bar accepts fragments, typos, pasted CSVs, half-formed goals — and always returns the same structured, editable plan. Input forgiving, output rigorous.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">B7</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Aesthetic–usability, honestly applied</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Beautiful interfaces are perceived as more usable — polish buys patience.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Spend the polish on the brief's typography and the one hero moment — not on decorating nine tiles equally. Decoration on noise is how dashboards die.</p></div></div>
+
+    <!-- ═══ CLUSTER C ═══ -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #14211a;padding-bottom:8px;margin:28px 0 4px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">C · Motivation &amp; momentum</h2>
+      <span style="font:600 10px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;">extends the team's behavioral six</span>
+    </div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">C1</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Zeigarnik effect</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Unfinished tasks occupy memory more than finished ones — open loops pull people back.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> "Needs you" is an open-loop list by design: 3 approvals waiting · 1 draft workflow · 2 unread replies. Show the loop count in the nav badge; closing loops is the day's game.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">C2</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Peak–end rule</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Experiences are judged by their peak moment and their ending, not their average.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Engineer both: the peak is the reveal ("Paula found 41 accounts overnight" — let it land with weight); the end is the handoff ("You're clear. Paula watches until 8am."). A session should end with closure, not an infinite feed.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">C3</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Goal gradient, made ambient</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Effort accelerates near the finish line; progress that never starts at zero sustains momentum (audit E2).</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> One quiet progress strip: "This week: 14 of 20 meetings goal · 71% enriched". Anchored to goals the user set (IKEA effect), never invented ones.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">C4</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Reciprocity at the doorstep</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Value delivered before a request earns engagement (audit E3).</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> The page opens with what Paula already did — found, enriched, drafted — before asking anything. The brief is a gift; the ask comes second.</p></div></div>
+
+    <!-- ═══ CLUSTER D ═══ -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #14211a;padding-bottom:8px;margin:28px 0 4px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">D · Agentic trust — Mission Control's special duty</h2>
+      <span style="font:600 10px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;">2025–26 agentic-UX field practice</span>
+    </div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">D1</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Visible autonomy boundaries</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Users must always be able to see what the agent is allowed to do on its own.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> The status pill grows up: "3 workflows live · writes gated · cap 120/day" — the guardrails summary lives on the home page, one click from editing.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">D2</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Decision-level legibility</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Trust comes from reasoning being visible at the level of each decision, not from surface explanations.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Every recommendation carries its "because": <em>"Committee quiet 6d + close date in 21d → nudge the champion."</em> One line, always present, expandable to the full trace.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">D3</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Interruptibility as furniture</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Pause, modify, override and reverse are core features of agent UX, not edge cases.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Every live workflow row on the home page carries an inline pause. The undo story (audit B1) surfaces here too: "sent 12 · 108 queued · pause / undo batch".</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">D4</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Calibrated trust, not projected confidence</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Over-trust is as dangerous as under-trust: an interface that projects infallibility makes people stop applying judgment, while constant warnings breed reflexive approval.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> Show confidence honestly ("ICP fit 92 · revenue estimated") and scale friction to risk: reading is free, drafts are one click, sends ask once, deletes ask twice. Never a wall of confirmations.</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">D5</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Failure legibility</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Errors are explained and recoverable, never hidden; a failing system defaults to a usable state.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> The existing error card (cause + Resume + Logs) is the right pattern — plus impact framing (loss aversion, audit E5): "paused 2h · 9 hot visitors waiting".</p></div></div>
+
+    <div style="border-top:1px solid #eaf0ec;padding:12px 0;display:flex;gap:16px;"><div style="flex:0 0 84px;font:600 12px 'JetBrains Mono';">D6</div><div style="flex:1;"><div style="font:600 13.5px 'Inter';margin-bottom:3px;">Memory transparency</div><p style="font:400 12.5px/1.58 'Inter';color:#4c5a51;margin:0 0 4px;">Users should see what the agent remembers, why, and be able to change it — memory controls are trust primitives.</p><p style="font:400 12.5px/1.58 'Inter';color:#14211a;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#0b6b3a;">Here&nbsp;</strong> When the brief uses a remembered fact ("you deprioritized SMB last month"), mark it and make it editable in place. Paula's memory is a visible, correctable object.</p></div></div>
+
+    <!-- ═══ BLUEPRINT ═══ -->
+    <div style="border-bottom:2px solid #14211a;padding-bottom:8px;margin:28px 0 14px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">The blueprint — three zones, one center</h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:10px;">
+      <div style="border:1.5px solid #0ea84f;background:#f2faf5;border-radius:12px;padding:14px 18px;display:flex;gap:14px;align-items:baseline;">
+        <span style="font:600 11px 'JetBrains Mono';color:#0b8f43;flex:0 0 92px;">ZONE 1</span>
+        <div><div style="font:600 13.5px 'Inter';margin-bottom:2px;">The brief — the center of attention</div><div style="font:400 12.5px/1.55 'Inter';color:#3d4a42;">Paula's 2–3 sentence morning brief (what happened, what it means) + the ONE recommended action, isolated and large. Command bar directly beneath. Principles: A1 A2 A4 A5 B4 C4 D2.</div></div>
+      </div>
+      <div style="border:1px solid #d7e3da;background:#fff;border-radius:12px;padding:14px 18px;display:flex;gap:14px;align-items:baseline;">
+        <span style="font:600 11px 'JetBrains Mono';color:#4c5a51;flex:0 0 92px;">ZONE 2</span>
+        <div><div style="font:600 13.5px 'Inter';margin-bottom:2px;">Needs you — the open loops</div><div style="font:400 12.5px/1.55 'Inter';color:#3d4a42;">At most three items requiring judgment (approvals, errors, replies), each with inline context, a "because", and its resolving action. Principles: A3 B2 C1 D3 D5.</div></div>
+      </div>
+      <div style="border:1px solid #d7e3da;background:#fff;border-radius:12px;padding:14px 18px;display:flex;gap:14px;align-items:baseline;">
+        <span style="font:600 11px 'JetBrains Mono';color:#4c5a51;flex:0 0 92px;">ZONE 3</span>
+        <div><div style="font:600 13.5px 'Inter';margin-bottom:2px;">Ambient — the periphery</div><div style="font:400 12.5px/1.55 'Inter';color:#3d4a42;">One quiet line of KPIs with sparklines, a live-workflow pulse strip with inline pause, the goal-progress strip, guardrails summary. Glanceable, silent, expandable. Principles: A1 A6 C3 D1 D4 D6.</div></div>
+      </div>
+    </div>
+    <p style="font:400 12px/1.6 'Inter';color:#7a8a80;margin:0 0 26px;">Everything on today's page maps into a zone or leaves. Pipeline and signals collapse into Zone 3 glances that open their modules; the three suggestion chips fold into the command bar's focus state.</p>
+
+    <sc-if value="{{ showRubric }}" hint-placeholder-val="{{ true }}">
+    <!-- ═══ RUBRIC ═══ -->
+    <div style="border-bottom:2px solid #14211a;padding-bottom:8px;margin:0 0 12px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">The seven checks — scoring any Mission Control iteration</h2>
+    </div>
+    <div style="border:1px solid #e5eae6;border-radius:12px;overflow:hidden;margin-bottom:24px;">
+      <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #eef3ef;"><span style="font:600 11px 'JetBrains Mono';flex:0 0 24px;">1</span><span style="font:400 12.5px/1.5 'Inter';color:#14211a;">Five-second test: can a user say what needs them today after one glance?</span></div>
+      <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #eef3ef;"><span style="font:600 11px 'JetBrains Mono';flex:0 0 24px;">2</span><span style="font:400 12.5px/1.5 'Inter';color:#14211a;">Exactly one isolated element — count the highlights; the answer must be 1.</span></div>
+      <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #eef3ef;"><span style="font:600 11px 'JetBrains Mono';flex:0 0 24px;">3</span><span style="font:400 12.5px/1.5 'Inter';color:#14211a;">≤3 chunks, ≤7 items visible before any scroll or expand.</span></div>
+      <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #eef3ef;"><span style="font:600 11px 'JetBrains Mono';flex:0 0 24px;">4</span><span style="font:400 12.5px/1.5 'Inter';color:#14211a;">Every recommendation shows its "because" without a click.</span></div>
+      <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #eef3ef;"><span style="font:600 11px 'JetBrains Mono';flex:0 0 24px;">5</span><span style="font:400 12.5px/1.5 'Inter';color:#14211a;">Every running automation can be paused from this page, and destructive acts are undoable.</span></div>
+      <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #eef3ef;"><span style="font:600 11px 'JetBrains Mono';flex:0 0 24px;">6</span><span style="font:400 12.5px/1.5 'Inter';color:#14211a;">The page gives (brief, findings) before it asks (approvals, input).</span></div>
+      <div style="display:flex;gap:12px;padding:10px 16px;"><span style="font:600 11px 'JetBrains Mono';flex:0 0 24px;">7</span><span style="font:400 12.5px/1.5 'Inter';color:#14211a;">A session can end: the page reaches a "you're clear" state instead of an infinite feed.</span></div>
+    </div>
+    </sc-if>
+
+    <div style="border-top:1px solid #e5eae6;padding-top:12px;">
+      <div style="font:600 10px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#94a399;margin-bottom:6px;">Sources</div>
+      <p style="font:400 11.5px/1.6 'Inter';color:#4c5a51;margin:0;">Jon Yablonski, <em>Laws of UX</em> (lawsofux.com) · Mark Weiser &amp; John Seely Brown, "Designing Calm Technology" (Xerox PARC, 1995) and Amber Case, <em>Calm Technology</em> (O'Reilly, 2015) · Jakob Nielsen's usability heuristics (NN/g) · 2025–26 agentic-UX field writing on transparency, interruptibility, confidence calibration and failure legibility. Synthesized and adapted to Sprouts Mission Control; companion to the <a href="Sprouts UX Audit.dc.html">UX audit</a>.</p>
+    </div>
+
+  </div>
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: {&quot;width&quot;: 1000},
+  &quot;showRubric&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Content&quot;},
+  &quot;paper&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;letter&quot;, &quot;a4&quot;], &quot;default&quot;: &quot;letter&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Page&quot;}
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      paper: this.props.paper ?? 'letter',
+      showRubric: this.props.showRubric ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

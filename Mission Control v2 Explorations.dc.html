@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin:0; background:#e8ebe6; }
+  a { color:#0b6b3a; text-decoration:none; }
+  a:hover { color:#0ea84f; }
+</style>
+</helmet>
+
+<section style="padding:54px 60px 90px;font-family:'Inter',sans-serif;">
+
+  <div style="max-width:960px;margin-bottom:42px;">
+    <div style="font:600 11px 'JetBrains Mono';letter-spacing:.18em;text-transform:uppercase;color:#0b6b3a;margin-bottom:12px;">Mission Control — 3 directions</div>
+    <h1 style="font:700 34px/1.15 'Inter';color:#14211a;margin:0 0 12px;letter-spacing:-.02em;">Stop making it a feed</h1>
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;flex-wrap:wrap;">
+      <span style="font:600 9px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#8a958c;margin-right:2px;">Jump to</span>
+      <a href="#1a" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #cdeede;background:#f2fbf5;border-radius:8px;padding:6px 12px;font:500 12.5px 'Inter';color:#14211a;"><b style="font:700 11px 'JetBrains Mono';color:#0b6b3a;">1a</b>The Console</a>
+      <a href="#1b" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #cdeede;background:#f2fbf5;border-radius:8px;padding:6px 12px;font:500 12.5px 'Inter';color:#14211a;"><b style="font:700 11px 'JetBrains Mono';color:#0b6b3a;">1b</b>The Triage Inbox</a>
+      <a href="#1c" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #cdeede;background:#f2fbf5;border-radius:8px;padding:6px 12px;font:500 12.5px 'Inter';color:#14211a;"><b style="font:700 11px 'JetBrains Mono';color:#0b6b3a;">1c</b>The Situation Board</a>
+    </div>
+    <p style="font:400 16px/1.65 'Inter';color:#4a564d;margin:0;max-width:800px;">Today's Mission Control is a vertical scroll — brief, then queue, then ambient. You read it top to bottom and act at the end. A command centre should show <b style="color:#14211a;">state</b> and let you <b style="color:#14211a;">act</b> without scrolling. Three ways to do that, each borrowing structure from a different one of the design skills you gave me. All three stay on Evergreen so they don't clash with the rest of the app.</p>
+  </div>
+
+  <div style="display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap;">
+
+    <!-- ═══════════ 1a · THE CONSOLE ═══════════ -->
+    <div id="1a" style="width:1120px;flex:0 0 auto;">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:7px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:26px;padding:0 9px;border-radius:8px;background:#14211a;color:#eafcf1;font:700 13px 'JetBrains Mono';">1a</span>
+        <span style="font:700 17px 'Inter';color:#14211a;letter-spacing:-.01em;">The Console</span>
+        <span style="font:500 11px 'Inter';color:#6d8577;">from the <b>dashboard</b> skill — data-dense grid, flat surfaces, 8px rhythm, nothing below the fold</span>
+      </div>
+      <p style="font:400 13px/1.55 'Inter';color:#5f6d64;margin:0 0 14px;max-width:900px;">Three fixed panes. The queue on the left is the only thing that scrolls; agent state and the numbers are always visible on the right. You never lose sight of what's running while you work an item.</p>
+
+      <div style="height:700px;background:#f4f7f3;border:1px solid #d3ddd0;border-radius:16px;overflow:hidden;box-shadow:0 26px 60px -34px rgba(20,43,32,.5);display:flex;flex-direction:column;">
+        <!-- status bar -->
+        <div style="display:flex;align-items:center;gap:0;background:#0e2b20;padding:0 20px;height:52px;flex:0 0 auto;">
+          <span style="font:600 12.5px 'Inter';color:#eafcf1;margin-right:20px;">Mission Control</span>
+          <span style="display:flex;align-items:center;gap:7px;padding-right:18px;margin-right:18px;border-right:1px solid rgba(124,227,168,.2);">
+            <span style="width:6px;height:6px;border-radius:50%;background:#7ce3a8;"></span>
+            <span style="font:500 11.5px 'Inter';color:#a8d8bd;">3 agents running</span>
+          </span>
+          <span style="font:500 11.5px 'Inter';color:#a8d8bd;padding-right:18px;margin-right:18px;border-right:1px solid rgba(124,227,168,.2);">4 need you</span>
+          <span style="font:500 11.5px 'Inter';color:#f0c98a;">1 blocked</span>
+          <span style="flex:1;"></span>
+          <span style="font:500 11px 'JetBrains Mono';color:#6d8577;">MON 27 JUL · 17:42</span>
+        </div>
+
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 372px;">
+          <!-- LEFT: the queue -->
+          <div style="border-right:1px solid #d3ddd0;display:flex;flex-direction:column;min-height:0;">
+            <div style="display:flex;align-items:center;gap:10px;padding:14px 20px 12px;border-bottom:1px solid #dfe5da;flex:0 0 auto;">
+              <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6b776e;">Decision queue</span>
+              <span style="font:600 10px 'JetBrains Mono';color:#8f3429;background:#fbe9e6;border-radius:5px;padding:2px 7px;">4</span>
+              <span style="flex:1;"></span>
+              <span style="font:500 11px 'Inter';color:#8a958c;">Paula drafted every one · you approve</span>
+            </div>
+
+            <!-- expanded item -->
+            <div style="background:#fff;border-bottom:1px solid #dfe5da;flex:0 0 auto;">
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:15px 20px 0;">
+                <span style="width:4px;align-self:stretch;background:#c2503f;border-radius:4px;flex:0 0 auto;margin-top:2px;margin-bottom:2px;"></span>
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:center;gap:9px;margin-bottom:5px;flex-wrap:wrap;">
+                    <span style="font:600 10px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#8f3429;">Deal at risk</span>
+                    <span style="font:600 15px 'Inter';color:#14211a;">Philips</span>
+                    <span style="font:600 12px 'JetBrains Mono';color:#14211a;background:#eef2ea;border-radius:5px;padding:2px 7px;">$240k</span>
+                    <span style="font:500 11.5px 'Inter';color:#5f6d64;">closes in 6 days</span>
+                  </div>
+                  <p style="font:400 13px/1.55 'Inter';color:#3d4a42;margin:0 0 11px;max-width:66ch;">Committee has been silent 6 days. Daniel opened the proposal twice yesterday but didn't reply — he's reading, not deciding.</p>
+                  <div style="background:#f9fbf8;border:1px solid #e2e7dd;border-radius:9px;padding:11px 13px;margin-bottom:11px;">
+                    <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#8a958c;margin-bottom:6px;">Drafted nudge · to Daniel Park</div>
+                    <p style="font:400 12.5px/1.6 'Inter';color:#2f3d35;margin:0;">Daniel — saw you back in the proposal. If it's the rollout timeline that's open, Razorpay ran the same migration in 5 weeks; happy to walk you through it Thursday.</p>
+                  </div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;padding-bottom:15px;">
+                    <button style="border:none;background:#0ea84f;color:#fff;border-radius:8px;padding:8px 15px;font:600 12.5px 'Inter';cursor:pointer;">Approve &amp; send</button>
+                    <button style="border:1px solid #d3ddd0;background:#fff;color:#3d4a42;border-radius:8px;padding:8px 14px;font:500 12.5px 'Inter';cursor:pointer;">Edit</button>
+                    <button style="border:1px solid #d3ddd0;background:#fff;color:#3d4a42;border-radius:8px;padding:8px 14px;font:500 12.5px 'Inter';cursor:pointer;">Open deal</button>
+                    <span style="flex:1;"></span>
+                    <button style="border:none;background:transparent;color:#8a958c;font:500 12px 'Inter';cursor:pointer;">Snooze</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- collapsed items -->
+            <div style="flex:1;min-height:0;overflow:hidden;">
+              <div style="display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid #eef2ee;background:#fbfdfb;">
+                <span style="width:4px;height:30px;background:#d99a2b;border-radius:4px;flex:0 0 auto;"></span>
+                <span style="flex:1;min-width:0;">
+                  <span style="display:block;font:600 13px 'Inter';color:#14211a;">Pricing-Intent Outreach is paused</span>
+                  <span style="display:block;font:400 11.5px 'Inter';color:#5f6d64;margin-top:2px;">Salesforce rate limit · 41 accounts waiting · 2h 14m stalled</span>
+                </span>
+                <button style="border:1px solid #b9d3c2;background:#fff;color:#0b6b3a;border-radius:7px;padding:6px 12px;font:600 11.5px 'Inter';cursor:pointer;flex:0 0 auto;">Resume</button>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid #eef2ee;background:#fbfdfb;">
+                <span style="width:4px;height:30px;background:#16b364;border-radius:4px;flex:0 0 auto;"></span>
+                <span style="flex:1;min-width:0;">
+                  <span style="display:block;font:600 13px 'Inter';color:#14211a;">3 replies waiting on you</span>
+                  <span style="display:block;font:400 11.5px 'Inter';color:#5f6d64;margin-top:2px;">Enterprise FinTech sequence · HighRadius, Chargebee, Freshworks</span>
+                </span>
+                <button style="border:1px solid #b9d3c2;background:#fff;color:#0b6b3a;border-radius:7px;padding:6px 12px;font:600 11.5px 'Inter';cursor:pointer;flex:0 0 auto;">Read</button>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid #eef2ee;background:#fbfdfb;">
+                <span style="width:4px;height:30px;background:#16b364;border-radius:4px;flex:0 0 auto;"></span>
+                <span style="flex:1;min-width:0;">
+                  <span style="display:block;font:600 13px 'Inter';color:#14211a;">Stripe is on /pricing right now</span>
+                  <span style="display:block;font:400 11.5px 'Inter';color:#5f6d64;margin-top:2px;">7th visit this week · no owner assigned</span>
+                </span>
+                <button style="border:1px solid #b9d3c2;background:#fff;color:#0b6b3a;border-radius:7px;padding:6px 12px;font:600 11.5px 'Inter';cursor:pointer;flex:0 0 auto;">Claim</button>
+              </div>
+              <div style="display:flex;align-items:center;gap:9px;padding:13px 20px;">
+                <span style="font:500 12px 'Inter';color:#8a958c;">Nothing else needs you today.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: agent state + numbers -->
+          <div style="display:flex;flex-direction:column;min-height:0;background:#fbfdfb;">
+            <div style="padding:14px 18px 12px;border-bottom:1px solid #dfe5da;">
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6b776e;margin-bottom:11px;">Agents right now</div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#16b364;flex:0 0 auto;"></span>
+                    <span style="flex:1;font:600 12px 'Inter';color:#14211a;">Pricing-intent → outreach</span>
+                    <span style="font:600 10.5px 'JetBrains Mono';color:#0b8f43;">68%</span>
+                  </div>
+                  <div style="height:4px;border-radius:4px;background:#e4eae0;"><div style="height:4px;width:68%;border-radius:4px;background:#16b364;"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#d99a2b;flex:0 0 auto;"></span>
+                    <span style="flex:1;font:600 12px 'Inter';color:#14211a;">Buyer-committee mapping</span>
+                    <span style="font:600 10.5px 'JetBrains Mono';color:#8a6d1f;">41%</span>
+                  </div>
+                  <div style="height:4px;border-radius:4px;background:#e4eae0;"><div style="height:4px;width:41%;border-radius:4px;background:#d99a2b;"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#16b364;flex:0 0 auto;"></span>
+                    <span style="flex:1;font:600 12px 'Inter';color:#14211a;">Visitor de-anonymization</span>
+                    <span style="font:600 10.5px 'JetBrains Mono';color:#0b8f43;">live</span>
+                  </div>
+                  <div style="height:4px;border-radius:4px;background:#e4eae0;"><div style="height:4px;width:100%;border-radius:4px;background:#16b364;"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:14px 18px 12px;border-bottom:1px solid #dfe5da;">
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6b776e;margin-bottom:11px;">This week</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#e6ece7;border:1px solid #e6ece7;border-radius:9px;overflow:hidden;">
+                <div style="background:#fff;padding:11px 12px;">
+                  <div style="display:flex;align-items:baseline;gap:5px;"><span style="font:700 19px 'JetBrains Mono';color:#14211a;letter-spacing:-.02em;">$2.4M</span><span style="font:600 9.5px 'JetBrains Mono';color:#0b8f43;">+12%</span></div>
+                  <div style="font:500 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:3px;">pipeline</div>
+                </div>
+                <div style="background:#fff;padding:11px 12px;">
+                  <div style="display:flex;align-items:baseline;gap:5px;"><span style="font:700 19px 'JetBrains Mono';color:#14211a;letter-spacing:-.02em;">14</span><span style="font:600 9.5px 'JetBrains Mono';color:#0b8f43;">of 20</span></div>
+                  <div style="font:500 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:3px;">meetings</div>
+                </div>
+                <div style="background:#fff;padding:11px 12px;">
+                  <div style="display:flex;align-items:baseline;gap:5px;"><span style="font:700 19px 'JetBrains Mono';color:#14211a;letter-spacing:-.02em;">312</span><span style="font:600 9.5px 'JetBrains Mono';color:#0b8f43;">+18%</span></div>
+                  <div style="font:500 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:3px;">visitors named</div>
+                </div>
+                <div style="background:#fff;padding:11px 12px;">
+                  <div style="display:flex;align-items:baseline;gap:5px;"><span style="font:700 19px 'JetBrains Mono';color:#14211a;letter-spacing:-.02em;">41</span><span style="font:600 9.5px 'JetBrains Mono';color:#0b8f43;">+12</span></div>
+                  <div style="font:500 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:3px;">in outreach</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:14px 18px;flex:1;min-height:0;">
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6b776e;margin-bottom:10px;">Handled while you were away</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;gap:8px;align-items:flex-start;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16b364" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:2px;"><polyline points="20 6 9 17 4 12"></polyline></svg><span style="font:400 12px/1.45 'Inter';color:#5f6d64;">41 accounts enriched and scored</span></div>
+                <div style="display:flex;gap:8px;align-items:flex-start;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16b364" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:2px;"><polyline points="20 6 9 17 4 12"></polyline></svg><span style="font:400 12px/1.45 'Inter';color:#5f6d64;">12 first-touch drafts written</span></div>
+                <div style="display:flex;gap:8px;align-items:flex-start;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16b364" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:2px;"><polyline points="20 6 9 17 4 12"></polyline></svg><span style="font:400 12px/1.45 'Inter';color:#5f6d64;">25 buyer committees mapped</span></div>
+                <div style="display:flex;gap:8px;align-items:flex-start;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16b364" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:2px;"><polyline points="20 6 9 17 4 12"></polyline></svg><span style="font:400 12px/1.45 'Inter';color:#5f6d64;">6 CRM records cleaned</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:9px;border:1px solid #cfd9d2;background:#fff;border-radius:10px;padding:8px 8px 8px 12px;margin-top:14px;">
+                <span style="font:400 12.5px 'Inter';color:#94a399;flex:1;">Ask Paula…</span>
+                <span style="width:26px;height:26px;border-radius:7px;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7ce3a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;padding-top:14px;border-top:1px dashed #d3ddd0;">
+        <div style="font:600 9px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#8a958c;margin-bottom:9px;">Why it works</div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span style="font:500 11px 'Inter';color:#3d4a42;background:#eef3ea;border-radius:7px;padding:5px 10px;">Nothing below the fold — state and action coexist</span>
+          <span style="font:500 11px 'Inter';color:#3d4a42;background:#eef3ea;border-radius:7px;padding:5px 10px;">One item expanded, the rest one line each</span>
+          <span style="font:500 11px 'Inter';color:#3d4a42;background:#eef3ea;border-radius:7px;padding:5px 10px;">Severity as a colour bar, not prose</span>
+        </div>
+        <p style="font:400 12px/1.5 'Inter';color:#6b776e;margin:11px 0 0;"><b style="color:#4a564d;">The bet:</b> you come here to clear a queue while keeping an eye on the machine. Work-and-watch.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════ 1b · THE TRIAGE INBOX ═══════════ -->
+    <div id="1b" style="width:1120px;flex:0 0 auto;">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:7px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:26px;padding:0 9px;border-radius:8px;background:#14211a;color:#eafcf1;font:700 13px 'JetBrains Mono';">1b</span>
+        <span style="font:700 17px 'Inter';color:#14211a;letter-spacing:-.01em;">The Triage Inbox</span>
+        <span style="font:500 11px 'Inter';color:#6d8577;">from the <b>agentic</b> skill — one stream of decisions, keyboard-first, zero chrome</span>
+      </div>
+      <p style="font:400 13px/1.55 'Inter';color:#5f6d64;margin:0 0 14px;max-width:900px;">Mission Control as an inbox you empty. Every item is a decision Paula has already prepared; you move with <b>J/K</b>, approve with <b>E</b>, and the count goes down. When it hits zero you're done for the day — that's the whole interface.</p>
+
+      <div style="height:700px;background:#fbfdfb;border:1px solid #d3ddd0;border-radius:16px;overflow:hidden;box-shadow:0 26px 60px -34px rgba(20,43,32,.5);display:flex;flex-direction:column;">
+        <!-- header -->
+        <div style="display:flex;align-items:center;gap:14px;padding:18px 24px 16px;border-bottom:1px solid #dfe5da;flex:0 0 auto;">
+          <div>
+            <div style="font:700 21px 'Inter';color:#14211a;letter-spacing:-.02em;">4 decisions</div>
+            <div style="font:400 12px 'Inter';color:#6b776e;margin-top:2px;">Paula prepared each one · everything else she handled</div>
+          </div>
+          <span style="flex:1;"></span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font:500 10px 'JetBrains Mono';color:#a8b2a9;border:1px solid #dfe5da;border-radius:5px;padding:3px 6px;">J</span>
+            <span style="font:500 10px 'JetBrains Mono';color:#a8b2a9;border:1px solid #dfe5da;border-radius:5px;padding:3px 6px;">K</span>
+            <span style="font:400 11px 'Inter';color:#8a958c;margin-right:8px;">move</span>
+            <span style="font:500 10px 'JetBrains Mono';color:#0b6b3a;border:1px solid #b9d3c2;border-radius:5px;padding:3px 6px;">E</span>
+            <span style="font:400 11px 'Inter';color:#8a958c;">approve</span>
+          </div>
+        </div>
+
+        <!-- stream -->
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
+          <!-- focused card -->
+          <div style="margin:16px 20px;border:1.5px solid #14211a;border-radius:14px;background:#fff;box-shadow:0 14px 34px -20px rgba(20,43,32,.4);overflow:hidden;flex:0 0 auto;">
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 18px;background:#14211a;">
+              <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#f0c98a;">1 of 4 · highest value at risk</span>
+              <span style="flex:1;"></span>
+              <span style="font:500 11px 'JetBrains Mono';color:#8fb3a0;">6 days to close</span>
+            </div>
+            <div style="padding:18px 20px;">
+              <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;">
+                <span style="width:44px;height:44px;border-radius:12px;background:#1e3a5f;color:#fff;font:700 14px 'Inter';display:flex;align-items:center;justify-content:center;flex:0 0 auto;">Ph</span>
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
+                    <span style="font:700 20px 'Inter';color:#14211a;letter-spacing:-.02em;">Philips</span>
+                    <span style="font:700 15px 'JetBrains Mono';color:#8f3429;">$240k</span>
+                  </div>
+                  <p style="font:400 14px/1.55 'Inter';color:#3d4a42;margin:6px 0 0;max-width:70ch;">The committee has gone quiet for six days, but Daniel opened the proposal twice yesterday. He's reading — nobody has answered the rollout question he asked on the 18th.</p>
+                </div>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:15px;">
+                <div style="border:1px solid #e2e7dd;background:#f9fbf8;border-radius:10px;padding:12px 14px;">
+                  <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#8a958c;margin-bottom:8px;">What I'd send</div>
+                  <p style="font:400 12.5px/1.6 'Inter';color:#2f3d35;margin:0;">Daniel — saw you back in the proposal. If the rollout timeline is what's open, Razorpay ran the same migration in five weeks. Want me to walk you through it Thursday?</p>
+                </div>
+                <div style="border:1px solid #e2e7dd;background:#f9fbf8;border-radius:10px;padding:12px 14px;">
+                  <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#8a958c;margin-bottom:8px;">Why now</div>
+                  <div style="display:flex;flex-direction:column;gap:6px;">
+                    <span style="font:400 12px 'Inter';color:#3d4a42;">① Proposal opened 2× yesterday</span>
+                    <span style="font:400 12px 'Inter';color:#3d4a42;">② His rollout question is unanswered</span>
+                    <span style="font:400 12px 'Inter';color:#3d4a42;">③ Razorpay is an exact-shape precedent</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
+                <button style="display:inline-flex;align-items:center;gap:8px;border:none;background:#0ea84f;color:#fff;border-radius:10px;padding:11px 18px;font:600 13.5px 'Inter';cursor:pointer;">Approve &amp; send<span style="font:600 10px 'JetBrains Mono';background:rgba(255,255,255,.22);border-radius:4px;padding:2px 5px;">E</span></button>
+                <button style="border:1px solid #d3ddd0;background:#fff;color:#3d4a42;border-radius:10px;padding:11px 16px;font:500 13px 'Inter';cursor:pointer;">Rewrite</button>
+                <button style="border:1px solid #d3ddd0;background:#fff;color:#3d4a42;border-radius:10px;padding:11px 16px;font:500 13px 'Inter';cursor:pointer;">Open the deal</button>
+                <span style="flex:1;"></span>
+                <button style="border:none;background:transparent;color:#8a958c;font:500 12.5px 'Inter';cursor:pointer;">Not now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- up next -->
+          <div style="padding:0 20px 6px;">
+            <div style="font:600 9px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#a8b2a9;margin-bottom:8px;">Up next</div>
+          </div>
+          <div style="padding:0 20px;display:flex;flex-direction:column;gap:7px;">
+            <div style="display:flex;align-items:center;gap:12px;border:1px solid #e2e7dd;background:#fff;border-radius:11px;padding:12px 15px;">
+              <span style="font:600 10px 'JetBrains Mono';color:#a8b2a9;width:14px;flex:0 0 auto;">2</span>
+              <span style="width:7px;height:7px;border-radius:50%;background:#d99a2b;flex:0 0 auto;"></span>
+              <span style="flex:1;min-width:0;font:500 13px 'Inter';color:#14211a;">Resume Pricing-Intent Outreach <span style="font-weight:400;color:#6b776e;">— rate-limited 2h ago, 41 accounts waiting</span></span>
+              <span style="font:500 11px 'Inter';color:#8a958c;flex:0 0 auto;">1 tap</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;border:1px solid #e2e7dd;background:#fff;border-radius:11px;padding:12px 15px;">
+              <span style="font:600 10px 'JetBrains Mono';color:#a8b2a9;width:14px;flex:0 0 auto;">3</span>
+              <span style="width:7px;height:7px;border-radius:50%;background:#16b364;flex:0 0 auto;"></span>
+              <span style="flex:1;min-width:0;font:500 13px 'Inter';color:#14211a;">3 replies to read <span style="font-weight:400;color:#6b776e;">— HighRadius, Chargebee, Freshworks</span></span>
+              <span style="font:500 11px 'Inter';color:#8a958c;flex:0 0 auto;">~4 min</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;border:1px solid #e2e7dd;background:#fff;border-radius:11px;padding:12px 15px;">
+              <span style="font:600 10px 'JetBrains Mono';color:#a8b2a9;width:14px;flex:0 0 auto;">4</span>
+              <span style="width:7px;height:7px;border-radius:50%;background:#16b364;flex:0 0 auto;"></span>
+              <span style="flex:1;min-width:0;font:500 13px 'Inter';color:#14211a;">Claim Stripe <span style="font-weight:400;color:#6b776e;">— on /pricing now, 7th visit, unowned</span></span>
+              <span style="font:500 11px 'Inter';color:#8a958c;flex:0 0 auto;">1 tap</span>
+            </div>
+          </div>
+
+          <span style="flex:1;"></span>
+
+          <!-- footer: what she handled -->
+          <div style="border-top:1px solid #dfe5da;background:#f4f7f3;padding:13px 24px;display:flex;align-items:center;gap:0;flex-wrap:wrap;flex:0 0 auto;">
+            <span style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#8a958c;margin-right:18px;">Handled without you</span>
+            <span style="display:flex;align-items:baseline;gap:5px;padding-right:16px;margin-right:16px;border-right:1px solid #dfe5da;"><b style="font:700 14px 'JetBrains Mono';color:#14211a;">41</b><span style="font:400 11px 'Inter';color:#6b776e;">enriched</span></span>
+            <span style="display:flex;align-items:baseline;gap:5px;padding-right:16px;margin-right:16px;border-right:1px solid #dfe5da;"><b style="font:700 14px 'JetBrains Mono';color:#14211a;">12</b><span style="font:400 11px 'Inter';color:#6b776e;">drafted</span></span>
+            <span style="display:flex;align-items:baseline;gap:5px;padding-right:16px;margin-right:16px;border-right:1px solid #dfe5da;"><b style="font:700 14px 'JetBrains Mono';color:#14211a;">25</b><span style="font:400 11px 'Inter';color:#6b776e;">committees mapped</span></span>
+            <span style="display:flex;align-items:baseline;gap:5px;"><b style="font:700 14px 'JetBrains Mono';color:#0b8f43;">$2.4M</b><span style="font:400 11px 'Inter';color:#6b776e;">pipeline · +12%</span></span>
+            <span style="flex:1;"></span>
+            <a href="#" style="font:600 11.5px 'Inter';">See everything →</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;padding-top:14px;border-top:1px dashed #d3ddd0;">
+        <div style="font:600 9px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#8a958c;margin-bottom:9px;">Why it works</div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span style="font:500 11px 'Inter';color:#3d4a42;background:#eef3ea;border-radius:7px;padding:5px 10px;">Zeigarnik — a count you can drive to zero</span>
+          <span style="font:500 11px 'Inter';color:#3d4a42;background:#eef3ea;border-radius:7px;padding:5px 10px;">Hick's law — one decision on screen at a time</span>
+          <span style="font:500 11px 'Inter';color:#3d4a42;background:#eef3ea;border-radius:7px;padding:5px 10px;">Effort labels (1 tap · ~4 min) set expectations</span>
+        </div>
+        <p style="font:400 12px/1.5 'Inter';color:#6b776e;margin:11px 0 0;"><b style="color:#4a564d;">The bet:</b> reps don't want a dashboard, they want to be done. Empty-the-queue.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════ 1c · THE SITUATION BOARD ═══════════ -->
+    <div id="1c" style="width:1120px;flex:0 0 auto;">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:7px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:26px;padding:0 9px;border-radius:8px;background:#14211a;color:#eafcf1;font:700 13px 'JetBrains Mono';">1c</span>
+        <span style="font:700 17px 'Inter';color:#14211a;letter-spacing:-.01em;">The Situation Board</span>
+        <span style="font:500 11px 'Inter';color:#6d8577;">from the <b>editorial</b> skill — front-page hierarchy, hairline rules, serif lead</span>
+      </div>
+      <p style="font:400 13px/1.55 'Inter';color:#5f6d64;margin:0 0 14px;max-width:900px;">Your morning as a front page. One lead story sized like a headline, secondary columns for the rest, hairline rules instead of cards. Calm, scannable in three seconds, and it makes the stakes feel real rather than administrative.</p>
+
+      <div style="height:700px;background:#fdfcf9;border:1px solid #d3ddd0;border-radius:16px;overflow:hidden;box-shadow:0 26px 60px -34px rgba(20,43,32,.5);display:flex;flex-direction:column;">
+        <!-- masthead -->
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:20px 26px 14px;border-bottom:2px solid #14211a;flex:0 0 auto;">
+          <div>
+            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.2em;text-transform:uppercase;color:#8a958c;margin-bottom:5px;">Sprouts · your desk</div>
+            <div style="font:600 26px 'Newsreader',serif;color:#14211a;letter-spacing:-.01em;">Monday briefing</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0;">
+            <span style="display:flex;flex-direction:column;align-items:flex-end;padding-right:16px;margin-right:16px;border-right:1px solid #e0dcd2;">
+              <span style="font:600 16px 'JetBrains Mono';color:#14211a;">4</span>
+              <span style="font:500 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;">need you</span>
+            </span>
+            <span style="display:flex;flex-direction:column;align-items:flex-end;padding-right:16px;margin-right:16px;border-right:1px solid #e0dcd2;">
+              <span style="font:600 16px 'JetBrains Mono';color:#0b8f43;">3</span>
+              <span style="font:500 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;">agents live</span>
+            </span>
+            <span style="display:flex;flex-direction:column;align-items:flex-end;">
+              <span style="font:600 16px 'JetBrains Mono';color:#14211a;">27 Jul</span>
+              <span style="font:500 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;">17:42</span>
+            </span>
+          </div>
+        </div>
+
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1.55fr 1fr;">
+          <!-- LEAD -->
+          <div style="padding:22px 26px;border-right:1px solid #e0dcd2;display:flex;flex-direction:column;min-height:0;">
+            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#8f3429;margin-bottom:10px;">Lead · deal at risk</div>
+            <h2 style="font:400 34px/1.2 'Newsreader',serif;color:#14211a;margin:0 0 12px;letter-spacing:-.01em;max-width:22ch;">Philips has gone quiet six days from a $240k close.</h2>
+            <p style="font:400 14px/1.7 'Inter';color:#3d4a42;margin:0 0 8px;max-width:62ch;">Daniel Park opened the proposal twice yesterday but hasn't replied. The rollout question he asked on the 18th is still unanswered — the silence is a stalled decision, not lost interest.</p>
+            <p style="font:400 13px/1.6 'Inter';color:#6b776e;margin:0 0 16px;max-width:62ch;">Razorpay ran the same migration in five weeks. I've drafted the nudge that leads with it.</p>
+
+            <div style="border-top:1px solid #e0dcd2;border-bottom:1px solid #e0dcd2;padding:14px 0;margin-bottom:16px;">
+              <p style="font:italic 400 14px/1.7 'Newsreader',serif;color:#2f3d35;margin:0;max-width:60ch;">"Daniel — saw you back in the proposal. If the rollout timeline is what's open, Razorpay ran the same migration in five weeks. Want me to walk you through it Thursday?"</p>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <button style="border:none;background:#14211a;color:#fdfcf9;border-radius:2px;padding:12px 22px;font:600 13px 'Inter';cursor:pointer;letter-spacing:.01em;">Approve &amp; send</button>
+              <button style="border:1px solid #14211a;background:transparent;color:#14211a;border-radius:2px;padding:12px 18px;font:500 13px 'Inter';cursor:pointer;">Rewrite</button>
+              <span style="font:400 12px 'Inter';color:#8a958c;">or <a href="#" style="border-bottom:1px solid #a7dfc0;">open the deal</a></span>
+            </div>
+
+            <span style="flex:1;"></span>
+
+            <div style="border-top:1px solid #e0dcd2;padding-top:13px;display:flex;align-items:center;gap:0;flex-wrap:wrap;">
+              <span style="font:600 9px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#a8b2a9;margin-right:16px;">While you slept</span>
+              <span style="display:flex;align-items:baseline;gap:5px;padding-right:14px;margin-right:14px;border-right:1px solid #e0dcd2;"><b style="font:600 15px 'JetBrains Mono';color:#14211a;">41</b><span style="font:400 11px 'Inter';color:#6b776e;">enriched</span></span>
+              <span style="display:flex;align-items:baseline;gap:5px;padding-right:14px;margin-right:14px;border-right:1px solid #e0dcd2;"><b style="font:600 15px 'JetBrains Mono';color:#14211a;">12</b><span style="font:400 11px 'Inter';color:#6b776e;">drafted</span></span>
+              <span style="display:flex;align-items:baseline;gap:5px;"><b style="font:600 15px 'JetBrains Mono';color:#0b8f43;">$2.4M</b><span style="font:400 11px 'Inter';color:#6b776e;">pipeline</span></span>
+            </div>
+          </div>
+
+          <!-- COLUMNS -->
+          <div style="display:flex;flex-direction:column;min-height:0;">
+            <div style="padding:20px 24px 16px;border-bottom:1px solid #e0dcd2;">
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#8a958c;margin-bottom:12px;">Also today</div>
+              <div style="display:flex;flex-direction:column;gap:0;">
+                <div style="padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid #eae6dc;">
+                  <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#8a6d1f;margin-bottom:4px;">Blocked</div>
+                  <div style="font:600 14px/1.35 'Inter';color:#14211a;margin-bottom:3px;">Pricing-Intent Outreach is paused</div>
+                  <div style="font:400 12px/1.5 'Inter';color:#6b776e;">Salesforce rate limit · 41 accounts waiting · <a href="#" style="border-bottom:1px solid #a7dfc0;">resume</a></div>
+                </div>
+                <div style="padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid #eae6dc;">
+                  <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;margin-bottom:4px;">Replies</div>
+                  <div style="font:600 14px/1.35 'Inter';color:#14211a;margin-bottom:3px;">Three people wrote back</div>
+                  <div style="font:400 12px/1.5 'Inter';color:#6b776e;">HighRadius, Chargebee, Freshworks · <a href="#" style="border-bottom:1px solid #a7dfc0;">read them</a></div>
+                </div>
+                <div>
+                  <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;margin-bottom:4px;">On your site now</div>
+                  <div style="font:600 14px/1.35 'Inter';color:#14211a;margin-bottom:3px;">Stripe is reading /pricing</div>
+                  <div style="font:400 12px/1.5 'Inter';color:#6b776e;">7th visit this week, still unowned · <a href="#" style="border-bottom:1px solid #a7dfc0;">claim it</a></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:16px 24px;border-bottom:1px solid #e0dcd2;">
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#8a958c;margin-bottom:11px;">The machine</div>
+              <div style="display:flex;flex-direction:column;gap:9px;">
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span style="width:5px;height:5px;border-radius:50%;background:#16b364;flex:0 0 auto;"></span>
+                  <span style="flex:1;font:400 12.5px 'Inter';color:#3d4a42;">Pricing-intent → outreach</span>
+                  <span style="font:500 11px 'JetBrains Mono';color:#0b8f43;">68%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span style="width:5px;height:5px;border-radius:50%;background:#d99a2b;flex:0 0 auto;"></span>
+                  <span style="flex:1;font:400 12.5px 'Inter';color:#3d4a42;">Buyer-committee mapping</span>
+                  <span style="font:500 11px 'JetBrains Mono';color:#8a6d1f;">paused</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span style="width:5px;height:5px;border-radius:50%;background:#16b364;flex:0 0 auto;"></span>
+                  <span style="flex:1;font:400 12.5px 'Inter';color:#3d4a42;">Visitor de-anonymization</span>
+                  <span style="font:500 11px 'JetBrains Mono';color:#0b8f43;">live</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:16px 24px;flex:1;min-height:0;">
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#8a958c;margin-bottom:11px;">Week to date</div>
+              <div style="display:flex;flex-direction:column;gap:11px;">
+                <div style="display:flex;align-items:baseline;gap:9px;">
+                  <span style="font:600 20px 'JetBrains Mono';color:#14211a;letter-spacing:-.02em;width:64px;flex:0 0 auto;">14/20</span>
+                  <span style="flex:1;font:400 12px 'Inter';color:#6b776e;">meetings booked</span>
+                  <span style="width:56px;height:4px;border-radius:4px;background:#eae6dc;flex:0 0 auto;"><span style="display:block;height:4px;width:70%;border-radius:4px;background:#16b364;"></span></span>
+                </div>
+                <div style="display:flex;align-items:baseline;gap:9px;">
+                  <span style="font:600 20px 'JetBrains Mono';color:#14211a;letter-spacing:-.02em;width:64px;flex:0 0 auto;">312</span>
+                  <span style="flex:1;font:400 12px 'Inter';color:#6b776e;">visitors named</span>
+                  <span style="font:500 11px 'JetBrains Mono';color:#0b8f43;flex:0 0 auto;">+18%</span>
+                </div>
+                <div style="display:flex;align-items:baseline;gap:9px;">
+                  <span style="font:600 20px 'JetBrains Mono';color:#14211a;letter-spacing:-.02em;width:64px;flex:0 0 auto;">41</span>
+                  <span style="flex:1;font:400 12px 'Inter';color:#6b776e;">in outreach</span>
+                  <span style="font:500 11px 'JetBrains Mono';color:#0b8f43;flex:0 0 auto;">+12</span>
+                </div>
+              </div>
+              <div style="border-top:1px solid #e0dcd2;margin-top:15px;padding-top:13px;">
+                <span style="font:400 12.5px 'Inter';color:#94a399;">Ask Paula anything…</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;padding-top:14px;border-top:1px dashed #d3ddd0;">
+        <div style="font:600 9px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#8a958c;margin-bottom:9px;">Why it works</div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span style="font:500 11px 'Inter';color:#3d4a42;background:#eef3ea;border-radius:7px;padding:5px 10px;">Front-page hierarchy — the stakes read as news</span>
+          <span style="font:500 11px 'Inter';color:#3d4a42;background:#eef3ea;border-radius:7px;padding:5px 10px;">Hairlines instead of cards — far less chrome</span>
+          <span style="font:500 11px 'Inter';color:#3d4a42;background:#eef3ea;border-radius:7px;padding:5px 10px;">Serif lead gives one moment of gravity</span>
+        </div>
+        <p style="font:400 12px/1.5 'Inter';color:#6b776e;margin:11px 0 0;"><b style="color:#4a564d;">The bet:</b> a leader wants the situation, not a task list. Read-and-decide.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

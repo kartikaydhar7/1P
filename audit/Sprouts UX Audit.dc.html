@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="utf-8"></meta>
+  <title>Sprouts Unified Platform — UX Audit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"></link>
+  <style>
+    body { margin: 0; }
+    a { color: #8f3c11; text-decoration: none; border-bottom: 1px solid #e0cdb4; }
+    a:hover { color: #c8591b; border-bottom-color: #c8591b; }
+  </style>
+</helmet>
+
+<x-import component-from-global-scope="doc-page" from="./doc-page.js" size="{{ paper }}" margin="0.8in" hint-size="100%,1400px">
+
+  <div slot="header" style="display:flex;justify-content:space-between;align-items:baseline;padding:0 0 8px;border-bottom:1px solid #eee8da;">
+    <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#a89d8a;">Sprouts.ai · Unified platform UX audit</span>
+    <span style="font:400 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#a89d8a;">July 2026</span>
+  </div>
+  <div slot="footer" style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0 0;border-top:1px solid #eee8da;">
+    <span style="font:400 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#a89d8a;">Internal — product &amp; design team</span>
+    <span style="font:400 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#a89d8a;">v6 prototype review</span>
+  </div>
+
+  <div style="font-family:'Inter',sans-serif;color:#1e1b17;">
+
+    <!-- ░░ TITLE ░░ -->
+    <div style="font:600 10.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#c8591b;margin:18px 0 10px;">UX audit · Heuristic review</div>
+    <h1 style="font:650 30px/1.15 'Inter';letter-spacing:-0.022em;margin:0 0 6px;">Sprouts Unified Platform</h1>
+    <p style="font:400 15px/1.5 'Inter';color:#57503f;margin:0 0 22px;">Design evaluation of the v6 agent-first prototype — flows &amp; IA, agent interaction patterns, visual consistency, copy, and the behavioral-principles layer.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;border-top:1px solid #e8e1d2;border-bottom:1px solid #e8e1d2;padding:12px 0;margin-bottom:26px;">
+      <div style="padding-right:14px;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#a89d8a;margin-bottom:4px;">Evaluated build</div><div style="font:500 12px/1.45 'Inter';color:#1e1b17;">v6 standalone bundle</div></div>
+      <div style="padding-right:14px;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#a89d8a;margin-bottom:4px;">Date</div><div style="font:500 12px/1.45 'Inter';color:#1e1b17;">July 7, 2026</div></div>
+      <div style="padding-right:14px;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#a89d8a;margin-bottom:4px;">Method</div><div style="font:500 12px/1.45 'Inter';color:#1e1b17;">Interactive walkthrough — 14 screens/states</div></div>
+      <div><div style="font:600 9px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#a89d8a;margin-bottom:4px;">Audience</div><div style="font:500 12px/1.45 'Inter';color:#1e1b17;">Product &amp; design team</div></div>
+    </div>
+
+    <!-- ░░ VERDICT + EXEC SUMMARY ░░ -->
+    <div style="display:flex;gap:22px;align-items:stretch;margin-bottom:26px;">
+      <div style="flex:0 0 150px;border:1px solid #e8e1d2;background:#faf7f0;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 12px;">
+        <div style="font:600 40px 'JetBrains Mono';letter-spacing:-0.03em;color:#1e1b17;">6.6</div>
+        <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#7a6f60;margin-top:2px;">Overall / 10</div>
+        <div style="font:500 10px 'JetBrains Mono';color:#a33325;margin-top:12px;">1 critical</div>
+        <div style="font:500 10px 'JetBrains Mono';color:#c8591b;margin-top:3px;">6 major</div>
+        <div style="font:500 10px 'JetBrains Mono';color:#7a6f60;margin-top:3px;">12 minor</div>
+      </div>
+      <div style="flex:1;">
+        <h2 style="font:650 15px 'Inter';letter-spacing:-0.01em;margin:2px 0 8px;">Verdict</h2>
+        <p style="font:400 13.5px/1.62 'Inter';color:#3a342a;margin:0 0 10px;">A confident agent-first foundation. The trust architecture around Paula — guardrails, approval gates, editable plans, visible reasoning — is genuinely strong and ahead of most agent products. What holds the prototype back is resilience (layout breaks at moderate widths), a handful of consistency drifts, and a persuasion layer that is mostly missing: defaults, progress, and loss-framing are incidental rather than designed.</p>
+        <p style="font:400 13.5px/1.62 'Inter';color:#3a342a;margin:0;">The five moves with the highest leverage: fix the responsive floor (<a href="#C1">C1</a>), dock Paula out of the content area (<a href="#B2">B2</a>), give every automation a dry-run and an undo (<a href="#B1">B1</a>), pre-fill segment creation instead of opening on a blank textarea (<a href="#E1">E1</a>), and frame inaction as loss in the signal feed (<a href="#E5">E5</a>).</p>
+      </div>
+    </div>
+
+    <!-- ░░ SCORECARD ░░ -->
+    <h2 style="font:650 15px 'Inter';letter-spacing:-0.01em;margin:0 0 10px;">Scorecard</h2>
+    <div style="border:1px solid #e8e1d2;border-radius:12px;overflow:hidden;margin-bottom:8px;">
+      <div style="display:grid;grid-template-columns:220px 1fr 56px 150px;gap:14px;align-items:center;padding:9px 16px;background:#faf7f0;border-bottom:1px solid #eee8da;">
+        <span style="font:600 9px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#a89d8a;">Category</span><span></span>
+        <span style="font:600 9px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#a89d8a;">Score</span>
+        <span style="font:600 9px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#a89d8a;">Findings</span>
+      </div>
+      <div style="display:grid;grid-template-columns:220px 1fr 56px 150px;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid #f0ead9;">
+        <a href="#secA" style="font:500 12.5px 'Inter';color:#1e1b17;border:none;">A · Flows &amp; information architecture</a>
+        <div style="height:6px;border-radius:3px;background:#f0ead9;"><div style="height:6px;border-radius:3px;background:#c8591b;width:70%;"></div></div>
+        <span style="font:600 13px 'JetBrains Mono';color:#1e1b17;">7.0</span>
+        <span style="font:400 10.5px 'JetBrains Mono';color:#7a6f60;">2 major · 3 minor</span>
+      </div>
+      <div style="display:grid;grid-template-columns:220px 1fr 56px 150px;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid #f0ead9;">
+        <a href="#secB" style="font:500 12.5px 'Inter';color:#1e1b17;border:none;">B · AI &amp; agent interaction</a>
+        <div style="height:6px;border-radius:3px;background:#f0ead9;"><div style="height:6px;border-radius:3px;background:#c8591b;width:80%;"></div></div>
+        <span style="font:600 13px 'JetBrains Mono';color:#1e1b17;">8.0</span>
+        <span style="font:400 10.5px 'JetBrains Mono';color:#7a6f60;">2 major · 3 minor</span>
+      </div>
+      <div style="display:grid;grid-template-columns:220px 1fr 56px 150px;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid #f0ead9;">
+        <a href="#secC" style="font:500 12.5px 'Inter';color:#1e1b17;border:none;">C · Visual design &amp; consistency</a>
+        <div style="height:6px;border-radius:3px;background:#f0ead9;"><div style="height:6px;border-radius:3px;background:#c8591b;width:60%;"></div></div>
+        <span style="font:600 13px 'JetBrains Mono';color:#1e1b17;">6.0</span>
+        <span style="font:400 10.5px 'JetBrains Mono';color:#7a6f60;">1 critical · 1 major · 3 minor</span>
+      </div>
+      <div style="display:grid;grid-template-columns:220px 1fr 56px 150px;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid #f0ead9;">
+        <a href="#secD" style="font:500 12.5px 'Inter';color:#1e1b17;border:none;">D · Copy &amp; tone</a>
+        <div style="height:6px;border-radius:3px;background:#f0ead9;"><div style="height:6px;border-radius:3px;background:#c8591b;width:70%;"></div></div>
+        <span style="font:600 13px 'JetBrains Mono';color:#1e1b17;">7.0</span>
+        <span style="font:400 10.5px 'JetBrains Mono';color:#7a6f60;">1 major · 3 minor</span>
+      </div>
+      <div style="display:grid;grid-template-columns:220px 1fr 56px 150px;gap:14px;align-items:center;padding:10px 16px;">
+        <a href="#secE" style="font:500 12.5px 'Inter';color:#1e1b17;border:none;">E · Behavioral principles</a>
+        <div style="height:6px;border-radius:3px;background:#f0ead9;"><div style="height:6px;border-radius:3px;background:#c8591b;width:50%;"></div></div>
+        <span style="font:600 13px 'JetBrains Mono';color:#1e1b17;">5.0</span>
+        <span style="font:400 10.5px 'JetBrains Mono';color:#7a6f60;">6 assessments</span>
+      </div>
+    </div>
+    <p style="font:400 11px/1.5 'Inter';color:#a89d8a;margin:0 0 30px;">Severity: <strong style="color:#a33325;font-weight:600;">Critical</strong> — blocks credible demo or core task · <strong style="color:#c8591b;font-weight:600;">Major</strong> — hurts comprehension or trust, fix this iteration · <strong style="color:#7a6f60;font-weight:600;">Minor</strong> — quality drift, batch into polish passes.</p>
+
+    <sc-if value="{{ showDetail }}" hint-placeholder-val="{{ true }}">
+
+    <!-- ░░░░░ SECTION A ░░░░░ -->
+    <div id="secA" style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #1e1b17;padding-bottom:8px;margin:6px 0 4px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">A · Flows &amp; information architecture</h2>
+      <span style="font:600 14px 'JetBrains Mono';color:#1e1b17;">7.0<span style="color:#a89d8a;">/10</span></span>
+    </div>
+    <p style="font:400 13.5px/1.62 'Inter';color:#3a342a;margin:12px 0 10px;">The sidebar reads as the funnel — capture (Website Visitors) → qualify (Discover, Prospects, Segments) → convert (Opportunities) → automate (Agents) — a strong spatial model, reinforced by the eyebrow taxonomy (WORKSPACE, PIPELINE, PLATFORM). Segment detail's five tabs map cleanly onto the object's lifecycle, and Discover's two modes (prompt hero ↔ results workspace) keep first contact simple. The weakness is object-model discipline: accounts and contacts appear in four different anatomies, and cross-tab state leaks.</p>
+
+    <div id="A1" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">A1</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#c8591b;background:rgba(200,89,27,.09);padding:3px 7px;border-radius:5px;">Major</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Four modules present overlapping account lists with different anatomies</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Evidence&nbsp;</strong> Discover results, Prospects, segment-detail Contacts and Website Visitors each render account/contact tables with different columns, filters and row actions; there is no canonical account surface.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Fix&nbsp;</strong> Define one account/contact row → drawer → full-profile pattern and reuse it everywhere; modules should differ by scope and filters, never by anatomy.</p>
+      </div>
+    </div>
+
+    <div id="A2" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">A2</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#c8591b;background:rgba(200,89,27,.09);padding:3px 7px;border-radius:5px;">Major</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Prospects → Contacts keeps account-scoped state</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Evidence&nbsp;</strong> On the Contacts tab the saved views still read "All accounts 142 / Pricing-intent 41…", the result count says "486 accounts" for contact rows, and the header CTA remains "+ Add Account".</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Fix&nbsp;</strong> Scope saved views, counts and the primary CTA to the active tab ("486 contacts", "+ Add Contact").</p>
+      </div>
+    </div>
+
+    <sc-if value="{{ showMinor }}" hint-placeholder-val="{{ true }}">
+    <div id="A3" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">A3</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Mission Control KPIs are dead ends</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">The five stat cards (312 visitors, 142 accounts, $2.4M pipeline…) have no click affordance or drill-down. Make each one a link into the pre-filtered module view — the home page should be the shortest path to every number it shows.</p>
+      </div>
+    </div>
+    <div id="A4" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">A4</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Discover's "VERSION 2 / 3" pager is unexplained</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">It sits under the query with no hint of what a version is. Label it ("Query drafts"), or fold revisions into the Recent Searches sidebar where history already lives.</p>
+      </div>
+    </div>
+    <div id="A5" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">A5</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">No navigation-stack rules for deep states</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">Workflow builder, segment detail and Notification Center each replace the canvas with only a single "back" affordance. Define what back returns to from every state (and what survives it) before build — retreat paths are where prototypes quietly break.</p>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ░░░░░ SECTION B ░░░░░ -->
+    <div id="secB" style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #1e1b17;padding-bottom:8px;margin:30px 0 4px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">B · AI &amp; agent interaction</h2>
+      <span style="font:600 14px 'JetBrains Mono';color:#1e1b17;">8.0<span style="color:#a89d8a;">/10</span></span>
+    </div>
+    <p style="font:400 13.5px/1.62 'Inter';color:#3a342a;margin:12px 0 10px;">The strongest area, and the product's real differentiation. The guardrails panel (daily send cap, approval-gated writes, working hours, exclusions) is a legible trust surface most agent products lack. Paula proposes and the user disposes: assembled workflows arrive as numbered, editable plans with per-step rationale. Scope is disclosed up front ("Paula reads your segments, signals &amp; visitors"), Discover's thinking trace makes reasoning checkable, and AUTO vs APPROVAL chips make autonomy level a first-class property of every workflow. Two gaps keep it from excellent: recovery and spatial discipline.</p>
+
+    <div id="B1" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">B1</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#c8591b;background:rgba(200,89,27,.09);padding:3px 7px;border-radius:5px;">Major</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">No undo or rollback story after commitment</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Evidence&nbsp;</strong> "Set up this workflow" offers no dry-run, no preview of affected records, and no visible pause-and-revert once live. The send cap exists but is buried in segment settings.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Fix&nbsp;</strong> Add a dry-run preview at setup ("would contact 41 accounts today") and a standard pause / undo affordance on every live automation. Reversibility is what makes AUTO mode adoptable.</p>
+      </div>
+    </div>
+
+    <div id="B2" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">B2</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#c8591b;background:rgba(200,89,27,.09);padding:3px 7px;border-radius:5px;">Major</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">The agent blocks the manual path</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Evidence&nbsp;</strong> The floating "Ask Paula" pill overlaps content on every screen — including the confirm button of Create Segment, where it literally covers the primary action.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Fix&nbsp;</strong> Dock Paula into the shell (sidebar or top bar) or make the pill collision-aware. The agent must never occlude the hand-driven route to the same outcome.</p>
+      </div>
+    </div>
+
+    <sc-if value="{{ showMinor }}" hint-placeholder-val="{{ true }}">
+    <div id="B3" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">B3</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">"ONLINE" presence is unexplained</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">What does an offline embedded agent mean? Either remove presence entirely or bind it to something real and diagnosable (connection health, degraded tools).</p>
+      </div>
+    </div>
+    <div id="B4" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">B4</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">The thinking trace only exists as "Complete"</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">No in-progress state is designed, yet the wait is where trust is won or lost. Design the running trace — steps checking off live, with the 2.1M-company scan as the moment of drama.</p>
+      </div>
+    </div>
+    <div id="B5" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">B5</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">"Voice Briefing" outranks a live agent error</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">In the notification drawer the loudest element is a full-width orange Voice Briefing CTA sitting above an AGENT ERROR card. Errors outrank novelty — demote the briefing until it has earned the slot.</p>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ░░░░░ SECTION C ░░░░░ -->
+    <div id="secC" style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #1e1b17;padding-bottom:8px;margin:30px 0 4px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">C · Visual design &amp; consistency</h2>
+      <span style="font:600 14px 'JetBrains Mono';color:#1e1b17;">6.0<span style="color:#a89d8a;">/10</span></span>
+    </div>
+    <p style="font:400 13.5px/1.62 'Inter';color:#3a342a;margin:12px 0 10px;">The warm paper palette and mono-for-data / Inter-for-UI pairing give the product a calm, distinctive voice that avoids dashboard-blue genericism, and the card language is applied consistently. The problems are structural resilience and a few rules that were never written down.</p>
+
+    <div id="C1" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">C1</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#a33325;background:rgba(163,51,37,.09);padding:3px 7px;border-radius:5px;">Critical</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Layout breaks at moderate viewport widths</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Evidence&nbsp;</strong> At ~920px every screen shows a horizontal scrollbar, and tab / button labels wrap to two lines: "Outreach Agent", "My Preferences", "Resume Workflow", "All accounts".</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Fix&nbsp;</strong> Set a responsive floor (e.g. 1024px), let tables own horizontal scroll internally, and give tabs, buttons and chips <span style="font:500 11px 'JetBrains Mono';">white-space:nowrap</span> with min-widths. This is the first thing a laptop-with-sidebar demo will hit.</p>
+      </div>
+    </div>
+
+    <div id="C2" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">C2</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#c8591b;background:rgba(200,89,27,.09);padding:3px 7px;border-radius:5px;">Major</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Primary-action color is inconsistent</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Evidence&nbsp;</strong> Primary is orange across the app, but Create Segment's "Generate" and confirm are green, and Discover's submit is near-black.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Fix&nbsp;</strong> One primary (orange). Reserve green for success and health states, and keep black out of the action palette.</p>
+      </div>
+    </div>
+
+    <sc-if value="{{ showMinor }}" hint-placeholder-val="{{ true }}">
+    <div id="C3" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">C3</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Italic display words appear in some H1s only</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">"Website <em>visitors</em>" and "Agents <em>&amp; workflows</em>" get the flourish; Discover, Segments and Opportunities don't. Apply it everywhere or drop it.</p>
+      </div>
+    </div>
+    <div id="C4" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">C4</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Purple means "AI" — but the rule is unwritten</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">Paula's icon, the configuration assistant and MCP surfaces all use purple against the orange brand. It works — codify it: purple = agent surface, never decoration, so it survives the next ten screens.</p>
+      </div>
+    </div>
+    <div id="C5" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">C5</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Stat-card anatomy drifts between modules</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">Value/label order, trend placement and casing vary across Mission Control, Segments, Opportunities and Connections. Write one KPI-card spec and apply it.</p>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ░░░░░ SECTION D ░░░░░ -->
+    <div id="secD" style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #1e1b17;padding-bottom:8px;margin:30px 0 4px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">D · Copy &amp; tone</h2>
+      <span style="font:600 14px 'JetBrains Mono';color:#1e1b17;">7.0<span style="color:#a89d8a;">/10</span></span>
+    </div>
+    <p style="font:400 13.5px/1.62 'Inter';color:#3a342a;margin:12px 0 10px;">Consistently good instincts: benefit-first subtitles under every H1 ("Reusable audiences that keep themselves current…"), concrete step rationale in workflows ("Keep ICP fit ≥ 80 with an active buying-intent signal; dedupe against CRM"), and notifications that lead with the noun that matters and always pair alert with action. The issues are hygiene and vocabulary discipline.</p>
+
+    <div id="D1" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">D1</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#c8591b;background:rgba(200,89,27,.09);padding:3px 7px;border-radius:5px;">Major</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Persona mismatch across the shell</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Evidence&nbsp;</strong> The greeting says "Good Evening, Dhar" while the account chip reads ashwini.singh.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Fix&nbsp;</strong> One persona, everywhere. Stakeholders notice this before they notice the design.</p>
+      </div>
+    </div>
+
+    <sc-if value="{{ showMinor }}" hint-placeholder-val="{{ true }}">
+    <div id="D2" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">D2</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Terminology blur: prospects / accounts / agents / workflows</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">"Prospects" contains Accounts + Contacts; "Agents &amp; workflows" lists workflow cards while Paula is the agent. Write a glossary — agent = actor, workflow = recipe — and consider renaming Prospects to Accounts.</p>
+      </div>
+    </div>
+    <div id="D3" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">D3</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Jargon lands unexplained at first contact</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">ICP fit ≥ 80, Deep Intel, De-anonymize, PPFOs. Add first-use tooltips or spell terms out on first instance per screen.</p>
+      </div>
+    </div>
+    <div id="D4" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">D4</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7a6f60;background:rgba(122,111,96,.1);padding:3px 7px;border-radius:5px;">Minor</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Casing drifts across CTAs and eyebrows</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0;">"Build list from these" vs "Voice Briefing"; eyebrow taxonomy mixes WORKSPACE with CAPTURE · LEAD-GEN. Sentence case for actions, mono caps for eyebrows — then audit every string.</p>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ░░░░░ SECTION E ░░░░░ -->
+    <div id="secE" style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #1e1b17;padding-bottom:8px;margin:30px 0 4px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">E · Behavioral principles</h2>
+      <span style="font:600 14px 'JetBrains Mono';color:#1e1b17;">5.0<span style="color:#a89d8a;">/10</span></span>
+    </div>
+    <p style="font:400 13.5px/1.62 'Inter';color:#3a342a;margin:12px 0 10px;">The team's own diagnosis — that the prototype isn't built on explicit behavioral principles — is broadly correct. The bones are strong, but persuasion is incidental: where a principle appears, it's a side effect of good sense rather than a designed system. Each of the six principles below gets a verdict and the single most concrete place to apply it next iteration.</p>
+
+    <div id="E1" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">E1</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#c8591b;background:rgba(200,89,27,.09);padding:3px 7px;border-radius:5px;">Partial</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Smart defaults</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Today&nbsp;</strong> Genuinely good in places: NL queries auto-parse into editable filter chips, workflows arrive pre-scheduled ("Runs daily · 8:00am"), guardrails ship with sane values (cap 120, writes gated).</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Apply&nbsp;</strong> Create Segment opens on an empty textarea — the one place users must author from zero. Pre-fill a reviewable draft from the ICP and recent signals ("We drafted this from your ICP — adjust and go"), lift Quick Starts above the blank field, and default the name. Review-and-adjust beats compose-from-scratch.</p>
+      </div>
+    </div>
+
+    <div id="E2" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">E2</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#a33325;background:rgba(163,51,37,.09);padding:3px 7px;border-radius:5px;">Weak</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Goal gradient</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Today&nbsp;</strong> Only incidental instances (Enriched 89% of 780; committee 3/5). Nothing shows progress toward setup or launch, and nothing starts past zero.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Apply&nbsp;</strong> A workspace setup meter that never reads 0 ("2 of 6 connections live"), progress on segment builds and enrichment runs, and a launch checklist on workflow setup with completed steps pre-checked (trigger ✓, guardrails ✓ — one step left).</p>
+      </div>
+    </div>
+
+    <div id="E3" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">E3</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#c8591b;background:rgba(200,89,27,.09);padding:3px 7px;border-radius:5px;">Partial</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Reciprocity</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Today&nbsp;</strong> Website Visitors shows identified companies before asking to "Build list from these"; Discover returns results before any save ask. Value-first is half-built.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Apply&nbsp;</strong> Extend it to first-run and empty states: show three pre-enriched sample accounts or a live visitor snapshot <em>before</em> asking to connect a CRM or configure anything. Give before you gate.</p>
+      </div>
+    </div>
+
+    <div id="E4" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">E4</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#c8591b;background:rgba(200,89,27,.09);padding:3px 7px;border-radius:5px;">Partial</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">IKEA effect</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Today&nbsp;</strong> Sourcing-criteria chips, outreach instructions and pre-launch Edit are all modifiable — but everything arrives fully assembled, so users never invest anything.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Apply&nbsp;</strong> Add light co-authorship at moments of commitment: name the agent, pick tone and touch count, confirm guardrails during setup rather than in a buried tab. Default first, customize second — ownership without friction.</p>
+      </div>
+    </div>
+
+    <div id="E5" style="border-top:1px solid #eee8da;padding:13px 0;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">E5</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#a33325;background:rgba(163,51,37,.09);padding:3px 7px;border-radius:5px;">Weak</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Loss aversion</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Today&nbsp;</strong> "At risk" deal health and "12 contacts pending sync" hint at stakes; nothing frames the cost of inaction.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Apply&nbsp;</strong> Frame time-decay explicitly: "41 pricing-intent accounts go cold in 6 days"; paused-workflow banners tallying what's slipping ("Paused 2h — 9 hot visitors not contacted"); digests framed as missed signals, not summaries.</p>
+      </div>
+    </div>
+
+    <div id="E6" style="border-top:1px solid #eee8da;padding:13px 0 4px;display:flex;gap:16px;">
+      <div style="flex:0 0 84px;"><div style="font:600 12px 'JetBrains Mono';color:#1e1b17;margin-bottom:5px;">E6</div><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#a33325;background:rgba(163,51,37,.09);padding:3px 7px;border-radius:5px;">Weak</span></div>
+      <div style="flex:1;">
+        <div style="font:600 13.5px 'Inter';margin-bottom:4px;">Contrast effect</div>
+        <p style="font:400 12.5px/1.58 'Inter';color:#57503f;margin:0 0 5px;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#a89d8a;">Today&nbsp;</strong> Absent — options are always presented one at a time, so nothing anchors the choice.</p>
+        <p style="font:400 12.5px/1.58 'Inter';color:#1e1b17;margin:0;"><strong style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3c11;">Apply&nbsp;</strong> Present committing choices side by side with tradeoffs: AUTO vs APPROVAL modes, 4-touch vs 8-touch sequences, "Run once" vs "Runs daily" with expected outcomes — so the recommended option reads as the sensible middle, not a leap.</p>
+      </div>
+    </div>
+
+    </sc-if>
+
+    <!-- ░░ ROADMAP ░░ -->
+    <div style="border-bottom:2px solid #1e1b17;padding-bottom:8px;margin:30px 0 14px;">
+      <h2 style="font:650 19px 'Inter';letter-spacing:-0.015em;margin:0;">Prioritized recommendations</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:28px;">
+      <div style="border:1px solid #e8e1d2;border-radius:12px;padding:14px 16px;background:#faf7f0;">
+        <div style="font:600 10px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#a33325;margin-bottom:9px;">Now — before the next demo</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#C1" style="font:600 11px 'JetBrains Mono';border:none;">C1</a> — Responsive floor + nowrap on tabs, buttons, chips</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#B2" style="font:600 11px 'JetBrains Mono';border:none;">B2</a> — Dock Paula; never occlude a primary action</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#D1" style="font:600 11px 'JetBrains Mono';border:none;">D1</a> — One persona across greeting and account</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#C2" style="font:600 11px 'JetBrains Mono';border:none;">C2</a> — Single primary-action color</div>
+        </div>
+      </div>
+      <div style="border:1px solid #e8e1d2;border-radius:12px;padding:14px 16px;">
+        <div style="font:600 10px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#c8591b;margin-bottom:9px;">Next — this iteration</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#B1" style="font:600 11px 'JetBrains Mono';border:none;">B1</a> — Dry-run preview + pause/undo on automations</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#E1" style="font:600 11px 'JetBrains Mono';border:none;">E1</a> — Pre-filled, reviewable Create Segment draft</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#A2" style="font:600 11px 'JetBrains Mono';border:none;">A2</a> — Tab-scoped views, counts and CTAs in Prospects</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#A1" style="font:600 11px 'JetBrains Mono';border:none;">A1</a> — Canonical account row / drawer / profile pattern</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#E5" style="font:600 11px 'JetBrains Mono';border:none;">E5</a> — Loss-framed banners and digests</div>
+        </div>
+      </div>
+      <div style="border:1px solid #e8e1d2;border-radius:12px;padding:14px 16px;">
+        <div style="font:600 10px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#7a6f60;margin-bottom:9px;">Later — polish passes</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#E2" style="font:600 11px 'JetBrains Mono';border:none;">E2</a> — Setup meter + pre-checked launch checklist</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#E4" style="font:600 11px 'JetBrains Mono';border:none;">E4</a> — Co-authorship moments (name, tone, guardrails)</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#D2" style="font:600 11px 'JetBrains Mono';border:none;">D2</a>/<a href="#D3" style="font:600 11px 'JetBrains Mono';border:none;">D3</a> — Glossary + first-use tooltips</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#C4" style="font:600 11px 'JetBrains Mono';border:none;">C4</a> — Codify purple = agent surface</div>
+          <div style="font:400 12px/1.5 'Inter';color:#3a342a;"><a href="#A5" style="font:600 11px 'JetBrains Mono';border:none;">A5</a> — Navigation-stack rules for deep states</div>
+        </div>
+      </div>
+    </div>
+
+    <sc-if value="{{ showDetail }}" hint-placeholder-val="{{ true }}">
+    <!-- ░░ METHOD ░░ -->
+    <div style="border-top:1px solid #e8e1d2;padding-top:14px;margin-bottom:10px;">
+      <div style="font:600 10px 'JetBrains Mono';letter-spacing:.13em;text-transform:uppercase;color:#a89d8a;margin-bottom:7px;">Method &amp; limitations</div>
+      <p style="font:400 12px/1.6 'Inter';color:#57503f;margin:0;">Interactive heuristic walkthrough of the v6 standalone bundle (July 7, 2026; desktop, ~920–1280px) covering Mission Control, Discover, Prospects, Segments (list · detail · create), Website Visitors, Opportunities (board · table), Agents &amp; Workflows, Connections, Personalization Engine, notifications (drawer · center · preferences) and the Paula workflow-assembly flow. Not exercised in this pass: the Discover account drawer → full-profile flow and the Live Monitor (present in project screenshots but not re-tested). This is expert review, not usability testing — scores reflect design maturity against best practice, not measured user success. All data shown in the prototype is mock.</p>
+    </div>
+    </sc-if>
+
+  </div>
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: {&quot;width&quot;: 1000},
+  &quot;execSummaryOnly&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Content&quot;, &quot;description&quot;: &quot;Condense to verdict, scorecard and roadmap only&quot;},
+  &quot;showMinorFindings&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Content&quot;},
+  &quot;paper&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;letter&quot;, &quot;a4&quot;], &quot;default&quot;: &quot;letter&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Page&quot;}
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      paper: this.props.paper ?? 'letter',
+      showDetail: !(this.props.execSummaryOnly ?? false),
+      showMinor: this.props.showMinorFindings ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

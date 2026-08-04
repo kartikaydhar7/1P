@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="utf-8"></meta>
+  <meta name="design_doc_mode" content="canvas"></meta>
+  <title>Discover — directions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"></link>
+  <style>
+    body { margin: 0; background: #eef1ee; font-family: 'Inter', sans-serif; }
+    a { color: #0b6b3a; text-decoration: none; }
+    a:hover { color: #0ea84f; }
+  </style>
+</helmet>
+
+<section style="padding:46px 54px 40px;display:flex;flex-direction:column;gap:26px;">
+  <div style="display:flex;flex-direction:column;gap:6px;max-width:960px;">
+    <div style="font:600 10.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#0b8f43;">Turn 3 · Discover · a search engine for prospects</div>
+    <h1 style="font:650 24px/1.2 'Inter';letter-spacing:-0.02em;color:#14211a;margin:0;">Discover, reframed as Exa for go-to-market</h1>
+    <p style="font:400 13.5px/1.55 'Inter';color:#4c5a51;margin:0;">At its core this is a place to <b style="color:#3d4a42;">find any company, contact, or signal in the world</b> — by filters, signals or events — like <em>"agricultural companies in Argentina that recently had a data breach."</em> So the <b style="color:#3d4a42;">search is the hero</b>. The Mission Control principles stay, wrapped around it: Paula turns your words into <b style="color:#3d4a42;">legible, editable criteria</b>, every result carries a "because", queries start from a <b style="color:#3d4a42;">smart default</b> rather than a blank box, and nothing hides how the match was made. Three takes on how much is a search bar vs. a builder vs. a research agent. Pick a badge (e.g. <a href="#3a">3a</a>).</p>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:44px;align-items:flex-start;">
+
+    <!-- ══════════ 3a · THE QUERY ENGINE ══════════ -->
+    <div id="3a" style="display:flex;flex-direction:column;gap:12px;width:920px;flex:0 0 auto;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <a href="#3a" style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;border-radius:7px;background:#14211a;color:#fff;font:600 11px 'JetBrains Mono';">3a</a>
+        <span style="font:650 16px 'Inter';color:#14211a;">The Query Engine</span>
+        <span style="font:400 12.5px 'Inter';color:#5f6d64;">Natural language is the hero · Paula parses it into editable criteria · closest to Exa</span>
+      </div>
+      <div style="border:1px solid #dfe7e1;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px -24px rgba(20,33,26,.35);background:#f6f8f6;">
+        <div style="padding:30px 40px 26px;">
+          <!-- entity toggle -->
+          <div style="display:flex;align-items:center;gap:4px;background:#eef2ee;border-radius:10px;padding:3px;width:max-content;margin-bottom:16px;">
+            <span style="font:600 12px 'Inter';color:#14211a;background:#fff;border-radius:8px;padding:7px 15px;box-shadow:0 1px 2px rgba(20,33,26,.08);">Companies</span>
+            <span style="font:500 12px 'Inter';color:#5f6d64;padding:7px 15px;">People</span>
+            <span style="font:500 12px 'Inter';color:#5f6d64;padding:7px 15px;">Signals &amp; events</span>
+          </div>
+          <!-- big search bar -->
+          <div style="border:1.5px solid #0ea84f;background:#fff;border-radius:15px;padding:16px 16px 14px;box-shadow:0 10px 30px -16px rgba(14,168,79,.4);">
+            <div style="display:flex;align-items:flex-start;gap:12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0ea84f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex:0 0 auto;"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg>
+              <span style="flex:1;font:500 17px/1.45 'Inter';color:#14211a;">Agricultural companies in Argentina that recently had a data breach<span style="display:inline-block;width:2px;height:18px;background:#0ea84f;margin-left:2px;vertical-align:-3px;"></span></span>
+              <button style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:10px;padding:10px 18px;font:600 13.5px 'Inter';flex:0 0 auto;">Search</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;margin-top:12px;padding-top:12px;border-top:1px solid #eef2ee;">
+              <span style="display:inline-flex;align-items:center;gap:5px;font:500 11px 'Inter';color:#5f6d64;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M6 12h12M10 19h4"></path></svg>Filters</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;font:500 11px 'Inter';color:#5f6d64;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-7 4 14 2-7h6"></path></svg>Signals</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;font:500 11px 'Inter';color:#5f6d64;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM4 9h16M9 4v16"></path></svg>Events</span>
+              <span style="flex:1;"></span>
+              <span style="font:400 11px 'Inter';color:#94a399;">Searching 140M+ companies · live news · web activity</span>
+            </div>
+          </div>
+          <!-- Paula parse strip -->
+          <div style="display:flex;gap:12px;align-items:flex-start;margin:16px 0 4px;">
+            <span style="width:26px;height:26px;border-radius:8px;background:#8b7cf8;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.3" ry="3.8" transform="rotate(-28 12 12)" fill="none" stroke="#fff" stroke-width="1.7"></ellipse><path d="M12 8.8 L15.2 12 L12 15.2 L8.8 12 Z" fill="#fff"></path><circle cx="19.1" cy="8.2" r="1.35" fill="#fff"></circle></svg></span>
+            <div style="flex:1;">
+              <div style="font:400 12.5px/1.5 'Inter';color:#5f6d64;margin-bottom:9px;">I read that as — tap any chip to change it:</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <span style="display:inline-flex;align-items:center;gap:6px;font:500 11.5px 'Inter';color:#14211a;background:#fff;border:1px solid #cfd9d2;border-radius:8px;padding:6px 10px;"><span style="font:600 8.5px 'JetBrains Mono';color:#94a399;text-transform:uppercase;">Type</span>Companies</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font:500 11.5px 'Inter';color:#14211a;background:#fff;border:1px solid #cfd9d2;border-radius:8px;padding:6px 10px;"><span style="font:600 8.5px 'JetBrains Mono';color:#94a399;text-transform:uppercase;">Industry</span>Agriculture</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font:500 11.5px 'Inter';color:#14211a;background:#fff;border:1px solid #cfd9d2;border-radius:8px;padding:6px 10px;"><span style="font:600 8.5px 'JetBrains Mono';color:#94a399;text-transform:uppercase;">Country</span>Argentina</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font:500 11.5px 'Inter';color:#0b6b3a;background:#eaf7ef;border:1px solid #cfe6d8;border-radius:8px;padding:6px 10px;"><span style="font:600 8.5px 'JetBrains Mono';color:#3f7d4e;text-transform:uppercase;">Event</span>Data breach · last 90 days</span>
+                <span style="display:inline-flex;align-items:center;gap:5px;font:500 11.5px 'Inter';color:#5b4fd1;background:#f3f0fd;border:1px dashed #c9bef2;border-radius:8px;padding:6px 10px;">+ criteria</span>
+              </div>
+            </div>
+          </div>
+          <!-- results -->
+          <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:14px;overflow:hidden;margin-top:18px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:#eef2ee;"><span style="font:600 11px 'Inter';color:#14211a;">3 companies match</span><span style="font:400 10.5px 'Inter';color:#5f6d64;">ranked by signal strength · enrich to reveal contacts</span></div>
+            <div style="display:flex;align-items:center;padding:13px 16px;border-top:1px solid #eef2ee;"><span style="width:30px;height:30px;border-radius:7px;background:#dcf3e5;color:#274d31;display:flex;align-items:center;justify-content:center;font:700 10px 'Inter';flex:0 0 auto;">CR</span><span style="flex:1;margin-left:11px;"><span style="display:block;font:600 13px 'Inter';color:#14211a;">Cresud</span><span style="display:block;font:400 9.5px 'JetBrains Mono';color:#94a399;">cresud.com.ar · Buenos Aires</span></span><span style="width:330px;font:400 11.5px/1.45 'Inter';color:#5f6d64;"><b style="color:#0b6b3a;font-weight:600;">Because</b> a breach was disclosed to the CNV — La Nación, 9 days ago.</span><span style="width:40px;text-align:right;font:600 12px 'JetBrains Mono';color:#2f5d3a;">93</span><button style="margin-left:14px;border:none;cursor:pointer;background:#0e2b20;color:#eafcf1;border-radius:8px;padding:7px 13px;font:600 11.5px 'Inter';flex:0 0 auto;">Add</button></div>
+            <div style="display:flex;align-items:center;padding:13px 16px;border-top:1px solid #eef2ee;"><span style="width:30px;height:30px;border-radius:7px;background:#e8e2fb;color:#5e4fd9;display:flex;align-items:center;justify-content:center;font:700 10px 'Inter';flex:0 0 auto;">AD</span><span style="flex:1;margin-left:11px;"><span style="display:block;font:600 13px 'Inter';color:#14211a;">Adecoagro</span><span style="display:block;font:400 9.5px 'JetBrains Mono';color:#94a399;">adecoagro.com · Buenos Aires</span></span><span style="width:330px;font:400 11.5px/1.45 'Inter';color:#5f6d64;"><b style="color:#0b6b3a;font-weight:600;">Because</b> a ransomware listing named them — DarkFeed, 3 weeks ago.</span><span style="width:40px;text-align:right;font:600 12px 'JetBrains Mono';color:#8f5f15;">88</span><button style="margin-left:14px;border:none;cursor:pointer;background:#0e2b20;color:#eafcf1;border-radius:8px;padding:7px 13px;font:600 11.5px 'Inter';flex:0 0 auto;">Add</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-top:1px solid #eef2ee;background:#f6f8f6;"><span style="font:500 11.5px 'Inter';color:#5f6d64;">Los Grobo + 1 more</span><span style="font:600 11.5px 'Inter';color:#0b6b3a;">Switch to People to find the buyers →</span></div>
+          </div>
+          <!-- smart-default examples -->
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:15px;">
+            <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#94a399;align-self:center;">Try</span>
+            <span style="font:500 11.5px 'Inter';color:#3d4a42;background:#fff;border:1px solid #dfe7e1;border-radius:9999px;padding:5px 12px;">SaaS companies that churned off a competitor</span>
+            <span style="font:500 11.5px 'Inter';color:#3d4a42;background:#fff;border:1px solid #dfe7e1;border-radius:9999px;padding:5px 12px;">Manufacturers in Vietnam opening a US office</span>
+            <span style="font:500 11.5px 'Inter';color:#3d4a42;background:#fff;border:1px solid #dfe7e1;border-radius:9999px;padding:5px 12px;">Hospitals hiring a CISO after a breach</span>
+          </div>
+        </div>
+      </div>
+      <div style="font:400 12px/1.5 'Inter';color:#7a8a80;padding:2px 4px;"><b style="color:#3d4a42;">Why it works:</b> the search is unmistakably the product (Jakob's law — it behaves like Exa/Google), yet Paula's parse keeps it legible and editable (no black box), every row has a "because" with a source, and example queries mean you're never staring at a blank box. <b style="color:#3d4a42;">Risk:</b> NL parsing must be trustworthy — the editable chips are the safety valve when it reads you wrong.</div>
+    </div>
+
+    <!-- ══════════ 3b · THE POWER SEARCH ══════════ -->
+    <div id="3b" style="display:flex;flex-direction:column;gap:12px;width:920px;flex:0 0 auto;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <a href="#3b" style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;border-radius:7px;background:#14211a;color:#fff;font:600 11px 'JetBrains Mono';">3b</a>
+        <span style="font:650 16px 'Inter';color:#14211a;">The Power Search</span>
+        <span style="font:400 12.5px 'Inter';color:#5f6d64;">A filter · signal · event builder is primary · language accelerates it · most control</span>
+      </div>
+      <div style="border:1px solid #dfe7e1;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px -24px rgba(20,33,26,.35);background:#f6f8f6;">
+        <!-- NL accelerator on top -->
+        <div style="padding:18px 24px;border-bottom:1px solid #e6ece7;background:#fbfdfb;display:flex;align-items:center;gap:11px;">
+          <span style="width:22px;height:22px;border-radius:6px;background:#8b7cf8;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.3" ry="3.8" transform="rotate(-28 12 12)" fill="none" stroke="#fff" stroke-width="1.9"></ellipse><path d="M12 8.6 L15.4 12 L12 15.4 L8.6 12 Z" fill="#fff"></path></svg></span>
+          <span style="flex:1;font:400 13.5px 'Inter';color:#5f6d64;">Describe it and I'll set the filters — "agri companies in Argentina with a recent breach"…</span>
+          <span style="font:600 11px 'Inter';color:#0b6b3a;">Set filters →</span>
+        </div>
+        <div style="display:flex;align-items:stretch;">
+          <!-- left palette -->
+          <div style="width:230px;flex:0 0 auto;border-right:1px solid #e6ece7;padding:16px 12px;background:#fbfdfb;">
+            <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;padding:0 6px 8px;">Add criteria</div>
+            <div style="display:flex;flex-direction:column;gap:1px;">
+              <span style="display:flex;align-items:center;gap:8px;font:500 12px 'Inter';color:#3d4a42;padding:8px 8px;border-radius:8px;">Firmographics</span>
+              <span style="display:flex;align-items:center;gap:8px;font:500 12px 'Inter';color:#3d4a42;padding:8px 8px;border-radius:8px;">Funding &amp; growth</span>
+              <span style="display:flex;align-items:center;gap:8px;font:500 12px 'Inter';color:#3d4a42;padding:8px 8px;border-radius:8px;">Hiring signals</span>
+              <span style="display:flex;align-items:center;gap:8px;font:500 12px 'Inter';color:#3d4a42;padding:8px 8px;border-radius:8px;">Tech stack</span>
+              <div style="background:#eef4ef;border-radius:8px;padding:2px 0;">
+                <span style="display:flex;align-items:center;gap:8px;font:600 12px 'Inter';color:#0b6b3a;padding:8px 8px;">News &amp; events</span>
+                <div style="display:flex;flex-direction:column;gap:1px;padding:0 4px 4px;">
+                  <span style="font:500 11px 'Inter';color:#0b6b3a;background:#dcf3e5;border-radius:6px;padding:5px 9px;">Data breach ✓</span>
+                  <span style="font:400 11px 'Inter';color:#5f6d64;padding:5px 9px;">Layoffs</span>
+                  <span style="font:400 11px 'Inter';color:#5f6d64;padding:5px 9px;">Leadership change</span>
+                  <span style="font:400 11px 'Inter';color:#5f6d64;padding:5px 9px;">M&amp;A · funding</span>
+                  <span style="font:400 11px 'Inter';color:#5f6d64;padding:5px 9px;">Lawsuit · regulatory</span>
+                </div>
+              </div>
+              <span style="display:flex;align-items:center;gap:8px;font:500 12px 'Inter';color:#3d4a42;padding:8px 8px;border-radius:8px;">Web &amp; buying intent</span>
+              <span style="display:flex;align-items:center;gap:8px;font:500 12px 'Inter';color:#3d4a42;padding:8px 8px;border-radius:8px;">People &amp; titles</span>
+            </div>
+          </div>
+          <!-- right results -->
+          <div style="flex:1;min-width:0;padding:18px 22px;">
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;">
+              <span style="display:inline-flex;align-items:center;gap:6px;font:500 11.5px 'Inter';color:#14211a;background:#fff;border:1px solid #cfd9d2;border-radius:8px;padding:6px 10px;">Industry: Agriculture<span style="color:#94a399;">×</span></span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font:500 11.5px 'Inter';color:#14211a;background:#fff;border:1px solid #cfd9d2;border-radius:8px;padding:6px 10px;">Country: Argentina<span style="color:#94a399;">×</span></span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font:500 11.5px 'Inter';color:#0b6b3a;background:#eaf7ef;border:1px solid #cfe6d8;border-radius:8px;padding:6px 10px;">Event: Data breach &lt; 90d<span style="color:#7fae90;">×</span></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;border:1px solid #dfe7e1;background:#fff;border-radius:11px;padding:12px 15px;margin-bottom:14px;">
+              <div style="display:flex;align-items:baseline;gap:6px;"><span style="font:650 22px 'JetBrains Mono';letter-spacing:-0.02em;color:#14211a;">3</span><span style="font:500 11.5px 'Inter';color:#5f6d64;">companies</span></div>
+              <span style="width:1px;height:22px;background:#e6ece7;"></span>
+              <div style="display:flex;align-items:baseline;gap:6px;"><span style="font:650 22px 'JetBrains Mono';letter-spacing:-0.02em;color:#14211a;">41</span><span style="font:500 11.5px 'Inter';color:#5f6d64;">contacts</span></div>
+              <span style="flex:1;"></span>
+              <button style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:9px;padding:9px 16px;font:600 12px 'Inter';">Enrich &amp; add all</button>
+            </div>
+            <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:11px;overflow:hidden;">
+              <div style="display:flex;align-items:center;padding:11px 14px;"><span style="width:26px;height:26px;border-radius:6px;background:#dcf3e5;color:#274d31;display:flex;align-items:center;justify-content:center;font:700 9px 'Inter';flex:0 0 auto;">CR</span><span style="flex:1;margin-left:10px;font:600 12.5px 'Inter';color:#14211a;">Cresud</span><span style="font:400 10.5px 'Inter';color:#8f5f15;background:#f7ecd3;border-radius:5px;padding:3px 8px;">Breach · 9d</span></div>
+              <div style="display:flex;align-items:center;padding:11px 14px;border-top:1px solid #eef2ee;"><span style="width:26px;height:26px;border-radius:6px;background:#e8e2fb;color:#5e4fd9;display:flex;align-items:center;justify-content:center;font:700 9px 'Inter';flex:0 0 auto;">AD</span><span style="flex:1;margin-left:10px;font:600 12.5px 'Inter';color:#14211a;">Adecoagro</span><span style="font:400 10.5px 'Inter';color:#8f5f15;background:#f7ecd3;border-radius:5px;padding:3px 8px;">Breach · 3wk</span></div>
+              <div style="display:flex;align-items:center;padding:11px 14px;border-top:1px solid #eef2ee;"><span style="width:26px;height:26px;border-radius:6px;background:#d6e9ef;color:#1a545f;display:flex;align-items:center;justify-content:center;font:700 9px 'Inter';flex:0 0 auto;">LG</span><span style="flex:1;margin-left:10px;font:600 12.5px 'Inter';color:#14211a;">Los Grobo</span><span style="font:400 10.5px 'Inter';color:#8f5f15;background:#f7ecd3;border-radius:5px;padding:3px 8px;">Phishing · 12d</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="font:400 12px/1.5 'Inter';color:#7a8a80;padding:2px 4px;"><b style="color:#3d4a42;">Why it works:</b> maximum expressive power and precision for pros (every filter, signal and event is a first-class control), progressive disclosure (categories collapse), live count is instant feedback, and the NL bar lowers the floor so beginners aren't lost. <b style="color:#3d4a42;">Risk:</b> a builder is the most "tool," least "agent" — heaviest to look at; leans hardest on the NL accelerator to feel modern.</div>
+    </div>
+
+    <!-- ══════════ 3c · THE RESEARCH AGENT ══════════ -->
+    <div id="3c" style="display:flex;flex-direction:column;gap:12px;width:920px;flex:0 0 auto;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <a href="#3c" style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;border-radius:7px;background:#14211a;color:#fff;font:600 11px 'JetBrains Mono';">3c</a>
+        <span style="font:650 16px 'Inter';color:#14211a;">The Research Agent</span>
+        <span style="font:400 12.5px 'Inter';color:#5f6d64;">Paula searches the open web + news + graph and shows her sources · most "anything in the world"</span>
+      </div>
+      <div style="border:1px solid #dfe7e1;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px -24px rgba(20,33,26,.35);background:#f6f8f6;">
+        <div style="padding:30px 40px 26px;">
+          <!-- query echoed + prose -->
+          <div style="display:flex;gap:13px;align-items:flex-start;margin-bottom:18px;">
+            <span style="width:30px;height:30px;border-radius:9px;background:#8b7cf8;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.3" ry="3.8" transform="rotate(-28 12 12)" fill="none" stroke="#fff" stroke-width="1.7"></ellipse><path d="M12 8.8 L15.2 12 L12 15.2 L8.8 12 Z" fill="#fff"></path><circle cx="19.1" cy="8.2" r="1.35" fill="#fff"></circle></svg></span>
+            <div style="flex:1;">
+              <div style="font:400 12px 'JetBrains Mono';color:#94a399;margin-bottom:6px;">You asked</div>
+              <p style="font:600 17px/1.4 'Inter';letter-spacing:-0.01em;color:#14211a;margin:0 0 4px;">"Agricultural companies in Argentina that recently had a data breach"</p>
+              <p style="font:400 12.5px/1.5 'Inter';color:#5f6d64;margin:0;">I'll search the open web, live news and our firmographic graph — and cite every source so you can trust the match.</p>
+            </div>
+          </div>
+          <!-- reasoning trace -->
+          <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:13px;padding:15px 18px;margin-bottom:16px;">
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;gap:11px;"><span style="width:18px;height:18px;border-radius:50%;background:#dcf3e5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0b8f43" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></span><span style="font:500 12.5px 'Inter';color:#3d4a42;">Parsed intent → <b style="color:#14211a;">Agriculture · Argentina · security incident</b></span></div>
+              <div style="display:flex;align-items:center;gap:11px;"><span style="width:18px;height:18px;border-radius:50%;background:#dcf3e5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0b8f43" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></span><span style="font:500 12.5px 'Inter';color:#3d4a42;">Scanned 3 news sources <span style="font:400 11px 'Inter';color:#94a399;">(La Nación · Infobae · DarkFeed)</span> → 5 incidents</span></div>
+              <div style="display:flex;align-items:center;gap:11px;"><span style="width:18px;height:18px;border-radius:50%;background:#dcf3e5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0b8f43" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></span><span style="font:500 12.5px 'Inter';color:#3d4a42;">Cross-referenced firmographic graph → <b style="color:#14211a;">3 companies</b> confirmed</span></div>
+              <div style="display:flex;align-items:center;gap:11px;"><span style="width:18px;height:18px;border-radius:50%;background:#f3f0fd;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="width:7px;height:7px;border-radius:50%;background:#8b7cf8;"></span></span><span style="font:500 12.5px 'Inter';color:#5f6d64;">Verifying incidents &amp; pulling buyer contacts…</span></div>
+            </div>
+          </div>
+          <!-- cited results -->
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="border:1px solid #dfe7e1;background:#fff;border-radius:12px;padding:14px 16px;">
+              <div style="display:flex;align-items:center;gap:11px;margin-bottom:9px;"><span style="width:30px;height:30px;border-radius:7px;background:#dcf3e5;color:#274d31;display:flex;align-items:center;justify-content:center;font:700 10px 'Inter';flex:0 0 auto;">CR</span><div style="flex:1;"><div style="font:650 14px 'Inter';color:#14211a;">Cresud</div><div style="font:400 9.5px 'JetBrains Mono';color:#94a399;">cresud.com.ar · agriculture · Buenos Aires</div></div><span style="font:600 11.5px 'JetBrains Mono';color:#2f5d3a;">93</span><button style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:8px;padding:7px 13px;font:600 11.5px 'Inter';">Add</button></div>
+              <div style="font:400 12px/1.5 'Inter';color:#5f6d64;margin-bottom:8px;">Disclosed a data breach to the CNV affecting supplier records; matches your agri + Argentina criteria.</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;"><span style="font:500 9.5px 'Inter';color:#2c5f8a;background:#e6eef7;border-radius:5px;padding:3px 8px;">La Nación · 9d ago</span><span style="font:500 9.5px 'Inter';color:#2c5f8a;background:#e6eef7;border-radius:5px;padding:3px 8px;">CNV filing</span></div>
+            </div>
+            <div style="border:1px solid #dfe7e1;background:#fff;border-radius:12px;padding:14px 16px;">
+              <div style="display:flex;align-items:center;gap:11px;margin-bottom:9px;"><span style="width:30px;height:30px;border-radius:7px;background:#e8e2fb;color:#5e4fd9;display:flex;align-items:center;justify-content:center;font:700 10px 'Inter';flex:0 0 auto;">AD</span><div style="flex:1;"><div style="font:650 14px 'Inter';color:#14211a;">Adecoagro</div><div style="font:400 9.5px 'JetBrains Mono';color:#94a399;">adecoagro.com · agriculture · Buenos Aires</div></div><span style="font:600 11.5px 'JetBrains Mono';color:#8f5f15;">88</span><button style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:8px;padding:7px 13px;font:600 11.5px 'Inter';">Add</button></div>
+              <div style="font:400 12px/1.5 'Inter';color:#5f6d64;margin-bottom:8px;">Named on a ransomware leak site; incident not yet officially confirmed — flagged as medium confidence.</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;"><span style="font:500 9.5px 'Inter';color:#2c5f8a;background:#e6eef7;border-radius:5px;padding:3px 8px;">DarkFeed · 3wk ago</span><span style="font:500 9.5px 'Inter';color:#8f5f15;background:#f7ecd3;border-radius:5px;padding:3px 8px;">Medium confidence</span></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;padding:3px;"><span style="font:600 11.5px 'Inter';color:#0b6b3a;">Los Grobo + 1 more · every result cites its source →</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="font:400 12px/1.5 'Inter';color:#7a8a80;padding:2px 4px;"><b style="color:#3d4a42;">Why it works:</b> handles truly open-ended, "anything in the world" queries no filter UI could express; radical legibility (a visible reasoning trace + a source on every match builds trust); confidence flags manage over-reach honestly. <b style="color:#3d4a42;">Risk:</b> latency — research takes seconds, not instant; best paired with 3a's fast path for simple lookups.</div>
+    </div>
+
+  </div>
+</section>
+
+<section style="padding:20px 54px 96px;display:flex;flex-direction:column;gap:26px;">
+  <div style="display:flex;flex-direction:column;gap:6px;max-width:940px;">
+    <div style="font:600 10.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#94a399;">Turn 2 · Discover · the opening moment · superseded</div>
+    <h1 style="font:650 24px/1.2 'Inter';letter-spacing:-0.02em;color:#14211a;margin:0;">Three ways to open Discover</h1>
+    <p style="font:400 13.5px/1.55 'Inter';color:#4c5a51;margin:0;">Today Discover opens on a blank box — "How can I help you today?" — so you start at zero and do all the work. These three apply the same principles as Mission Control: <b style="color:#3d4a42;">value before the ask</b> (Paula has already searched), a <b style="color:#3d4a42;">smart default</b> you review instead of author, <b style="color:#3d4a42;">never starting at 0%</b>, one isolated hero action, and a "because" on every recommendation. Same Evergreen palette, same Paula. Only the <em>shape of discovery</em> differs. Pick one by badge (e.g. <a href="#2b">2b</a>) and I'll build it into v8.</p>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:44px;align-items:flex-start;">
+
+    <!-- ══════════ 2a · THE WARM LIST ══════════ -->
+    <div id="2a" style="display:flex;flex-direction:column;gap:12px;width:900px;flex:0 0 auto;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <a href="#2a" style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;border-radius:7px;background:#14211a;color:#fff;font:600 11px 'JetBrains Mono';">2a</a>
+        <span style="font:650 16px 'Inter';color:#14211a;">The Warm List</span>
+        <span style="font:400 12.5px 'Inter';color:#5f6d64;">Paula already ran the search · reciprocity + goal gradient · least effort to value</span>
+      </div>
+      <div style="border:1px solid #dfe7e1;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px -24px rgba(20,33,26,.35);background:#f6f8f6;">
+        <div style="padding:32px 40px 26px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;">
+            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:#94a399;">Discover · refreshed 7:50 AM</div>
+            <div style="display:flex;align-items:center;gap:7px;border:1px solid #dfe7e1;background:#fff;border-radius:9px;padding:6px 11px;"><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;"></span><span style="font:500 11px 'Inter';color:#3d4a42;">Auto-refreshes daily · you approve every add</span></div>
+          </div>
+          <!-- brief -->
+          <div style="display:flex;gap:15px;align-items:flex-start;max-width:700px;margin-bottom:22px;">
+            <span style="width:34px;height:34px;border-radius:10px;background:#8b7cf8;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:3px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.3" ry="3.8" transform="rotate(-28 12 12)" fill="none" stroke="#fff" stroke-width="1.7"></ellipse><path d="M12 8.8 L15.2 12 L12 15.2 L8.8 12 Z" fill="#fff"></path><circle cx="19.1" cy="8.2" r="1.35" fill="#fff"></circle></svg></span>
+            <div>
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#5b4fd1;margin-bottom:8px;">Paula · while you were away</div>
+              <p style="font:500 20px/1.5 'Inter';letter-spacing:-0.01em;color:#14211a;margin:0;">I looked for companies like your last three closed-won deals — <b style="color:#0b6b3a;">Series B–D US fintechs that just hired a RevOps leader</b> — and found <b style="color:#0b6b3a;">47</b>. Here are the 8 strongest, already enriched. <span style="background:linear-gradient(transparent 62%, #ffe3a0 62%);">Two are hiring your buyer this week</span> — worth reaching first.</p>
+            </div>
+          </div>
+          <!-- hero action -->
+          <div style="padding-left:49px;display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+            <button style="display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:11px;padding:13px 22px;font:600 14px 'Inter';box-shadow:0 8px 20px -8px rgba(14,168,79,.5);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Add the top 8 to a segment &amp; start outreach</button>
+            <span style="font:400 12.5px 'Inter';color:#7a8a80;">or review each below</span>
+          </div>
+          <!-- shortlist -->
+          <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:14px;overflow:hidden;">
+            <div style="display:flex;align-items:center;height:34px;padding:0 16px;background:#eef2ee;font:600 8.5px 'JetBrains Mono';letter-spacing:.08em;color:#5f6d64;"><span style="flex:1;">ACCOUNT</span><span style="width:250px;">WHY IT MATCHES</span><span style="width:120px;">FRESH SIGNAL</span><span style="width:46px;text-align:right;">FIT</span></div>
+            <div style="display:flex;align-items:center;padding:12px 16px;border-top:1px solid #eef2ee;"><span style="flex:1;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:#e8e2fb;color:#5e4fd9;display:flex;align-items:center;justify-content:center;font:700 10px 'Inter';">RA</span><span><span style="display:block;font:600 13px 'Inter';color:#14211a;">Ramp</span><span style="display:block;font:400 9.5px 'JetBrains Mono';color:#94a399;">ramp.com</span></span></span><span style="width:250px;font:400 11.5px/1.4 'Inter';color:#5f6d64;">Series C · hired VP RevOps 3wk ago · US</span><span style="width:120px;"><span style="display:inline-flex;align-items:center;gap:4px;font:600 9.5px 'Inter';color:#8f5f15;background:#f7ecd3;border-radius:5px;padding:3px 7px;">Hiring RevOps</span></span><span style="width:46px;text-align:right;font:600 12px 'JetBrains Mono';color:#2f5d3a;">94</span></div>
+            <div style="display:flex;align-items:center;padding:12px 16px;border-top:1px solid #eef2ee;"><span style="flex:1;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:#dbebdc;color:#274d31;display:flex;align-items:center;justify-content:center;font:700 10px 'Inter';">ME</span><span><span style="display:block;font:600 13px 'Inter';color:#14211a;">Mercury</span><span style="display:block;font:400 9.5px 'JetBrains Mono';color:#94a399;">mercury.com</span></span></span><span style="width:250px;font:400 11.5px/1.4 'Inter';color:#5f6d64;">Series B · matches 5/5 ICP traits · US</span><span style="width:120px;"><span style="display:inline-flex;align-items:center;gap:4px;font:600 9.5px 'Inter';color:#0b6b3a;background:#dcf3e5;border-radius:5px;padding:3px 7px;">Visited /pricing</span></span><span style="width:46px;text-align:right;font:600 12px 'JetBrains Mono';color:#2f5d3a;">91</span></div>
+            <div style="display:flex;align-items:center;padding:12px 16px;border-top:1px solid #eef2ee;"><span style="flex:1;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:#e0f2fe;color:#0369a1;display:flex;align-items:center;justify-content:center;font:700 10px 'Inter';">BR</span><span><span style="display:block;font:600 13px 'Inter';color:#14211a;">Brex</span><span style="display:block;font:400 9.5px 'JetBrains Mono';color:#94a399;">brex.com</span></span></span><span style="width:250px;font:400 11.5px/1.4 'Inter';color:#5f6d64;">Series D · expanding US mid-market team</span><span style="width:120px;"><span style="display:inline-flex;align-items:center;gap:4px;font:600 9.5px 'Inter';color:#8f5f15;background:#f7ecd3;border-radius:5px;padding:3px 7px;">Hiring RevOps</span></span><span style="width:46px;text-align:right;font:600 12px 'JetBrains Mono';color:#8f5f15;">86</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-top:1px solid #eef2ee;background:#f6f8f6;"><span style="font:500 11.5px 'Inter';color:#5f6d64;">+ 5 more high-fit accounts</span><span style="font:600 11.5px 'Inter';color:#0b6b3a;">See all 47 →</span></div>
+          </div>
+          <!-- refine (IKEA) -->
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:16px;">
+            <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#94a399;align-self:center;">Refine</span>
+            <span style="font:500 11.5px 'Inter';color:#3d4a42;background:#fff;border:1px solid #dfe7e1;border-radius:9999px;padding:5px 12px;">Tighten to Series B only</span>
+            <span style="font:500 11.5px 'Inter';color:#3d4a42;background:#fff;border:1px solid #dfe7e1;border-radius:9999px;padding:5px 12px;">Require: uses Salesforce</span>
+            <span style="font:500 11.5px 'Inter';color:#3d4a42;background:#fff;border:1px solid #dfe7e1;border-radius:9999px;padding:5px 12px;">Broaden to EU</span>
+            <span style="font:500 11.5px 'Inter';color:#5b4fd1;background:#f3f0fd;border:1px solid #e8e2fb;border-radius:9999px;padding:5px 12px;">Describe a different search…</span>
+          </div>
+        </div>
+      </div>
+      <div style="font:400 12px/1.5 'Inter';color:#7a8a80;padding:2px 4px;"><b style="color:#3d4a42;">Why it works:</b> reciprocity (results before you ask), goal gradient (you're at 47, not 0), contrast (47 → focused 8), Von Restorff (one green action), loss aversion (the highlighted "hiring your buyer this week"). <b style="color:#3d4a42;">Risk:</b> leans on the ICP inference being right — the Refine row and "describe a different search" are the escape hatch.</div>
+    </div>
+
+    <!-- ══════════ 2b · THE RECIPE ══════════ -->
+    <div id="2b" style="display:flex;flex-direction:column;gap:12px;width:900px;flex:0 0 auto;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <a href="#2b" style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;border-radius:7px;background:#14211a;color:#fff;font:600 11px 'JetBrains Mono';">2b</a>
+        <span style="font:650 16px 'Inter';color:#14211a;">The Recipe</span>
+        <span style="font:400 12.5px 'Inter';color:#5f6d64;">A pre-built ICP you tune · smart defaults + IKEA effect · most control</span>
+      </div>
+      <div style="border:1px solid #dfe7e1;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px -24px rgba(20,33,26,.35);background:#f6f8f6;">
+        <div style="padding:32px 40px 26px;">
+          <!-- brief -->
+          <div style="display:flex;gap:15px;align-items:flex-start;max-width:700px;margin-bottom:20px;">
+            <span style="width:34px;height:34px;border-radius:10px;background:#8b7cf8;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:3px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.3" ry="3.8" transform="rotate(-28 12 12)" fill="none" stroke="#fff" stroke-width="1.7"></ellipse><path d="M12 8.8 L15.2 12 L12 15.2 L8.8 12 Z" fill="#fff"></path><circle cx="19.1" cy="8.2" r="1.35" fill="#fff"></circle></svg></span>
+            <div>
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#5b4fd1;margin-bottom:8px;">Paula · starting point</div>
+              <p style="font:500 20px/1.5 'Inter';letter-spacing:-0.01em;color:#14211a;margin:0;">I turned your best-converting segment into a recipe. <span style="background:linear-gradient(transparent 62%, #ffe3a0 62%);">47 companies match it right now.</span> Tune any ingredient and I'll refresh the matches live.</p>
+            </div>
+          </div>
+          <!-- recipe card -->
+          <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:14px;padding:18px 20px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;">
+              <span style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;">Your ICP recipe · from "Series B fintech · won"</span>
+              <span style="font:500 11px 'Inter';color:#5f6d64;">5 ingredients</span>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+              <span style="display:inline-flex;align-items:center;gap:7px;font:500 12px 'Inter';color:#14211a;background:#fff;border:1px solid #cfd9d2;border-radius:9px;padding:7px 11px;"><span style="font:600 9px 'JetBrains Mono';color:#94a399;text-transform:uppercase;">Industry</span>FinTech<span style="color:#94a399;font-size:13px;">×</span></span>
+              <span style="display:inline-flex;align-items:center;gap:7px;font:500 12px 'Inter';color:#14211a;background:#fff;border:1px solid #cfd9d2;border-radius:9px;padding:7px 11px;"><span style="font:600 9px 'JetBrains Mono';color:#94a399;text-transform:uppercase;">Stage</span>Series B–D<span style="color:#94a399;font-size:13px;">×</span></span>
+              <span style="display:inline-flex;align-items:center;gap:7px;font:500 12px 'Inter';color:#14211a;background:#fff;border:1px solid #cfd9d2;border-radius:9px;padding:7px 11px;"><span style="font:600 9px 'JetBrains Mono';color:#94a399;text-transform:uppercase;">Geo</span>United States<span style="color:#94a399;font-size:13px;">×</span></span>
+              <span style="display:inline-flex;align-items:center;gap:7px;font:500 12px 'Inter';color:#0b6b3a;background:#eaf7ef;border:1px solid #cfe6d8;border-radius:9px;padding:7px 11px;"><span style="font:600 9px 'JetBrains Mono';color:#3f7d4e;text-transform:uppercase;">Signal</span>Hired RevOps &lt; 90d<span style="color:#7fae90;font-size:13px;">×</span></span>
+              <span style="display:inline-flex;align-items:center;gap:7px;font:500 12px 'Inter';color:#0b6b3a;background:#eaf7ef;border:1px solid #cfe6d8;border-radius:9px;padding:7px 11px;"><span style="font:600 9px 'JetBrains Mono';color:#3f7d4e;text-transform:uppercase;">Signal</span>Visited /pricing<span style="color:#7fae90;font-size:13px;">×</span></span>
+              <span style="display:inline-flex;align-items:center;gap:5px;font:500 12px 'Inter';color:#5b4fd1;background:#f3f0fd;border:1px dashed #c9bef2;border-radius:9px;padding:7px 11px;">+ add ingredient</span>
+            </div>
+            <div style="border-top:1px solid #eef2ee;padding-top:13px;display:flex;align-items:center;gap:8px;">
+              <span style="width:18px;height:18px;border-radius:5px;background:#8b7cf8;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.3" ry="3.8" transform="rotate(-28 12 12)" fill="none" stroke="#fff" stroke-width="1.9"></ellipse><path d="M12 8.6 L15.4 12 L12 15.4 L8.6 12 Z" fill="#fff"></path></svg></span>
+              <span style="font:400 11.5px/1.5 'Inter';color:#5f6d64;"><b style="color:#3d4a42;">Because</b> your 3 closed-won deals all hired RevOps within 90 days of signing — that ingredient alone doubled your win rate.</span>
+            </div>
+          </div>
+          <!-- live result + distribution -->
+          <div style="display:flex;align-items:center;gap:16px;border:1px solid #dfe7e1;background:#fff;border-radius:13px;padding:14px 18px;margin-bottom:16px;">
+            <div><div style="display:flex;align-items:baseline;gap:7px;"><span style="font:650 26px 'JetBrains Mono';letter-spacing:-0.02em;color:#14211a;">47</span><span style="font:500 12px 'Inter';color:#5f6d64;">match now</span></div><div style="font:400 10.5px 'Inter';color:#94a399;margin-top:1px;">updates as you tune the recipe</div></div>
+            <div style="flex:1;">
+              <div style="display:flex;height:9px;border-radius:6px;overflow:hidden;background:#e9efe9;margin-bottom:6px;"><span style="width:36%;background:#3f7d4e;"></span><span style="width:38%;background:#b5791b;"></span><span style="width:26%;background:#c98b80;"></span></div>
+              <div style="display:flex;align-items:center;gap:14px;font:500 9.5px 'Inter';color:#5f6d64;"><span>High 17</span><span>Medium 18</span><span>Low 12</span></div>
+            </div>
+            <button style="display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:10px;padding:11px 18px;font:600 13px 'Inter';box-shadow:0 8px 20px -10px rgba(14,168,79,.5);flex:0 0 auto;">Enrich the 17 high-fit &amp; save recipe</button>
+          </div>
+          <!-- command bar -->
+          <div style="display:flex;align-items:center;gap:10px;border:1px solid #cfd9d2;background:#fff;border-radius:13px;padding:11px 12px 11px 16px;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.3" ry="3.8" transform="rotate(-28 12 12)" fill="none" stroke="#94a399" stroke-width="1.7"></ellipse><path d="M12 8.8 L15.2 12 L12 15.2 L8.8 12 Z" fill="#94a399"></path><circle cx="19.1" cy="8.2" r="1.35" fill="#94a399"></circle></svg>
+            <span style="flex:1;font:400 14px 'Inter';color:#94a399;">Or describe a recipe in words — "add companies that churned off a competitor"…</span>
+            <span style="width:32px;height:32px;border-radius:9px;background:#0e2b20;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7ce3a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+          </div>
+        </div>
+      </div>
+      <div style="font:400 12px/1.5 'Inter';color:#7a8a80;padding:2px 4px;"><b style="color:#3d4a42;">Why it works:</b> smart defaults (review, don't author), IKEA effect (tuning the recipe creates ownership), decision legibility (the "because" on the strongest ingredient), live feedback (count reacts to every edit — endowed progress). <b style="color:#3d4a42;">Risk:</b> a recipe is more UI than prose — slightly more to parse than 2a, though far less than a blank filter builder.</div>
+    </div>
+
+    <!-- ══════════ 2c · THE SIGNAL STREAM ══════════ -->
+    <div id="2c" style="display:flex;flex-direction:column;gap:12px;width:900px;flex:0 0 auto;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <a href="#2c" style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;border-radius:7px;background:#14211a;color:#fff;font:600 11px 'JetBrains Mono';">2c</a>
+        <span style="font:650 16px 'Inter';color:#14211a;">The Signal Stream</span>
+        <span style="font:400 12.5px 'Inter';color:#5f6d64;">Discovery as a live feed you triage · ambient + loss aversion · most habitual</span>
+      </div>
+      <div style="border:1px solid #dfe7e1;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px -24px rgba(20,33,26,.35);background:#f6f8f6;">
+        <div style="padding:32px 40px 26px;">
+          <!-- brief + momentum -->
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:20px;">
+            <div style="display:flex;gap:15px;align-items:flex-start;max-width:560px;">
+              <span style="width:34px;height:34px;border-radius:10px;background:#8b7cf8;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:3px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.3" ry="3.8" transform="rotate(-28 12 12)" fill="none" stroke="#fff" stroke-width="1.7"></ellipse><path d="M12 8.8 L15.2 12 L12 15.2 L8.8 12 Z" fill="#fff"></path><circle cx="19.1" cy="8.2" r="1.35" fill="#fff"></circle></svg></span>
+              <div>
+                <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#5b4fd1;margin-bottom:8px;">Paula · live inflow</div>
+                <p style="font:500 20px/1.5 'Inter';letter-spacing:-0.01em;color:#14211a;margin:0;">New accounts crossing your ICP land here as it happens. <b style="color:#0b6b3a;">6 arrived today</b> — I've ranked them by how fresh the signal is.</p>
+              </div>
+            </div>
+            <div style="border:1px solid #cfe6d8;background:#f2faf5;border-radius:12px;padding:12px 15px;flex:0 0 auto;text-align:right;">
+              <div style="font:650 22px 'JetBrains Mono';color:#0b6b3a;letter-spacing:-0.02em;">12 → 3</div>
+              <div style="font:500 10px 'Inter';color:#5f6d64;margin-top:2px;max-width:120px;">triaged this week became opportunities</div>
+            </div>
+          </div>
+          <!-- hero card (freshest) -->
+          <div style="border:1.5px solid #0ea84f;background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 12px 30px -18px rgba(14,168,79,.35);margin-bottom:11px;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:11px;">
+              <span style="width:38px;height:38px;border-radius:9px;background:#e8e2fb;color:#5e4fd9;display:flex;align-items:center;justify-content:center;font:700 12px 'Inter';flex:0 0 auto;">AW</span>
+              <div style="flex:1;min-width:0;"><div style="font:650 16px 'Inter';letter-spacing:-0.01em;color:#14211a;">Airwallex</div><div style="font:400 11.5px 'Inter';color:#5f6d64;">Series E · FinTech · Singapore + US</div></div>
+              <span style="display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono';color:#8f5f15;background:#f7ecd3;border-radius:6px;padding:4px 9px;"><span style="width:5px;height:5px;border-radius:50%;background:#b5791b;"></span>2H AGO</span>
+              <span style="font:600 13px 'JetBrains Mono';color:#2f5d3a;">96</span>
+            </div>
+            <div style="background:#f4faf6;border-left:3px solid #0ea84f;border-radius:0 8px 8px 0;padding:9px 13px;margin-bottom:13px;"><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:#0b8f43;">Because&nbsp;&nbsp;</span><span style="font:400 12.5px/1.5 'Inter';color:#3d4a42;">they posted 4 RevOps roles this morning and match your winning pattern 5/5. <b style="color:#8f5f15;">A competitor's SDR started a sequence here yesterday.</b></span></div>
+            <div style="display:flex;align-items:center;gap:9px;">
+              <button style="display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:9px;padding:10px 16px;font:600 12.5px 'Inter';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Add &amp; start outreach</button>
+              <button style="border:1px solid #cfd9d2;background:#fff;cursor:pointer;border-radius:9px;padding:10px 15px;font:500 12.5px 'Inter';color:#3d4a42;">Save for later</button>
+              <button style="border:none;background:transparent;cursor:pointer;font:500 12.5px 'Inter';color:#7a8a80;padding:10px 6px;">Skip</button>
+            </div>
+          </div>
+          <!-- next cards (compact) -->
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="display:flex;align-items:center;gap:12px;border:1px solid #dfe7e1;background:#fbfdfb;border-radius:12px;padding:12px 15px;">
+              <span style="width:32px;height:32px;border-radius:8px;background:#dbebdc;color:#274d31;display:flex;align-items:center;justify-content:center;font:700 11px 'Inter';flex:0 0 auto;">DE</span>
+              <div style="flex:1;min-width:0;"><div style="font:600 13.5px 'Inter';color:#14211a;">Deel</div><div style="font:400 11px/1.4 'Inter';color:#5f6d64;">Raised $300M Series E · 4h ago · matches 4/5 traits</div></div>
+              <span style="display:inline-flex;align-items:center;gap:4px;font:600 9px 'Inter';color:#0b6b3a;background:#dcf3e5;border-radius:5px;padding:3px 7px;">New funding</span>
+              <span style="font:600 12px 'JetBrains Mono';color:#2f5d3a;">90</span>
+              <button style="border:none;cursor:pointer;background:#0e2b20;color:#eafcf1;border-radius:8px;padding:8px 13px;font:600 11.5px 'Inter';">Add</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;border:1px solid #dfe7e1;background:#fbfdfb;border-radius:12px;padding:12px 15px;">
+              <span style="width:32px;height:32px;border-radius:8px;background:#fef3c7;color:#92400e;display:flex;align-items:center;justify-content:center;font:700 11px 'Inter';flex:0 0 auto;">NA</span>
+              <div style="flex:1;min-width:0;"><div style="font:600 13.5px 'Inter';color:#14211a;">Navan</div><div style="font:400 11px/1.4 'Inter';color:#5f6d64;">3rd /pricing visit this week · added a US CRO · 6h ago</div></div>
+              <span style="display:inline-flex;align-items:center;gap:4px;font:600 9px 'Inter';color:#0b6b3a;background:#dcf3e5;border-radius:5px;padding:3px 7px;">Buying intent</span>
+              <span style="font:600 12px 'JetBrains Mono';color:#8f5f15;">85</span>
+              <button style="border:none;cursor:pointer;background:#0e2b20;color:#eafcf1;border-radius:8px;padding:8px 13px;font:600 11.5px 'Inter';">Add</button>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;padding:4px;"><span style="font:600 11.5px 'Inter';color:#0b6b3a;">3 more in today's stream →</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="font:400 12px/1.5 'Inter';color:#7a8a80;padding:2px 4px;"><b style="color:#3d4a42;">Why it works:</b> ambient/always-on (a reason to return daily), loss aversion (the competitor-SDR line), recency (fresh signals ranked first), endowed progress (the "12 → 3" streak), calibrated friction (add / save / skip). <b style="color:#3d4a42;">Risk:</b> a feed invites endless triage — needs a clear "you're done for today" state so it doesn't become a chore.</div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,937 @@
+<meta charset="UTF-8" />
+<title>Sprouts.ai — Account Setup</title>
+<style>
+  :root {
+    --bg: #0A0A12;
+    --bg-2: #0E0E18;
+    --surface: rgba(255,255,255,0.045);
+    --surface-solid: #15141F;
+    --surface-2: rgba(255,255,255,0.065);
+    --border: rgba(255,255,255,0.10);
+    --border-strong: rgba(255,255,255,0.20);
+    --text: #F3F1FA;
+    --text-muted: #ACA8C2;
+    --text-faint: #746F8F;
+    --accent: #8B7CFF;
+    --accent-2: #34E0B0;
+    --accent-contrast: #0A0A12;
+    --success: #3ED7A0;
+    --warning: #F5B04D;
+    --critical: #FB7C87;
+    --glow-1: rgba(139,124,255,0.32);
+    --glow-2: rgba(52,224,176,0.20);
+    --spotlight: rgba(255,255,255,0.07);
+    --shadow: 0 30px 70px -26px rgba(0,0,0,0.65);
+    --radius: 20px;
+    --font-display: "Neue Haas Grotesk Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  /* Dark is the deliberate default identity for this flow, regardless of system preference.
+     Light is available only via an explicit in-app toggle (data-theme="light" below). */
+  :root[data-theme="dark"] {
+    --bg: #0A0A12; --bg-2: #0E0E18; --surface: rgba(255,255,255,0.045); --surface-solid: #15141F; --surface-2: rgba(255,255,255,0.065);
+    --border: rgba(255,255,255,0.10); --border-strong: rgba(255,255,255,0.20); --text: #F3F1FA; --text-muted: #ACA8C2; --text-faint: #746F8F;
+    --accent: #8B7CFF; --accent-2: #34E0B0; --accent-contrast: #0A0A12;
+    --success: #3ED7A0; --warning: #F5B04D; --critical: #FB7C87;
+    --glow-1: rgba(139,124,255,0.32); --glow-2: rgba(52,224,176,0.20); --spotlight: rgba(255,255,255,0.07);
+    --shadow: 0 30px 70px -26px rgba(0,0,0,0.65);
+  }
+  :root[data-theme="light"] {
+    --bg: #F4F2FB; --bg-2: #EFEDF9; --surface: #FFFFFF; --surface-solid: #FFFFFF; --surface-2: #F3F1FB;
+    --border: #E3DFF3; --border-strong: #CFC9EB; --text: #191730; --text-muted: #5B5678; --text-faint: #8B85A8;
+    --accent: #5B4FE0; --accent-2: #0E9A73; --accent-contrast: #FFFFFF;
+    --success: #158F63; --warning: #A1701D; --critical: #B23B2E;
+    --glow-1: rgba(91,79,224,0.14); --glow-2: rgba(14,154,115,0.10); --spotlight: rgba(91,79,224,0.05);
+    --shadow: 0 20px 50px -24px rgba(25,23,48,0.18);
+  }
+
+  * { box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+  html, body { height: 100%; margin: 0; }
+
+  .swc-root {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(1200px 800px at 20% 0%, var(--bg-2), var(--bg));
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .swc-canvas { position: absolute; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+  .swc-glow { position: absolute; border-radius: 50%; filter: blur(70px); }
+  .swc-glow.g1 { width: 46vw; height: 46vw; top: -12%; left: -8%; background: radial-gradient(circle, var(--glow-1) 0%, transparent 70%); animation: swcDrift1 22s ease-in-out infinite; }
+  .swc-glow.g2 { width: 40vw; height: 40vw; bottom: -14%; right: -6%; background: radial-gradient(circle, var(--glow-2) 0%, transparent 70%); animation: swcDrift2 26s ease-in-out infinite; }
+  @keyframes swcDrift1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(4%,6%) scale(1.08); } }
+  @keyframes swcDrift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-5%,-4%) scale(1.06); } }
+
+  .swc-shell { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; }
+
+  .swc-hdr { display: flex; align-items: center; gap: 16px; padding: 22px 28px; flex: none; }
+  .swc-brand { font-family: var(--font-display); font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+  .swc-brand span { color: var(--text-faint); font-weight: 500; }
+  .swc-hdr-spacer { flex: 1; }
+  .swc-credits { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-muted);
+    border: 1px solid var(--border); border-radius: 999px; padding: 6px 13px 6px 11px; background: var(--surface); }
+  .swc-credits b { font-family: var(--font-mono); color: var(--accent-2); font-weight: 700; }
+  .swc-credits.swc-pop { animation: swcPop 0.5s ease; }
+  @keyframes swcPop { 0% { transform: scale(1); } 35% { transform: scale(1.12); box-shadow: 0 0 0 6px var(--glow-2); } 100% { transform: scale(1); box-shadow: none; } }
+  .swc-exit { font-size: 12.5px; color: var(--text-muted); border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px;
+    background: var(--surface); cursor: pointer; font-family: var(--font-body); }
+  .swc-exit:hover { border-color: var(--border-strong); color: var(--text); }
+
+  .swc-dots { display: flex; align-items: center; gap: 7px; }
+  .swc-dot { border: none; cursor: pointer; padding: 0; background: var(--border-strong); border-radius: 999px;
+    width: 8px; height: 8px; transition: width 0.3s ease, background 0.3s ease, opacity 0.2s ease; }
+  .swc-dot:hover { opacity: 0.8; }
+  .swc-dot.is-current { width: 26px; background: var(--accent); box-shadow: 0 0 12px var(--glow-1); }
+  .swc-dot.is-done { background: var(--accent-2); }
+
+  .swc-stagewrap { flex: 1; min-height: 0; overflow-y: auto; display: flex; align-items: flex-start; justify-content: center; padding: 20px 24px 60px; }
+  .swc-stage { width: 100%; max-width: 660px; margin-top: clamp(8px, 4vh, 56px); }
+
+  .swc-panel {
+    position: relative; background: var(--surface-solid); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 38px 42px; box-shadow: var(--shadow); overflow: hidden;
+    animation: swcPanelIn 0.42s cubic-bezier(.2,.8,.2,1) both;
+  }
+  @supports (backdrop-filter: blur(1px)) {
+    .swc-panel { background: var(--surface); backdrop-filter: blur(28px) saturate(160%); }
+  }
+  @keyframes swcPanelIn { from { opacity: 0; transform: translateY(14px) scale(0.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .swc-panel::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.25s ease;
+    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), var(--spotlight), transparent 60%);
+  }
+  .swc-panel:hover::before { opacity: 1; }
+  @media (max-width: 640px) { .swc-panel { padding: 28px 22px; } }
+
+  .swc-panel-icon { width: 46px; height: 46px; border-radius: 13px; background: var(--surface-2); border: 1px solid var(--border);
+    color: var(--accent); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+  .swc-panel-icon svg { width: 23px; height: 23px; }
+  .swc-h1 { font-family: var(--font-display); font-size: 27px; font-weight: 700; letter-spacing: -0.015em; text-wrap: balance; }
+  .swc-h1-sub { font-size: 14px; color: var(--text-muted); margin-top: 8px; max-width: 52ch; line-height: 1.55; }
+  .swc-optional-tag { display: inline-block; margin-top: 10px; font-size: 11px; letter-spacing: 0.04em; color: var(--warning);
+    border: 1px solid color-mix(in srgb, var(--warning) 55%, transparent); background: color-mix(in srgb, var(--warning) 14%, transparent);
+    border-radius: 999px; padding: 3px 10px; }
+
+  .swc-section { margin-top: 28px; }
+  .swc-section-label { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); margin-bottom: 11px; }
+
+  .swc-fieldrow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .swc-fieldrow { grid-template-columns: 1fr; } }
+  .swc-field-label { font-size: 12px; color: var(--text-faint); margin-bottom: 6px; display: block; }
+  .swc-input, .swc-textarea {
+    width: 100%; font-family: var(--font-body); font-size: 14px; color: var(--text);
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 12px 14px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .swc-input::placeholder, .swc-textarea::placeholder { color: var(--text-faint); }
+  .swc-input:focus, .swc-textarea:focus, button:focus-visible {
+    outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--glow-1);
+  }
+  .swc-textarea { resize: vertical; min-height: 56px; line-height: 1.5; }
+
+  .swc-chiprow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .swc-chip-opt {
+    font-family: var(--font-body); font-size: 13px; padding: 9px 15px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--surface-2); color: var(--text); cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .swc-chip-opt:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+  .swc-chip-opt:active { transform: scale(0.96); }
+  .swc-chip-opt.is-selected { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); box-shadow: 0 0 18px var(--glow-1); }
+
+  .swc-btnrow { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 22px; }
+  .swc-btn {
+    font-family: var(--font-body); font-size: 13.5px; font-weight: 600; padding: 11px 18px; border-radius: 11px;
+    border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px; transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+  }
+  .swc-btn:hover { border-color: var(--border-strong); box-shadow: 0 6px 20px -10px rgba(0,0,0,0.4); transform: translateY(-1px); }
+  .swc-btn:active { transform: translateY(0); }
+  .swc-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); box-shadow: 0 0 24px var(--glow-1); }
+  .swc-btn.primary:hover { filter: brightness(1.08); }
+  .swc-btn.ghost { border-color: transparent; background: none; color: var(--text-muted); padding-left: 4px; padding-right: 4px; box-shadow: none; }
+  .swc-btn.ghost:hover { color: var(--text); text-decoration: underline; box-shadow: none; transform: none; }
+  .swc-btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+  .swc-btn.pulse { animation: swcBtnPulse 2.2s ease-in-out infinite; }
+  @keyframes swcBtnPulse { 0%,100% { box-shadow: 0 0 0 0 var(--glow-1); } 50% { box-shadow: 0 0 0 10px transparent; } }
+
+  .swc-navrow { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; }
+  .swc-navrow .swc-btn.ghost { font-size: 13px; }
+
+  /* ---------- chat-style agent builder ---------- */
+  .swc-chat { display: flex; flex-direction: column; gap: 14px; margin-top: 22px; }
+  .swc-msg { display: flex; gap: 11px; max-width: 92%; animation: swcMsgIn 0.3s ease both; }
+  @keyframes swcMsgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .swc-msg.from-user { align-self: flex-end; flex-direction: row-reverse; }
+  .swc-msg-avatar { width: 30px; height: 30px; border-radius: 9px; flex: none; display: flex; align-items: center; justify-content: center; }
+  .swc-msg.from-cortex .swc-msg-avatar { background: var(--surface-2); color: var(--accent); border: 1px solid var(--border); }
+  .swc-msg.from-user .swc-msg-avatar { background: var(--accent); color: var(--accent-contrast); }
+  .swc-msg-avatar svg { width: 16px; height: 16px; }
+  .swc-bubble { border-radius: 14px; padding: 12px 15px; font-size: 13.5px; line-height: 1.55; }
+  .swc-msg.from-cortex .swc-bubble { background: var(--surface-2); border: 1px solid var(--border); border-top-left-radius: 4px; color: var(--text); }
+  .swc-msg.from-user .swc-bubble { background: var(--accent); color: var(--accent-contrast); border-top-right-radius: 4px; }
+  .swc-typing { display: inline-flex; gap: 4px; padding: 6px 2px; }
+  .swc-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--text-faint); animation: swcBounce 1s ease-in-out infinite; }
+  .swc-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .swc-typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes swcBounce { 0%, 80%, 100% { opacity: 0.3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+  .swc-chatinput { display: flex; gap: 8px; align-items: flex-end; margin-top: 6px; }
+  .swc-chatinput .swc-textarea { min-height: 46px; }
+  .swc-sendbtn { flex: none; width: 44px; height: 44px; border-radius: 11px; background: var(--accent); color: var(--accent-contrast);
+    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: filter 0.15s ease; }
+  .swc-sendbtn:hover { filter: brightness(1.08); }
+  .swc-sendbtn svg { width: 18px; height: 18px; }
+  .swc-agentname-inline { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.08); border: 1px solid var(--border-strong);
+    border-radius: 8px; padding: 3px 8px; margin: 6px 0; }
+  .swc-agentname-inline input { background: none; border: none; color: inherit; font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; width: 170px; }
+  .swc-agentname-inline input:focus { outline: none; }
+
+  /* ---------- match / value stage ---------- */
+  .swc-radarwrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 0 6px; }
+  .swc-radar { position: relative; width: 68px; height: 68px; }
+  .swc-radar span { position: absolute; inset: 0; border: 2px solid var(--accent); border-radius: 50%; opacity: 0; animation: swcPing 1.7s ease-out infinite; }
+  .swc-radar span:nth-child(2) { animation-delay: 0.55s; }
+  .swc-radar span:nth-child(3) { animation-delay: 1.1s; }
+  .swc-radar .swc-radar-core { position: absolute; inset: 22px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 20px var(--glow-1); }
+  @keyframes swcPing { 0% { transform: scale(0.4); opacity: 0.75; } 100% { transform: scale(1.9); opacity: 0; } }
+  .swc-searchcap { font-size: 13px; color: var(--text-muted); }
+
+  .swc-resultcard { border: 1px solid var(--border-strong); border-radius: 15px; padding: 18px; background: var(--surface-2); margin-top: 8px; }
+  .swc-resultcard.is-fresh { animation: swcGlow 1.3s ease; }
+  @keyframes swcGlow { 0% { box-shadow: 0 0 0 0 var(--glow-1); } 65% { box-shadow: 0 0 0 18px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+  .swc-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--accent); color: var(--accent-contrast);
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 14px; flex: none; }
+  .swc-result-head { display: flex; gap: 12px; align-items: center; }
+  .swc-result-name { font-size: 15px; font-weight: 700; }
+  .swc-result-role { font-size: 12.5px; color: var(--text-muted); margin-top: 1px; }
+  .swc-confidence { margin-left: auto; text-align: right; }
+  .swc-confidence .num { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--accent-2); }
+  .swc-confidence .lbl { font-size: 10.5px; color: var(--text-faint); }
+  .swc-whyline { font-size: 12.5px; color: var(--text-muted); border-left: 2px solid var(--accent); padding-left: 10px; margin-top: 13px; }
+
+  .swc-matchline { display: flex; align-items: baseline; gap: 9px; margin-top: 6px; }
+  .swc-matchnum { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--accent-2); font-variant-numeric: tabular-nums; }
+  .swc-matchof { font-size: 12px; color: var(--text-faint); }
+
+  .swc-stage.is-wide { max-width: 860px; }
+
+  /* ---------- account/contact explorer ---------- */
+  .swc-tabbar { display: flex; gap: 6px; margin-top: 4px; }
+  .swc-tab { font-family: var(--font-body); font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface-2); color: var(--text-muted); cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease; }
+  .swc-tab.is-active { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); box-shadow: 0 0 14px var(--glow-1); }
+
+  .swc-explorecard { border: 1px solid var(--border); border-radius: 15px; padding: 18px; background: var(--surface-2); margin-top: 14px; }
+  .swc-mini-kv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 14px; margin-top: 14px; }
+  .swc-mini-kv .k { font-size: 10.5px; color: var(--text-faint); }
+  .swc-mini-kv .v { font-size: 13px; color: var(--text); margin-top: 2px; font-weight: 600; }
+
+  .swc-sparkline { display: flex; align-items: flex-end; gap: 2px; height: 22px; }
+  .swc-sparkline span { width: 5px; background: var(--accent-2); border-radius: 1.5px; opacity: 0.85; display: block; }
+
+  .swc-hiringlist { margin-top: 6px; }
+  .swc-hiringitem { font-size: 12.5px; color: var(--text-muted); padding: 4px 0; }
+
+  .swc-orgchart { display: flex; flex-direction: column; align-items: center; gap: 22px; margin-top: 18px; padding-top: 4px; }
+  .swc-org-tier { display: flex; gap: 20px; }
+  .swc-org-node { position: relative; border: 1px solid var(--border-strong); background: var(--surface); border-radius: 10px; padding: 9px 14px; text-align: center; min-width: 118px; }
+  .swc-org-node::before { content: ""; position: absolute; top: -22px; left: 50%; width: 1px; height: 22px; background: var(--border-strong); }
+  .swc-orgchart > .swc-org-tier:first-child .swc-org-node::before { display: none; }
+  .swc-org-node.is-match { border-color: var(--accent); box-shadow: 0 0 14px var(--glow-1); }
+  .swc-org-name { font-size: 12.5px; font-weight: 700; }
+  .swc-org-role { font-size: 10.5px; color: var(--text-faint); margin-top: 2px; }
+
+  .swc-signalbox { margin-top: 16px; }
+  .swc-signalitem { font-size: 12.5px; color: var(--text-muted); border-left: 2px solid var(--accent-2); padding-left: 9px; margin-top: 8px; animation: swcMsgIn 0.3s ease both; }
+
+  .swc-contact-card { border: 1px solid var(--border); border-radius: 13px; padding: 15px; background: var(--surface-2); margin-top: 12px; }
+  .swc-contact-card:first-child { margin-top: 14px; }
+  .swc-contact-top { display: flex; align-items: center; gap: 10px; }
+  .swc-contact-name { font-size: 13.5px; font-weight: 700; }
+  .swc-contact-title { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .swc-seniority { margin-left: auto; font-size: 10px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border-strong); color: var(--text-muted); white-space: nowrap; }
+
+  .swc-enrichrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); margin-top: 9px; }
+  .swc-enrichval { font-family: var(--font-mono); font-size: 12.5px; color: var(--text); }
+  .swc-enrichval.is-masked { color: var(--text-faint); letter-spacing: 0.4px; }
+
+  .swc-msgbox { margin-top: 12px; border: 1px solid var(--border); border-radius: 11px; padding: 12px 14px; background: var(--surface); font-size: 12.5px; line-height: 1.6; color: var(--text-muted); min-height: 22px; }
+
+  .swc-dropzone { display: block; border: 1.5px dashed var(--border-strong); border-radius: 14px; padding: 22px; text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 10px; transition: border-color 0.15s ease, background 0.15s ease; cursor: pointer; }
+  .swc-dropzone:hover { border-color: var(--accent); background: var(--surface-2); }
+  .swc-dropzone .fname { color: var(--accent-2); font-family: var(--font-mono); font-size: 12px; }
+  .swc-dropzone input[type=file] { display: none; }
+
+  /* ---------- crm ---------- */
+  .swc-crmgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 9px; margin-top: 8px; }
+  .swc-crmtile { border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 9px; background: var(--surface-2); }
+  .swc-crmtile-top { display: flex; align-items: center; gap: 9px; }
+  .swc-crm-mono { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-weight: 700; font-size: 10px; background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); flex: none; }
+  .swc-crm-name { font-size: 12.5px; font-weight: 600; }
+  .swc-crm-status { font-size: 10.5px; color: var(--text-faint); }
+  .swc-crm-status.on { color: var(--accent-2); }
+
+  .swc-deferlist { display: flex; flex-direction: column; margin-top: 6px; }
+  .swc-defer-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .swc-defer-row:last-child { border-bottom: none; }
+  .swc-defer-name { font-size: 13.5px; font-weight: 600; }
+  .swc-defer-sub { font-size: 12px; color: var(--text-faint); margin-top: 2px; }
+
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+</style>
+
+<div class="swc-root" id="swcRoot">
+  <div class="swc-canvas"><div class="swc-glow g1"></div><div class="swc-glow g2"></div></div>
+  <div class="swc-shell">
+    <header class="swc-hdr">
+      <div class="swc-brand">Sprouts<span>.ai</span></div>
+      <div class="swc-hdr-spacer"></div>
+      <div class="swc-dots" id="swcDots"></div>
+      <div class="swc-hdr-spacer"></div>
+      <div class="swc-credits" id="swcCredits">★ <b id="swcCreditsNum">0</b></div>
+      <button class="swc-exit" id="swcExit">Save &amp; exit</button>
+    </header>
+    <div class="swc-stagewrap">
+      <div class="swc-stage" id="swcStage"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var ICONS = {
+    person: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="7" r="3"/><path d="M4 17c0-3 2.7-5 6-5s6 2 6 5"/></svg>',
+    compass: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><path d="M12.6 7.4 9 9 7.4 12.6 11 11z"/></svg>',
+    spark: '<svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2 11.4 8.2 17.5 9.6 11.4 11 10 17.2 8.6 11 2.5 9.6 8.6 8.2Z"/></svg>',
+    target: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="3"/><circle cx="10" cy="10" r="0.7" fill="currentColor" stroke="none"/></svg>',
+    sliders: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 6h14M3 10h14M3 14h14"/><circle cx="7" cy="6" r="1.6" fill="var(--surface-solid)"/><circle cx="13" cy="10" r="1.6" fill="var(--surface-solid)"/><circle cx="8" cy="14" r="1.6" fill="var(--surface-solid)"/></svg>',
+    link: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.2" y="6" width="8" height="8" rx="3.2"/><rect x="9.8" y="6" width="8" height="8" rx="3.2"/></svg>',
+    check: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><path d="M6.5 10.3 9 12.8 14 7.5"/></svg>',
+    badge: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="12" height="14" rx="2.2"/><circle cx="10" cy="9" r="2"/><path d="M7 15h6"/></svg>',
+    layout: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="14" height="14" rx="2.2"/><path d="M8 3v14"/></svg>',
+    send: '<svg viewBox="0 0 20 20" fill="currentColor"><path d="M2.5 10 17 3l-5.4 15-2.6-6.2z"/></svg>'
+  };
+
+  var STAGES = [
+    { id: 1, key: "signup", title: "Create your account", icon: "person" },
+    { id: 2, key: "firstrun", title: "Set up your workspace", icon: "compass" },
+    { id: 3, key: "agent", title: "Build your first agent", icon: "spark" },
+    { id: 4, key: "value", title: "Your first match", icon: "target" },
+    { id: 5, key: "configure", title: "Explore more", icon: "sliders" }
+  ];
+  var STAGE_COUNT = STAGES.length;
+
+  var ROLE_OPTIONS = ["SDR / BDR", "Account Executive", "Marketing", "Sales Leader", "Founder / CEO", "RevOps", "IT / Security", "Customer Success"];
+  var OBJECTIVE_OPTIONS = ["Discover (Search)", "Signals (Monitoring)", "Enrich", "Account Intelligence"];
+  var ICP_CHIPS = ["Series B+ SaaS", "500+ employees", "Recently raised funding", "Hiring for RevOps", "North America", "Uses Salesforce"];
+  var CRMS = [
+    { code: "SF", name: "Salesforce" }, { code: "HS", name: "HubSpot" }, { code: "D365", name: "Dynamics 365" },
+    { code: "ZO", name: "Zoho" }, { code: "PD", name: "Pipedrive" }
+  ];
+  var DEFER_ITEMS = [
+    { name: "Enrichment sources", sub: "Choose which data providers feed your results, and in what order" },
+    { name: "CRM field mapping", sub: "Match Sprouts fields to your CRM's custom objects" },
+    { name: "Team roles & permissions", sub: "Seats, access tiers, approval flows" },
+    { name: "Saved signals", sub: "Manage and share saved searches across your team" },
+    { name: "Billing & credits", sub: "Plan, usage, and overage alerts" }
+  ];
+  var ACCOUNT = {
+    name: "Northwind Analytics", industry: "B2B SaaS · Data Analytics", employees: 640, hq: "Austin, TX", founded: 2018,
+    growth: "+18% YoY", growthBars: [3, 4, 5, 6, 8, 10],
+    hiring: ["Senior Data Analyst — posted 2 days ago", "RevOps Manager — posted 6 days ago", "Growth Marketing Lead — posted 12 days ago"]
+  };
+  var AI_SIGNALS = [
+    "Recently added a VP RevOps hire, often a trigger for new tooling evaluation.",
+    "3 open roles reference “Salesforce” explicitly, indicating active CRM investment.",
+    "Headcount growth outpaces the industry median by roughly 2.4x this quarter."
+  ];
+  var CONTACTS = [
+    { id: "mk", name: "Maren Kessler", title: "VP RevOps", seniority: "Senior", email: "maren.kessler@northwindanalytics.com", phone: "+1 (512) 555-0148" },
+    { id: "ov", name: "Owen Vance", title: "Sales Ops Manager", seniority: "Mid-level", email: "owen.vance@northwindanalytics.com", phone: "+1 (512) 555-0172" }
+  ];
+  var HPM_TEMPLATES = [
+    { id: "intro", label: "Cold intro" },
+    { id: "signal", label: "Signal-based" },
+    { id: "followup", label: "Follow-up" }
+  ];
+  function hpmMessage(contact, templateId) {
+    var first = contact.name.split(" ")[0];
+    if (templateId === "signal") return "Hi " + first + ", saw Northwind Analytics just posted for a RevOps Manager, usually a sign the current stack is getting stretched. We help teams like yours enrich and route account data automatically. Open to comparing notes?";
+    if (templateId === "followup") return "Hi " + first + ", following up in case this got buried, would love 15 minutes to show how we've helped similar RevOps teams cut manual enrichment work.";
+    return "Hi " + first + ", noticed Northwind Analytics has been scaling RevOps fast, 3 open roles in the last month alone. Curious how you're handling data quality across that growth. Worth a quick chat?";
+  }
+  function initials(name) { return name.split(" ").map(function (p) { return p[0]; }).join("").slice(0, 2).toUpperCase(); }
+
+  var state = {
+    stage: 1, name: "", role: null, objective: null,
+    crm: {}, crmGridOpen: false,
+    icpText: "", icpDraft: "", icpChipsUsed: {}, icpSubmitted: false, agentReplyShown: false,
+    agentName: "", agentSaved: false,
+    valueSearching: false, valueRevealed: false, pushedToCrm: false, previewOnly: false,
+    matchTab: "accounts", signalsGenerating: false, signalsShown: false, orgOpen: false,
+    enrichedEmail: {}, enrichedPhone: {}, hpmTemplate: {}, hpmText: {}, hpmGenerating: {}, outreachSent: {}, csvFileName: "",
+    credits: 0, completed: {}
+  };
+  STAGES.forEach(function (s) { state.completed[s.key] = {}; });
+
+  function firstName() { return (state.name || "").trim().split(" ")[0]; }
+  function greeting() { var h = new Date().getHours(); return h < 12 ? "Good morning" : (h < 18 ? "Good afternoon" : "Good evening"); }
+  function suggestAgentName() {
+    var roleWord = state.role ? state.role.split(" ")[0] : "";
+    var prefix = roleWord ? (roleWord + "’s") : "Your";
+    var picked = Object.keys(state.icpChipsUsed).filter(function (k) { return state.icpChipsUsed[k]; });
+    var theme = picked.length ? picked[picked.length - 1].replace(/[^a-zA-Z0-9+ ]/g, "") : "Account";
+    if (roleWord && theme.toLowerCase().indexOf(roleWord.toLowerCase()) !== -1) return theme + " Agent";
+    return prefix + " " + theme + " Agent";
+  }
+
+  var TOTAL_ITEMS = { signup: 2, firstrun: 2, agent: 2, value: 1, configure: 0 };
+  function markDone(k, id) { state.completed[k][id] = true; }
+  function unmarkDone(k, id) { delete state.completed[k][id]; }
+  function stageProgress(key) {
+    var total = TOTAL_ITEMS[key]; if (!total) return 0;
+    return Math.min(1, Object.keys(state.completed[key]).length / total);
+  }
+  function addCredits(n) {
+    state.credits += n;
+    var el = document.getElementById("swcCreditsNum"); if (el) el.textContent = state.credits;
+    var wrap = document.getElementById("swcCredits");
+    if (wrap) { wrap.classList.remove("swc-pop"); void wrap.offsetWidth; wrap.classList.add("swc-pop"); }
+  }
+  function computeMatch() {
+    var base = 43600000, reduction = 1;
+    var terms = (state.icpText || "").trim().length > 0 ? 1 : 0;
+    var chipCount = Object.keys(state.icpChipsUsed).filter(function (k) { return state.icpChipsUsed[k]; }).length;
+    var n = terms + chipCount;
+    for (var i = 0; i < n; i++) reduction *= 0.42;
+    return Math.max(180, Math.round(base * reduction));
+  }
+  function animateNumber(el, to, opts) {
+    if (!el) return;
+    opts = opts || {}; var suffix = opts.suffix || "", duration = opts.duration || 500;
+    var from = parseFloat((el.textContent || "0").replace(/[^0-9.\-]/g, "")) || 0;
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / duration), eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(from + (to - from) * eased).toLocaleString() + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  function typeText(el, text, speed, onDone) {
+    el.textContent = ""; var i = 0;
+    (function step() {
+      if (i <= text.length) { el.textContent = text.slice(0, i); i++; setTimeout(step, speed); }
+      else if (onDone) onDone();
+    })();
+  }
+
+  /* ---------------- DOTS ---------------- */
+  function renderDots() {
+    var wrap = document.getElementById("swcDots");
+    wrap.innerHTML = STAGES.map(function (s) {
+      var done = s.key !== "configure" && stageProgress(s.key) >= 1 && s.id < state.stage;
+      var isCurrent = s.id === state.stage;
+      var cls = isCurrent ? "is-current" : (done ? "is-done" : "");
+      return '<button class="swc-dot ' + cls + '" data-stage="' + s.id + '" aria-label="' + s.title + '"></button>';
+    }).join("");
+    wrap.querySelectorAll(".swc-dot").forEach(function (d) {
+      d.addEventListener("click", function () { goToStage(parseInt(d.dataset.stage, 10)); });
+    });
+  }
+
+  /* ---------------- PANEL SHELL ---------------- */
+  function panelOpen(stage, opts) {
+    opts = opts || {};
+    var html = '<div class="swc-panel" id="swcPanel">' +
+      '<div class="swc-panel-icon">' + ICONS[stage.icon] + '</div>' +
+      '<div class="swc-h1">' + stage.title + '</div>' +
+      '<div class="swc-h1-sub">' + opts.sub + '</div>' +
+      (opts.optional ? '<div class="swc-optional-tag">Optional — come back anytime</div>' : '');
+    return html;
+  }
+  function panelClose() { return '</div>'; }
+  function section(labelHtml, bodyHtml) {
+    return '<div class="swc-section">' + (labelHtml ? '<div class="swc-section-label">' + labelHtml + '</div>' : '') + bodyHtml + '</div>';
+  }
+  function navRow() {
+    return '<div class="swc-navrow">' +
+      '<button class="swc-btn ghost" id="swcBackBtn" ' + (state.stage === 1 ? "disabled" : "") + '>← Back</button>' +
+      '<button class="swc-btn primary" id="swcNextBtn">' + (state.stage === STAGE_COUNT ? "Finish setup ✓" : "Continue →") + '</button>' +
+    '</div>';
+  }
+
+  /* ---------------- STAGE RENDERERS ---------------- */
+  var RENDERERS = {
+    signup: function () {
+      var s = STAGES[0];
+      return panelOpen(s, { sub: greeting() + " — let's get your workspace set up. No credit card required." }) +
+        section("Your work account",
+          '<div class="swc-fieldrow">' +
+            '<div><label class="swc-field-label">Your name</label><input class="swc-input" id="swcName" type="text" placeholder="Jordan Lee" value="' + state.name + '" /></div>' +
+            '<div><label class="swc-field-label">Work email</label><input class="swc-input" id="swcEmail" type="email" placeholder="you@company.com" /></div>' +
+          '</div>' +
+          '<div class="swc-btnrow">' +
+            '<button class="swc-btn" data-sso="google">Continue with Google</button>' +
+            '<button class="swc-btn" data-sso="okta">SSO / SAML</button>' +
+          '</div>') +
+        section("What&#8217;s your role?",
+          '<p style="margin:0 0 10px;color:var(--text-muted);">We&#8217;ll tailor your dashboard and suggestions to match.</p>' +
+          '<div class="swc-chiprow" id="swcRoleChips">' +
+          ROLE_OPTIONS.map(function (r) { return '<button class="swc-chip-opt ' + (state.role === r ? "is-selected" : "") + '" data-role="' + r + '">' + r + '</button>'; }).join("") +
+          '</div>') +
+        navRow() + panelClose();
+    },
+
+    firstrun: function () {
+      var s = STAGES[1]; var fn = firstName();
+      return panelOpen(s, { sub: fn ? ("Nice to meet you, " + fn + ". A couple of quick questions to personalize things.") : "A couple of quick questions to personalize things." }) +
+        section("What brought you here?",
+          '<p style="margin:0 0 10px;color:var(--text-muted);">Pick what you&#8217;d like to do first. Everything else stays one click away.</p>' +
+          '<div class="swc-chiprow" id="swcObjChips">' +
+          OBJECTIVE_OPTIONS.map(function (o) { return '<button class="swc-chip-opt ' + (state.objective === o ? "is-selected" : "") + '" data-obj="' + o + '">' + o + '</button>'; }).join("") +
+          '</div>') +
+        section("Your workspace",
+          '<label class="swc-field-label">Based on your role and company — edit anytime</label>' +
+          '<input class="swc-input" id="swcWorkspace" value="Enterprise SaaS · Mid-Market · RevOps-led motion" />') +
+        navRow() + panelClose();
+    },
+
+    agent: function () {
+      var s = STAGES[2]; var fn = firstName();
+      var chatHtml = '<div class="swc-chat" id="swcChat">' +
+        '<div class="swc-msg from-cortex"><div class="swc-msg-avatar">' + ICONS.spark + '</div>' +
+          '<div class="swc-bubble" id="swcIntroBubble"></div></div>';
+      if (state.icpSubmitted) {
+        chatHtml += '<div class="swc-msg from-user"><div class="swc-msg-avatar">' + (fn ? fn[0].toUpperCase() : "?") + '</div>' +
+          '<div class="swc-bubble">' + escapeHtml(state.icpText) + '</div></div>';
+        if (!state.agentReplyShown) {
+          chatHtml += '<div class="swc-msg from-cortex"><div class="swc-msg-avatar">' + ICONS.spark + '</div>' +
+            '<div class="swc-bubble"><span class="swc-typing"><span></span><span></span><span></span></span></div></div>';
+        } else {
+          var matched = computeMatch();
+          var nameVal = state.agentName || suggestAgentName();
+          chatHtml += '<div class="swc-msg from-cortex"><div class="swc-msg-avatar">' + ICONS.spark + '</div>' +
+            '<div class="swc-bubble">Found it — about <span class="swc-matchnum" id="swcMatchNum" style="font-size:14px;">' + matched.toLocaleString() + '</span> accounts match so far. I&#8217;ll call this ' +
+              '<span class="swc-agentname-inline"><input id="swcAgentNameInput" value="' + nameVal + '" /></span>' +
+              ' unless you&#8217;d rather rename it — sound good?' +
+              '<div class="swc-btnrow" style="margin-top:12px;"><button class="swc-btn primary" id="swcSaveAgent">' + (state.agentSaved ? "Activated ✓" : "Activate agent") + '</button>' +
+              '<button class="swc-btn ghost" id="swcEditIcp">Change my answer</button></div>' +
+            '</div></div>';
+        }
+      } else {
+        chatHtml += '<div class="swc-chatinput">' +
+          '<textarea class="swc-textarea" id="swcIcpText" placeholder="e.g. Series B+ SaaS companies, 500+ employees, hiring for RevOps, already on Salesforce...">' + state.icpDraft + '</textarea>' +
+          '<button class="swc-sendbtn" id="swcSendIcp" aria-label="Send">' + ICONS.send + '</button>' +
+        '</div>' +
+        '<div class="swc-chiprow" id="swcIcpChips">' +
+          ICP_CHIPS.map(function (c) { return '<button class="swc-chip-opt ' + (state.icpChipsUsed[c] ? "is-selected" : "") + '" data-icpchip="' + c + '">' + c + '</button>'; }).join("") +
+        '</div>';
+      }
+      chatHtml += '</div>';
+      return panelOpen(s, { sub: fn ? ("Ok " + fn + ", chat with Cortex below — rough ideas are fine.") : "Chat with Cortex below — rough ideas are fine." }) +
+        chatHtml + navRow() + panelClose();
+    },
+
+    value: function () {
+      var s = STAGES[3];
+      var body;
+      if (state.valueSearching) {
+        body = '<div class="swc-radarwrap"><div class="swc-radar"><span></span><span></span><span></span><div class="swc-radar-core"></div></div>' +
+          '<div class="swc-searchcap">Looking across 43.6M accounts…</div></div>';
+      } else if (!state.valueRevealed) {
+        body = '<p style="color:var(--text-muted);">Run ' + (state.agentName || "your agent") + ' against live data to see a real result.</p>' +
+          '<div class="swc-btnrow"><button class="swc-btn primary pulse" id="swcRevealBtn">Run agent</button></div>';
+      } else {
+        body = matchCardHtml() + exploreSectionHtml() + agentsLibraryTeaserHtml() + csvImportHtml() + crmInlineHtml();
+      }
+      return panelOpen(s, { sub: "A real result from " + (state.agentName || "your new agent") + ", ready to use." }) + body + navRow() + panelClose();
+    },
+
+    configure: function () {
+      var s = STAGES[4];
+      var body = section("More settings",
+        '<div class="swc-deferlist">' + crmRowHtml() +
+        DEFER_ITEMS.map(function (d) {
+          return '<div class="swc-defer-row"><div><div class="swc-defer-name">' + d.name + '</div><div class="swc-defer-sub">' + d.sub + '</div></div>' +
+            '<button class="swc-btn ghost">Configure →</button></div>';
+        }).join("") + '</div>');
+      return panelOpen(s, { sub: "Nothing here was required to get your first match — it all stays available.", optional: true }) +
+        body + '<p style="margin-top:22px;color:var(--text-muted);">' + closingCopy() + '</p>' + navRow() + panelClose();
+    }
+  };
+
+  function crmInlineHtml() {
+    if (Object.values(state.crm).some(Boolean)) {
+      return '<div class="swc-section"><div class="swc-btnrow" style="margin-top:0;"><button class="swc-btn primary" id="swcPushBtn">' +
+        (state.pushedToCrm ? "Synced to CRM ✓" : "Push to CRM") + '</button></div>' +
+        '<p style="margin-top:10px;color:var(--text-muted);font-size:13px;">Your connected CRM is ready to receive this record.</p></div>';
+    }
+    if (state.previewOnly) return '<p style="margin-top:16px;color:var(--text-muted);font-size:13px;">Kept as a preview for now — connect a CRM anytime from Explore more.</p>';
+    return '<div class="swc-section"><div class="swc-section-label">Keep it in sync</div>' +
+      '<p style="margin:0 0 10px;color:var(--text-muted);font-size:13px;">Want this synced automatically next time?</p>' +
+      '<div class="swc-btnrow" style="margin-top:0;">' +
+        '<button class="swc-btn" data-quickcrm="SF">Connect Salesforce</button>' +
+        '<button class="swc-btn" data-quickcrm="HS">Connect HubSpot</button>' +
+      '</div>' +
+      '<button class="swc-btn ghost" id="swcPreviewOnlyBtn" style="margin-top:6px;">Just preview it for now →</button></div>';
+  }
+  function crmRowHtml() {
+    var n = Object.values(state.crm).filter(Boolean).length;
+    return '<div class="swc-defer-row"><div><div class="swc-defer-name">Connect your CRM</div>' +
+        '<div class="swc-defer-sub">' + (n ? n + " of 5 connected" : "Sync automatically with the tools you use") + '</div></div>' +
+        '<button class="swc-btn ghost" id="swcCrmToggle">' + (state.crmGridOpen ? "Hide" : "Manage →") + '</button></div>' +
+      (state.crmGridOpen ? '<div class="swc-crmgrid">' + CRMS.map(crmTileHtml).join("") + '</div>' : "");
+  }
+  function crmTileHtml(c) {
+    var on = !!state.crm[c.code];
+    return '<div class="swc-crmtile"><div class="swc-crmtile-top"><div class="swc-crm-mono">' + c.code + '</div>' +
+      '<div><div class="swc-crm-name">' + c.name + '</div><div class="swc-crm-status ' + (on ? "on" : "") + '">' + (on ? "Connected" : "Not connected") + '</div></div></div>' +
+      '<button class="swc-btn" data-crmconnect="' + c.code + '" style="justify-content:center;">' + (on ? "Disconnect" : "Connect") + '</button></div>';
+  }
+  function matchCardHtml() {
+    return '<div class="swc-resultcard" id="swcResultCard">' +
+      '<div class="swc-result-head"><div class="swc-avatar">MK</div>' +
+      '<div><div class="swc-result-name">Maren Kessler</div><div class="swc-result-role">VP RevOps · Northwind Analytics</div></div>' +
+      '<div class="swc-confidence"><div class="num">92%</div><div class="lbl">Match confidence</div></div></div>' +
+      '<div class="swc-whyline">Matched: Series C SaaS · 640 employees · posted 3 open RevOps roles in the last 30 days · already on Salesforce.</div>' +
+    '</div>';
+  }
+
+  function exploreSectionHtml() {
+    return '<div class="swc-section"><div class="swc-section-label">See the full picture</div>' +
+      '<div class="swc-tabbar">' +
+        '<button class="swc-tab ' + (state.matchTab === "accounts" ? "is-active" : "") + '" data-tab="accounts">Accounts</button>' +
+        '<button class="swc-tab ' + (state.matchTab === "contacts" ? "is-active" : "") + '" data-tab="contacts">Contacts</button>' +
+      '</div>' +
+      (state.matchTab === "accounts" ? accountsTabHtml() : contactsTabHtml()) +
+    '</div>';
+  }
+
+  function accountsTabHtml() {
+    return '<div class="swc-explorecard">' +
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">' +
+        '<div><div style="font-weight:700;font-size:14px;">' + ACCOUNT.name + '</div>' +
+        '<div style="font-size:12px;color:var(--text-faint);margin-top:2px;">' + ACCOUNT.industry + '</div></div>' +
+        '<button class="swc-btn ghost" id="swcOrgToggle">' + (state.orgOpen ? "Hide org chart" : "View org chart →") + '</button>' +
+      '</div>' +
+      '<div class="swc-mini-kv">' +
+        '<div><div class="k">Employees</div><div class="v">' + ACCOUNT.employees + '</div></div>' +
+        '<div><div class="k">HQ</div><div class="v">' + ACCOUNT.hq + '</div></div>' +
+        '<div><div class="k">Founded</div><div class="v">' + ACCOUNT.founded + '</div></div>' +
+      '</div>' +
+      '<div style="margin-top:16px;display:flex;align-items:center;gap:12px;">' +
+        '<div class="swc-sparkline">' + ACCOUNT.growthBars.map(function (h) { return '<span style="height:' + (h * 2) + 'px;"></span>'; }).join("") + '</div>' +
+        '<div><div style="font-size:13px;color:var(--accent-2);font-weight:700;">' + ACCOUNT.growth + '</div><div style="font-size:11px;color:var(--text-faint);">headcount growth</div></div>' +
+      '</div>' +
+      '<div class="swc-hiringlist"><div class="swc-field-label" style="margin-top:14px;">Hiring signals</div>' +
+        ACCOUNT.hiring.map(function (h) { return '<div class="swc-hiringitem">• ' + h + '</div>'; }).join("") +
+      '</div>' +
+      (state.orgOpen ? orgChartHtml() : "") +
+      aiSignalsHtml() +
+    '</div>';
+  }
+
+  function orgChartHtml() {
+    return '<div class="swc-orgchart">' +
+      '<div class="swc-org-tier"><div class="swc-org-node"><div class="swc-org-name">Dana Whitfield</div><div class="swc-org-role">CEO</div></div></div>' +
+      '<div class="swc-org-tier">' +
+        '<div class="swc-org-node is-match"><div class="swc-org-name">Maren Kessler</div><div class="swc-org-role">VP RevOps</div></div>' +
+        '<div class="swc-org-node"><div class="swc-org-name">Priya Natarajan</div><div class="swc-org-role">VP Sales</div></div>' +
+      '</div>' +
+      '<div class="swc-org-tier"><div class="swc-org-node"><div class="swc-org-name">Owen Vance</div><div class="swc-org-role">Sales Ops Manager</div></div></div>' +
+    '</div>';
+  }
+
+  function aiSignalsHtml() {
+    if (state.signalsGenerating) return '<div class="swc-signalbox"><span class="swc-typing"><span></span><span></span><span></span></span></div>';
+    if (state.signalsShown) return '<div class="swc-signalbox">' + AI_SIGNALS.map(function (s) { return '<div class="swc-signalitem">' + s + '</div>'; }).join("") + '</div>';
+    return '<div class="swc-btnrow" style="margin-top:16px;"><button class="swc-btn" id="swcGenSignals">Generate AI signals</button></div>';
+  }
+
+  function contactsTabHtml() {
+    return '<div>' + CONTACTS.map(contactCardHtml).join("") + '</div>';
+  }
+  function contactCardHtml(c) {
+    var emailShown = !!state.enrichedEmail[c.id];
+    var phoneShown = !!state.enrichedPhone[c.id];
+    var maskedEmail = c.email.replace(/^(.)[^@]*(@.*)$/, "$1***$2");
+    var maskedPhone = c.phone.replace(/\d(?=(\D*\d){4})/g, "•");
+    var tmpl = state.hpmTemplate[c.id] || "intro";
+    var hpmShown = !!state.hpmText[c.id];
+    var hpmLoading = !!state.hpmGenerating[c.id];
+    var sent = state.outreachSent[c.id] || {};
+    return '<div class="swc-contact-card" data-contact="' + c.id + '">' +
+      '<div class="swc-contact-top"><div class="swc-avatar" style="width:34px;height:34px;font-size:12px;">' + initials(c.name) + '</div>' +
+      '<div><div class="swc-contact-name">' + c.name + '</div><div class="swc-contact-title">' + c.title + '</div></div>' +
+      '<div class="swc-seniority">' + c.seniority + '</div></div>' +
+
+      '<div class="swc-enrichrow"><span style="font-size:12px;color:var(--text-faint);">Email</span>' +
+        '<span>' + (emailShown ? '<span class="swc-enrichval">' + c.email + '</span>' :
+          '<span class="swc-enrichval is-masked">' + maskedEmail + '</span> <button class="swc-btn ghost" data-enrich="email" data-cid="' + c.id + '" style="padding:0 0 0 6px;">Enrich</button>') + '</span></div>' +
+
+      '<div class="swc-enrichrow"><span style="font-size:12px;color:var(--text-faint);">Phone</span>' +
+        '<span>' + (phoneShown ? '<span class="swc-enrichval">' + c.phone + '</span>' :
+          '<span class="swc-enrichval is-masked">' + maskedPhone + '</span> <button class="swc-btn ghost" data-enrich="phone" data-cid="' + c.id + '" style="padding:0 0 0 6px;">Enrich</button>') + '</span></div>' +
+
+      '<div class="swc-section" style="margin-top:14px;">' +
+        '<div class="swc-field-label">Outreach message</div>' +
+        '<div class="swc-chiprow">' + HPM_TEMPLATES.map(function (t) {
+          return '<button class="swc-chip-opt ' + (tmpl === t.id ? "is-selected" : "") + '" data-hpmtmpl="' + t.id + '" data-cid="' + c.id + '" style="padding:5px 11px;font-size:12px;">' + t.label + '</button>';
+        }).join("") + '</div>' +
+        '<div class="swc-msgbox">' + (hpmLoading ? '<span class="swc-typing"><span></span><span></span><span></span></span>' :
+          (hpmShown ? escapeHtml(state.hpmText[c.id]) : '<span style="color:var(--text-faint);">No message generated yet.</span>')) + '</div>' +
+        '<div class="swc-btnrow" style="margin-top:10px;">' +
+          '<button class="swc-btn" data-hpmgen="1" data-cid="' + c.id + '">' + (hpmShown ? "Regenerate" : "Generate HPM message") + '</button>' +
+          '<button class="swc-btn" data-outreach="email" data-cid="' + c.id + '" ' + (!hpmShown ? "disabled" : "") + '>' + (sent.email ? "Queued via Email ✓" : "Send via Email") + '</button>' +
+          '<button class="swc-btn" data-outreach="linkedin" data-cid="' + c.id + '" ' + (!hpmShown ? "disabled" : "") + '>' + (sent.linkedin ? "Queued via LinkedIn ✓" : "Send via LinkedIn") + '</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function agentsLibraryTeaserHtml() {
+    return '<div class="swc-section"><div class="swc-explorecard" style="display:flex;align-items:center;gap:14px;">' +
+      '<div class="swc-panel-icon" style="margin-bottom:0;">' + ICONS.spark + '</div>' +
+      '<div style="flex:1;"><div style="font-weight:700;font-size:13.5px;">Prefer to automate all of this?</div>' +
+      '<div style="font-size:12.5px;color:var(--text-muted);margin-top:3px;">Enrichment, messaging and outreach can all run on their own once you\'re past setup. Explore the Agents Library any time.</div></div>' +
+      '<button class="swc-btn ghost" style="white-space:nowrap;">Explore →</button>' +
+    '</div></div>';
+  }
+
+  function csvImportHtml() {
+    return '<div class="swc-section"><div class="swc-section-label">Bring your own data</div>' +
+      '<label class="swc-dropzone" for="swcCsvInput">' +
+        (state.csvFileName ? ('Selected: <span class="fname">' + escapeHtml(state.csvFileName) + '</span> — we\'ll enrich these the same way') :
+          "Drag &amp; drop a CSV, or click to upload your own accounts and contacts. We'll enrich them the same way.") +
+        '<input type="file" id="swcCsvInput" accept=".csv" />' +
+      '</label></div>';
+  }
+
+  function closingCopy() {
+    var fn = firstName(), agent = state.agentName || "Your agent";
+    return (fn ? ("Nice work, " + fn + ".") : "Nice work.") + " " + agent + " is live and watching. Come back anytime — none of this goes away.";
+  }
+  function escapeHtml(t) { var d = document.createElement("div"); d.textContent = t; return d.innerHTML; }
+
+  /* ---------------- MOUNT + WIRE ---------------- */
+  function renderStage() {
+    var key = STAGES[state.stage - 1].key;
+    var stageEl = document.getElementById("swcStage");
+    stageEl.classList.toggle("is-wide", key === "value");
+    stageEl.innerHTML = RENDERERS[key]();
+    wireSpotlight();
+    wireNav();
+    wireStage(key);
+    renderDots();
+  }
+
+  function wireSpotlight() {
+    var panel = document.getElementById("swcPanel");
+    if (!panel) return;
+    panel.addEventListener("mousemove", function (e) {
+      var r = panel.getBoundingClientRect();
+      panel.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      panel.style.setProperty("--my", (e.clientY - r.top) + "px");
+    });
+  }
+  function wireNav() {
+    var back = document.getElementById("swcBackBtn"), next = document.getElementById("swcNextBtn");
+    if (back) back.addEventListener("click", function () { if (state.stage > 1) goToStage(state.stage - 1); });
+    if (next) next.addEventListener("click", function () { if (state.stage < STAGE_COUNT) goToStage(state.stage + 1); });
+  }
+
+  function wireStage(key) {
+    if (key === "signup") {
+      var introTyped = state._signupIntroDone;
+      document.querySelectorAll("[data-sso]").forEach(function (b) {
+        b.addEventListener("click", function () { markDone("signup", "email"); refreshChrome(); });
+      });
+      var nameInput = document.getElementById("swcName");
+      nameInput.addEventListener("input", function () { state.name = nameInput.value; });
+      var emailInput = document.getElementById("swcEmail");
+      emailInput.addEventListener("input", function () {
+        if (emailInput.value.includes("@")) markDone("signup", "email"); else unmarkDone("signup", "email");
+        refreshChrome();
+      });
+      document.querySelectorAll("[data-role]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          state.role = b.dataset.role;
+          document.querySelectorAll("[data-role]").forEach(function (x) { x.classList.remove("is-selected"); });
+          b.classList.add("is-selected");
+          markDone("signup", "role"); refreshChrome();
+        });
+      });
+    }
+
+    if (key === "firstrun") {
+      document.querySelectorAll("[data-obj]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          state.objective = b.dataset.obj;
+          document.querySelectorAll("[data-obj]").forEach(function (x) { x.classList.remove("is-selected"); });
+          b.classList.add("is-selected");
+          markDone("firstrun", "objective"); refreshChrome();
+        });
+      });
+      document.getElementById("swcWorkspace").addEventListener("input", function () { markDone("firstrun", "workspace"); refreshChrome(); });
+    }
+
+    if (key === "agent") {
+      var introBubble = document.getElementById("swcIntroBubble");
+      if (introBubble) {
+        if (state._agentIntroTyped) introBubble.textContent = introMsg();
+        else { typeText(introBubble, introMsg(), 14); state._agentIntroTyped = true; }
+      }
+      var icpBox = document.getElementById("swcIcpText");
+      if (icpBox) icpBox.addEventListener("input", function () { state.icpDraft = icpBox.value; });
+      document.querySelectorAll("[data-icpchip]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var c = b.dataset.icpchip;
+          state.icpChipsUsed[c] = !state.icpChipsUsed[c];
+          b.classList.toggle("is-selected");
+          if (icpBox && !icpBox.value.trim()) icpBox.value = Object.keys(state.icpChipsUsed).filter(function (k) { return state.icpChipsUsed[k]; }).join(", ");
+          state.icpDraft = icpBox ? icpBox.value : state.icpDraft;
+        });
+      });
+      var send = document.getElementById("swcSendIcp");
+      if (send) send.addEventListener("click", submitIcp);
+      if (icpBox) icpBox.addEventListener("keydown", function (e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submitIcp(); } });
+
+      var agentNameInput = document.getElementById("swcAgentNameInput");
+      if (agentNameInput) agentNameInput.addEventListener("input", function () { state.agentName = agentNameInput.value; });
+      var editIcp = document.getElementById("swcEditIcp");
+      if (editIcp) editIcp.addEventListener("click", function () { state.icpSubmitted = false; state.agentReplyShown = false; renderStage(); });
+      var save = document.getElementById("swcSaveAgent");
+      if (save) save.addEventListener("click", function () {
+        if (!state.agentName && agentNameInput) state.agentName = agentNameInput.value;
+        if (!state.agentSaved) { state.agentSaved = true; markDone("agent", "save"); addCredits(75); }
+        renderStage();
+      });
+    }
+
+    if (key === "value") {
+      var reveal = document.getElementById("swcRevealBtn");
+      if (reveal) reveal.addEventListener("click", function () {
+        state.valueSearching = true; renderStage();
+        setTimeout(function () {
+          state.valueSearching = false; state.valueRevealed = true;
+          markDone("value", "revealed"); addCredits(100);
+          renderStage(); refreshChrome();
+          var fresh = document.getElementById("swcResultCard");
+          if (fresh) { fresh.classList.add("is-fresh"); setTimeout(function () { fresh.classList.remove("is-fresh"); }, 1300); }
+          var numEl = fresh ? fresh.querySelector(".swc-confidence .num") : null;
+          if (numEl) { numEl.textContent = "0%"; animateNumber(numEl, 92, { suffix: "%", duration: 700 }); }
+        }, 750);
+      });
+      document.querySelectorAll("[data-quickcrm]").forEach(function (b) {
+        b.addEventListener("click", function () { state.crm[b.dataset.quickcrm] = true; renderStage(); refreshChrome(); });
+      });
+      var pv = document.getElementById("swcPreviewOnlyBtn");
+      if (pv) pv.addEventListener("click", function () { state.previewOnly = true; renderStage(); });
+      var push = document.getElementById("swcPushBtn");
+      if (push) push.addEventListener("click", function () { state.pushedToCrm = true; renderStage(); });
+
+      document.querySelectorAll("[data-tab]").forEach(function (b) {
+        b.addEventListener("click", function () { state.matchTab = b.dataset.tab; renderStage(); });
+      });
+      var orgToggle = document.getElementById("swcOrgToggle");
+      if (orgToggle) orgToggle.addEventListener("click", function () { state.orgOpen = !state.orgOpen; renderStage(); });
+      var genSignals = document.getElementById("swcGenSignals");
+      if (genSignals) genSignals.addEventListener("click", function () {
+        state.signalsGenerating = true; renderStage();
+        setTimeout(function () { state.signalsGenerating = false; state.signalsShown = true; renderStage(); }, 700);
+      });
+      document.querySelectorAll("[data-enrich]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var cid = b.dataset.cid, field = b.dataset.enrich;
+          b.textContent = "…"; b.disabled = true;
+          setTimeout(function () {
+            if (field === "email") state.enrichedEmail[cid] = true; else state.enrichedPhone[cid] = true;
+            addCredits(5);
+            renderStage();
+          }, 500);
+        });
+      });
+      document.querySelectorAll("[data-hpmtmpl]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var cid = b.dataset.cid;
+          state.hpmTemplate[cid] = b.dataset.hpmtmpl;
+          delete state.hpmText[cid];
+          renderStage();
+        });
+      });
+      document.querySelectorAll("[data-hpmgen]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var cid = b.dataset.cid;
+          var contact = CONTACTS.filter(function (c) { return c.id === cid; })[0];
+          state.hpmGenerating[cid] = true; renderStage();
+          setTimeout(function () {
+            state.hpmGenerating[cid] = false;
+            state.hpmText[cid] = hpmMessage(contact, state.hpmTemplate[cid] || "intro");
+            addCredits(10);
+            renderStage();
+          }, 650);
+        });
+      });
+      document.querySelectorAll("[data-outreach]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          if (b.disabled) return;
+          var cid = b.dataset.cid, channel = b.dataset.outreach;
+          if (!state.outreachSent[cid]) state.outreachSent[cid] = {};
+          state.outreachSent[cid][channel] = true;
+          renderStage();
+        });
+      });
+      var csvInput = document.getElementById("swcCsvInput");
+      if (csvInput) csvInput.addEventListener("change", function () {
+        if (csvInput.files && csvInput.files[0]) { state.csvFileName = csvInput.files[0].name; renderStage(); }
+      });
+    }
+
+    if (key === "configure") {
+      var toggle = document.getElementById("swcCrmToggle");
+      if (toggle) toggle.addEventListener("click", function () { state.crmGridOpen = !state.crmGridOpen; renderStage(); });
+      document.querySelectorAll("[data-crmconnect]").forEach(function (b) {
+        b.addEventListener("click", function () { var c = b.dataset.crmconnect; state.crm[c] = !state.crm[c]; renderStage(); refreshChrome(); });
+      });
+    }
+  }
+
+  function introMsg() {
+    var fn = firstName();
+    return (fn ? ("Hey " + fn + " — ") : "Hey — ") + "tell me about the accounts you want to track. Rough ideas are totally fine, I'll tighten it up with you.";
+  }
+  function submitIcp() {
+    var icpBox = document.getElementById("swcIcpText");
+    var text = (icpBox ? icpBox.value : state.icpDraft || "").trim();
+    if (!text) return;
+    state.icpText = text; state.icpSubmitted = true; state.agentReplyShown = false;
+    renderStage();
+    setTimeout(function () { state.agentReplyShown = true; renderStage(); }, 800);
+  }
+
+  function refreshChrome() { renderDots(); }
+
+  function goToStage(n) { state.stage = n; renderStage(); document.querySelector(".swc-stagewrap").scrollTop = 0; }
+  document.getElementById("swcExit").addEventListener("click", function () { goToStage(1); });
+
+  renderDots();
+  renderStage();
+})();
+</script>
