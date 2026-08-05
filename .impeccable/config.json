@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "deploy/app.html"
+        ],
+        "createdAt": "2026-08-04T15:18:59.264Z",
+        "reason": "Sizes come from vendored Leaflet CSS (0.75rem/13px/1.08333em/22px map controls), not the app type scale"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "app-bundled.html"
+        ],
+        "createdAt": "2026-08-04T15:35:34.481Z",
+        "reason": "Byte-identical copy of deploy/app.html; sizes come from vendored Leaflet CSS, not the app type scale"
+      }
+    ]
+  }
+}
