@@ -1,30 +1,34 @@
 # Strato V2 — Sprouts agentic GTM prototype
 
-Static HTML prototype. No build step, no dependencies, no environment variables.
+Static HTML prototype. No build step, no environment variables.
 
 ## Routes
 
 | URL | File | What it is |
 |---|---|---|
-| `/` and `/app` | `Sprouts Agent-First v8.dc.html` | The current app: Mission Control, Discover, Prospect, Segments, Opportunities, Website Visitors, Agents & Workflows, Personalization Engine, Connections, Settings. |
-| `/onboarding` | `Onboarding Journey.dc.html` | Standalone onboarding flow. |
+| `/` | `index.html` | The current app: Mission Control, Discover, Prospect, Segments, Opportunities, Website Visitors, Agents & Workflows, Personalization Engine, Connections, Settings. |
+| `/onboarding` | `onboarding.html` | Standalone onboarding flow. |
 
-There is deliberately no `index.html`. Vercel checks the filesystem before it
-applies rewrites, so an `index.html` would always win `/` and the rewrite below
-would never fire.
+`/app` redirects to `/`.
 
-The two `.dc.html` files are **not** self-contained: they load `./support.js` at
-runtime and cross-link each other by their original filenames. Keep those names
-as they are, and keep `support.js` and `uploads/` alongside them — renaming any
-of it breaks the links silently.
+Neither page is self-contained: both load `./support.js` at runtime, and the
+app renders the logo from `uploads/`. Keep those alongside the HTML.
 
-`/`, `/app`, and `/onboarding` are rewrites in `vercel.json`, which is what lets
-those files keep their spaces-and-dots names while still having clean URLs.
+## Why the filenames matter
+
+`cleanUrls` strips `.html`, so a file named `Foo Bar.dc.html` is served at
+`/Foo Bar.dc` and the `.html` path only exists as a 308 redirect. Rewrites
+pointing at such a path resolve to nothing and 404. That is why these files
+have plain, extensionless-friendly names and the routing needs no rewrites:
+`/` is `index.html` on disk, and `/onboarding` falls out of `cleanUrls`.
+
+Renaming these files back to names with spaces or a `.dc.html` double
+extension will break the routing again.
 
 ## Vercel setup
 
 The GitHub repo root is the parent directory, not this folder, so the Vercel
-project's **Root Directory** must be set to `deploy`. With that set, this
+project's **Root Directory** must be `deploy`. With that set, this
 `vercel.json` is the one Vercel reads and everything in here is what ships.
 
 1. vercel.com/new → import the repo.
@@ -34,6 +38,7 @@ project's **Root Directory** must be set to `deploy`. With that set, this
 
 ## Updating the app
 
-`Sprouts Agent-First v8.dc.html` is a copy of the file of the same name in the
-repo root. After editing the root copy, copy it (and `support.js`, if it
-changed) into this folder — nothing outside `deploy/` is uploaded by Vercel.
+`index.html` is a copy of `Sprouts Agent-First v8.dc.html` in the repo root,
+with its one cross-link repointed at `/onboarding`. After editing the root
+file, copy it here as `index.html` and redo that link — nothing outside
+`deploy/` is uploaded by Vercel.
