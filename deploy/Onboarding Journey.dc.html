@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin:0; background:#eef1ea; }
+  a { color:#0b6b3a; text-decoration:none; }
+  a:hover { color:#0ea84f; }
+  @keyframes obIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes obPop { 0%,100% { transform:scale(1); } 40% { transform:scale(1.14); } }
+  @keyframes obSpin { to { transform:rotate(360deg); } }
+  @keyframes obPulse { 0%,100% { opacity:1; } 50% { opacity:.35; } }
+  @keyframes obShimmer { 0% { background-position:-320px 0; } 100% { background-position:320px 0; } }
+  @keyframes obRise { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .ob-scroll::-webkit-scrollbar { width:8px; }
+  .ob-scroll::-webkit-scrollbar-thumb { background:#cfd8cb; border-radius:8px; }
+  .ob-scroll::-webkit-scrollbar-track { background:transparent; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Inter',sans-serif;background:radial-gradient(1100px 620px at 15% -5%,#f6faf4,#eef1ea);">
+
+  <!-- ░░ HEADER ░░ -->
+  <div style="display:flex;align-items:center;gap:16px;padding:18px 30px;border-bottom:1px solid #dde3d9;background:rgba(253,251,246,.7);">
+    <span style="font:700 16px 'Inter';color:#14211a;letter-spacing:-.01em;">Sprouts<span style="color:#8a958c;font-weight:500;">.ai</span></span>
+    <span style="font:600 9px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;background:#e4f4ea;border-radius:6px;padding:4px 9px;">Onboarding</span>
+    <span style="flex:1;"></span>
+    <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #cdeede;background:#f2fbf5;border-radius:20px;padding:6px 13px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="#12b85c"><path d="M12 3l1.9 4.7L19 9l-4.1 3 1.2 5L12 15l-4.1 2 1.2-5L5 9l5.1-1.3z"></path></svg>
+      <span style="font:600 12px 'JetBrains Mono';color:#0b6b3a;">{{ credits }}</span>
+      <span style="font:400 11.5px 'Inter';color:#5f6d64;">credits</span>
+    </span>
+    <button onClick="{{ skipAll }}" style="border:1px solid #d3ddd0;background:#fff;color:#5f6d64;border-radius:20px;padding:6px 14px;font:500 12px 'Inter';cursor:pointer;" style-hover="border-color:#a7dfc0;color:#14211a">Skip setup</button>
+  </div>
+
+  <!-- ░░ BODY ░░ -->
+  <div style="flex:1;display:grid;grid-template-columns:250px 1fr;min-height:0;">
+
+    <!-- stepper rail -->
+    <div style="border-right:1px solid #dde3d9;padding:26px 22px;background:rgba(253,251,246,.5);">
+      <div style="font:600 9px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#8a958c;margin-bottom:7px;">Your progress</div>
+      <div style="font:600 12.5px 'Inter';color:#14211a;margin-bottom:9px;">{{ pctLabel }}</div>
+      <div style="height:6px;border-radius:6px;background:#e0e7dc;margin-bottom:22px;overflow:hidden;">
+        <div style="height:6px;border-radius:6px;background:linear-gradient(90deg,#12b85c,#0b8f43);width:{{ pctW }};transition:width .45s cubic-bezier(.2,.8,.2,1);"></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:3px;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+          <button onClick="{{ s.go }}" style="display:flex;align-items:flex-start;gap:11px;text-align:left;border:none;background:{{ s.rowBg }};border-radius:10px;padding:10px 11px;cursor:pointer;">
+            <span style="width:22px;height:22px;border-radius:50%;background:{{ s.dotBg }};border:1.5px solid {{ s.dotBd }};color:{{ s.dotCol }};display:flex;align-items:center;justify-content:center;font:600 10.5px 'JetBrains Mono';flex:0 0 auto;margin-top:1px;">{{ s.mark }}</span>
+            <span style="flex:1;min-width:0;">
+              <span style="display:block;font:{{ s.font }};color:{{ s.col }};line-height:1.35;">{{ s.title }}</span>
+              <span style="display:block;font:400 11px 'Inter';color:#8a958c;margin-top:2px;">{{ s.note }}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:24px;border-top:1px dashed #d8e0d6;padding-top:16px;">
+        <div style="display:flex;gap:9px;align-items:flex-start;">
+          <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(150deg,#12b85c,#0b8f43);display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.7L19 9l-4.1 3 1.2 5L12 15l-4.1 2 1.2-5L5 9l5.1-1.3z"></path></svg>
+          </span>
+          <p style="font:400 11.5px/1.5 'Inter';color:#5f6d64;margin:0;">Paula walks you through this. Nothing here is permanent — you can change all of it later.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- stage -->
+    <div class="ob-scroll" style="min-height:0;overflow-y:auto;padding:34px 40px 70px;">
+      <div style="max-width:700px;">
+
+        <!-- ══ LOADING · BUILDING THE ENGINE ══ -->
+        <sc-if value="{{ busyEngine }}" hint-placeholder-val="">
+          <div style="animation:obIn .4s cubic-bezier(.2,.8,.2,1) both;">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:13px;">
+              <span style="width:17px;height:17px;border-radius:50%;border:2px solid #cdeede;border-top-color:#0ea84f;animation:obSpin .8s linear infinite;flex:0 0 auto;"></span>
+              <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#0b6b3a;">Reading {{ domainLabel }}</span>
+            </div>
+            <h1 style="font:700 29px/1.2 'Inter';color:#14211a;margin:0 0 9px;letter-spacing:-.02em;">Building your engine</h1>
+            <p style="font:400 14.5px/1.6 'Inter';color:#4a564d;margin:0 0 22px;max-width:56ch;">I'm reading your site so you never have to explain your own product to me. This takes a few seconds.</p>
+
+            <div style="height:7px;border-radius:7px;background:#e0e7dc;overflow:hidden;margin-bottom:20px;">
+              <div style="height:7px;border-radius:7px;background:linear-gradient(90deg,#12b85c,#0b8f43);width:{{ bpW }};transition:width .5s cubic-bezier(.2,.8,.2,1);"></div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start;">
+              <!-- crawl feed -->
+              <div style="background:#fdfbf6;border:1px solid #dfe5da;border-radius:15px;padding:16px 18px;">
+                <div style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#8a958c;margin-bottom:12px;">Pages</div>
+                <div style="display:flex;flex-direction:column;gap:9px;">
+                  <sc-for list="{{ feed }}" as="f" hint-placeholder-count="7">
+                    <div style="display:flex;align-items:center;gap:10px;opacity:{{ f.op }};">
+                      <span style="width:{{ f.dotSize }};height:{{ f.dotSize }};border-radius:50%;background:{{ f.dotBg }};border:1.5px solid {{ f.dotBd }};animation:{{ f.dotAnim }};flex:0 0 auto;display:flex;align-items:center;justify-content:center;font:700 9px 'Inter';color:#fff;">{{ f.mark }}</span>
+                      <span style="font:{{ f.font }};color:{{ f.col }};flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ f.name }}</span>
+                      <span style="font:500 9.5px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:{{ f.stCol }};">{{ f.status }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <!-- engine filling -->
+              <div style="background:#f2fbf5;border:1px solid #cdeede;border-radius:15px;padding:16px 18px;">
+                <div style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#0b6b3a;margin-bottom:13px;">Engine filling</div>
+                <div style="display:flex;flex-direction:column;gap:13px;">
+                  <div>
+                    <div style="font:700 22px 'Inter';color:#14211a;line-height:1;">{{ cPages }}</div>
+                    <div style="font:400 11px 'Inter';color:#5f6d64;margin-top:3px;">pages read</div>
+                  </div>
+                  <div>
+                    <div style="font:700 22px 'Inter';color:#14211a;line-height:1;">{{ cFacts }}</div>
+                    <div style="font:400 11px 'Inter';color:#5f6d64;margin-top:3px;">facts extracted</div>
+                  </div>
+                  <div>
+                    <div style="font:700 22px 'Inter';color:#14211a;line-height:1;">{{ cProof }}</div>
+                    <div style="font:400 11px 'Inter';color:#5f6d64;margin-top:3px;">proof points found</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button onClick="{{ finishBusy }}" style="border:none;background:transparent;color:#8a958c;font:500 12px 'Inter';cursor:pointer;margin-top:18px;padding:0;" style-hover="color:#0b6b3a">Skip the wait →</button>
+          </div>
+        </sc-if>
+
+        <!-- ══ LOADING · FINDING YOUR MATCH ══ -->
+        <sc-if value="{{ busyMatch }}" hint-placeholder-val="">
+          <div style="animation:obIn .4s cubic-bezier(.2,.8,.2,1) both;">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:13px;">
+              <span style="width:17px;height:17px;border-radius:50%;border:2px solid #cdeede;border-top-color:#0ea84f;animation:obSpin .8s linear infinite;flex:0 0 auto;"></span>
+              <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#0b6b3a;">Searching</span>
+            </div>
+            <h1 style="font:700 29px/1.2 'Inter';color:#14211a;margin:0 0 9px;letter-spacing:-.02em;">Finding someone worth your morning</h1>
+            <p style="font:400 14.5px/1.6 'Inter';color:#4a564d;margin:0 0 22px;max-width:56ch;">Not just a company that fits — one showing a signal right now, that I can write to with your own proof.</p>
+
+            <div style="height:7px;border-radius:7px;background:#e0e7dc;overflow:hidden;margin-bottom:20px;">
+              <div style="height:7px;border-radius:7px;background:linear-gradient(90deg,#12b85c,#0b8f43);width:{{ bpW }};transition:width .5s cubic-bezier(.2,.8,.2,1);"></div>
+            </div>
+
+            <div style="background:#fdfbf6;border:1px solid #dfe5da;border-radius:15px;padding:18px 20px;">
+              <div style="display:flex;flex-direction:column;gap:13px;">
+                <sc-for list="{{ feed }}" as="f" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;gap:11px;opacity:{{ f.op }};">
+                    <span style="width:{{ f.dotSize }};height:{{ f.dotSize }};border-radius:50%;background:{{ f.dotBg }};border:1.5px solid {{ f.dotBd }};animation:{{ f.dotAnim }};flex:0 0 auto;display:flex;align-items:center;justify-content:center;font:700 9px 'Inter';color:#fff;">{{ f.mark }}</span>
+                    <span style="font:{{ f.font }};color:{{ f.col }};flex:1;min-width:0;">{{ f.name }}</span>
+                    <span style="font:600 11px 'JetBrains Mono';color:{{ f.stCol }};">{{ f.count }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <button onClick="{{ finishBusy }}" style="border:none;background:transparent;color:#8a958c;font:500 12px 'Inter';cursor:pointer;margin-top:18px;padding:0;" style-hover="color:#0b6b3a">Skip the wait →</button>
+          </div>
+        </sc-if>
+
+        <!-- ══ 1 · CREATE ACCOUNT ══ -->
+        <sc-if value="{{ is1 }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:obIn .4s cubic-bezier(.2,.8,.2,1) both;">
+            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#0b6b3a;margin-bottom:11px;">Step 1 of 5</div>
+            <h1 style="font:700 30px/1.2 'Inter';color:#14211a;margin:0 0 10px;letter-spacing:-.02em;">Let's get you a pipeline</h1>
+            <p style="font:400 15px/1.6 'Inter';color:#4a564d;margin:0 0 26px;max-width:56ch;">Two fields. No credit card, no sales call. You'll see a real, matched prospect before we ask you for anything else.</p>
+
+            <div style="background:#fdfbf6;border:1px solid #dfe5da;border-radius:16px;padding:24px 26px;box-shadow:0 14px 34px -22px rgba(20,43,32,.4);">
+              <label style="display:block;font:500 11.5px 'Inter';color:#6b776e;margin-bottom:6px;">Work email</label>
+              <input value="{{ email }}" onChange="{{ onEmail }}" placeholder="you@company.com" style="width:100%;font:400 14px 'Inter';color:#14211a;background:#fff;border:1px solid #d3ddd0;border-radius:10px;padding:12px 14px;margin-bottom:16px;outline:none;">
+              <label style="display:block;font:500 11.5px 'Inter';color:#6b776e;margin-bottom:6px;">Your company website</label>
+              <input value="{{ domain }}" onChange="{{ onDomain }}" placeholder="company.com" style="width:100%;font:400 14px 'Inter';color:#14211a;background:#fff;border:1px solid #d3ddd0;border-radius:10px;padding:12px 14px;margin-bottom:8px;outline:none;">
+              <p style="font:400 11.5px/1.5 'Inter';color:#8a958c;margin:0 0 18px;">Paula reads your site to build your engine — so you don't fill in forms about your own product.</p>
+              <button onClick="{{ next }}" style="border:none;background:#0ea84f;color:#fff;border-radius:10px;padding:12px 20px;font:600 13.5px 'Inter';cursor:pointer;width:100%;" style-hover="background:#0b8f43">Create my account → <span style="font:600 11px 'JetBrains Mono';background:rgba(255,255,255,.22);border-radius:5px;padding:2px 7px;margin-left:6px;">+30 credits</span></button>
+              <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin-top:14px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0b6b3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span style="font:400 11.5px 'Inter';color:#5f6d64;"><b style="color:#14211a;">40 credits</b> already in your account — enough for your first 40 enriched contacts.</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ══ 2 · WORKSPACE / ENGINE ══ -->
+        <sc-if value="{{ is2 }}" hint-placeholder-val="">
+          <div style="animation:obIn .4s cubic-bezier(.2,.8,.2,1) both;">
+            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#0b6b3a;margin-bottom:11px;">Step 2 of 5</div>
+            <h1 style="font:700 30px/1.2 'Inter';color:#14211a;margin:0 0 10px;letter-spacing:-.02em;">I read your site. Here's what I learned.</h1>
+            <p style="font:400 15px/1.6 'Inter';color:#4a564d;margin:0 0 22px;max-width:58ch;">Your engine is already built — this is what I'll use to write every message. Correct anything that's off; it takes a minute and it's yours from then on.</p>
+
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="background:#fdfbf6;border:1px solid #dfe5da;border-radius:14px;padding:17px 19px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                  <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#6d8577;">Your value proposition</span>
+                  <sc-if value="{{ vpReading }}" hint-placeholder-val="{{ true }}">
+                    <button onClick="{{ startEditVp }}" style="border:1px solid #d3ddd0;background:#fff;color:#5f6d64;border-radius:7px;padding:4px 10px;font:500 11px 'Inter';cursor:pointer;" style-hover="border-color:#a7dfc0;color:#14211a">Edit</button>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ vpReading }}" hint-placeholder-val="{{ true }}">
+                  <p style="font:400 13.5px/1.55 'Inter';color:#2f3d35;margin:0;">{{ vpText }}</p>
+                </sc-if>
+                <sc-if value="{{ vpEditing }}" hint-placeholder-val="">
+                  <textarea value="{{ vpDraft }}" onChange="{{ onVpInput }}" style="width:100%;min-height:86px;font:400 13.5px/1.55 'Inter';color:#14211a;background:#fff;border:1px solid #0ea84f;border-radius:10px;padding:11px 13px;outline:none;resize:vertical;box-shadow:0 0 0 3px rgba(14,168,79,.13);"></textarea>
+                  <div style="display:flex;gap:8px;margin-top:10px;">
+                    <button onClick="{{ saveVp }}" style="border:none;background:#0ea84f;color:#fff;border-radius:8px;padding:7px 15px;font:600 12px 'Inter';cursor:pointer;" style-hover="background:#0b8f43">Save</button>
+                    <button onClick="{{ cancelEditVp }}" style="border:1px solid #d3ddd0;background:#fff;color:#5f6d64;border-radius:8px;padding:7px 14px;font:500 12px 'Inter';cursor:pointer;">Cancel</button>
+                  </div>
+                </sc-if>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div style="background:#fdfbf6;border:1px solid #dfe5da;border-radius:14px;padding:17px 19px;">
+                  <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#6d8577;margin-bottom:10px;">Proof I found</div>
+<div style="display:flex;flex-direction:column;gap:4px;">
+                    <sc-for list="{{ proofList }}" as="it" hint-placeholder-count="3">
+                      <div>
+                        <sc-if value="{{ it.reading }}" hint-placeholder-val="{{ true }}">
+                          <div style="display:flex;align-items:flex-start;gap:7px;padding:3px 0;">
+                            <span style="flex:1;min-width:0;font:400 12.5px/1.45 'Inter';color:#2f3d35;">{{ it.txt }}</span>
+                            <button onClick="{{ it.edit }}" title="Edit" style="border:none;background:transparent;cursor:pointer;color:#b3bdb4;display:flex;padding:2px;flex:0 0 auto;" style-hover="color:#0b6b3a"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
+                            <button onClick="{{ it.remove }}" title="Remove" style="border:none;background:transparent;cursor:pointer;color:#b3bdb4;display:flex;padding:2px;flex:0 0 auto;" style-hover="color:#8f3429"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ it.editing }}" hint-placeholder-val="">
+                          <div style="padding:4px 0;">
+                            <input value="{{ it.draft }}" onChange="{{ it.onDraft }}" style="width:100%;box-sizing:border-box;font:400 12.5px 'Inter';color:#14211a;background:#fff;border:1px solid #a7dfc0;border-radius:7px;padding:7px 9px;outline:none;">
+                            <div style="display:flex;gap:6px;margin-top:6px;">
+                              <button onClick="{{ it.save }}" style="border:none;background:#0ea84f;color:#fff;border-radius:6px;padding:5px 11px;font:600 11px 'Inter';cursor:pointer;">Save</button>
+                              <button onClick="{{ it.cancel }}" style="border:1px solid #d3ddd0;background:#fff;color:#5f6d64;border-radius:6px;padding:5px 10px;font:500 11px 'Inter';cursor:pointer;">Cancel</button>
+                            </div>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                    <button onClick="{{ addProof }}" style="display:inline-flex;align-items:center;gap:5px;align-self:flex-start;border:none;background:transparent;color:#0b6b3a;cursor:pointer;font:600 11.5px 'Inter';padding:5px 0 0;" style-hover="text-decoration:underline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Add proof point</button>
+                  </div>
+                </div>
+                <div style="background:#fdfbf6;border:1px solid #dfe5da;border-radius:14px;padding:17px 19px;">
+                  <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#6d8577;margin-bottom:10px;">Products</div>
+<div style="display:flex;flex-direction:column;gap:4px;">
+                    <sc-for list="{{ prodList }}" as="it" hint-placeholder-count="3">
+                      <div>
+                        <sc-if value="{{ it.reading }}" hint-placeholder-val="{{ true }}">
+                          <div style="display:flex;align-items:flex-start;gap:7px;padding:3px 0;">
+                            <span style="flex:1;min-width:0;font:400 12.5px/1.45 'Inter';color:#2f3d35;">{{ it.txt }}</span>
+                            <button onClick="{{ it.edit }}" title="Edit" style="border:none;background:transparent;cursor:pointer;color:#b3bdb4;display:flex;padding:2px;flex:0 0 auto;" style-hover="color:#0b6b3a"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
+                            <button onClick="{{ it.remove }}" title="Remove" style="border:none;background:transparent;cursor:pointer;color:#b3bdb4;display:flex;padding:2px;flex:0 0 auto;" style-hover="color:#8f3429"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ it.editing }}" hint-placeholder-val="">
+                          <div style="padding:4px 0;">
+                            <input value="{{ it.draft }}" onChange="{{ it.onDraft }}" style="width:100%;box-sizing:border-box;font:400 12.5px 'Inter';color:#14211a;background:#fff;border:1px solid #a7dfc0;border-radius:7px;padding:7px 9px;outline:none;">
+                            <div style="display:flex;gap:6px;margin-top:6px;">
+                              <button onClick="{{ it.save }}" style="border:none;background:#0ea84f;color:#fff;border-radius:6px;padding:5px 11px;font:600 11px 'Inter';cursor:pointer;">Save</button>
+                              <button onClick="{{ it.cancel }}" style="border:1px solid #d3ddd0;background:#fff;color:#5f6d64;border-radius:6px;padding:5px 10px;font:500 11px 'Inter';cursor:pointer;">Cancel</button>
+                            </div>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                    <button onClick="{{ addProd }}" style="display:inline-flex;align-items:center;gap:5px;align-self:flex-start;border:none;background:transparent;color:#0b6b3a;cursor:pointer;font:600 11.5px 'Inter';padding:5px 0 0;" style-hover="text-decoration:underline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Add product</button>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:10px;background:#f2fbf5;border:1px solid #cdeede;border-radius:12px;padding:12px 15px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0b6b3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"></path><circle cx="12" cy="12" r="9"></circle></svg>
+                <span style="font:400 12.5px 'Inter';color:#2f3d35;"><b style="color:#14211a;">{{ factCount }} facts</b> extracted from 14 pages. Everything I write will cite one of them.</span>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:9px;margin-top:22px;">
+              <button onClick="{{ next }}" style="border:none;background:#0ea84f;color:#fff;border-radius:10px;padding:11px 19px;font:600 13px 'Inter';cursor:pointer;" style-hover="background:#0b8f43">Looks right — continue → <span style="font:600 11px 'JetBrains Mono';background:rgba(255,255,255,.22);border-radius:5px;padding:2px 7px;margin-left:6px;">+20 credits</span></button>
+              <button onClick="{{ back }}" style="border:1px solid #d3ddd0;background:#fff;color:#5f6d64;border-radius:10px;padding:11px 17px;font:500 13px 'Inter';cursor:pointer;">Back</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ══ 3 · WHO YOU SELL TO ══ -->
+        <sc-if value="{{ is3 }}" hint-placeholder-val="">
+          <div style="animation:obIn .4s cubic-bezier(.2,.8,.2,1) both;">
+            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#0b6b3a;margin-bottom:11px;">Step 3 of 5</div>
+            <h1 style="font:700 30px/1.2 'Inter';color:#14211a;margin:0 0 10px;letter-spacing:-.02em;">Who should I go find?</h1>
+            <p style="font:400 15px/1.6 'Inter';color:#4a564d;margin:0 0 22px;max-width:58ch;">I've pre-filled this from your site and your existing customers. <b style="color:#14211a;">Tap to adjust</b> — you're reviewing, not building from scratch.</p>
+
+            <div style="background:#fdfbf6;border:1px solid #dfe5da;border-radius:16px;padding:22px 24px;">
+              <sc-for list="{{ facets }}" as="f" hint-placeholder-count="4">
+                <div style="margin-bottom:19px;">
+                  <div style="font:600 11.5px 'Inter';color:#14211a;margin-bottom:9px;">{{ f.label }}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                    <sc-for list="{{ f.opts }}" as="o" hint-placeholder-count="5">
+                      <button onClick="{{ o.toggle }}" style="border:1px solid {{ o.bd }};background:{{ o.bg }};color:{{ o.col }};border-radius:20px;padding:7px 14px;font:{{ o.font }};cursor:pointer;">{{ o.name }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+
+              <div style="display:flex;align-items:center;gap:11px;border-top:1px dashed #d8e0d6;padding-top:16px;margin-top:2px;">
+                <span style="font:700 22px 'Inter';color:#0b6b3a;">{{ matchCount }}</span>
+                <span style="font:400 12.5px/1.45 'Inter';color:#5f6d64;flex:1;">accounts match this right now — <b style="color:#14211a;">{{ hotCount }}</b> are showing buying signals this week.</span>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:9px;margin-top:22px;">
+              <button onClick="{{ next }}" style="border:none;background:#0ea84f;color:#fff;border-radius:10px;padding:11px 19px;font:600 13px 'Inter';cursor:pointer;" style-hover="background:#0b8f43">Find my first match → <span style="font:600 11px 'JetBrains Mono';background:rgba(255,255,255,.22);border-radius:5px;padding:2px 7px;margin-left:6px;">+25 credits</span></button>
+              <button onClick="{{ back }}" style="border:1px solid #d3ddd0;background:#fff;color:#5f6d64;border-radius:10px;padding:11px 17px;font:500 13px 'Inter';cursor:pointer;">Back</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ══ 4 · FIRST MATCH — the value moment ══ -->
+        <sc-if value="{{ is4 }}" hint-placeholder-val="">
+          <div style="animation:obIn .4s cubic-bezier(.2,.8,.2,1) both;">
+            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#0b6b3a;margin-bottom:11px;">Step 4 of 5 · your first result</div>
+            <h1 style="font:700 30px/1.2 'Inter';color:#14211a;margin:0 0 10px;letter-spacing:-.02em;">Found one. Here's exactly what I'd send.</h1>
+            <p style="font:400 15px/1.6 'Inter';color:#4a564d;margin:0 0 22px;max-width:58ch;">A real account from your criteria, a real signal, and a draft that cites your own proof. <b style="color:#14211a;">I can't send anything yet</b> — no mailbox is connected, and I'll never send from one you haven't approved.</p>
+
+            <!-- account -->
+            <div style="background:#fdfbf6;border:1.5px solid #16b364;border-radius:16px;padding:20px 22px;box-shadow:0 16px 40px -26px rgba(14,168,79,.55);">
+              <div style="display:flex;align-items:flex-start;gap:13px;margin-bottom:15px;">
+                <span style="width:42px;height:42px;border-radius:11px;background:#1e3a5f;color:#fff;font:600 14px 'Inter';display:flex;align-items:center;justify-content:center;flex:0 0 auto;">Nw</span>
+                <div style="flex:1;min-width:0;">
+                  <div style="font:700 16px 'Inter';color:#14211a;">Northwind Analytics</div>
+                  <div style="font:400 12.5px 'Inter';color:#6b776e;">northwindanalytics.com · Data & Analytics · 420 employees · Austin, TX</div>
+                </div>
+                <span style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#8f3429;background:#fbe9e6;border-radius:20px;padding:5px 11px;white-space:nowrap;">Hot signal</span>
+              </div>
+
+              <div style="background:#fff;border:1px solid #e2e7dd;border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+                <div style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#8a958c;margin-bottom:8px;">Why them</div>
+                <div style="display:flex;flex-direction:column;gap:7px;">
+                  <span style="font:400 12.5px 'Inter';color:#2f3d35;">① Hired 6 SDRs in the last 60 days — scaling outbound</span>
+                  <span style="font:400 12.5px 'Inter';color:#2f3d35;">② Raised a $40M Series C nine weeks ago — budget is live</span>
+                  <span style="font:400 12.5px 'Inter';color:#2f3d35;">③ Same profile as Razorpay, your best-fit customer</span>
+                </div>
+              </div>
+
+              <div style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#8a958c;margin-bottom:8px;">Draft to Maren Kessler · VP RevOps</div>
+              <sc-if value="{{ draftReading }}" hint-placeholder-val="{{ true }}">
+                <div style="background:#fff;border:1px solid #e2e7dd;border-radius:12px;padding:15px 16px;margin-bottom:14px;">
+                  <sc-if value="{{ draftIsEdited }}" hint-placeholder-val="">
+                    <p style="font:400 13px/1.65 'Inter';color:#2f3d35;margin:0;">{{ draftText }}</p>
+                  </sc-if>
+                  <sc-if value="{{ draftIsOriginal }}" hint-placeholder-val="{{ true }}">
+                    <p style="font:400 13px/1.65 'Inter';color:#2f3d35;margin:0;">{{ draftLead }}<span style="background:#fdf2d6;border-radius:3px;padding:0 3px;">{{ draftProof }}</span>{{ draftTail }}</p>
+                  </sc-if>
+                </div>
+              </sc-if>
+              <sc-if value="{{ draftEditing }}" hint-placeholder-val="">
+                <div style="background:#fff;border:1px solid #a7dfc0;border-radius:12px;padding:13px 14px;margin-bottom:14px;">
+                  <textarea value="{{ draftDraft }}" onChange="{{ onDraftInput }}" style="width:100%;box-sizing:border-box;min-height:96px;resize:vertical;font:400 13px/1.65 'Inter';color:#2f3d35;background:#fff;border:1px solid #dfe5da;border-radius:9px;padding:10px 12px;outline:none;"></textarea>
+                  <div style="display:flex;align-items:center;gap:8px;margin-top:9px;flex-wrap:wrap;">
+                    <button onClick="{{ saveDraft }}" style="border:none;background:#0ea84f;color:#fff;border-radius:8px;padding:7px 15px;font:600 12px 'Inter';cursor:pointer;" style-hover="background:#0b8f43">Save copy</button>
+                    <button onClick="{{ cancelDraft }}" style="border:1px solid #d3ddd0;background:#fff;color:#5f6d64;border-radius:8px;padding:7px 14px;font:500 12px 'Inter';cursor:pointer;">Cancel</button>
+                    <sc-if value="{{ draftIsEdited }}" hint-placeholder-val="">
+                      <button onClick="{{ resetDraft }}" style="border:none;background:transparent;color:#8a958c;font:500 12px 'Inter';cursor:pointer;padding:0 4px;">Revert to Paula's</button>
+                    </sc-if>
+                    <span style="flex:1;"></span>
+                    <span style="font:400 11px 'Inter';color:#94a399;">{{ draftProofNote }}</span>
+                  </div>
+                </div>
+              </sc-if>
+              <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;">
+                <span style="font:500 10px 'Inter';color:#6b776e;background:#eef2ea;border-radius:6px;padding:4px 9px;">{{ draftVoice }}</span>
+                <span style="font:500 10px 'Inter';color:{{ citeCol }};background:{{ citeBg }};border-radius:6px;padding:4px 9px;">{{ citeLabel }}</span>
+                <span style="font:500 10px 'Inter';color:#6b776e;background:#eef2ea;border-radius:6px;padding:4px 9px;">{{ draftWords }}</span>
+              </div>
+
+              <div style="display:flex;gap:9px;flex-wrap:wrap;">
+                <button onClick="{{ rewrite }}" style="border:1px solid #b9d3c2;background:#fff;color:#0b6b3a;border-radius:10px;padding:10px 16px;font:600 12.5px 'Inter';cursor:pointer;" style-hover="border-color:#0ea84f">Rewrite it</button>
+                <button onClick="{{ editDraft }}" style="border:1px solid #d3ddd0;background:#fff;color:#3d4a42;border-radius:10px;padding:10px 16px;font:500 12.5px 'Inter';cursor:pointer;">Edit copy</button>
+              </div>
+            </div>
+
+            <!-- ░░ SENDING IS GATED ON A MAILBOX ░░ -->
+            <sc-if value="{{ mailboxOff }}" hint-placeholder-val="{{ true }}">
+              <div style="background:#fdf8ec;border:1px solid #f0e0b0;border-radius:16px;padding:20px 22px;margin-top:14px;">
+                <div style="display:flex;gap:11px;align-items:flex-start;margin-bottom:14px;">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b0791f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:2px;"><path d="M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z"></path><path d="M3 7l9 6 9-6"></path></svg>
+                  <div style="flex:1;min-width:0;">
+                    <div style="font:700 14.5px 'Inter';color:#14211a;margin-bottom:5px;">To send it, connect the mailbox it should come from</div>
+                    <p style="font:400 12.5px/1.55 'Inter';color:#5a4a1e;margin:0;">Outreach goes out as you, from your address — so replies land in your inbox and your domain keeps its reputation. Takes about thirty seconds.</p>
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px;">
+                  <sc-for list="{{ mailProviders }}" as="p" hint-placeholder-count="3">
+                    <button onClick="{{ p.connect }}" style="display:inline-flex;align-items:center;gap:8px;border:1px solid #e6d29a;background:#fff;color:#14211a;border-radius:10px;padding:10px 15px;font:600 12.5px 'Inter';cursor:pointer;" style-hover="border-color:#d99a2b">{{ p.name }}<span style="font:600 10px 'JetBrains Mono';color:#0b6b3a;background:#dcf3e5;border-radius:5px;padding:2px 6px;">{{ mailReward }}</span></button>
+                  </sc-for>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid #f0e6cc;padding-top:12px;">
+                  <button onClick="{{ queueDraft }}" style="border:none;background:transparent;color:#8a6d1f;font:600 12.5px 'Inter';cursor:pointer;padding:0;text-decoration:underline;">Not now — add it to a segment</button>
+                  <span style="font:400 11.5px 'Inter';color:#94a399;">Nothing leaves Sprouts until a mailbox is connected.</span>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ queuedOnly }}" hint-placeholder-val="">
+              <div style="display:flex;align-items:flex-start;gap:11px;background:#f3f7f4;border:1px solid #dfe5da;border-radius:14px;padding:14px 17px;margin-top:14px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5f6d64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:1px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                <span style="font:400 12.5px/1.55 'Inter';color:#3d4a42;flex:1;"><b style="color:#14211a;">Added to “Series B — scaling outbound”.</b> Northwind sits at the top of that segment with its draft attached. Connect a mailbox whenever you're ready and I'll ask you to approve it — not before.</span>
+                <button onClick="{{ unqueue }}" style="border:1px solid #b9d3c2;background:#fff;color:#0b6b3a;border-radius:8px;padding:7px 13px;font:600 11.5px 'Inter';cursor:pointer;flex:0 0 auto;" style-hover="border-color:#0ea84f">Connect a mailbox</button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ mailboxOn }}" hint-placeholder-val="">
+              <div style="background:#fbfdfb;border:1px solid #dfe5da;border-radius:16px;padding:18px 20px;margin-top:14px;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap;">
+                  <span style="width:22px;height:22px;border-radius:7px;background:#16b364;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+                  <span style="font:600 13px 'Inter';color:#14211a;">{{ mailbox }} connected</span>
+                  <span style="font:400 11.5px 'Inter';color:#6b776e;">· sending as you, replies come to you</span>
+                  <span style="flex:1;"></span>
+                  <button onClick="{{ disconnectMail }}" style="border:none;background:transparent;color:#8a958c;font:500 11.5px 'Inter';cursor:pointer;padding:0;">Disconnect</button>
+                </div>
+                <sc-if value="{{ sent }}" hint-placeholder-val="">
+                  <div style="display:flex;align-items:center;gap:10px;background:#e9f8ef;border:1px solid #b6e6c9;border-radius:11px;padding:12px 15px;">
+                    <span style="width:22px;height:22px;border-radius:7px;background:#16b364;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+                    <span style="font:500 12.5px 'Inter';color:#0b5c33;">Sent from {{ mailbox }}. I'll follow up twice if she doesn't reply, and tell you the moment she does.</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center;">
+                    <button onClick="{{ approve }}" style="border:none;background:#0ea84f;color:#fff;border-radius:10px;padding:11px 19px;font:600 13px 'Inter';cursor:pointer;" style-hover="background:#0b8f43">Approve &amp; send</button>
+                    <span style="font:400 11.5px 'Inter';color:#8a958c;">Goes out from {{ mailbox }} · +60 credits</span>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;gap:9px;margin-top:22px;">
+              <button onClick="{{ next }}" style="border:none;background:#14211a;color:#eafcf1;border-radius:10px;padding:11px 19px;font:600 13px 'Inter';cursor:pointer;" style-hover="background:#0f1a14">Continue → <span style="font:600 11px 'JetBrains Mono';background:rgba(255,255,255,.22);border-radius:5px;padding:2px 7px;margin-left:6px;">+35 credits</span></button>
+              <button onClick="{{ back }}" style="border:1px solid #d3ddd0;background:#fff;color:#5f6d64;border-radius:10px;padding:11px 17px;font:500 13px 'Inter';cursor:pointer;">Back</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ══ 5 · YOU'RE LIVE ══ -->
+        <sc-if value="{{ is5 }}" hint-placeholder-val="">
+          <div style="animation:obIn .4s cubic-bezier(.2,.8,.2,1) both;">
+            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#0b6b3a;margin-bottom:11px;">Step 5 of 5</div>
+            <h1 style="font:700 30px/1.2 'Inter';color:#14211a;margin:0 0 10px;letter-spacing:-.02em;">You're live. Here's what I do from here.</h1>
+            <p style="font:400 15px/1.6 'Inter';color:#4a564d;margin:0 0 22px;max-width:58ch;">{{ liveLead }} From now on I run in the background and brief you each morning.</p>
+
+            <div style="background:#fdfbf6;border:1px solid #dfe5da;border-radius:16px;padding:20px 22px;margin-bottom:14px;">
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#6d8577;margin-bottom:13px;">Running for you now</div>
+              <div style="display:flex;flex-direction:column;gap:11px;">
+                <sc-if value="{{ pixelOn }}" hint-placeholder-val="">
+                  <div style="display:flex;gap:10px;align-items:flex-start;">
+                    <span style="width:7px;height:7px;border-radius:50%;background:#16b364;flex:0 0 auto;margin-top:6px;"></span>
+                    <span style="font:400 13px/1.5 'Inter';color:#2f3d35;"><b style="color:#14211a;">Watching your website</b> — naming the companies that visit and flagging the ones that match.</span>
+                  </div>
+                </sc-if>
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                  <span style="width:7px;height:7px;border-radius:50%;background:#16b364;flex:0 0 auto;margin-top:6px;"></span>
+                  <span style="font:400 13px/1.5 'Inter';color:#2f3d35;"><b style="color:#14211a;">Scanning for signals</b> — hiring, funding, tech changes, pricing visits across your criteria.</span>
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                  <span style="width:7px;height:7px;border-radius:50%;background:#16b364;flex:0 0 auto;margin-top:6px;"></span>
+                  <span style="font:400 13px/1.5 'Inter';color:#2f3d35;"><b style="color:#14211a;">Drafting outreach</b> — always cited, always waiting for your approval.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- pixel opt-in -->
+            <sc-if value="{{ pixelOff }}" hint-placeholder-val="{{ true }}">
+              <div style="background:#fdf8ec;border:1px solid #f0e0b0;border-radius:16px;padding:20px 22px;margin-bottom:14px;">
+                <div style="display:flex;gap:11px;align-items:flex-start;margin-bottom:13px;">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b0791f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:2px;"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                  <div style="flex:1;min-width:0;">
+                    <div style="font:700 14.5px 'Inter';color:#14211a;margin-bottom:5px;">One thing I can't do yet: see who visits your site</div>
+                    <p style="font:400 12.5px/1.55 'Inter';color:#5a4a1e;margin:0;">Visitor de-anonymization needs a one-line script on {{ domainLabel }}. Until it's installed I can find accounts by signal, but I can't tell you who's already on your pricing page.</p>
+                  </div>
+                </div>
+                <div style="background:#14211a;border-radius:10px;padding:12px 14px;margin-bottom:13px;overflow-x:auto;">
+                  <code style="font:500 11.5px 'JetBrains Mono';color:#9fe8bd;white-space:nowrap;">{{ pixelSnippet }}</code>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <button onClick="{{ copyPixel }}" style="border:none;background:#d99a2b;color:#fff;border-radius:9px;padding:9px 15px;font:600 12px 'Inter';cursor:pointer;" style-hover="background:#c08722">Copy snippet</button>
+                  <button onClick="{{ gtmInstall }}" style="border:1px solid #e6d29a;background:#fff;color:#8a6d1f;border-radius:9px;padding:9px 15px;font:600 12px 'Inter';cursor:pointer;">Install via Google Tag Manager</button>
+                  <button onClick="{{ emailDev }}" style="border:1px solid #e6d29a;background:#fff;color:#8a6d1f;border-radius:9px;padding:9px 15px;font:600 12px 'Inter';cursor:pointer;">Email my developer</button>
+                  <button onClick="{{ verifyPixel }}" style="border:none;background:transparent;color:#8a6d1f;border-radius:9px;padding:9px 6px;font:600 12px 'Inter';cursor:pointer;text-decoration:underline;">I've added it — verify</button>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ pixelOn }}" hint-placeholder-val="">
+              <div style="display:flex;align-items:center;gap:11px;background:#e9f8ef;border:1px solid #b6e6c9;border-radius:14px;padding:14px 18px;margin-bottom:14px;">
+                <span style="width:22px;height:22px;border-radius:7px;background:#16b364;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+                <span style="font:500 12.5px 'Inter';color:#0b5c33;">Pixel live on {{ domainLabel }} — I'll name your visitors from the next session onward.</span>
+              </div>
+            </sc-if>
+
+            <div style="background:#fdfbf6;border:1px solid #dfe5da;border-radius:16px;padding:20px 22px;margin-bottom:18px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#6d8577;">Optional — whenever you want</span>
+                <span style="font:500 10.5px 'Inter';color:#8a958c;">None of this was needed to get your first match</span>
+              </div>
+              <div style="display:flex;flex-direction:column;">
+                <sc-for list="{{ later }}" as="l" hint-placeholder-count="5">
+                  <div style="border-top:1px solid #eaeee6;">
+                    <button onClick="{{ l.toggle }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:none;background:transparent;padding:12px 2px;cursor:pointer;" style-hover="background:#f6f9f4">
+                      <span style="flex:1;min-width:0;">
+                        <span style="display:block;font:600 12.5px 'Inter';color:#14211a;">{{ l.name }}</span>
+                        <span style="display:block;font:400 11.5px 'Inter';color:#6b776e;margin-top:2px;">{{ l.sub }}</span>
+                      </span>
+                      <span style="font:500 11px 'Inter';color:#0b6b3a;background:#e9f5ec;border-radius:6px;padding:3px 9px;white-space:nowrap;">{{ l.summary }}</span>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transform:{{ l.chev }};transition:transform .2s ease;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                    <sc-if value="{{ l.isOpen }}" hint-placeholder-val="">
+                      <div style="padding:4px 2px 16px;animation:obRise .28s ease both;">
+                        <div style="display:flex;flex-direction:column;gap:2px;">
+                          <sc-for list="{{ l.items }}" as="it" hint-placeholder-count="4">
+                            <button onClick="{{ it.hit }}" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:none;background:transparent;border-radius:8px;padding:8px 10px;cursor:pointer;" style-hover="background:#f2f7f0">
+                              <span style="width:17px;height:17px;border-radius:5px;background:{{ it.boxBg }};border:1.5px solid {{ it.boxBd }};display:flex;align-items:center;justify-content:center;font:700 10px 'Inter';color:#fff;flex:0 0 auto;">{{ it.mark }}</span>
+                              <span style="font:500 12.5px 'Inter';color:{{ it.col }};">{{ it.label }}</span>
+                            </button>
+                          </sc-for>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <a href="Sprouts Agent-First v8.dc.html" style="display:inline-flex;align-items:center;gap:9px;background:#0ea84f;color:#fff;border-radius:11px;padding:13px 24px;font:600 14px 'Inter';" style-hover="background:#0b8f43">Take me to my briefing
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- toast -->
+  <sc-if value="{{ toast }}" hint-placeholder-val="">
+    <div onClick="{{ clearToast }}" style="position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:400;display:flex;align-items:center;gap:10px;background:#14211a;color:#f2f8f4;border-radius:11px;padding:12px 18px;box-shadow:0 18px 44px -16px rgba(14,43,32,.6);cursor:pointer;max-width:80vw;">
+      <span style="width:20px;height:20px;border-radius:6px;background:#16b364;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+      <span style="font:500 13px 'Inter';">{{ toast }}</span>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:860}}">
+class Component extends DCLogic {
+  state = {
+    st: 1, credits: 40, sent: false, toast: null,
+    busy: null, bi: 0, bp: 0, nextStage: 2,
+    editVp: false, vIdx: 0, openLater: null, pixel: false,
+    proofs: ['Razorpay — manual research down 60%','HighRadius — reply rates 2×','Philips, Udemy, Freshworks'],
+    prods:  ['Visitor de-anonymization','Signal-based discovery','Agentic outreach'],
+    editItem: null, itemDraft: '', mailbox: null, queued: false,
+    draftText: null, draftEdit: false, draftBuf: '',
+    prov: { Apollo:1, ZoomInfo:1, Clearbit:1, Lusha:0 },
+    maps: { 'Company → Account':1, 'Contact → Lead':1, 'Signal → Custom field':1, 'Segment → Campaign':0 },
+    seats: { 'Admin — full access':1, 'Manager — approve sends':1, 'Rep — draft only':1, 'Read-only — reporting':0 },
+    voice: 'Trigger-Led',
+    plan: 'Growth — 20K credits/mo',
+    vpText: 'An agentic GTM platform that de-anonymizes website traffic, finds in-market accounts from real intent signals, and writes outreach grounded in your own proof.',
+    vpDraft: '',
+    email: '', domain: '',
+    sel: { ind:{'Data & Analytics':1,'FinTech':1,'SaaS':1}, size:{'200–1000':1}, geo:{'North America':1}, sig:{'Hiring SDRs':1,'Pricing-page visits':1} }
+  };
+
+  say(m){ this.setState({ toast:m }); clearTimeout(this._t); this._t = setTimeout(()=>this.setState({toast:null}), 2800); }
+  reward(n){ return { 2:30, 3:20, 4:25, 5:35 }[n] || 0; }
+  goto(n){
+    this.setState(s => {
+      const fwd = n > s.st;
+      const add = fwd ? this.reward(n) : 0;
+      return { st:n, credits: s.credits + add, lastAward: add || null };
+    });
+    const add = this.reward(n);
+    if (n > this.state.st && add) this.say('+' + add + ' credits earned — ' + (this.state.credits + add) + ' total.');
+  }
+
+  clearTimers(){ (this._tm||[]).forEach(clearTimeout); this._tm = []; }
+  componentWillUnmount(){ this.clearTimers(); clearTimeout(this._t); }
+
+  // absolute-time schedule: each tick is its own timeout off one start point,
+  // so a slow render can never stall the sequence
+  runBusy(kind, nextStage){
+    const n = kind === 'engine' ? 7 : 5;
+    const per = kind === 'engine' ? 560 : 620;
+    this.clearTimers();
+    this.setState({ busy: kind, bi: 0, bp: 4, nextStage });
+    this._tm = [];
+    for (let i = 1; i <= n; i++) {
+      this._tm.push(setTimeout(() => this.setState({ bi: i, bp: Math.round((i / n) * 96) }), per * i));
+    }
+    this._tm.push(setTimeout(() => this.finishBusy(), per * n + 700));
+  }
+
+  finishBusy(){
+    this.clearTimers();
+    const to = this.state.nextStage || 2;
+    const add = this.reward(to);
+    this.setState(s => ({ busy: null, bp: 100, st: to, credits: s.credits + add }));
+    if (add) this.say('+' + add + ' credits earned — ' + (this.state.credits + add) + ' total.');
+  }
+
+  renderVals() {
+    const st = this.state.st;
+    const sel = this.state.sel;
+    const TITLES = [
+      { title:'Create your account', note:'Email + your website' },
+      { title:'Your engine',         note:'Built from your site' },
+      { title:'Who you sell to',     note:'Pre-filled, adjustable' },
+      { title:'Your first match',    note:'A real result, ready to send' },
+      { title:"You're live",         note:'What runs from here' }
+    ];
+
+    const steps = TITLES.map((t, i) => {
+      const n = i + 1, done = n < st, cur = n === st;
+      return {
+        ...t,
+        mark: done ? '✓' : String(n),
+        rowBg: cur ? '#e4f4ea' : 'transparent',
+        dotBg: done ? '#16b364' : (cur ? '#0ea84f' : '#fff'),
+        dotBd: done || cur ? '#0b8f43' : '#d3ddd0',
+        dotCol: done || cur ? '#fff' : '#94a399',
+        font: cur ? "600 12.5px 'Inter'" : "500 12.5px 'Inter'",
+        col: cur ? '#14211a' : (done ? '#3d4a42' : '#8a958c'),
+        go: () => this.goto(n)
+      };
+    });
+
+    const mkFacet = (label, key, opts) => ({
+      label,
+      opts: opts.map(name => {
+        const on = !!sel[key][name];
+        return {
+          name, on,
+          bd: on ? '#0b8f43' : '#d3ddd0',
+          bg: on ? '#0ea84f' : '#fff',
+          col: on ? '#fff' : '#3d4a42',
+          font: on ? "600 12.5px 'Inter'" : "400 12.5px 'Inter'",
+          toggle: () => this.setState(s => {
+            const g = { ...s.sel[key] };
+            if (g[name]) delete g[name]; else g[name] = 1;
+            return { sel: { ...s.sel, [key]: g } };
+          })
+        };
+      })
+    });
+
+    const facets = [
+      mkFacet('Industries you win in', 'ind', ['Data & Analytics','FinTech','SaaS','Healthcare','Logistics','Manufacturing']),
+      mkFacet('Company size', 'size', ['1–50','50–200','200–1000','1000+']),
+      mkFacet('Where', 'geo', ['North America','Europe','India','APAC']),
+      mkFacet('Signals worth acting on', 'sig', ['Hiring SDRs','Pricing-page visits','New funding','Leadership change','Tech-stack change'])
+    ];
+
+    const nSel = Object.keys(sel.ind).length + Object.keys(sel.size).length + Object.keys(sel.geo).length + Object.keys(sel.sig).length;
+    const matchCount = (612 + nSel * 143).toLocaleString();
+
+    // ── loading feeds ──
+    const busy = this.state.busy, bi = this.state.bi;
+    const dom = (this.state.domain || 'sprouts.ai').replace(/^https?:\/\//,'');
+    const ENGINE = [dom + ' — homepage', '/product — visitor identification', '/pricing', '/customers/razorpay', '/customers/highradius', '/blog — 6 recent posts', '/about — team & positioning'];
+    const MATCH = [
+      { name:'Scanning the company graph', count:'4.2M' },
+      { name:'Filtering to your industries & size', count:'18,400' },
+      { name:"Checking this week's signals", count:'2,106' },
+      { name:'Ranking against your best-fit customers', count:'37' },
+      { name:'Drafting with your cited proof', count:'1' }
+    ];
+    const mkFeed = (items) => items.map((it, i) => {
+      const nm = typeof it === 'string' ? it : it.name;
+      const done = i < bi, cur = i === bi;
+      return {
+        name: nm,
+        count: (typeof it === 'string' ? '' : (done || cur ? it.count : '·')),
+        status: done ? 'read' : (cur ? 'reading' : 'queued'),
+        mark: done ? '✓' : '',
+        dotBg: done ? '#16b364' : (cur ? '#0ea84f' : 'transparent'),
+        dotBd: done ? '#16b364' : (cur ? '#0ea84f' : '#cfd8cb'),
+        dotSize: done ? '15px' : '9px',
+        dotAnim: cur ? 'obPulse 1s ease-in-out infinite' : 'none',
+        op: done ? 1 : (cur ? 1 : .45),
+        font: cur ? "600 12.5px 'Inter'" : "400 12.5px 'Inter'",
+        col: done ? '#3d4a42' : (cur ? '#14211a' : '#8a958c'),
+        stCol: done ? '#0b8f43' : (cur ? '#0ea84f' : '#a8b2a9')
+      };
+    });
+
+    return {
+      credits: this.state.credits,
+      busyEngine: busy === 'engine', busyMatch: busy === 'match',
+      bpW: this.state.bp + '%', domainLabel: dom,
+      feed: busy === 'engine' ? mkFeed(ENGINE) : (busy === 'match' ? mkFeed(MATCH) : []),
+      cPages: bi, cFacts: bi * 4 + (bi > 3 ? 3 : 0), cProof: Math.min(5, Math.max(0, bi - 2)),
+      finishBusy: () => this.finishBusy(),
+      email: this.state.email, domain: this.state.domain,
+      onEmail: e => this.setState({ email: e.target.value }),
+      onDomain: e => this.setState({ domain: e.target.value }),
+      is1: st===1 && !busy, is2: st===2 && !busy, is3: st===3 && !busy, is4: st===4 && !busy, is5: st===5 && !busy,
+      steps,
+      pctW: (st * 20) + '%',
+      pctLabel: st === 5 ? 'Done — 100%' : (st * 20) + '% · step ' + st + ' of 5',
+      facets, matchCount, hotCount: 9 + Object.keys(sel.sig).length * 4,
+      ...(() => {
+        const LT = String.fromCharCode(60), GT = String.fromCharCode(62);
+        const snip = LT + 'script async src="https://cdn.sprouts.ai/px.js" data-key="sk_live_9f2c"' + GT + LT + '/script' + GT;
+        return {
+          pixelOn: this.state.pixel, pixelOff: !this.state.pixel,
+          pixelSnippet: snip,
+          copyPixel: () => {
+            try { navigator.clipboard.writeText(snip); } catch (e) {}
+            this.say('Snippet copied — paste it before the closing head tag.');
+          },
+          emailDev: () => this.say('Sent to your developer with install instructions.'),
+          gtmInstall: () => this.say('Opening Google Tag Manager — I can add the tag for you.'),
+          verifyPixel: () => { this.setState({ pixel: true }); this.say('Pixel detected on ' + dom + ' — visitor de-anonymization is live.'); }
+        };
+      })(),
+      later: (() => {
+        const open = this.state.openLater;
+        const multi = (key, label) => ({
+          kind:'multi',
+          items: Object.keys(this.state[key]).map(n => {
+            const on = !!this.state[key][n];
+            return { label:n, on,
+              boxBg: on ? '#0ea84f' : '#fff', boxBd: on ? '#0b8f43' : '#cfd8cb', mark: on ? '✓' : '',
+              col: on ? '#14211a' : '#6b776e',
+              hit: () => this.setState(s => ({ [key]: { ...s[key], [n]: s[key][n] ? 0 : 1 } }))
+            };
+          })
+        });
+        const one = (key, opts) => ({
+          kind:'one',
+          items: opts.map(n => {
+            const on = this.state[key] === n;
+            return { label:n, on,
+              boxBg: on ? '#0ea84f' : '#fff', boxBd: on ? '#0b8f43' : '#cfd8cb', mark: on ? '●' : '',
+              col: on ? '#14211a' : '#6b776e',
+              hit: () => this.setState({ [key]: n })
+            };
+          })
+        });
+        const rows = [
+          { name:'Enrichment sources', sub:'Which providers feed your results, and in what order', body:multi('prov'), summary: Object.values(this.state.prov).filter(Boolean).length + ' active' },
+          { name:'CRM field mapping', sub:"Match Sprouts fields to your CRM's objects", body:multi('maps'), summary: Object.values(this.state.maps).filter(Boolean).length + ' of 4 mapped' },
+          { name:'Team roles & permissions', sub:'Seats, access tiers, approval flows', body:multi('seats'), summary: Object.values(this.state.seats).filter(Boolean).length + ' roles on' },
+          { name:'Your outreach voice', sub:'Pick a playbook — the phrasing changes, never your facts', body:one('voice', ['Trigger-Led','Short & Direct','Proof-First','Consultative']), summary: this.state.voice },
+          { name:'Billing & credits', sub:'Plan, usage, and overage alerts', body:one('plan', ['Starter — 5K credits/mo','Growth — 20K credits/mo','Enterprise — 80K credits/mo']), summary: String(this.state.plan).split(' — ')[0] }
+        ];
+        return rows.map((r, i) => ({
+          name: r.name, sub: r.sub, summary: r.summary,
+          items: r.body.items,
+          isOpen: open === i, isShut: open !== i,
+          chev: open === i ? 'rotate(90deg)' : 'rotate(0deg)',
+          toggle: () => this.setState(s => ({ openLater: s.openLater === i ? null : i }))
+        }));
+      })(),
+      sent: this.state.sent, notSent: !this.state.sent,
+      next: () => { if (st === 1) this.runBusy('engine', 2); else if (st === 3) this.runBusy('match', 4); else this.goto(Math.min(5, st + 1)); },
+      back: () => this.setState({ st: Math.max(1, st - 1) }),
+      approve: () => {
+        if (!this.state.mailbox) { this.say('Connect a mailbox first — I won\u2019t send from an address you haven\u2019t approved.'); return; }
+        this.setState(s => ({ sent:true, queued:false, credits: s.credits + 60 }));
+        this.say('Sent from ' + this.state.mailbox + ' — +60 credits for your first send.');
+      },
+      mailbox: this.state.mailbox,
+      mailboxOn: !!this.state.mailbox,
+      mailboxOff: !this.state.mailbox && !this.state.queued,
+      queuedOnly: !this.state.mailbox && this.state.queued,
+      mailReward: this.state.mailboxEverConnected ? 'connect' : '+5',
+      mailProviders: [
+        { key:'gmail',   name:'Connect Gmail',    addr:'kartikay@sprouts.ai' },
+        { key:'outlook', name:'Connect Outlook',  addr:'kartikay@sprouts.ai' },
+        { key:'smtp',    name:'Custom SMTP',      addr:'outbound@sprouts.ai' }
+      ].map(p => ({ ...p, connect: () => {
+        const first = !this.state.mailboxEverConnected;
+        this.setState(s => ({ mailbox: p.addr, queued: false, mailboxEverConnected: true, credits: s.credits + (first ? 5 : 0) }));
+        this.say(first
+          ? p.addr + ' connected — +5 credits. You can approve the send now.'
+          : p.addr + ' connected — you can approve the send now.');
+      } })),
+      disconnectMail: () => { this.setState({ mailbox: null, sent: false }); this.say('Mailbox disconnected — nothing can send.'); },
+      unqueue: () => this.setState({ queued: false }),
+      queueDraft: () => { this.setState({ queued: true }); this.say('Added to “Series B — scaling outbound” — nothing goes out until a mailbox is connected.'); },
+      ...(() => {
+        const V = [
+          "Maren — you've added six SDRs in two months, which usually means research can't keep up and personalization quietly dies. Razorpay hit that exact wall and cut manual research 60% with us. Worth 15 minutes Thursday?",
+          'Maren — six new SDRs in two months. Razorpay cut manual research 60% with us. Worth 15 minutes Thursday?',
+          'Maren — Razorpay cut manual research 60% in a quarter and HighRadius doubled reply rates. Both were scaling outbound at exactly your headcount — you just added six SDRs, so I thought it was worth a note. Free Thursday?'
+        ];
+        const original = V[this.state.vIdx % V.length];
+        const edited = this.state.draftText;
+        const body = edited || original;
+        const keepsProof = /razorpay/i.test(body);
+        const liveBody = this.state.draftEdit ? (this.state.draftBuf || '') : body;
+        const liveKeeps = /razorpay/i.test(liveBody);
+        return {
+          draftText: body,
+          draftIsEdited: !!edited, draftIsOriginal: !edited,
+          draftEditing: this.state.draftEdit, draftReading: !this.state.draftEdit,
+          draftDraft: this.state.draftBuf,
+          draftProofNote: liveKeeps ? 'Razorpay proof still cited' : 'Warning — your proof point is no longer cited',
+          citeLabel: keepsProof ? '2 cited facts' : 'no cited proof',
+          citeCol: keepsProof ? '#6b776e' : '#8a6d1f',
+          citeBg: keepsProof ? '#eef2ea' : '#fdf3dc',
+          editDraft: () => this.setState({ draftEdit: true, draftBuf: body }),
+          onDraftInput: e => this.setState({ draftBuf: e.target.value }),
+          cancelDraft: () => this.setState({ draftEdit: false, draftBuf: '' }),
+          resetDraft: () => { this.setState({ draftText: null, draftEdit: false, draftBuf: '' }); this.say("Reverted to Paula's draft."); },
+          saveDraft: () => {
+            const v = (this.state.draftBuf || '').trim();
+            if (!v) { this.say('The message can\u2019t be empty.'); return; }
+            this.setState({ draftText: v, draftEdit: false, draftBuf: '' });
+            this.say(/razorpay/i.test(v) ? 'Saved — your proof point is still cited.' : 'Saved — heads up, it no longer cites your proof.');
+          }
+        };
+      })(),
+      liveLead: this.state.sent
+        ? 'You got a matched account and your first message already out the door — in under four minutes.'
+        : (this.state.queued
+            ? 'You got a matched account and a message sitting on its segment, ready when you are — in under four minutes.'
+            : 'You got a matched account and a ready-to-send message in under four minutes.'),
+      ...(() => {
+        // ── step 4: real draft variants ──
+        const V = [
+          { voice:'Trigger-Led', words:48, lead:"Maren — you've added six SDRs in two months, which usually means research can't keep up and personalization quietly dies. ", proof:'Razorpay hit that exact wall and cut manual research 60% with us.', tail:' Worth 15 minutes Thursday?' },
+          { voice:'Short & Direct', words:31, lead:'Maren — six new SDRs in two months. ', proof:'Razorpay cut manual research 60% with us.', tail:' Worth 15 minutes Thursday?' },
+          { voice:'Proof-First', words:54, lead:'Maren — ', proof:'Razorpay cut manual research 60% in a quarter and HighRadius doubled reply rates.', tail:' Both were scaling outbound at exactly your headcount — you just added six SDRs, so I thought it was worth a note. Free Thursday?' }
+        ];
+        const v = V[this.state.vIdx % V.length];
+        return {
+          draftLead: v.lead, draftProof: v.proof, draftTail: v.tail,
+          draftVoice: v.voice + ' voice', draftWords: v.words + ' words',
+          rewrite: () => { this.setState(s => ({ vIdx: (s.vIdx + 1) % V.length, draftText: null, draftEdit: false, draftBuf: '' })); this.say('Rewritten — same cited facts, different voice.'); }
+        };
+      })(),
+      vpText: this.state.vpText,
+      vpDraft: this.state.vpDraft,
+      vpEditing: this.state.editVp,
+      vpReading: !this.state.editVp,
+      onVpInput: e => this.setState({ vpDraft: e.target.value }),
+      startEditVp: () => this.setState(s => ({ editVp: true, vpDraft: s.vpText })),
+      // ── editable proof / product lists ──
+      ...(() => {
+        const self = this;
+        const mkList = (bag) => this.state[bag].map((txt, i) => {
+          const id = bag + i;
+          const editing = this.state.editItem === id;
+          return {
+            txt, editing, reading: !editing,
+            draft: editing ? this.state.itemDraft : '',
+            edit: () => self.setState({ editItem: id, itemDraft: txt }),
+            onDraft: e => self.setState({ itemDraft: e.target.value }),
+            save: () => self.setState(s => {
+              const arr = s[bag].slice();
+              const v = (s.itemDraft || '').trim();
+              if (v) arr[i] = v;
+              return { [bag]: arr, editItem: null, itemDraft: '' };
+            }),
+            cancel: () => self.setState({ editItem: null, itemDraft: '' }),
+            remove: () => self.setState(s => ({ [bag]: s[bag].filter((_, j) => j !== i) }))
+          };
+        });
+        const addTo = (bag, label) => () => self.setState(s => {
+          const arr = s[bag].concat([label]);
+          return { [bag]: arr, editItem: bag + (arr.length - 1), itemDraft: label };
+        });
+        return {
+          proofList: mkList('proofs'), prodList: mkList('prods'),
+          addProof: addTo('proofs', 'New proof point'),
+          addProd: addTo('prods', 'New product'),
+          factCount: String(28 + this.state.proofs.length + this.state.prods.length)
+        };
+      })(),
+      // ── credit rewards shown before you commit ──
+      rewardNext: '+' + this.reward(Math.min(5, this.state.st + 1)),
+      cancelEditVp: () => this.setState({ editVp: false }),
+      saveVp: () => { this.setState(s => ({ editVp: false, vpText: (s.vpDraft || '').trim() || s.vpText })); this.say('Saved — every message I write will use this.'); },
+      skipAll: () => { this.setState({ st:5 }); this.say('Setup skipped — everything stays available in Settings.'); },
+      toast: this.state.toast,
+      clearToast: () => { clearTimeout(this._t); this.setState({ toast:null }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

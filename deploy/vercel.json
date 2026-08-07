@@ -1,5 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/", "destination": "/Sprouts Agent-First v8.dc.html" },
+    { "source": "/app", "destination": "/Sprouts Agent-First v8.dc.html" },
+    { "source": "/onboarding", "destination": "/Onboarding Journey.dc.html" }
+  ]
 }
