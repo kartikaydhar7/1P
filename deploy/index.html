@@ -75,34 +75,38 @@
     <nav class="cx-scroll" style="flex:1;display:flex;flex-direction:column;gap:3px;overflow-y:auto;overflow-x:hidden;">
       <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:2px 11px 5px;">Workspace</div>
 
-      <button onClick="{{ goDiscover }}" title="Discover" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.discover.bg }};box-shadow:{{ nav.discover.ring }};">
-        <span style="display:flex;color:{{ nav.discover.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.8"></circle><path d="M15.6 15.6L21 21"></path></svg></span>
-        <span style="font:500 13.5px 'Inter';color:{{ nav.discover.col }};">Discover</span>
-      </button>
+      
       <button onClick="{{ goProspects }}" title="Prospects" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.prospects.bg }};box-shadow:{{ nav.prospects.ring }};">
         <span style="display:flex;color:{{ nav.prospects.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1.5a3.5 3.5 0 00-3.5-3.5h-5A3.5 3.5 0 004 17.5V19"></path><circle cx="10" cy="8" r="3.5"></circle><path d="M20 19v-1.5a3.5 3.5 0 00-2.6-3.4M15 4.5A3.5 3.5 0 0117 8a3.5 3.5 0 01-2 3.2"></path></svg></span>
         <span style="font:500 13.5px 'Inter';color:{{ nav.prospects.col }};">Prospects</span>
       </button>
-      <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:12px 11px 5px;">Capture &amp; engage</div>
-      <button onClick="{{ goCampaigns }}" title="Campaigns" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.campaigns.bg }};box-shadow:{{ nav.campaigns.ring }};">
-        <span style="display:flex;color:{{ nav.campaigns.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4z"></path></svg></span>
-        <span style="font:500 13.5px 'Inter';color:{{ nav.campaigns.col }};">Campaigns</span>
+      <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:12px 11px 5px;">Data sources</div>
+      <button onClick="{{ goDiscover }}" title="Discover" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.discover.bg }};box-shadow:{{ nav.discover.ring }};">
+        <span style="display:flex;color:{{ nav.discover.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.8"></circle><path d="M15.6 15.6L21 21"></path></svg></span>
+        <span style="font:500 13.5px 'Inter';color:{{ nav.discover.col }};">Discover</span>
       </button>
       <button onClick="{{ goVisitors }}" title="Website Visitors" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.visitors.bg }};box-shadow:{{ nav.visitors.ring }};">
         <span style="display:flex;color:{{ nav.visitors.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 000 18M12 3a14 14 0 010 18"></path></svg></span>
         <span style="font:500 13.5px 'Inter';color:{{ nav.visitors.col }};">Website Visitors</span>
       </button>
+      <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:12px 11px 5px;">Engage</div>
+      <button onClick="{{ goCampaigns }}" title="Campaigns" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.campaigns.bg }};box-shadow:{{ nav.campaigns.ring }};">
+        <span style="display:flex;color:{{ nav.campaigns.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4z"></path></svg></span>
+        <span style="font:500 13.5px 'Inter';color:{{ nav.campaigns.col }};">Campaigns</span>
+      </button>
+      
 
       <button onClick="{{ goOpps }}" title="Opportunities" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.opps.bg }};box-shadow:{{ nav.opps.ring }};">
         <span style="display:flex;color:{{ nav.opps.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 12h18"></path></svg></span>
         <span style="font:500 13.5px 'Inter';color:{{ nav.opps.col }};">Opportunities</span>
       </button>
+      
+
+      <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:12px 11px 5px;">Platform</div>
       <button onClick="{{ goPlaybooks }}" title="Agents & workflows" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.playbooks.bg }};box-shadow:{{ nav.playbooks.ring }};">
         <span style="display:flex;color:{{ nav.playbooks.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="9" r="2.5"></circle><path d="M6 8.5v7M8.5 6H15a3 3 0 013 3v.5"></path></svg></span>
         <span style="font:500 13.5px 'Inter';color:{{ nav.playbooks.col }};">Agents</span>
       </button>
-
-      <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:12px 11px 5px;">Platform</div>
       <button onClick="{{ goPersonalization }}" title="Personalization" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.personalization.bg }};box-shadow:{{ nav.personalization.ring }};">
         <span style="display:flex;color:{{ nav.personalization.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 L19 8 L19 16 L12 20.5 L5 16 L5 8 Z"></path><path d="M12 8 L15.5 10 L15.5 14 L12 16 L8.5 14 L8.5 10 Z" fill="currentColor" stroke="none"></path></svg></span>
         <span style="font:500 13.5px 'Inter';color:{{ nav.personalization.col }};">Personalization</span>
@@ -1725,6 +1729,24 @@
                     <button onClick="{{ fc.drop }}" title="Remove filter" style="border:none;background:transparent;cursor:pointer;color:#8aa697;display:flex;padding:2px;border-radius:50%;" style-hover="color:#14211a;background:rgba(14,168,79,.12)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
                   </span>
                 </sc-for>
+                <sc-if value="{{ discIsContacts }}" hint-placeholder-val="">
+                  <span style="position:relative;display:inline-flex;">
+                    <button onClick="{{ discCtPersonaToggle }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid {{ discCtPersonaBd }};background:{{ discCtPersonaBg }};cursor:pointer;border-radius:20px;padding:4px 11px;font:600 11.5px 'Inter';color:{{ discCtPersonaCol }};white-space:nowrap;">✦ {{ discCtPersonaL }}<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+                    <sc-if value="{{ discCtPersonaOpen }}" hint-placeholder-val="">
+                      <div style="position:absolute;top:calc(100% + 6px);left:0;z-index:70;background:#fdfbf6;border:1px solid #dfe7e1;border-radius:11px;box-shadow:0 14px 34px -14px rgba(20,33,26,.4);padding:6px;min-width:256px;display:flex;flex-direction:column;gap:2px;">
+                        <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;padding:6px 10px 4px;">Persona ICPs · from the engine</div>
+                        <sc-for list="{{ discCtPersonaOpts }}" as="po" hint-placeholder-count="2">
+                          <button onClick="{{ po.pick }}" style="display:flex;align-items:center;gap:9px;border:none;background:transparent;cursor:pointer;border-radius:8px;padding:8px 10px;text-align:left;width:100%;" style-hover="background:rgba(14,168,79,.07)">
+                            <span style="flex:1;font:500 12.5px 'Inter';color:#14211a;">{{ po.l }}</span>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0ea84f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ po.tickOp }};flex:0 0 auto;"><path d="M20 6L9 17l-5-5"></path></svg>
+                          </button>
+                        </sc-for>
+                        <div style="border-top:1px solid #e9efe9;margin:4px 4px 2px;"></div>
+                        <button onClick="{{ goCreatePersonaIcp }}" style="display:flex;align-items:center;gap:8px;border:none;background:transparent;cursor:pointer;border-radius:8px;padding:8px 10px;text-align:left;width:100%;font:600 12px 'Inter';color:#0b6b3a;" style-hover="background:rgba(14,168,79,.07)">＋ Create persona ICP</button>
+                      </div>
+                    </sc-if>
+                  </span>
+                </sc-if>
                 <sc-if value="{{ discNoQuick }}" hint-placeholder-val="">
                   <button onClick="{{ openDiscFilters }}" style="display:inline-flex;align-items:center;gap:6px;border:1px dashed #c6d5ca;background:transparent;cursor:pointer;border-radius:20px;padding:5px 12px;font:500 11.5px 'Inter';color:#6b776e;" style-hover="border-color:#0ea84f;color:#14211a"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Add a filter</button>
                 </sc-if>
@@ -2775,14 +2797,14 @@
             <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(150deg,#12b85c,#0b8f43);display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#fff"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#fff" opacity=".75"></circle></svg></span>
             <p style="font:400 13px/1.55 'Inter';color:#3d4a42;margin:1px 0 0;">{{ campBrief }}</p>
           </div>
-          <sc-if value="{{ hasCampDrafts }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:center;gap:22px;border-bottom:1px solid #dfe7e1;margin-bottom:20px;">
+            <button onClick="{{ cpGoTable }}" style="display:inline-flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;padding:0 2px 10px;font:{{ cpT.w }} 13px 'Inter';color:{{ cpT.col }};box-shadow:inset 0 -2px 0 {{ cpT.bd }};white-space:nowrap;">All campaigns</button>
+            <button onClick="{{ cpGoAppr }}" style="display:inline-flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;padding:0 2px 10px;font:{{ cpA.w }} 13px 'Inter';color:{{ cpA.col }};box-shadow:inset 0 -2px 0 {{ cpA.bd }};white-space:nowrap;">Needs approval<span style="font:600 10px 'JetBrains Mono';color:#8f5f15;background:#f4e5c5;border-radius:5px;padding:2px 7px;">{{ apprTotal }}</span></button>
+            <button onClick="{{ cpGoAwait }}" style="display:inline-flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;padding:0 2px 10px;font:{{ cpW.w }} 13px 'Inter';color:{{ cpW.col }};box-shadow:inset 0 -2px 0 {{ cpW.bd }};white-space:nowrap;">Awaiting response<span style="font:600 10px 'JetBrains Mono';color:#5f6d64;background:#e9efe9;border-radius:5px;padding:2px 7px;">{{ caAwN }}</span></button>
+          </div>
+          <sc-if value="{{ campPgAppr }}" hint-placeholder-val="">
             <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:14px;overflow:hidden;margin-bottom:22px;">
-              <div style="display:flex;align-items:center;gap:9px;padding:13px 16px;border-bottom:1px solid #e9efe9;">
-                <span style="font:600 13.5px 'Inter';color:#14211a;">Waiting on you</span>
-                <span style="font:600 10px 'JetBrains Mono';color:#8f5f15;background:#f4e5c5;border-radius:5px;padding:2px 7px;">{{ apprTotal }}</span>
-                <span style="flex:1;"></span>
-                <span style="font:400 11.5px 'Inter';color:#94a399;">Campaign sends and automation gates. Nothing moves without you.</span>
-              </div>
+              <sc-if value="{{ caIsWaiting }}" hint-placeholder-val="{{ true }}">
               <sc-for list="{{ campDrafts }}" as="d" hint-placeholder-count="3">
                 <div style="display:flex;align-items:flex-start;gap:12px;padding:13px 16px;border-bottom:1px solid #eef2ee;">
                   <span style="width:32px;height:32px;border-radius:50%;background:{{ d.avBg }};color:{{ d.avFg }};display:flex;align-items:center;justify-content:center;font:600 11px 'Inter';flex:0 0 auto;">{{ d.initials }}</span>
@@ -2825,8 +2847,29 @@
                   </div>
                 </div>
               </sc-for>
+              <sc-if value="{{ caWaitEmpty }}" hint-placeholder-val="">
+                <div style="padding:16px;font:400 12.5px 'Inter';color:#94a399;">Nothing waiting. Approvals land here before anything sends.</div>
+              </sc-if>
+              </sc-if>
+              </div>
+          </sc-if>
+          <sc-if value="{{ campPgAwait }}" hint-placeholder-val="">
+            <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:14px;overflow:hidden;">
+              <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ caAwait }}" as="aw" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid #eef2ee;">
+                    <div style="width:210px;flex:0 0 auto;display:flex;flex-direction:column;gap:1px;">
+                      <span style="font:600 13px 'Inter';color:#14211a;">{{ aw.name }}</span>
+                      <span style="font:400 11px 'Inter';color:#5f6d64;">{{ aw.sub }}</span>
+                    </div>
+                    <span style="flex:1;min-width:0;font:400 12.5px 'Inter';color:#3d4a42;">{{ aw.line }}</span>
+                    <span style="font:500 10.5px 'Inter';color:#1a545f;background:#d6e9ef;border-radius:6px;padding:3px 9px;white-space:nowrap;flex:0 0 auto;">{{ aw.camp }}</span>
+                  </div>
+                </sc-for>
+              </sc-if>
             </div>
           </sc-if>
+          <sc-if value="{{ campPgTable }}" hint-placeholder-val="{{ true }}">
           <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:14px;overflow:hidden;">
             <div style="display:flex;align-items:center;padding:0 16px;height:38px;background:#e9efe9;font:600 9px 'JetBrains Mono';letter-spacing:.07em;color:#5f6d64;"><span style="flex:1;min-width:200px;">CAMPAIGN</span><span style="width:180px;">SEGMENT</span><span style="width:82px;">STATUS</span><span style="width:150px;">AUTONOMY</span><span style="width:76px;text-align:right;">ENROLLED</span><span style="width:66px;text-align:right;">REPLIES</span><span style="width:76px;text-align:right;">MEETINGS</span><span style="width:82px;text-align:right;">PIPELINE</span><span style="width:96px;"></span></div>
             <sc-for list="{{ campList }}" as="c" hint-placeholder-count="4">
@@ -2850,6 +2893,7 @@
             </sc-for>
           </div>
           <p style="font:400 12px 'Inter';color:#94a399;margin:14px 2px 0;">Members enroll as they enter a segment and exit on reply, meeting, or disqualify. Outcomes feed back into segment quality.</p>
+          </sc-if>
         </div>
       </div>
       <sc-if value="{{ newCampOpen }}" hint-placeholder-val="">
@@ -7505,6 +7549,22 @@
         <!-- Filters -->
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex:0 0 auto;flex-wrap:wrap;">
           <span style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;">Filters</span>
+          <span style="position:relative;display:inline-flex;">
+            <button onClick="{{ dcPersonaToggle }}" style="display:inline-flex;align-items:center;gap:7px;font:600 12px 'Inter';color:{{ dcPersonaCol }};background:{{ dcPersonaBg }};border:1px solid {{ dcPersonaBd }};border-radius:9px;padding:8px 14px;cursor:pointer;white-space:nowrap;">✦ {{ dcPersonaL }}<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+            <sc-if value="{{ dcPersonaOpen }}" hint-placeholder-val="">
+              <div style="position:absolute;top:calc(100% + 6px);left:0;z-index:60;background:#fdfbf6;border:1px solid #dfe7e1;border-radius:11px;box-shadow:0 14px 34px -14px rgba(20,33,26,.4);padding:6px;min-width:256px;display:flex;flex-direction:column;gap:2px;">
+                <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;padding:6px 10px 4px;">Persona ICPs · from the engine</div>
+                <sc-for list="{{ dcPersonaOpts }}" as="po" hint-placeholder-count="2">
+                  <button onClick="{{ po.pick }}" style="display:flex;align-items:center;gap:9px;border:none;background:transparent;cursor:pointer;border-radius:8px;padding:8px 10px;text-align:left;width:100%;" style-hover="background:rgba(14,168,79,.07)">
+                    <span style="flex:1;font:500 12.5px 'Inter';color:#14211a;">{{ po.l }}</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0ea84f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ po.tickOp }};flex:0 0 auto;"><path d="M20 6L9 17l-5-5"></path></svg>
+                  </button>
+                </sc-for>
+                <div style="border-top:1px solid #e9efe9;margin:4px 4px 2px;"></div>
+                <button onClick="{{ goCreatePersonaIcp }}" style="display:flex;align-items:center;gap:8px;border:none;background:transparent;cursor:pointer;border-radius:8px;padding:8px 10px;text-align:left;width:100%;font:600 12px 'Inter';color:#0b6b3a;" style-hover="background:rgba(14,168,79,.07)">＋ Create persona ICP</button>
+              </div>
+            </sc-if>
+          </span>
           <span style="display:inline-flex;align-items:center;gap:7px;font:500 12px 'Inter';color:#3d4a42;background:#fbfdfb;border:1px solid #dfe7e1;border-radius:9px;padding:8px 14px;cursor:pointer;min-width:200px;">Department<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></span>
           <span style="display:inline-flex;align-items:center;gap:7px;font:500 12px 'Inter';color:#3d4a42;background:#fbfdfb;border:1px solid #dfe7e1;border-radius:9px;padding:8px 14px;cursor:pointer;min-width:200px;">Seniority<span style="font:600 10px 'Inter';color:#fff;background:#0ea84f;border-radius:10px;padding:1px 7px;margin-left:2px;">4</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></span>
           <span style="display:inline-flex;align-items:center;gap:7px;font:500 12px 'Inter';color:#3d4a42;background:#fbfdfb;border:1px solid #dfe7e1;border-radius:9px;padding:8px 14px;cursor:pointer;min-width:200px;">Location<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></span>
@@ -9930,8 +9990,8 @@
               <sc-if value="{{ peIcpListMode }}" hint-placeholder-val="{{ true }}">
                 <p style="font:400 12.5px 'Inter';color:#5f6d64;margin:0 0 14px;max-width:66ch;">Who counts as a fit. The ✦ ICP column on Prospects and the Priority quadrant score against whichever definition is active.</p>
                 <div style="display:inline-flex;gap:6px;margin-bottom:16px;">
-                  <button onClick="{{ peIcpTabAccount }}" style="border:1px solid {{ icpTabA.bd }};background:{{ icpTabA.bg }};color:{{ icpTabA.col }};cursor:pointer;border-radius:9px;padding:8px 15px;font:600 12px 'Inter';">Account ICP</button>
-                  <button onClick="{{ peIcpTabPersona }}" style="border:1px solid {{ icpTabP.bd }};background:{{ icpTabP.bg }};color:{{ icpTabP.col }};cursor:pointer;border-radius:9px;padding:8px 15px;font:600 12px 'Inter';">Persona ICP</button>
+                  <button onClick="{{ peIcpTabAccount }}" style="border:1px solid {{ icpTabA.bd }};background:{{ icpTabA.bg }};color:{{ icpTabA.col }};cursor:pointer;border-radius:9px;padding:8px 15px;font:600 12px 'Inter';white-space:nowrap;">Account ICP</button>
+                  <button onClick="{{ peIcpTabPersona }}" style="border:1px solid {{ icpTabP.bd }};background:{{ icpTabP.bg }};color:{{ icpTabP.col }};cursor:pointer;border-radius:9px;padding:8px 15px;font:600 12px 'Inter';white-space:nowrap;">Persona ICP</button>
                 </div>
                 <sc-if value="{{ peIcpIsAccount }}" hint-placeholder-val="{{ true }}">
                   <div style="border:1px solid #cdeede;background:#f4fbf6;border-radius:14px;padding:17px 19px;margin-bottom:16px;">
@@ -9956,7 +10016,7 @@
                 <div style="display:flex;align-items:center;gap:10px;margin-bottom:11px;">
                   <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#94a399;">Your {{ icpTypeLabel }} ICPs · {{ icpCount }}</span>
                   <span style="flex:1;"></span>
-                  <button onClick="{{ peIcpCreate }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:9px;padding:8px 15px;font:600 12px 'Inter';" style-hover="background:#0b8f43">+ Create ICP</button>
+                  <button onClick="{{ peIcpCreate }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:9px;padding:8px 15px;font:600 12px 'Inter';white-space:nowrap;flex:0 0 auto;" style-hover="background:#0b8f43">+ Create ICP</button>
                 </div>
                 <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:14px;overflow:hidden;">
                   <sc-for list="{{ icpRows }}" as="ir" hint-placeholder-count="2">
@@ -9985,7 +10045,7 @@
               </sc-if>
 
               <sc-if value="{{ peIcpCreateMode }}" hint-placeholder-val="">
-                <button onClick="{{ peIcpCancel }}" style="display:flex;align-items:center;gap:6px;border:none;background:transparent;cursor:pointer;font:500 12px 'Inter';color:#5f6d64;margin-bottom:14px;padding:0;" style-hover="color:#14211a"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>All ICPs</button>
+                <button onClick="{{ peIcpCancel }}" style="display:flex;align-items:center;gap:6px;border:none;background:transparent;cursor:pointer;font:500 12px 'Inter';color:#5f6d64;margin-bottom:14px;padding:0;white-space:nowrap;" style-hover="color:#14211a"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>All ICPs</button>
                 <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
                   <input value="{{ icpDraftName }}" onInput="{{ onIcpName }}" placeholder="ICP name *" style="flex:1;border:1px solid #c6d5ca;border-radius:10px;background:#fff;padding:11px 13px;font:600 14px 'Inter';color:#14211a;outline:none;" />
                   <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#1a545f;background:#d6e9ef;border-radius:7px;padding:5px 10px;flex:0 0 auto;">{{ icpTypeLabel }} ICP</span>
@@ -10020,7 +10080,7 @@
                     <sc-if value="{{ icpHasSel }}" hint-placeholder-val="{{ true }}"></sc-if>
                     <div style="display:flex;gap:9px;justify-content:flex-end;">
                       <button onClick="{{ peIcpCancel }}" style="border:1px solid #c6d5ca;background:#fff;cursor:pointer;border-radius:9px;padding:9px 16px;font:600 12px 'Inter';color:#14211a;" style-hover="background:#faf8f3">Cancel</button>
-                      <button onClick="{{ saveIcp }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:9px;padding:9px 16px;font:600 12px 'Inter';" style-hover="background:#0b8f43">Save &amp; activate</button>
+                      <button onClick="{{ saveIcp }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:9px;padding:9px 16px;font:600 12px 'Inter';white-space:nowrap;flex:0 0 auto;" style-hover="background:#0b8f43">Save &amp; activate</button>
                     </div>
                   </div>
                 </div>
@@ -11945,7 +12005,7 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;agentName&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Paula&quot;,&quot;Cortex&quot;,&quot;Aria&quot;],&quot;default&quot;:&quot;Paula&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scheduleDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
   state = {
-    view: 'discover', tab: 'companies', goalText: '', wfKey: 'pricing',
+    view: 'workspace', tab: 'companies', goalText: '', wfKey: 'pricing',
     campApproved: [], campPaused: {}, campLaunched: {}, campCreated: [], newCampOpen: false, campGoal: '', campSegPick: null,
     discQualModal: false, discQualIcp: null, discQualIcpOpen: false, discQualN: 2, discQualEmail: true, discQualPhone: false, qualFrom: null,
     wspRail: true, wspRailTab: 'filters', wspSearch: '', wspAF: [{ k:'ICP Fit', vs:['Enterprise SaaS','Mid-market FinTech','RevOps-led teams','PLG expansion'] }], wspLibOpen: null, wspDI: false,
@@ -12919,7 +12979,7 @@ class Component extends DCLogic {
         const TITLES = { Sales: ['Senior Account Manager', 'Customer Success Lead', 'Head of Sales Ops'], Marketing: ['Senior Growth Manager', 'Digital Marketing Manager', 'SEO Copywriter'], RevOps: ['RevOps Manager', 'Director of Revenue Operations', 'GTM Systems Lead'], Finance: ['Finance Ops Manager', 'Controller', 'VP Finance'] };
         const AVС = [['#dcf3e5', '#0b6b3a'], ['#d6e9ef', '#1a545f'], ['#fbf6ea', '#8f5f15'], ['#f6e3e8', '#7e3f55']];
         const F = S.srcF || {};
-        const PERS = { 'RevOps leader': 'RevOps', 'GTM engineer': 'Marketing', 'Finance ops': 'Finance' };
+        const PERS = { 'Manager and Above': (c) => /manager|director|head|vp|chief|founder|president/i.test(c.sen + ' ' + c.title), 'Accounts Receivables Persona': (c) => c.dept === 'Finance', 'RevOps leader': (c) => c.dept === 'RevOps', 'GTM engineer': (c) => c.dept === 'Marketing', 'Finance ops': (c) => c.dept === 'Finance' };
         const all = [];
         accts.forEach(a => { for (let i = 0; i < 6; i++) { const h = H(a + 'c' + i);
           const dept = DEPTS2[h % 4], sen = SENS[h % 5], loc = LOCS[h % 6];
@@ -12929,7 +12989,7 @@ class Component extends DCLogic {
             title: TITLES[dept][h % 3], tal: h % 5 === 0, h }); } });
         const fpass = (c) => {
           const p = F['Persona ICP'] || [], d = F['Department'] || [], s = F['Seniority'] || [], l = F['Country'] || [];
-          if (p.length && p.map(x => PERS[x]).indexOf(c.dept) < 0) return false;
+          if (p.length && !p.some(x => PERS[x] && PERS[x](c))) return false;
           if (d.length && d.indexOf(c.dept) < 0) return false;
           if (s.length && s.indexOf(c.sen) < 0) return false;
           if (l.length && l.indexOf(c.ctry) < 0) return false;
@@ -12939,7 +12999,7 @@ class Component extends DCLogic {
         const rowsT = filtered.filter(c => tab === 'new' ? !c.tal : c.tal);
         const sel = S.srcSel || [];
         const GROUPS = [
-          ['Persona ICP', ['RevOps leader', 'GTM engineer', 'Finance ops']],
+          ['Persona ICP', ['Manager and Above', 'Accounts Receivables Persona', 'RevOps leader', 'GTM engineer', 'Finance ops']],
           ['Department', DEPTS2],
           ['Seniority', SENS],
           ['Country', ['United States', 'Germany', 'Nigeria', 'Philippines', 'Argentina']] ];
@@ -13277,6 +13337,21 @@ class Component extends DCLogic {
       isCampaigns: S.view === 'campaigns',
       goCampaigns: () => this.setState({ view:'campaigns' }),
       campList, campDrafts, campBrief,
+      ...(() => {
+        const t = this.state.campPgTab || 'table';
+        const mkT = (k) => t === k ? { col:'#14211a', bd:'#0ea84f', w:'600' } : { col:'#5f6d64', bd:'transparent', w:'500' };
+        const AW = [
+          { name:'Daniel Park', sub:'VP Finance \u00b7 Philips', line:'Step 2 sent 2h ago \u00b7 opened twice, no reply yet', camp:'Fast follow \u00b7 pricing intent' },
+          { name:'Mira Chen', sub:'RevOps Director \u00b7 Razorpay', line:'Step 1 sent yesterday \u00b7 delivered, unopened', camp:'Warm re-intro \u00b7 job changers' },
+          { name:'Tom\u00e1s Rivera', sub:'Head of RevOps \u00b7 HighRadius', line:'Step 3 sent 3d ago \u00b7 next touch waits 2 more days', camp:'Visitor outreach \u00b7 same-day' } ];
+        return {
+          campPgTable: t === 'table', campPgAppr: t === 'appr', campPgAwait: t === 'await',
+          cpT: mkT('table'), cpA: mkT('appr'), cpW: mkT('await'),
+          cpGoTable: () => this.setState({ campPgTab:'table' }), cpGoAppr: () => this.setState({ campPgTab:'appr' }), cpGoAwait: () => this.setState({ campPgTab:'await' }),
+          caIsWaiting: true,
+          caAwN: String(AW.length),
+          caAwait: AW };
+      })(),
       ...(() => { const done = S.wfGateDone || {};
         const gates = [{ id: 'g1', wf: 'High-Intent Account Alert', node: 'Wait for approval \u00b7 step 4', wants: 'Enroll 12 accounts in the Pricing-intent play and notify their owners in Slack', rec: '12 accounts', trig: 'Intent spike on 12 accounts \u00b7 2h ago' }]
           .filter(g => !done[g.id]).map(g => ({ ...g,
@@ -13285,7 +13360,7 @@ class Component extends DCLogic {
             reject: () => { this.setState(s => ({ wfGateDone: { ...(s.wfGateDone || {}), [g.id]: 1 } })); this.toast('Rejected \u2014 the workflow stopped at the gate. Nothing was enrolled.'); } }));
         const total = campDrafts.length + gates.length;
         return { wfGates: gates,
-          hasCampDrafts: total > 0,
+          hasCampDrafts: true, caWaitEmpty: total === 0,
           campDraftCount: campDrafts.length,
           apprTotal: total, pdApprNudge: total > 0,
           apprBreak: campDrafts.length + ' campaign send' + (campDrafts.length === 1 ? '' : 's') + (gates.length ? ' and ' + gates.length + ' automation gate' + (gates.length === 1 ? '' : 's') + ' (' + gates[0].wf + ')' : '') }; })(),
@@ -14703,7 +14778,10 @@ class Component extends DCLogic {
       const sel = dcSelSet.has(c.name);
       return { ...c, initials:c.name.split(' ').map(s=>s[0]).slice(0,2).join(''), avBg:a[0], avFg:a[1], tags, selected:sel, unselected:!sel, borderStyle: sel?'2px solid #0ea84f':'1px solid #dfe7e1', toggle:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); this.setState(s=>{ const set=new Set(s.dcSelCards||[]); set.has(c.name)?set.delete(c.name):set.add(c.name); return {dcSelCards:[...set]}; }); } };
     });
-    const dcResultCount = dcAllCards.length + ' / 2233';
+    const dcPersona = this.state.dcPersona || '';
+    const DC_PERS = { 'Manager and Above': (c) => c.seniority !== 'Individual', 'Accounts Receivables Persona': (c) => c.dept === 'Finance' };
+    const dcCardsF = dcPersona && DC_PERS[dcPersona] ? dcAllCards.filter(DC_PERS[dcPersona]) : dcAllCards;
+    const dcResultCount = dcCardsF.length + ' / 2233';
 
     const ATAB = this.state.acctTab;
     const at = (l,key) => ({ l, go: () => this.setState({ acctTab:key }), font: ATAB===key?"600 10px 'JetBrains Mono'":"500 10px 'JetBrains Mono'", col: ATAB===key?'#14211a':'#5f6d64', bd: ATAB===key?'#0ea84f':'transparent' });
@@ -17156,6 +17234,7 @@ class Component extends DCLogic {
               segCReady: !!this.state.segCReady,
               segCModes: [
                 { k: 'dynamic', l: 'Dynamic', d: 'Rules decide \u2014 and you can still add or remove by hand.' },
+                { k: 'hybrid', l: 'Hybrid', d: 'AI-built rules first; your own ICP conditions layered on top.' },
                 { k: 'manual', l: 'Manual', d: 'You pick every account yourself.' } ].map(m => { const on = mode === m.k;
                 return { ...m, on, pick: () => this.setState({ segCMode: m.k, segCReady: m.k === 'manual' ? true : this.state.segCReady, segCName: this.state.segCName || (m.k === 'manual' ? 'New list' : '') }),
                   bd: on ? '#a7dfc0' : '#dfe7e1', bg: on ? '#f2fbf5' : '#fbfdfb', dotBd: on ? '#0b8f43' : '#cfd8cb' }; }),
@@ -18135,6 +18214,7 @@ class Component extends DCLogic {
       ...this.campVals(),
       goContacts: () => this.setState({ view:'workspace', tab:'contacts' }),
       goProspects: () => this.setState({ view:'workspace', tab:'companies' }),
+      goCreatePersonaIcp: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ view:'personalization', peTab:'icp', peIcpTab:'persona', peIcpMode:'create', peIcpDraft:{ name:'', sel:{} }, discCtPersonaOpen:false, dcPersonaOpen:false }); },
       goDiscover: () => this.setState({ view:'discover' }),
       paulaOpen: this.state.paulaOpen,
       openPaula: () => this.setState({ paulaOpen:false, pdBig:true, pdOpen:false }),
@@ -18424,7 +18504,15 @@ class Component extends DCLogic {
       noteInputRef, addContactNote,
       openDiscoverContacts: () => this.setState({ discoverContactsOpen: true }),
       closeDiscoverContacts: () => this.setState({ discoverContactsOpen: false, dcSelCards: [] }),
-      dcSearchTabs, dcSearchPlaceholder, dcCards: dcAllCards, dcResultCount, dcSelCount,
+      dcSearchTabs, dcSearchPlaceholder, dcCards: dcCardsF, dcResultCount, dcSelCount,
+      dcPersonaL: dcPersona || 'Persona ICP',
+      dcPersonaOpen: !!this.state.dcPersonaOpen,
+      dcPersonaToggle: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState(s => ({ dcPersonaOpen: !s.dcPersonaOpen })); },
+      dcPersonaCol: dcPersona ? '#0b6b3a' : '#3d4a42',
+      dcPersonaBg: dcPersona ? '#dcf3e5' : '#fbfdfb',
+      dcPersonaBd: dcPersona ? '#a7dfc0' : '#dfe7e1',
+      dcPersonaOpts: ['Manager and Above', 'Accounts Receivables Persona'].map(n => { const on = dcPersona === n; return { l: n, tickOp: on ? '1' : '0',
+        pick: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ dcPersona: on ? '' : n, dcPersonaOpen: false }); } }; }),
       committee, orgNodes, acctActivity, oppDeal, competitors, piContacts, rnContacts, rnPages,
       orgCols, orgRows, orgCellSelected, orgSelDept, orgSelDesig, orgSelRange, orgSelTotal, orgCellTabs, orgCellContacts, closeOrgCell, toggleOrgOppsFilter, orgOppsFilter, orgOppsTrackBg, orgOppsKnobLeft,
       orgSearchTypes, orgSearchQuery, onOrgSearch, orgSearchPlaceholder, orgHasQuery, clearOrgSearch, orgShowTypeahead, orgTypeaheadResults, orgTotalLabel,
@@ -19404,7 +19492,10 @@ class Component extends DCLogic {
                   key: co.name + '|' + nm });
               }
             });
-            const marked = rows.map(r => {
+            const pFil = self.state.discCtPersona || '';
+            const P_PRED = { 'Manager and Above': (r) => ['Manager','Director','VP','C-Suite'].indexOf(r.seniority) !== -1, 'Accounts Receivables Persona': (r) => r.dept === 'Finance' };
+            const rowsP = pFil && P_PRED[pFil] ? rows.filter(P_PRED[pFil]) : rows;
+            const marked = rowsP.map(r => {
               const on = csel.indexOf(r.key) !== -1;
               return { ...r, selected: on,
                 rowBg: on ? '#fbeee3' : '#fbfdfb',
@@ -19420,6 +19511,14 @@ class Component extends DCLogic {
             const shown = marked.slice(0, size);
             return {
               discContacts: shown,
+              discCtPersonaL: pFil || 'Persona ICP',
+              discCtPersonaOpen: !!self.state.discCtPersonaOpen,
+              discCtPersonaToggle: (e) => { if (e && e.stopPropagation) e.stopPropagation(); self.setState(s => ({ discCtPersonaOpen: !s.discCtPersonaOpen })); },
+              discCtPersonaCol: pFil ? '#0b6b3a' : '#5f6d64',
+              discCtPersonaBg: pFil ? '#dcf3e5' : 'transparent',
+              discCtPersonaBd: pFil ? '#a7dfc0' : '#c6d5ca',
+              discCtPersonaOpts: ['Manager and Above', 'Accounts Receivables Persona'].map(n => { const on = pFil === n; return { l: n, tickOp: on ? '1' : '0',
+                pick: (e) => { if (e && e.stopPropagation) e.stopPropagation(); self.setState({ discCtPersona: on ? '' : n, discCtPersonaOpen: false }); } }; }),
               discCoCount: String(base.length),
               discCtCount: String(marked.length),
               discCtRangeLabel: marked.length ? '1\u2013' + shown.length + ' of ' + marked.length + ' contacts' : 'No contacts in this scope',
@@ -19731,7 +19830,7 @@ class Component extends DCLogic {
       notifNormCount: String(_nfNorm.length),
       notifChannels: _nfChannels,
       notifTypes: _nfTypes,
-      backFromNotif: () => this.setState({ view: 'discover' }),
+      backFromNotif: () => this.setState({ view: 'workspace' }),
     };
   }
 }
