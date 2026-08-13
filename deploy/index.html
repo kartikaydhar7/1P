@@ -601,11 +601,7 @@
           </div>
           <div style="max-width:1040px;margin:0 auto;padding:24px 34px 80px;">
 
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px;">
-              <sc-for list="{{ segStats }}" as="s" hint-placeholder-count="4">
-                <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:12px;padding:14px 16px;"><div style="font:600 23px 'JetBrains Mono';color:#14211a;letter-spacing:-0.02em;">{{ s.v }}</div><div style="font:500 10.5px 'Inter';color:#5f6d64;margin-top:3px;">{{ s.l }}</div></div>
-              </sc-for>
-            </div>
+            
 
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
               <div style="position:relative;width:280px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5f6d64" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg><input placeholder="Search segments" style="width:100%;box-sizing:border-box;border:1px solid #dfe7e1;background:#fbfdfb;border-radius:9px;padding:8px 12px 8px 32px;font:400 13px 'Inter';color:#14211a;outline:none;"></div>
@@ -620,51 +616,9 @@
               <span style="display:inline-flex;align-items:center;gap:6px;font:500 11.5px 'Inter';color:#3d4a42;background:#fbfdfb;border:1px solid #dfe7e1;border-radius:8px;padding:6px 11px;cursor:pointer;">Sort: Recent<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></span>
             </div>
 
-            <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:9px;">
-              <span style="font:600 13.5px 'Inter';color:#14211a;">Priority segments</span>
-              <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;background:#dcf3e5;border-radius:5px;padding:2px 7px;">Auto</span>
-              <span style="font:400 11.5px 'Inter';color:#94a399;">Membership moves with ICP fit × trend. Customize what happens on entry.</span>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #dfe7e1;background:#fbfdfb;border-radius:13px;overflow:hidden;margin-bottom:22px;">
-              <sc-for list="{{ priSegs }}" as="p" hint-placeholder-count="4">
-                <button onClick="{{ p.customize }}" title="Rule: {{ p.rule }} · Auto: {{ p.autoSummary }} — click to customize" style="text-align:left;border:none;border-left:1px solid #eef2ee;background:transparent;cursor:pointer;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0;" style-hover="background:#f4f8f5">
-                  <span style="display:flex;align-items:baseline;gap:8px;width:100%;">
-                    <span style="font:600 9.5px 'Inter';text-transform:uppercase;letter-spacing:.05em;color:{{ p.c }};background:{{ p.b }};border-radius:6px;padding:3px 9px;white-space:nowrap;flex:0 0 auto;">{{ p.name }}</span>
-                    <span style="flex:1;"></span>
-                    <span style="font:700 17px 'JetBrains Mono';color:#14211a;letter-spacing:-0.02em;">{{ p.count }}</span>
-                  </span>
-                  <span style="font:400 9.5px 'JetBrains Mono';color:#94a399;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;">{{ p.rule }}</span>
-                </button>
-              </sc-for>
-            </div>
+            
 
-            <sc-if value="{{ hasSegProposals }}" hint-placeholder-val="{{ true }}">
-              <div style="border:1px solid #cdeede;background:linear-gradient(180deg,#f2fbf5,#fbfdfb);border-radius:14px;padding:11px 16px;margin-bottom:18px;">
-                <div style="display:flex;align-items:center;gap:9px;">
-                  <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(150deg,#12b85c,#0b8f43);display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#fff"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#fff" opacity=".75"></circle></svg></span>
-                  <span style="font:500 13px 'Inter';color:#14211a;flex:1;">{{ segPropsLine }}</span>
-                  <button onClick="{{ toggleSegProps }}" style="border:1px solid #a7dfc0;background:#fff;cursor:pointer;border-radius:8px;padding:6px 14px;font:600 11.5px 'Inter';color:#0b6b3a;flex:0 0 auto;" style-hover="background:#f2fbf5">{{ segPropsBtn }}</button>
-                  <button onClick="{{ dismissAllProps }}" style="border:none;background:transparent;cursor:pointer;font:500 11px 'Inter';color:#94a399;flex:0 0 auto;" style-hover="color:#14211a">Dismiss</button>
-                </div>
-                <sc-if value="{{ segPropsOpen }}" hint-placeholder-val="">
-                <div style="display:flex;flex-direction:column;gap:9px;margin-top:11px;">
-                  <sc-for list="{{ segProposals }}" as="p" hint-placeholder-count="3">
-                    <div style="display:flex;align-items:flex-start;gap:12px;border:1px solid {{ p.amberBorder }};background:{{ p.amberBg }};border-radius:11px;padding:12px 14px;">
-                      <span style="font:600 8px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:{{ p.kindC }};background:{{ p.kindB }};border-radius:5px;padding:3px 8px;flex:0 0 auto;margin-top:1px;">{{ p.kind }}</span>
-                      <div style="flex:1;min-width:0;">
-                        <div style="font:650 13px 'Inter';color:#14211a;margin-bottom:3px;">{{ p.title }}</div>
-                        <div style="font:400 11.5px/1.45 'Inter';color:#5f6d64;"><b style="color:#3d4a42;font-weight:600;">Because</b> {{ p.because }}</div>
-                      </div>
-                      <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto;">
-                        <button onClick="{{ p.run }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:8px;padding:8px 13px;font:600 11.5px 'Inter';" style-hover="background:#0b8f43">{{ p.cta }}</button>
-                        <button onClick="{{ p.dismiss }}" style="border:none;background:transparent;cursor:pointer;color:#94a399;font:500 11px 'Inter';" style-hover="color:#14211a">Dismiss</button>
-                      </div>
-                    </div>
-                  </sc-for>
-                </div>
-                </sc-if>
-              </div>
-            </sc-if>
+            
             <sc-if value="{{ segFull }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:10px;">
               <span style="font:600 13.5px 'Inter';color:#14211a;">Plays</span>
@@ -736,6 +690,50 @@
                 </sc-for>
               </div>
             </sc-if>
+            <div style="display:flex;align-items:baseline;gap:9px;margin:24px 0 9px;">
+              <span style="font:600 13.5px 'Inter';color:#14211a;">Priority segments</span>
+              <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;background:#dcf3e5;border-radius:5px;padding:2px 7px;">Auto</span>
+              <span style="font:400 11.5px 'Inter';color:#94a399;">Membership moves with ICP fit × trend. Customize what happens on entry.</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #dfe7e1;background:#fbfdfb;border-radius:13px;overflow:hidden;margin-bottom:22px;">
+              <sc-for list="{{ priSegs }}" as="p" hint-placeholder-count="4">
+                <button onClick="{{ p.customize }}" title="Rule: {{ p.rule }} · Auto: {{ p.autoSummary }} — click to customize" style="text-align:left;border:none;border-left:1px solid #eef2ee;background:transparent;cursor:pointer;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0;" style-hover="background:#f4f8f5">
+                  <span style="display:flex;align-items:baseline;gap:8px;width:100%;">
+                    <span style="font:600 9.5px 'Inter';text-transform:uppercase;letter-spacing:.05em;color:{{ p.c }};background:{{ p.b }};border-radius:6px;padding:3px 9px;white-space:nowrap;flex:0 0 auto;">{{ p.name }}</span>
+                    <span style="flex:1;"></span>
+                    <span style="font:700 17px 'JetBrains Mono';color:#14211a;letter-spacing:-0.02em;">{{ p.count }}</span>
+                  </span>
+                  <span style="font:400 9.5px 'JetBrains Mono';color:#94a399;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;">{{ p.rule }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ hasSegProposals }}" hint-placeholder-val="{{ true }}">
+              <div style="border:1px solid #cdeede;background:linear-gradient(180deg,#f2fbf5,#fbfdfb);border-radius:14px;padding:11px 16px;margin-bottom:18px;">
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(150deg,#12b85c,#0b8f43);display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#fff"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#fff" opacity=".75"></circle></svg></span>
+                  <span style="font:500 13px 'Inter';color:#14211a;flex:1;">{{ segPropsLine }}</span>
+                  <button onClick="{{ toggleSegProps }}" style="border:1px solid #a7dfc0;background:#fff;cursor:pointer;border-radius:8px;padding:6px 14px;font:600 11.5px 'Inter';color:#0b6b3a;flex:0 0 auto;" style-hover="background:#f2fbf5">{{ segPropsBtn }}</button>
+                  <button onClick="{{ dismissAllProps }}" style="border:none;background:transparent;cursor:pointer;font:500 11px 'Inter';color:#94a399;flex:0 0 auto;" style-hover="color:#14211a">Dismiss</button>
+                </div>
+                <sc-if value="{{ segPropsOpen }}" hint-placeholder-val="">
+                <div style="display:flex;flex-direction:column;gap:9px;margin-top:11px;">
+                  <sc-for list="{{ segProposals }}" as="p" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:flex-start;gap:12px;border:1px solid {{ p.amberBorder }};background:{{ p.amberBg }};border-radius:11px;padding:12px 14px;">
+                      <span style="font:600 8px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:{{ p.kindC }};background:{{ p.kindB }};border-radius:5px;padding:3px 8px;flex:0 0 auto;margin-top:1px;">{{ p.kind }}</span>
+                      <div style="flex:1;min-width:0;">
+                        <div style="font:650 13px 'Inter';color:#14211a;margin-bottom:3px;">{{ p.title }}</div>
+                        <div style="font:400 11.5px/1.45 'Inter';color:#5f6d64;"><b style="color:#3d4a42;font-weight:600;">Because</b> {{ p.because }}</div>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto;">
+                        <button onClick="{{ p.run }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:8px;padding:8px 13px;font:600 11.5px 'Inter';" style-hover="background:#0b8f43">{{ p.cta }}</button>
+                        <button onClick="{{ p.dismiss }}" style="border:none;background:transparent;cursor:pointer;color:#94a399;font:500 11px 'Inter';" style-hover="color:#14211a">Dismiss</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                </sc-if>
+              </div>
+            </sc-if>
           </div>
         </sc-if>
 
@@ -781,6 +779,40 @@
             </div>
 
 
+            <!-- Members -->
+            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;">
+              <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#94a399;">Accounts in this segment · highest fit first</span>
+              <span style="flex:1;"></span>
+              <button onClick="{{ segOpenInTable }}" style="border:none;background:transparent;cursor:pointer;font:600 11.5px 'Inter';color:#0b6b3a;padding:0;text-decoration:underline;text-underline-offset:3px;" style-hover="color:#0ea84f">Open all in the Prospects table →</button>
+            </div>
+            <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:13px;overflow:hidden;">
+              <div style="display:flex;align-items:center;padding:0 16px;height:36px;background:#e9efe9;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#5f6d64;"><span style="width:220px;">ACCOUNT</span><span style="width:120px;">ICP FIT</span><span style="flex:1;">WHY TOP ACCOUNT</span></div>
+              <sc-for list="{{ segTop10 }}" as="t" hint-placeholder-count="10">
+                <div onClick="{{ t.openAcct }}" style="display:flex;align-items:center;padding:0 16px;height:50px;border-bottom:1px solid #e9efe9;cursor:pointer;" style-hover="background:rgba(14,168,79,.04)">
+                  <span style="width:220px;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:{{ t.avBg }};color:{{ t.avFg }};display:flex;align-items:center;justify-content:center;font:600 10px 'Inter';flex:0 0 auto;">{{ t.initials }}</span><span style="display:flex;flex-direction:column;"><span style="font:600 12.5px 'Inter';color:#14211a;">{{ t.name }}</span><span style="font:400 9.5px 'JetBrains Mono';color:#94a399;">{{ t.domain }}</span></span></span>
+                  <span style="width:120px;display:flex;align-items:center;gap:8px;"><span style="width:42px;height:6px;border-radius:6px;background:#dfe7e1;overflow:hidden;"><span style="display:block;height:100%;width:{{ t.fitPct }};background:{{ t.fitColor }};"></span></span><span style="font:600 11px 'JetBrains Mono';color:#14211a;">{{ t.fit }}</span></span>
+                  <span style="flex:1;font:400 12px 'Inter';color:#3d4a42;">{{ t.reason }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <!-- Flow ledger -->
+            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#94a399;margin-bottom:10px;">This week · in, out, outcomes</div>
+            <div style="border:1px solid #e6ecdf;background:#fbfdfb;border-radius:12px;padding:4px 16px;margin-bottom:24px;">
+              <sc-for list="{{ segFlow }}" as="fl" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #eef2ee;">
+                  <span style="width:34px;font:600 12px 'JetBrains Mono';color:{{ fl.c }};flex:0 0 auto;">{{ fl.n }}</span>
+                  <span style="flex:1;font:400 12px 'Inter';color:#3d4a42;">{{ fl.t }}</span>
+                  <span style="font:400 10px 'JetBrains Mono';color:#94a399;flex:0 0 auto;">{{ fl.src }}</span>
+                </div>
+              </sc-for>
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 0;">
+                <span style="width:34px;font:600 12px 'JetBrains Mono';color:#0b8f43;flex:0 0 auto;">{{ segReply }}·{{ segMtgsN }}</span>
+                <span style="flex:1;font:400 12px 'Inter';color:#3d4a42;">replies · meetings from attached plays, last 30 days</span>
+                <button onClick="{{ goSequence }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Inter';color:#0b6b3a;flex:0 0 auto;" style-hover="color:#0ea84f">View campaign →</button>
+              </div>
+            </div>
+
             <!-- Rule & automations -->
             <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#94a399;margin-bottom:10px;">Who gets in · entry rule (accounts)</div>
             <div style="border:1px solid #e6ecdf;background:#fbfdfb;border-radius:12px;padding:13px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
@@ -792,7 +824,7 @@
             <div style="border:1px solid #e6ecdf;background:#fbfdfb;border-radius:12px;padding:13px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
               <span style="font:500 12.5px 'JetBrains Mono';color:#14211a;flex:0 0 auto;white-space:nowrap;">{{ segWhoRule }}</span>
               <span style="flex:1;min-width:0;font:400 11.5px 'Inter';color:#5f6d64;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ segWhoCoverage }}</span>
-              <button onClick="{{ segWhoSource }}" style="border:1px solid #a7dfc0;background:#f2fbf5;cursor:pointer;border-radius:7px;padding:5px 12px;font:600 10.5px 'Inter';color:#0b6b3a;flex:0 0 auto;white-space:nowrap;" style-hover="background:#dcf3e5">Source contacts</button>
+              <button onClick="{{ segWhoSource }}" style="border:1px solid #a7dfc0;background:#f2fbf5;cursor:pointer;border-radius:7px;padding:5px 12px;font:600 10.5px 'Inter';color:#0b6b3a;flex:0 0 auto;white-space:nowrap;" style-hover="background:#dcf3e5">Source contacts</button> <button onClick="{{ segRunDeepIntel }}" style="display:inline-flex;align-items:center;gap:5px;border:1px solid #e8d9b0;background:#fbf6ea;cursor:pointer;border-radius:7px;padding:5px 12px;font:600 10.5px 'Inter';color:#8f5f15;flex:0 0 auto;white-space:nowrap;" style-hover="border-color:#d9c07a"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg>Deep Intel · 1,000 cr</button>
             </div>
             <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#94a399;margin-bottom:10px;">What happens · on entry</div>
             <div style="border:1px solid #e6ecdf;background:#fbfdfb;border-radius:12px;padding:6px 16px;margin-bottom:16px;">
@@ -810,45 +842,11 @@
                   <span style="position:absolute;top:2px;left:{{ segCrmSyncKnobLeft }};width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .15s;"></span>
                 </div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;gap:1px;border:1px solid #e6ecdf;background:#fbfdfb;border-radius:12px;padding:11px 15px;justify-content:center;">
-                <span style="font:600 12px 'Inter';color:#14211a;">Auto-refresh · Daily</span>
-                <span style="font:400 10.5px 'Inter';color:#94a399;">Rules re-evaluate at 8:00 AM · next run tomorrow</span>
-              </div>
-            </div>
-            <!-- Outcome line -->
-            <div style="border:1px solid #cdeede;background:#f2fbf5;border-radius:12px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0b8f43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 14l4-4 3 3 5-6"></path></svg>
-              <span style="flex:1;font:400 12.5px 'Inter';color:#3d4a42;"><sc-if value="{{ segHasPlays }}" hint-placeholder-val="{{ true }}"><b style="color:#14211a;">{{ segReply }} reply · {{ segMtgsN }} meetings</b> from outreach to these accounts in the last 30 days.</sc-if><sc-if value="{{ segNoPlays }}" hint-placeholder-val="">No outreach yet — attach a play to start the clock.</sc-if></span>
-              <button onClick="{{ goSequence }}" style="border:1px solid #a7dfc0;background:#fff;cursor:pointer;border-radius:8px;padding:6px 13px;font:600 11.5px 'Inter';color:#0b6b3a;flex:0 0 auto;" style-hover="background:#f2fbf5">View campaign</button>
-            </div>
-            <!-- Flow ledger -->
-            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#94a399;margin-bottom:10px;">This week</div>
-            <div style="border:1px solid #e6ecdf;background:#fbfdfb;border-radius:12px;padding:4px 16px;margin-bottom:24px;">
-              <sc-for list="{{ segFlow }}" as="fl" hint-placeholder-count="3">
-                <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #eef2ee;">
-                  <span style="width:34px;font:600 12px 'JetBrains Mono';color:{{ fl.c }};flex:0 0 auto;">{{ fl.n }}</span>
-                  <span style="flex:1;font:400 12px 'Inter';color:#3d4a42;">{{ fl.t }}</span>
-                  <span style="font:400 10px 'JetBrains Mono';color:#94a399;flex:0 0 auto;">{{ fl.src }}</span>
-                </div>
-              </sc-for>
+              <div style="flex:1;display:flex;align-items:center;padding:11px 2px;font:400 11px 'Inter';color:#94a399;">Rules re-evaluate daily at 8:00 AM.</div>
             </div>
 
-            <!-- Members -->
-            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;">
-              <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#94a399;">Accounts in this segment · highest fit first</span>
-              <span style="flex:1;"></span>
-              <button onClick="{{ segOpenInTable }}" style="border:none;background:transparent;cursor:pointer;font:600 11.5px 'Inter';color:#0b6b3a;padding:0;text-decoration:underline;text-underline-offset:3px;" style-hover="color:#0ea84f">Open all in the Prospects table →</button>
-            </div>
-            <div style="border:1px solid #dfe7e1;background:#fbfdfb;border-radius:13px;overflow:hidden;">
-              <div style="display:flex;align-items:center;padding:0 16px;height:36px;background:#e9efe9;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#5f6d64;"><span style="width:220px;">ACCOUNT</span><span style="width:120px;">ICP FIT</span><span style="flex:1;">WHY TOP ACCOUNT</span></div>
-              <sc-for list="{{ segTop10 }}" as="t" hint-placeholder-count="10">
-                <div style="display:flex;align-items:center;padding:0 16px;height:50px;border-bottom:1px solid #e9efe9;cursor:pointer;" style-hover="background:rgba(14,168,79,.04)">
-                  <span style="width:220px;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:{{ t.avBg }};color:{{ t.avFg }};display:flex;align-items:center;justify-content:center;font:600 10px 'Inter';flex:0 0 auto;">{{ t.initials }}</span><span style="display:flex;flex-direction:column;"><span style="font:600 12.5px 'Inter';color:#14211a;">{{ t.name }}</span><span style="font:400 9.5px 'JetBrains Mono';color:#94a399;">{{ t.domain }}</span></span></span>
-                  <span style="width:120px;display:flex;align-items:center;gap:8px;"><span style="width:42px;height:6px;border-radius:6px;background:#dfe7e1;overflow:hidden;"><span style="display:block;height:100%;width:{{ t.fitPct }};background:{{ t.fitColor }};"></span></span><span style="font:600 11px 'JetBrains Mono';color:#14211a;">{{ t.fit }}</span></span>
-                  <span style="flex:1;font:400 12px 'Inter';color:#3d4a42;">{{ t.reason }}</span>
-                </div>
-              </sc-for>
-            </div>
+
+
 
             </sc-if>
 
@@ -2068,218 +2066,7 @@
         </div>
       </sc-if>
 
-      <!-- ===== ACCOUNT DRAWER ===== -->
-      <sc-if value="{{ discDrawerOpen }}" hint-placeholder-val="">
-        <div onClick="{{ closeDiscDrawer }}" style="position:fixed;inset:0;background:rgba(30,27,23,.12);z-index:50;"></div>
-        <div style="position:fixed;top:0;right:0;width:720px;max-width:96vw;height:100vh;background:#fbfdfb;border-left:1px solid #dfe7e1;z-index:51;display:flex;flex-direction:column;box-shadow:-8px 0 32px -8px rgba(30,27,23,.15);">
 
-          <!-- Header -->
-          <div style="padding:16px 20px 14px;border-bottom:1px solid #dfe7e1;flex:0 0 auto;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <span style="width:36px;height:36px;border-radius:9px;background:{{ discAcct.logoBg }};color:{{ discAcct.logoFg }};display:flex;align-items:center;justify-content:center;font:700 12px 'Inter';flex:0 0 auto;">{{ discAcct.initials }}</span>
-                <div>
-                  <h2 style="font:600 18px 'Inter';letter-spacing:-0.02em;color:#14211a;margin:0;">{{ discAcct.name }}</h2>
-                  <a href="#" style="font:400 11px 'JetBrains Mono';color:#0ea84f;text-decoration:none;" style-hover="text-decoration:underline">{{ discAcct.domain }}</a>
-                </div>
-              </div>
-              <button onClick="{{ closeDiscDrawer }}" style="border:none;background:transparent;cursor:pointer;padding:4px;color:#5f6d64;border-radius:6px;" style-hover="background:rgba(14,168,79,.06)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
-            </div>
-            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
-              <span style="display:inline-flex;align-items:center;gap:4px;background:{{ discAcct.matchB }};color:{{ discAcct.matchC }};border-radius:5px;padding:3px 8px;font:600 10px 'JetBrains Mono';">{{ discAcct.fit }}% match</span>
-              <span style="display:inline-flex;background:#e9efe9;color:#5f6d64;border-radius:5px;padding:3px 8px;font:500 10px 'Inter';">{{ discAcct.stage }}</span>
-              <span style="display:inline-flex;background:#dbebdc;color:#2f5d3a;border-radius:5px;padding:3px 8px;font:500 10px 'Inter';">Active</span>
-            </div>
-            <!-- Key stats row -->
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #dfe7e1;border-radius:8px;overflow:hidden;background:#fbfdfb;">
-              <div style="padding:10px 12px;border-right:1px solid #e9efe9;">
-                <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#14211a;">{{ discAcct.revenue }}</div>
-                <div style="font:500 7.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:2px;">REVENUE</div>
-              </div>
-              <div style="padding:10px 12px;border-right:1px solid #e9efe9;">
-                <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#14211a;">{{ discAcct.empLabel }}</div>
-                <div style="font:500 7.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:2px;">EMPLOYEES</div>
-              </div>
-              <div style="padding:10px 12px;border-right:1px solid #e9efe9;">
-                <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#2f5d3a;">+12%</div>
-                <div style="font:500 7.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:2px;">GROWTH 1Y</div>
-              </div>
-              <div style="padding:10px 12px;">
-                <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#14211a;">{{ discAcct.totalRaised }}</div>
-                <div style="font:500 7.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:2px;">TOTAL FUND</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Scrollable body -->
-          <div class="cx-scroll" style="flex:1;overflow-y:auto;padding:14px 20px;">
-
-            <!-- Summary -->
-            <div style="padding-bottom:12px;border-bottom:1px solid #dfe7e1;">
-              <p style="font:500 12.5px/1.5 'Inter';color:#14211a;margin:0 0 4px;">{{ discAcct.conciseSummary }}</p>
-              <p style="font:400 11.5px/1.5 'Inter';color:#5f6d64;margin:0;">{{ discAcct.summary }}</p>
-            </div>
-
-            <!-- General Info mini grid -->
-            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
-              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">General Info</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;">Industry</span>
-                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.industry }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;">HQ</span>
-                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.hqLabel }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;">Founded</span>
-                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.founded }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;">Models</span>
-                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.bizModel }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;">Clients</span>
-                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.clientsLabel }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Status</span>
-                  <span title="{{ discAcct.opStatus }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.opStatus }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Tech readiness</span>
-                  <span title="{{ discAcct.techReadiness }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.techReadiness }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Trademarks</span>
-                  <span title="{{ discAcct.trademarks }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.trademarks }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Patents</span>
-                  <span title="{{ discAcct.patents }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.patents }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Emp. growth</span>
-                  <span title="{{ discAcct.empGrowthPct }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.empGrowthPct }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Female %</span>
-                  <span title="{{ discAcct.femalePct }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.femalePct }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Language</span>
-                  <span title="{{ discAcct.language }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.language }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Legal entity</span>
-                  <span title="{{ discAcct.legalEntity }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.legalEntity }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Countries</span>
-                  <span title="{{ discAcct.activeCountries }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.activeCountries }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Other sites</span>
-                  <span title="{{ discAcct.otherLocations }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.otherLocations }}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
-                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Serves</span>
-                  <span title="{{ discAcct.industriesServed }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.industriesServed }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Technologies -->
-            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
-              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:6px;">Technologies</div>
-              <div style="font:400 12px 'Inter';color:#0ea84f;">{{ discAcct.techList }}</div>
-            </div>
-
-            <!-- Founders -->
-            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
-              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">Founders</div>
-              <sc-for list="{{ discAcct.foundersTable }}" as="ft" hint-placeholder-count="2">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M20 21a8 8 0 10-16 0"></path></svg>
-                  <span style="font:500 12px 'Inter';color:#14211a;">{{ ft.name }}</span>
-                  <span style="font:400 11px 'Inter';color:#5f6d64;">— {{ ft.role }}</span>
-                </div>
-              </sc-for>
-            </div>
-
-            <!-- Key Financials -->
-            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
-              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">Recent Funding</div>
-              <sc-for list="{{ discAcct.topRounds }}" as="fr" hint-placeholder-count="2">
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid #e9efe9;">
-                  <div style="display:flex;align-items:center;gap:6px;">
-                    <div style="width:6px;height:6px;border-radius:50%;background:#0ea84f;flex:0 0 auto;"></div>
-                    <span style="font:400 12px 'Inter';color:#3d4a42;">{{ fr.type }}</span>
-                    <span style="font:400 10px 'JetBrains Mono';color:#94a399;">{{ fr.date }}</span>
-                  </div>
-                  <span style="font:600 12px 'JetBrains Mono';color:#0ea84f;">{{ fr.amount }}</span>
-                </div>
-              </sc-for>
-              <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;">
-                <span style="font:500 8px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;line-height:22px;">INVESTORS:</span>
-                <sc-for list="{{ discAcct.topInvestors }}" as="inv" hint-placeholder-count="4">
-                  <span style="padding:2px 8px;border:1px solid #dfe7e1;border-radius:4px;font:400 10px 'Inter';color:#0ea84f;">{{ inv }}</span>
-                </sc-for>
-              </div>
-            </div>
-
-            <!-- Ecosystem snapshot -->
-            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
-              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">Headquarters</div>
-              <div style="border:1px solid #dfe7e1;border-radius:10px;overflow:hidden;background:#e9efe9;margin-bottom:8px;">
-                <div ref="{{ drawerMapRef }}" style="width:100%;height:230px;"></div>
-              </div>
-              <div style="display:flex;align-items:center;gap:7px;margin-bottom:18px;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0b6b3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"></path></svg>
-                <span style="font:500 12.5px 'Inter';color:#14211a;">{{ discAcct.hqLabel }}</span>
-                <span style="font:400 11.5px 'Inter';color:#8a958c;">{{ discAcct.hqAddress }}</span>
-              </div>
-
-              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">Ecosystem</div>
-              <div style="display:flex;flex-direction:column;gap:6px;">
-                <div style="display:flex;align-items:flex-start;gap:6px;">
-                  <span style="font:500 11px 'Inter';color:#5f6d64;white-space:nowrap;width:80px;flex:0 0 auto;">Clients</span>
-                  <span style="font:400 11px 'Inter';color:#3d4a42;">{{ discAcct.clientsLine }}</span>
-                </div>
-                <div style="display:flex;align-items:flex-start;gap:6px;">
-                  <span style="font:500 11px 'Inter';color:#5f6d64;white-space:nowrap;width:80px;flex:0 0 auto;">Partners</span>
-                  <span style="font:400 11px 'Inter';color:#3d4a42;">{{ discAcct.partnersLine }}</span>
-                </div>
-                <div style="display:flex;align-items:flex-start;gap:6px;">
-                  <span style="font:500 11px 'Inter';color:#5f6d64;white-space:nowrap;width:80px;flex:0 0 auto;">Acquired</span>
-                  <span style="font:400 11px 'Inter';color:#3d4a42;">{{ discAcct.acquiredLine }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Links -->
-            <div style="padding:12px 0;">
-              <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                <sc-for list="{{ discAcct.socialLinks }}" as="sl" hint-placeholder-count="5">
-                  <a href="#" title="{{ sl.label }}" style="width:26px;height:26px;border-radius:7px;background:{{ sl.bg }};display:flex;align-items:center;justify-content:center;flex:0 0 auto;text-decoration:none;" style-hover="opacity:.82">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="{{ sl.fg }}"><path d="{{ sl.icon }}"></path></svg>
-                  </a>
-                </sc-for>
-                <a href="#" style="display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border:1px solid #dfe7e1;border-radius:5px;font:500 10px 'JetBrains Mono';color:#0ea84f;text-decoration:none;" style-hover="border-color:#0ea84f">{{ discAcct.domain }} <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"></path></svg></a>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Footer CTAs -->
-          <div style="padding:12px 20px;border-top:1px solid #dfe7e1;flex:0 0 auto;display:flex;gap:8px;">
-            <button onClick="{{ openDiscFullPage }}" style="flex:1;border:1px solid #dfe7e1;background:#fbfdfb;cursor:pointer;border-radius:8px;padding:10px;font:600 12px 'Inter';color:#14211a;display:flex;align-items:center;justify-content:center;gap:6px;" style-hover="background:rgba(14,168,79,.06)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"></path></svg>View Full Profile</button>
-            <button onClick="{{ openDiscSegModalFromDrawer }}" style="flex:1;border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:8px;padding:10px;font:600 12px 'Inter';display:flex;align-items:center;justify-content:center;gap:6px;" style-hover="opacity:.9"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 4.5-9 4.5-9-4.5z"></path><path d="M3 12l9 4.5 9-4.5"></path></svg>Add to segments</button>
-          </div>
-        </div>
-      </sc-if>
 
       <!-- Add to Segment Modal -->
       <sc-if value="{{ discSegModal }}" hint-placeholder-val="">
@@ -2466,6 +2253,27 @@
                 </div>
               </div>
 
+              <div style="position:relative;max-height:{{ discDiMaxH }};overflow:{{ discDiOv }};">
+              <sc-if value="{{ discDiOff }}" hint-placeholder-val="">
+                <div style="position:absolute;inset:0;z-index:40;display:flex;align-items:flex-start;justify-content:center;padding:44px 20px 0;background:linear-gradient(180deg,rgba(243,247,244,.5) 0%,rgba(243,247,244,.92) 42%,#f3f7f4 100%);">
+                  <div style="width:440px;max-width:100%;background:#fdfbf6;border:1px solid #dfe7e1;border-radius:16px;box-shadow:0 18px 48px -18px rgba(14,33,26,.3);padding:22px 24px;text-align:center;">
+                    <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(150deg,#12b85c,#0b8f43);color:#fff;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg></span>
+                    <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#14211a;margin-bottom:6px;">Deep Intelligence</div>
+                    <p style="font:400 12.5px/1.6 'Inter';color:#5f6d64;margin:0 0 14px;">Locations, contacts, org chart, buying committee, funding history and tech stack, verified across 40+ sources. Everything above is free.</p>
+                    <sc-if value="{{ discDiIdle }}" hint-placeholder-val="{{ true }}">
+                      <button onClick="{{ discDrawerRunDI }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:9px;padding:10px 18px;font:600 12.5px 'Inter';" style-hover="background:#0b8f43">Run Deep Intelligence · 1,000 cr</button>
+                      <div style="font:400 10.5px 'Inter';color:#94a399;margin-top:10px;">Usually 5–10 minutes · you'll be notified when it lands.</div>
+                    </sc-if>
+                    <sc-if value="{{ discDiBusyV }}" hint-placeholder-val="">
+                      <div style="display:inline-flex;align-items:center;gap:10px;background:#fbf6ea;border:1px solid #ecd9ac;border-radius:10px;padding:11px 17px;">
+                        <span style="display:inline-flex;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#b5791b;animation:cx-pulse 1.2s ease-in-out infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#b5791b;animation:cx-pulse 1.2s ease-in-out .2s infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#b5791b;animation:cx-pulse 1.2s ease-in-out .4s infinite;"></span></span>
+                        <span style="font:600 12px 'Inter';color:#8f5f15;">Researching · verifying 40+ sources</span>
+                      </div>
+                      <div style="font:400 10.5px 'Inter';color:#94a399;margin-top:10px;">Usually 5–10 minutes · keep working, sections unlock when sources verify.</div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-if>
               <!-- Location + Map -->
               <div style="padding:16px 0;border-bottom:1px solid #dfe7e1;">
                 <h3 style="font:600 14px 'Inter';color:#14211a;margin:0 0 12px;display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5f6d64" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>Location</h3>
@@ -2632,6 +2440,7 @@
                 </div>
               </div>
 
+            </div>
             </div>
           </sc-if>
 
@@ -3133,6 +2942,7 @@
                   </div>
                 </sc-if>
               </div>
+              <button onClick="{{ wspRunDeepIntel }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(244,239,227,.25);background:transparent;color:#e7e0d2;border-radius:7px;padding:6px 12px;font:500 11.5px 'Inter';cursor:pointer;white-space:nowrap;" style-hover="background:rgba(244,239,227,.08)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg>Deep Intel <span style="font:600 9.5px 'JetBrains Mono';color:#f4e5c5;">1,000 cr</span></button>
               <button onClick="{{ wsOpenQual }}" style="border:1px solid rgba(244,239,227,.25);background:transparent;color:#e7e0d2;border-radius:7px;padding:6px 12px;font:500 11.5px 'Inter';cursor:pointer;" style-hover="background:rgba(244,239,227,.1);color:#fff"><sc-if value="{{ wsIsCompanies }}" hint-placeholder-val="{{ true }}">Source contacts</sc-if><sc-if value="{{ wsIsContacts }}" hint-placeholder-val="">Enroll in campaign</sc-if></button>
               <button onClick="{{ wspSyncCrm }}" style="border:1px solid rgba(244,239,227,.25);background:transparent;color:#e7e0d2;border-radius:7px;padding:6px 12px;font:500 11.5px 'Inter';cursor:pointer;" style-hover="background:rgba(244,239,227,.1);color:#fff">Sync to Salesforce</button>
               <div style="position:relative;">
@@ -11893,6 +11703,242 @@
       </div>
     </sc-if>
 
+      <!-- ===== ACCOUNT DRAWER ===== -->
+      <sc-if value="{{ discDrawerOpen }}" hint-placeholder-val="">
+        <div onClick="{{ closeDiscDrawer }}" style="position:fixed;inset:0;background:rgba(30,27,23,.12);z-index:50;"></div>
+        <div style="position:fixed;top:0;right:0;width:720px;max-width:96vw;height:100vh;background:#fbfdfb;border-left:1px solid #dfe7e1;z-index:51;display:flex;flex-direction:column;box-shadow:-8px 0 32px -8px rgba(30,27,23,.15);">
+
+          <!-- Header -->
+          <div style="padding:16px 20px 14px;border-bottom:1px solid #dfe7e1;flex:0 0 auto;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="width:36px;height:36px;border-radius:9px;background:{{ discAcct.logoBg }};color:{{ discAcct.logoFg }};display:flex;align-items:center;justify-content:center;font:700 12px 'Inter';flex:0 0 auto;">{{ discAcct.initials }}</span>
+                <div>
+                  <h2 style="font:600 18px 'Inter';letter-spacing:-0.02em;color:#14211a;margin:0;">{{ discAcct.name }}</h2>
+                  <a href="#" style="font:400 11px 'JetBrains Mono';color:#0ea84f;text-decoration:none;" style-hover="text-decoration:underline">{{ discAcct.domain }}</a>
+                </div>
+              </div>
+              <button onClick="{{ closeDiscDrawer }}" style="border:none;background:transparent;cursor:pointer;padding:4px;color:#5f6d64;border-radius:6px;" style-hover="background:rgba(14,168,79,.06)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
+              <span style="display:inline-flex;align-items:center;gap:4px;background:{{ discAcct.matchB }};color:{{ discAcct.matchC }};border-radius:5px;padding:3px 8px;font:600 10px 'JetBrains Mono';">{{ discAcct.fit }}% match</span>
+              <span style="display:inline-flex;background:#e9efe9;color:#5f6d64;border-radius:5px;padding:3px 8px;font:500 10px 'Inter';">{{ discAcct.stage }}</span>
+              <span style="display:inline-flex;background:#dbebdc;color:#2f5d3a;border-radius:5px;padding:3px 8px;font:500 10px 'Inter';">Active</span>
+            </div>
+            <!-- Key stats row -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #dfe7e1;border-radius:8px;overflow:hidden;background:#fbfdfb;">
+              <div style="padding:10px 12px;border-right:1px solid #e9efe9;">
+                <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#14211a;">{{ discAcct.revenue }}</div>
+                <div style="font:500 7.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:2px;">REVENUE</div>
+              </div>
+              <div style="padding:10px 12px;border-right:1px solid #e9efe9;">
+                <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#14211a;">{{ discAcct.empLabel }}</div>
+                <div style="font:500 7.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:2px;">EMPLOYEES</div>
+              </div>
+              <div style="padding:10px 12px;border-right:1px solid #e9efe9;">
+                <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#2f5d3a;">+12%</div>
+                <div style="font:500 7.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:2px;">GROWTH 1Y</div>
+              </div>
+              <div style="padding:10px 12px;">
+                <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#14211a;">{{ discAcct.totalRaised }}</div>
+                <div style="font:500 7.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-top:2px;">TOTAL FUND</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scrollable body -->
+          <div class="cx-scroll" style="flex:1;overflow-y:auto;padding:14px 20px;">
+
+            <!-- Summary -->
+            <div style="padding-bottom:12px;border-bottom:1px solid #dfe7e1;">
+              <p style="font:500 12.5px/1.5 'Inter';color:#14211a;margin:0 0 4px;">{{ discAcct.conciseSummary }}</p>
+              <p style="font:400 11.5px/1.5 'Inter';color:#5f6d64;margin:0;">{{ discAcct.summary }}</p>
+            </div>
+
+            <!-- General Info mini grid -->
+            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
+              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">General Info</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;">Industry</span>
+                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.industry }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;">HQ</span>
+                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.hqLabel }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;">Founded</span>
+                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.founded }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;">Models</span>
+                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.bizModel }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;">Clients</span>
+                  <span style="font:500 11px 'Inter';color:#14211a;">{{ discAcct.clientsLabel }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Status</span>
+                  <span title="{{ discAcct.opStatus }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.opStatus }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Tech readiness</span>
+                  <span title="{{ discAcct.techReadiness }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.techReadiness }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Trademarks</span>
+                  <span title="{{ discAcct.trademarks }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.trademarks }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Patents</span>
+                  <span title="{{ discAcct.patents }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.patents }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Emp. growth</span>
+                  <span title="{{ discAcct.empGrowthPct }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.empGrowthPct }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Female %</span>
+                  <span title="{{ discAcct.femalePct }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.femalePct }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Language</span>
+                  <span title="{{ discAcct.language }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.language }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Legal entity</span>
+                  <span title="{{ discAcct.legalEntity }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.legalEntity }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Countries</span>
+                  <span title="{{ discAcct.activeCountries }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.activeCountries }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Other sites</span>
+                  <span title="{{ discAcct.otherLocations }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.otherLocations }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:#f3f7f4;border-radius:6px;">
+                  <span style="font:400 11px 'Inter';color:#5f6d64;white-space:nowrap;">Serves</span>
+                  <span title="{{ discAcct.industriesServed }}" style="font:500 11px 'Inter';color:#14211a;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ discAcct.industriesServed }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="position:relative;max-height:{{ discDiMaxH }};overflow:{{ discDiOv }};">
+              <sc-if value="{{ discDiOff }}" hint-placeholder-val="">
+                <div style="position:absolute;inset:0;z-index:40;display:flex;align-items:flex-start;justify-content:center;padding:44px 20px 0;background:linear-gradient(180deg,rgba(243,247,244,.5) 0%,rgba(243,247,244,.92) 42%,#f3f7f4 100%);">
+                  <div style="width:440px;max-width:100%;background:#fdfbf6;border:1px solid #dfe7e1;border-radius:16px;box-shadow:0 18px 48px -18px rgba(14,33,26,.3);padding:22px 24px;text-align:center;">
+                    <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(150deg,#12b85c,#0b8f43);color:#fff;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg></span>
+                    <div style="font:600 16px 'Inter';letter-spacing:-0.02em;color:#14211a;margin-bottom:6px;">Deep Intelligence</div>
+                    <p style="font:400 12.5px/1.6 'Inter';color:#5f6d64;margin:0 0 14px;">Locations, contacts, org chart, buying committee, funding history and tech stack, verified across 40+ sources. Everything above is free.</p>
+                    <sc-if value="{{ discDiIdle }}" hint-placeholder-val="{{ true }}">
+                      <button onClick="{{ discDrawerRunDI }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:9px;padding:10px 18px;font:600 12.5px 'Inter';" style-hover="background:#0b8f43">Run Deep Intelligence · 1,000 cr</button>
+                      <div style="font:400 10.5px 'Inter';color:#94a399;margin-top:10px;">Usually 5–10 minutes · you'll be notified when it lands.</div>
+                    </sc-if>
+                    <sc-if value="{{ discDiBusyV }}" hint-placeholder-val="">
+                      <div style="display:inline-flex;align-items:center;gap:10px;background:#fbf6ea;border:1px solid #ecd9ac;border-radius:10px;padding:11px 17px;">
+                        <span style="display:inline-flex;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#b5791b;animation:cx-pulse 1.2s ease-in-out infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#b5791b;animation:cx-pulse 1.2s ease-in-out .2s infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#b5791b;animation:cx-pulse 1.2s ease-in-out .4s infinite;"></span></span>
+                        <span style="font:600 12px 'Inter';color:#8f5f15;">Researching · verifying 40+ sources</span>
+                      </div>
+                      <div style="font:400 10.5px 'Inter';color:#94a399;margin-top:10px;">Usually 5–10 minutes · keep working, sections unlock when sources verify.</div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-if>
+              
+            <!-- Technologies -->
+            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
+              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:6px;">Technologies</div>
+              <div style="font:400 12px 'Inter';color:#0ea84f;">{{ discAcct.techList }}</div>
+            </div>
+
+            <!-- Founders -->
+            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
+              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">Founders</div>
+              <sc-for list="{{ discAcct.foundersTable }}" as="ft" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a399" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M20 21a8 8 0 10-16 0"></path></svg>
+                  <span style="font:500 12px 'Inter';color:#14211a;">{{ ft.name }}</span>
+                  <span style="font:400 11px 'Inter';color:#5f6d64;">— {{ ft.role }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <!-- Key Financials -->
+            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
+              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">Recent Funding</div>
+              <sc-for list="{{ discAcct.topRounds }}" as="fr" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid #e9efe9;">
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="width:6px;height:6px;border-radius:50%;background:#0ea84f;flex:0 0 auto;"></div>
+                    <span style="font:400 12px 'Inter';color:#3d4a42;">{{ fr.type }}</span>
+                    <span style="font:400 10px 'JetBrains Mono';color:#94a399;">{{ fr.date }}</span>
+                  </div>
+                  <span style="font:600 12px 'JetBrains Mono';color:#0ea84f;">{{ fr.amount }}</span>
+                </div>
+              </sc-for>
+              <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;">
+                <span style="font:500 8px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;line-height:22px;">INVESTORS:</span>
+                <sc-for list="{{ discAcct.topInvestors }}" as="inv" hint-placeholder-count="4">
+                  <span style="padding:2px 8px;border:1px solid #dfe7e1;border-radius:4px;font:400 10px 'Inter';color:#0ea84f;">{{ inv }}</span>
+                </sc-for>
+              </div>
+            </div>
+
+            <!-- Ecosystem snapshot -->
+            <div style="padding:12px 0;border-bottom:1px solid #dfe7e1;">
+              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">Headquarters</div>
+              <div style="border:1px solid #dfe7e1;border-radius:10px;overflow:hidden;background:#e9efe9;margin-bottom:8px;">
+                <div ref="{{ drawerMapRef }}" style="width:100%;height:230px;"></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:18px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0b6b3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"></path></svg>
+                <span style="font:500 12.5px 'Inter';color:#14211a;">{{ discAcct.hqLabel }}</span>
+                <span style="font:400 11.5px 'Inter';color:#8a958c;">{{ discAcct.hqAddress }}</span>
+              </div>
+
+              <div style="font:600 8px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">Ecosystem</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;align-items:flex-start;gap:6px;">
+                  <span style="font:500 11px 'Inter';color:#5f6d64;white-space:nowrap;width:80px;flex:0 0 auto;">Clients</span>
+                  <span style="font:400 11px 'Inter';color:#3d4a42;">{{ discAcct.clientsLine }}</span>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:6px;">
+                  <span style="font:500 11px 'Inter';color:#5f6d64;white-space:nowrap;width:80px;flex:0 0 auto;">Partners</span>
+                  <span style="font:400 11px 'Inter';color:#3d4a42;">{{ discAcct.partnersLine }}</span>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:6px;">
+                  <span style="font:500 11px 'Inter';color:#5f6d64;white-space:nowrap;width:80px;flex:0 0 auto;">Acquired</span>
+                  <span style="font:400 11px 'Inter';color:#3d4a42;">{{ discAcct.acquiredLine }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Links -->
+            <div style="padding:12px 0;">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <sc-for list="{{ discAcct.socialLinks }}" as="sl" hint-placeholder-count="5">
+                  <a href="#" title="{{ sl.label }}" style="width:26px;height:26px;border-radius:7px;background:{{ sl.bg }};display:flex;align-items:center;justify-content:center;flex:0 0 auto;text-decoration:none;" style-hover="opacity:.82">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="{{ sl.fg }}"><path d="{{ sl.icon }}"></path></svg>
+                  </a>
+                </sc-for>
+                <a href="#" style="display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border:1px solid #dfe7e1;border-radius:5px;font:500 10px 'JetBrains Mono';color:#0ea84f;text-decoration:none;" style-hover="border-color:#0ea84f">{{ discAcct.domain }} <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"></path></svg></a>
+              </div>
+            </div>
+
+            </div>
+          </div>
+
+          <!-- Footer CTAs -->
+          <div style="padding:12px 20px;border-top:1px solid #dfe7e1;flex:0 0 auto;display:flex;gap:8px;">
+            <button onClick="{{ openDiscFullPage }}" style="flex:1;border:1px solid #dfe7e1;background:#fbfdfb;cursor:pointer;border-radius:8px;padding:10px;font:600 12px 'Inter';color:#14211a;display:flex;align-items:center;justify-content:center;gap:6px;" style-hover="background:rgba(14,168,79,.06)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"></path></svg>View Full Profile</button>
+            <button onClick="{{ openDiscSegModalFromDrawer }}" style="flex:1;border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:8px;padding:10px;font:600 12px 'Inter';display:flex;align-items:center;justify-content:center;gap:6px;" style-hover="opacity:.9"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 4.5-9 4.5-9-4.5z"></path><path d="M3 12l9 4.5 9-4.5"></path></svg>Add to segments</button>
+          </div>
+        </div>
+      </sc-if>
+
     <!-- Toast -->
     <sc-if value="{{ setToast }}" hint-placeholder-val="">
       <div onClick="{{ dismissSetToast }}" data-noinvert="1" style="position:fixed;left:50%;bottom:86px;transform:translateX(-50%);z-index:400;display:flex;align-items:center;gap:10px;background:#14211a;color:#f2f8f4;border-radius:11px;padding:12px 18px;box-shadow:0 18px 44px -16px rgba(14,43,32,.6);cursor:pointer;max-width:80vw;">
@@ -17196,7 +17242,7 @@ class Component extends DCLogic {
       segWeeklyOpen, segFunnel, segActivityLog,
       sdtOverview, sdtContacts, sdtOutreach, sdtSettings, sdtActivity,
       segIsOverview: _sdt==='overview', segIsContacts: _sdt==='contacts', segIsOutreach: _sdt==='outreach', segIsSettings: _sdt==='settings', segIsActivity: _sdt==='activity',
-      segTop10, segOutreachAgents, segAgentCaps, segAgentGuardrails, segSourcingCriteria,
+      segTop10: segTop10.map(t => ({ ...t, openAcct: (e) => { if (e && e.stopPropagation) e.stopPropagation(); if (discoverResults.find(r => r.name === t.name)) { this.setState({ discDrawerKey: t.name }); } else { this.toast(t.name + ' \u2014 full profile syncs from Discover; run a search that includes it to unlock.'); } } })), segOutreachAgents, segAgentCaps, segAgentGuardrails, segSourcingCriteria,
       ...(() => {
         const sk = this.state.segSel || '';
         const AUT = [
@@ -18215,6 +18261,8 @@ class Component extends DCLogic {
       goContacts: () => this.setState({ view:'workspace', tab:'contacts' }),
       goProspects: () => this.setState({ view:'workspace', tab:'companies' }),
       goCreatePersonaIcp: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ view:'personalization', peTab:'icp', peIcpTab:'persona', peIcpMode:'create', peIcpDraft:{ name:'', sel:{} }, discCtPersonaOpen:false, dcPersonaOpen:false }); },
+      wspRunDeepIntel: () => this.toast('Deep Intelligence queued for the selected accounts \u00b7 1,000 cr each \u2014 results land in 5\u201310 min.'),
+      segRunDeepIntel: () => this.toast('Deep Intelligence queued for every account in this segment \u00b7 1,000 cr each \u2014 results land in 5\u201310 min.'),
       goDiscover: () => this.setState({ view:'discover' }),
       paulaOpen: this.state.paulaOpen,
       openPaula: () => this.setState({ paulaOpen:false, pdBig:true, pdOpen:false }),
@@ -19135,6 +19183,11 @@ class Component extends DCLogic {
       discHistFavCount: String((this.state.discFavQueries||[]).length),
       setDiscHistAll: () => this.setState({ discHistFilter: 'all' }),
       discDrawerOpen, discListMode, discFullPage: discFullPageOn, discAcct, discAcctTabs,
+      ...(() => { const k = discAcct && discAcct.name ? discAcct.name : ''; const on = !!(this.state.discDiRun || {})[k]; const busy = !on && !!(this.state.discDiBusy || {})[k];
+        return { discDiOn: on, discDiOff: !on, discDiMaxH: on ? 'none' : '380px', discDiOv: on ? 'visible' : 'hidden',
+          discDiIdle: !busy, discDiBusyV: busy,
+          discDrawerRunDI: () => { this.setState(s => ({ discDiBusy: { ...(s.discDiBusy || {}), [k]: 1 } })); this.toast('Deep Intelligence started on ' + k + ' \u00b7 1,000 cr \u2014 usually 5\u201310 minutes.');
+            setTimeout(() => { this.setState(s => ({ discDiRun: { ...(s.discDiRun || {}), [k]: 1 } })); this.toast(k + ' \u00b7 Deep Intelligence landed \u2014 sources verified early.'); }, 7000); } }; })(),
       discAcctIsOverview:_discAcctTab==='overview',discAcctIsPeople:_discAcctTab==='people',
       discAcctIsSignals:_discAcctTab==='signals',discAcctIsFinancials:_discAcctTab==='financials',
       // Signal sub-tabs for Prospect account detail

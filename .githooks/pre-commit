@@ -1,0 +1,10 @@
+#!/bin/sh
+# Keeps deploy/ in step with the source prototypes at the repo root. Without
+# this, editing a root file and committing ships nothing: Vercel only uploads
+# deploy/, so the live site would silently keep serving the previous build.
+set -e
+
+node scripts/sync-deploy.mjs
+
+# Stage whatever the sync rewrote so it travels with this commit.
+git add deploy/

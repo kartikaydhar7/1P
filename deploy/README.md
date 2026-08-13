@@ -38,7 +38,20 @@ project's **Root Directory** must be `deploy`. With that set, this
 
 ## Updating the app
 
-`index.html` is a copy of `Sprouts Agent-First v8.dc.html` in the repo root,
-with its one cross-link repointed at `/onboarding`. After editing the root
-file, copy it here as `index.html` and redo that link — nothing outside
-`deploy/` is uploaded by Vercel.
+Everything in here is generated from the sources at the repo root, so **edit
+the root files, not these**. A commit picks the changes up automatically: the
+`.githooks/pre-commit` hook runs `scripts/sync-deploy.mjs`, which copies the
+sources in, repoints the cross-links at `/` and `/onboarding`, and stages the
+result.
+
+| Source (repo root) | Becomes |
+|---|---|
+| `Sprouts Agent-First v8.dc.html` | `index.html` |
+| `Onboarding Journey.dc.html` | `onboarding.html` |
+| `support.js` | `support.js` |
+| `uploads/sprouts.ai-logo.png` | `uploads/sprouts.ai-logo.png` |
+
+The hook needs `git config core.hooksPath .githooks` once per clone — git does
+not share hook config. Without it nothing breaks loudly; `deploy/` just stops
+tracking the sources and the site quietly serves the last build. Run
+`node scripts/sync-deploy.mjs` by hand if you skip the hook.
