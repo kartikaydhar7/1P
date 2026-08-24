@@ -17,7 +17,7 @@ const r = (...p) => join(repoRoot, ...p);
 
 // [source, destination, [linkFrom, linkTo]]
 const PAGES = [
-  ['Sprouts Agent-First v8.dc.html', 'deploy/index.html',
+  ['Sprouts Canopy v9.dc.html', 'deploy/index.html',
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
   ['Onboarding Journey.dc.html', 'deploy/onboarding.html',
     ['href="Sprouts Agent-First v8.dc.html"', 'href="/"']],
