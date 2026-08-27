@@ -19,6 +19,7 @@
   body { margin:0; font-family:'Pliant','Instrument Sans',system-ui,sans-serif; -webkit-font-smoothing:antialiased; color:#14211a; }
   @keyframes cx-spin { to { transform: rotate(360deg); } }
   @keyframes cx-pulse { 0%,100% { opacity:.4; transform:scale(1);} 50% { opacity:1; transform:scale(1.25);} }
+  @keyframes pdRing { from { transform:scale(.72); opacity:.6; } to { transform:scale(1.28); opacity:0; } }
   @keyframes cx-shimmer { 0% { background-position:200% 0; } 100% { background-position:-200% 0; } }
   @keyframes obSpin { to { transform:rotate(360deg); } }
   @keyframes cxSweep { 0% { transform:translateX(-100%); } 100% { transform:translateX(220%); } }
@@ -66,6 +67,11 @@
   /* Dark mode: full-spectrum inversion on the shell; nav + media counter-inverted back */
   .dm-on { filter: invert(0.93) hue-rotate(180deg); background:#080d0b; }
   .dm-on > aside, .dm-on img, .dm-on iframe, .dm-on [data-noinvert] { filter: invert(1) hue-rotate(180deg); }
+  @keyframes cxDashIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes cxGrowX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) { .cx-dashin, .cx-growx { animation: none !important; } }
+  .dash-tile .dash-ctl { opacity: 0; transition: opacity .15s ease; }
+  .dash-tile:hover .dash-ctl, .dash-tile:focus-within .dash-ctl { opacity: 1; }
 </style>
 </helmet>
 
@@ -85,9 +91,9 @@
 
       
       
-      <button onClick="{{ goCortex }}" title="Mission Control" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.cortex.bg }};box-shadow:{{ nav.cortex.ring }};">
+      <button onClick="{{ goCortex }}" title="Dashboard" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.cortex.bg }};box-shadow:{{ nav.cortex.ring }};">
         <span style="display:flex;color:{{ nav.cortex.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="1.8"></rect><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.8"></rect><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.8"></rect><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.8"></rect></svg></span>
-        <span style="font:500 13.5px 'Pliant','Instrument Sans',sans-serif;color:{{ nav.cortex.col }};">Mission Control</span>
+        <span style="font:500 13.5px 'Pliant','Instrument Sans',sans-serif;color:{{ nav.cortex.col }};">Dashboard</span>
       </button>
       <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:12px 11px 5px;">Discover</div>
       <button onClick="{{ goSources }}" title="Sources · every inbound channel" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.sources.bg }};box-shadow:{{ nav.sources.ring }};">
@@ -107,6 +113,10 @@
         <span style="display:flex;color:{{ nav.prospects.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1.5a3.5 3.5 0 00-3.5-3.5h-5A3.5 3.5 0 004 17.5V19"></path><circle cx="10" cy="8" r="3.5"></circle><path d="M20 19v-1.5a3.5 3.5 0 00-2.6-3.4M15 4.5A3.5 3.5 0 0117 8a3.5 3.5 0 01-2 3.2"></path></svg></span>
         <span style="font:500 13.5px 'Pliant','Instrument Sans',sans-serif;color:{{ nav.prospects.col }};">Prospects</span>
       </button>
+      <button onClick="{{ goPartners }}" title="Partners · assign accounts to your channel network" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.partners.bg }};box-shadow:{{ nav.partners.ring }};">
+        <span style="display:flex;color:{{ nav.partners.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"></path><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"></path><path d="m21 3 1 11h-2"></path><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"></path><path d="M3 4h8"></path></svg></span>
+        <span style="font:500 13.5px 'Pliant','Instrument Sans',sans-serif;color:{{ nav.partners.col }};">Partners</span>
+      </button>
       <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:12px 11px 5px;">Outreach</div>
       <button onClick="{{ goCampaigns }}" title="Campaigns" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.campaigns.bg }};box-shadow:{{ nav.campaigns.ring }};">
         <span style="display:flex;color:{{ nav.campaigns.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4z"></path></svg></span>
@@ -121,7 +131,7 @@
       </button>
       
 
-      <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:12px 11px 5px;">Platform</div>
+      <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#6d8577;padding:12px 11px 5px;">Orchestrator</div>
       <button onClick="{{ goPlaybooks }}" title="Agents & workflows" style-hover="background:rgba(14,168,79,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.playbooks.bg }};box-shadow:{{ nav.playbooks.ring }};">
         <span style="display:flex;color:{{ nav.playbooks.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="9" r="2.5"></circle><path d="M6 8.5v7M8.5 6H15a3 3 0 013 3v.5"></path></svg></span>
         <span style="font:500 13.5px 'Pliant','Instrument Sans',sans-serif;color:{{ nav.playbooks.col }};">Agents</span>
@@ -173,6 +183,10 @@
       <button onClick="{{ goSettings }}" class="navfooter-btn" title="Settings" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.settings.bg }};box-shadow:{{ nav.settings.ring }};" style-hover="background:rgba(14,168,79,.06)">
         <span class="navfooter-icon" style="display:flex;color:{{ nav.settings.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"></path></svg></span>
         <span style="font:500 13.5px 'Pliant','Instrument Sans',sans-serif;color:{{ nav.settings.col }};">Settings</span>
+        <span onClick="{{ goSetBillingStop }}" title="Credits remaining this cycle · resets 1 Sep. Click for billing & usage." style="margin-left:auto;display:inline-flex;align-items:center;gap:5px;background:rgba(22,179,100,.14);border-radius:999px;padding:3px 9px;flex:0 0 auto;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7ce3a8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"></ellipse><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"></path><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg>
+          <span style="font:600 10.5px 'JetBrains Mono';color:#eafcf1;">48.8K</span>
+        </span>
       </button>
       <!-- Divider -->
       <div class="navfooter-divider" style="height:1px;background:rgba(124,227,168,.12);margin:4px 6px;"></div>
@@ -602,7 +616,7 @@
             <div class="cx-scroll" style="position:absolute;inset:0;overflow:auto;background-image:radial-gradient(#d7e3d9 1px,transparent 1.2px);background-size:22px 22px;">
               <sc-if value="{{ assembling }}" hint-placeholder-val="">
                 <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:80px 24px;">
-                  <span style="position:relative;width:48px;height:48px;"><span style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);animation:obSpin 2.4s linear infinite;box-shadow:0 18px 38px -14px rgba(14,168,79,.55);"></span><span style="position:absolute;inset:11px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0ea84f"></path></svg></span></span>
+                  <span style="position:relative;width:48px;height:48px;"><span style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(#eafff2,#8fe6b4,#0e2b20,#eafff2);animation:obSpin 2.4s linear infinite;box-shadow:0 18px 38px -14px rgba(14,168,79,.55);"></span><span style="position:absolute;inset:11px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0ea84f"></path></svg></span></span>
                   <span class="cx-shimmer-text" style="font:600 14px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.01em;">{{ agentName }} is assembling the flow…</span>
                 </div>
               </sc-if>
@@ -654,7 +668,7 @@
                       <div style="padding:0 13px 9px;font:400 11.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">{{ n.sub }}</div>
                       <div style="display:flex;align-items:center;gap:7px;padding:8px 13px;border-top:1px solid #f0f4f0;">
                         <span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#94a399;">Assignee</span>
-                        <span style="display:inline-flex;align-items:center;gap:5px;background:{{ n.aBg }};color:{{ n.aCol }};border-radius:6px;padding:3px 8px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;"><sc-if value="{{ n.isSavant }}" hint-placeholder-val=""><span style="width:9px;height:9px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);flex:0 0 auto;"></span></sc-if>{{ n.assignee }}</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px;background:{{ n.aBg }};color:{{ n.aCol }};border-radius:6px;padding:3px 8px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;"><sc-if value="{{ n.isSavant }}" hint-placeholder-val=""><span style="width:9px;height:9px;border-radius:50%;background:#0e2b20;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;"><svg width="5" height="5" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span></sc-if>{{ n.assignee }}</span>
                         <sc-if value="{{ n.prep }}" hint-placeholder-val=""><span style="margin-left:auto;font:600 9px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:#0b6b3a;">✦ prepared</span></sc-if>
                       </div>
                     </div>
@@ -792,6 +806,386 @@
           </sc-for>
         </div>
         <div style="display:flex;gap:12px;"><button onClick="{{ goAccounts }}" style="border:1px solid #c6d5ca;background:transparent;cursor:pointer;border-radius:9px;padding:11px 18px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;">View accounts</button><button onClick="{{ goPlaybooks }}" style="border:none;cursor:pointer;border-radius:9px;padding:11px 20px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#fff;background:#14211a;">New workflow</button></div>
+      </div>
+    </sc-if>
+
+    <!-- ===== DASHBOARD (widget home) ===== -->
+    <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
+      <div class="cx-scroll" data-screen-label="Dashboard" style="flex:1;min-width:0;overflow-y:auto;">
+        <div style="max-width:1120px;margin:0 auto;padding:30px 36px 64px;">
+          <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;">
+            <div style="flex:1;min-width:0;">
+              <h1 style="font:600 23px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#14211a;margin:0 0 6px;">{{ dashGreeting }}</h1>
+              <p style="font:400 13px/1.6 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin:0;max-width:64ch;">Your workspace at a glance. Ask Savant to reshape it.</p>
+            </div>
+
+          </div>
+
+          <sc-if value="{{ dashEmpty }}" hint-placeholder-val="">
+            <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:44px 20px;text-align:center;">
+              <div style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin-bottom:4px;">Everything is hidden</div>
+              <div style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin-bottom:14px;">Ask Savant to bring widgets back, or reset.</div>
+              <button onClick="{{ dashReset }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:999px;padding:9px 16px;font:600 12px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#0b8f43">Reset to default</button>
+            </div>
+          </sc-if>
+
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px;">
+            <sc-for list="{{ dashWidgets }}" as="w" hint-placeholder-count="8">
+              <div class="cx-dashin dash-tile" style="grid-column:span {{ w.span }};border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:16px 18px;min-width:0;animation:cxDashIn .22s cubic-bezier(0.23,1,0.32,1) both;animation-delay:{{ w.dly }};">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:13px;">
+                  <span style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">{{ w.title }}</span>
+                  <span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#94a399;">{{ w.meta }}</span>
+                  <span style="flex:1;"></span>
+                  <button onClick="{{ w.resize }}" title="Resize tile" class="dash-ctl" style="border:none;background:transparent;cursor:pointer;color:#94a399;display:flex;padding:2px;" style-hover="color:#14211a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7M3 21l7-7"></path></svg></button>
+                  <button onClick="{{ w.remove }}" title="Remove tile" class="dash-ctl" style="border:none;background:transparent;cursor:pointer;color:#94a399;display:flex;padding:2px;" style-hover="color:#a2413a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+                  <button onClick="{{ w.go }}" title="Open" style="border:none;background:transparent;cursor:pointer;color:#94a399;display:flex;padding:2px;" style-hover="color:#0ea84f"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+                </div>
+                <sc-if value="{{ w.isStats }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:22px;flex-wrap:wrap;">
+                    <sc-for list="{{ w.stats }}" as="s" hint-placeholder-count="3">
+                      <div style="min-width:0;">
+                        <div style="display:flex;align-items:baseline;gap:6px;"><span style="font:600 22px 'JetBrains Mono';letter-spacing:-0.02em;color:{{ s.c }};">{{ s.v }}</span><sc-if value="{{ s.hasD }}" hint-placeholder-val=""><span style="font:600 9.5px 'JetBrains Mono';color:#0b6b3a;background:#dcf3e5;border-radius:5px;padding:1px 6px;">{{ s.d }}</span></sc-if></div>
+                        <div style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin-top:3px;">{{ s.l }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ w.isList }}" hint-placeholder-val="">
+                  <div style="display:flex;flex-direction:column;gap:10px;">
+                    <sc-for list="{{ w.rows }}" as="r" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:flex-start;gap:9px;">
+                        <span style="width:7px;height:7px;border-radius:50%;background:{{ r.c }};flex:0 0 auto;margin-top:5px;"></span>
+                        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;"><span style="font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#14211a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.t }}</span><span style="font:400 11px/1.45 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">{{ r.s }}</span></span>
+                        <sc-if value="{{ r.hasR }}" hint-placeholder-val=""><span style="font:500 10px 'JetBrains Mono';color:#94a399;flex:0 0 auto;">{{ r.r }}</span></sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ w.isBars }}" hint-placeholder-val="">
+                  <div style="display:flex;flex-direction:column;gap:12px;">
+                    <sc-for list="{{ w.bars }}" as="b" hint-placeholder-count="2">
+                      <div>
+                        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;"><span style="font:500 11.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ b.l }}</span><span style="font:600 10.5px 'JetBrains Mono';color:#14211a;flex:0 0 auto;margin-left:10px;">{{ b.r }}</span></div>
+                        <div style="height:6px;border-radius:3px;background:#e9efe9;overflow:hidden;"><div class="cx-growx" style="height:100%;width:{{ b.w }};background:#0ea84f;border-radius:3px;transform-origin:left;animation:cxGrowX .5s cubic-bezier(0.23,1,0.32,1) both;animation-delay:{{ w.dlyBar }};"></div></div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== PARTNERS (channel network) ===== -->
+    <sc-if value="{{ isPartners }}" hint-placeholder-val="">
+      <div class="cx-scroll" style="flex:1;min-width:0;overflow-y:auto;">
+        <div style="max-width:1120px;margin:0 auto;padding:30px 36px 64px;">
+          <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;">
+            <div style="flex:1;min-width:0;">
+              <h1 style="font:600 23px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#14211a;margin:0 0 6px;">Partners</h1>
+              <p style="font:400 13px/1.6 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin:0;max-width:64ch;">Assign accounts to the partners who work them. Each assignment becomes the account's source in Prospects; anything untouched past the SLA lands back in the queue.</p>
+            </div>
+            <button onClick="{{ ptOpenAdd }}" style="display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:999px;padding:10px 18px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;" style-hover="background:#0b8f43"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Add partner</button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px;">
+            <sc-for list="{{ ptKpis }}" as="k" hint-placeholder-count="5">
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:14px 16px;">
+                <div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">{{ k.lab }}</div>
+                <div style="font:600 26px 'JetBrains Mono';letter-spacing:-0.02em;line-height:1;color:{{ k.valC }};">{{ k.val }}</div>
+                <div style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin-top:6px;">{{ k.sub }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:inline-flex;gap:3px;border:none;background:#fff;border-radius:12px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:4px;margin-bottom:18px;">
+            <sc-for list="{{ ptTabs }}" as="t" hint-placeholder-count="3">
+              <button onClick="{{ t.pick }}" style="border:none;cursor:pointer;background:{{ t.bg }};box-shadow:{{ t.ring }};color:{{ t.col }};border-radius:9px;padding:8px 16px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;" style-hover="color:#14211a">{{ t.l }}</button>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ ptIsAlloc }}" hint-placeholder-val="{{ true }}">
+            <div style="display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start;">
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);overflow:hidden;">
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid #f0f4f0;">
+                  <span style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-right:2px;">Queue</span>
+                  <sc-for list="{{ ptFits }}" as="f" hint-placeholder-count="3">
+                    <button onClick="{{ f.pick }}" style="border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.col }};cursor:pointer;border-radius:999px;padding:5px 12px;font:600 11px 'JetBrains Mono';">{{ f.l }}</button>
+                  </sc-for>
+                  <input value="{{ ptQV }}" onChange="{{ onPtQ }}" placeholder="Search queue" style="border:1px solid #edf2ee;background:#fbfdfb;border-radius:999px;padding:6px 12px;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#14211a;outline:none;width:140px;">
+                  <span style="flex:1;"></span>
+                  <span style="font:500 11px 'JetBrains Mono';color:#5f6d64;"><b style="color:#14211a;">{{ ptSelN }}</b> selected</span>
+                  <button onClick="{{ ptSelectShown }}" style="border:1px solid #c6d5ca;background:#fbfdfb;cursor:pointer;border-radius:999px;padding:5px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;" style-hover="border-color:#a7dfc0;color:#0b6b3a">Select all {{ ptShownN }}</button>
+                </div>
+                <sc-if value="{{ ptHasRows }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;align-items:center;height:34px;background:#f4f8f5;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#5f6d64;border-bottom:1px solid #edf2ee;">
+                    <span style="box-sizing:border-box;flex:0 0 40px;"></span>
+                    <span style="box-sizing:border-box;flex:0 0 220px;padding:0 10px;">ACCOUNT</span>
+                    <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;">TOP SIGNAL</span>
+                    <span style="box-sizing:border-box;flex:0 0 92px;padding:0 10px;">ICP FIT</span>
+                    <span style="box-sizing:border-box;flex:0 0 140px;padding:0 10px;">SEGMENT</span>
+                  </div>
+                  <sc-for list="{{ ptRowsA }}" as="r" hint-placeholder-count="8">
+                    <div onClick="{{ r.toggle }}" style="display:flex;align-items:center;height:48px;border-bottom:1px solid #f0f4f0;cursor:pointer;background:{{ r.rowBg }};" style-hover="background:#fbfdfb">
+                      <span style="box-sizing:border-box;flex:0 0 40px;display:flex;align-items:center;justify-content:center;">
+                        <sc-if value="{{ r.on }}" hint-placeholder-val=""><span style="width:16px;height:16px;border-radius:4px;background:#0ea84f;display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></span></sc-if>
+                        <sc-if value="{{ r.off }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:4px;border:1.5px solid #c9bfad;background:#fff;"></span></sc-if>
+                      </span>
+                      <span style="box-sizing:border-box;flex:0 0 220px;padding:0 10px;display:flex;align-items:center;gap:9px;min-width:0;">
+                        <span style="width:24px;height:24px;border-radius:6px;background:{{ r.logoBg }};color:{{ r.logoFg }};display:flex;align-items:center;justify-content:center;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ r.initials }}</span>
+                        <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#14211a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span><span style="font:400 9.5px 'JetBrains Mono';color:#94a399;">{{ r.domain }}</span></span>
+                      </span>
+                      <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;display:flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.sigColor }};flex:0 0 auto;"></span><span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.signal }}</span></span>
+                      <span style="box-sizing:border-box;flex:0 0 92px;padding:0 10px;"><span style="font:500 12px 'JetBrains Mono';color:#14211a;">{{ r.fit }}</span><span style="display:block;width:52px;height:4px;border-radius:2px;background:#e9efe9;margin-top:4px;overflow:hidden;"><span style="display:block;height:100%;width:{{ r.fitW }};background:{{ r.fitC }};"></span></span></span>
+                      <span style="box-sizing:border-box;flex:0 0 140px;padding:0 10px;"><span style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:{{ r.segC }};background:{{ r.segB }};border-radius:6px;padding:3px 9px;white-space:nowrap;">{{ r.seg }}</span></span>
+                    </div>
+                  </sc-for>
+                </sc-if>
+                <sc-if value="{{ ptNoRows }}" hint-placeholder-val="">
+                  <div style="padding:44px 20px;text-align:center;">
+                    <div style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin-bottom:4px;">Queue clear</div>
+                    <div style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">Every account matching these filters has an owner.</div>
+                  </div>
+                </sc-if>
+              </div>
+
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:16px;position:sticky;top:0;">
+                <div style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin-bottom:4px;">Assign to partner</div>
+                <p style="font:400 11.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin:0 0 12px;">Pick accounts on the left, then choose who works them. The account's source updates the moment you assign.</p>
+                <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;">
+                  <sc-for list="{{ ptOpts }}" as="p" hint-placeholder-count="5">
+                    <div onClick="{{ p.pick }}" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:{{ p.bg }};box-shadow:{{ p.ring }};cursor:pointer;">
+                      <span style="width:28px;height:28px;border-radius:8px;background:#0e2b20;color:#7ce3a8;display:flex;align-items:center;justify-content:center;font:600 10.5px 'JetBrains Mono';flex:0 0 auto;">{{ p.initials }}</span>
+                      <span style="flex:1;min-width:0;display:flex;flex-direction:column;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#14211a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.name }}</span><span style="font:400 10px 'JetBrains Mono';color:#94a399;">{{ p.meta }}</span></span>
+                      <span style="flex:0 0 auto;text-align:right;"><span style="font:500 9.5px 'JetBrains Mono';color:#5f6d64;">{{ p.cap }}</span><span style="display:block;width:54px;height:5px;border-radius:3px;background:#e9efe9;margin-top:3px;overflow:hidden;"><span style="display:block;height:100%;width:{{ p.capW }};background:{{ p.capC }};"></span></span></span>
+                    </div>
+                  </sc-for>
+                </div>
+                <button onClick="{{ ptAssign }}" disabled="{{ ptAssignOff }}" style="width:100%;border:none;cursor:pointer;background:{{ ptAssignBg }};color:#fff;border-radius:999px;padding:10px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;">{{ ptAssignLbl }}</button>
+                <div style="display:flex;align-items:center;gap:10px;margin:12px 0;"><span style="flex:1;height:1px;background:#f0f4f0;"></span><span style="font:500 10px 'JetBrains Mono';color:#94a399;">or</span><span style="flex:1;height:1px;background:#f0f4f0;"></span></div>
+                <button onClick="{{ ptAuto }}" style="width:100%;border:1px solid #c6d5ca;background:#fbfdfb;cursor:pointer;border-radius:999px;padding:10px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;" style-hover="border-color:#a7dfc0;color:#0b6b3a">Auto-distribute by capacity</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ ptIsPartners }}" hint-placeholder-val="">
+            <sc-if value="{{ ptListOn }}" hint-placeholder-val="{{ true }}">
+            <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);overflow:hidden;">
+              <div style="display:flex;align-items:baseline;gap:10px;padding:15px 18px;border-bottom:1px solid #f0f4f0;">
+                <span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">Partners</span>
+                <span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">Throughput, first touch and credit use. Click a partner for the full picture</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <div style="min-width:880px;">
+                  <div style="display:flex;align-items:center;height:34px;background:#f4f8f5;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#5f6d64;border-bottom:1px solid #edf2ee;">
+                    <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 16px;">PARTNER</span>
+                    <span style="box-sizing:border-box;flex:0 0 88px;padding:0 8px;">STATUS</span>
+                    <span style="box-sizing:border-box;flex:0 0 82px;padding:0 8px;text-align:right;">PIPELINE</span>
+                    <span style="box-sizing:border-box;flex:0 0 70px;padding:0 8px;text-align:right;">ACCEPT</span>
+                    <span style="box-sizing:border-box;flex:0 0 82px;padding:0 8px;text-align:right;">1ST TOUCH</span>
+                    <span style="box-sizing:border-box;flex:0 0 68px;padding:0 8px;text-align:right;">WORKING</span>
+                    <span style="box-sizing:border-box;flex:0 0 52px;padding:0 8px;text-align:right;">WON</span>
+                    <span style="box-sizing:border-box;flex:0 0 68px;padding:0 8px;text-align:right;">STALLED</span>
+                    <span style="box-sizing:border-box;flex:0 0 88px;padding:0 8px;text-align:right;">CREDITS</span>
+                    <span style="box-sizing:border-box;flex:0 0 96px;padding:0 8px;text-align:right;">LOAD</span>
+                    <span style="box-sizing:border-box;flex:0 0 14px;"></span>
+                  </div>
+                  <sc-for list="{{ ptRowsB }}" as="p" hint-placeholder-count="5">
+                    <div onClick="{{ p.open }}" style="display:flex;align-items:center;height:56px;border-bottom:1px solid #f0f4f0;cursor:pointer;" style-hover="background:#fbfdfb;box-shadow:0 10px 26px -16px rgba(14,30,21,.22)">
+                      <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 16px;display:flex;align-items:center;gap:10px;">
+                        <span style="width:28px;height:28px;border-radius:8px;background:#0e2b20;color:#7ce3a8;display:flex;align-items:center;justify-content:center;font:600 10.5px 'JetBrains Mono';flex:0 0 auto;">{{ p.initials }}</span>
+                        <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#14211a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.name }}</span><span style="font:400 10px 'JetBrains Mono';color:#94a399;">{{ p.region }}</span></span>
+                      </span>
+                      <span style="box-sizing:border-box;flex:0 0 88px;padding:0 8px;display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ p.dotC }};flex:0 0 auto;"></span><span style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:{{ p.statusC }};white-space:nowrap;">{{ p.statusL }}</span></span>
+                      <span style="box-sizing:border-box;flex:0 0 82px;padding:0 8px;text-align:right;font:600 12px 'JetBrains Mono';color:#14211a;">{{ p.pipe }}</span>
+                      <span style="box-sizing:border-box;flex:0 0 70px;padding:0 8px;text-align:right;font:500 12px 'JetBrains Mono';color:#14211a;">{{ p.accept }}</span>
+                      <span style="box-sizing:border-box;flex:0 0 82px;padding:0 8px;text-align:right;font:500 12px 'JetBrains Mono';color:#3d4a42;">{{ p.ttft }}</span>
+                      <span style="box-sizing:border-box;flex:0 0 68px;padding:0 8px;text-align:right;font:500 12px 'JetBrains Mono';color:#14211a;">{{ p.working }}</span>
+                      <span style="box-sizing:border-box;flex:0 0 52px;padding:0 8px;text-align:right;font:500 12px 'JetBrains Mono';color:#14211a;">{{ p.won }}</span>
+                      <span style="box-sizing:border-box;flex:0 0 68px;padding:0 8px;text-align:right;font:600 12px 'JetBrains Mono';color:{{ p.stC }};">{{ p.stalled }}</span>
+                      <span style="box-sizing:border-box;flex:0 0 88px;padding:0 8px;text-align:right;"><span style="font:500 12px 'JetBrains Mono';color:#14211a;">{{ p.cred }}</span><span style="display:block;font:400 9.5px 'JetBrains Mono';color:#94a399;">{{ p.credSub }}</span></span>
+                      <span style="box-sizing:border-box;flex:0 0 96px;padding:0 8px;display:flex;align-items:center;justify-content:flex-end;gap:6px;"><span style="font:500 10px 'JetBrains Mono';color:#5f6d64;">{{ p.load }}</span><span style="width:44px;height:5px;border-radius:3px;background:#e9efe9;overflow:hidden;flex:0 0 auto;"><span style="display:block;height:100%;width:{{ p.loadW }};background:{{ p.loadC }};"></span></span></span>
+                      <span style="box-sizing:border-box;flex:0 0 14px;"></span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:9px;padding:12px 18px;background:#fbf6ea;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8f5f15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg>
+                <span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#8f5f15;">Accounts with no touch inside the SLA window count as stalled.</span>
+              </div>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ ptDetailOn }}" hint-placeholder-val="">
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:18px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                <button onClick="{{ ptDetailBack }}" title="All partners" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid #edf2ee;background:#fbfdfb;cursor:pointer;border-radius:10px;color:#3d4a42;flex:0 0 auto;" style-hover="border-color:#a7dfc0;color:#0b6b3a"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg></button>
+                <span style="width:44px;height:44px;border-radius:12px;background:#0e2b20;color:#7ce3a8;display:flex;align-items:center;justify-content:center;font:600 15px 'JetBrains Mono';flex:0 0 auto;">{{ ptD.initials }}</span>
+                <span style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+                  <span style="display:flex;align-items:center;gap:10px;"><span style="font:600 19px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#14211a;">{{ ptD.name }}</span><span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ ptD.dotC }};"></span><span style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:{{ ptD.statusC }};">{{ ptD.statusL }}</span></span></span>
+                  <span style="font:400 11.5px 'JetBrains Mono';color:#94a399;">{{ ptD.region }} · {{ ptD.email }}</span>
+                </span>
+                <span style="flex:1;"></span>
+                <span style="text-align:right;flex:0 0 auto;"><span style="font:500 10px 'JetBrains Mono';color:#5f6d64;">Load {{ ptD.load }}</span><span style="display:block;width:90px;height:5px;border-radius:3px;background:#e9efe9;margin-top:4px;overflow:hidden;"><span style="display:block;height:100%;width:{{ ptD.loadW }};background:{{ ptD.loadC }};"></span></span></span>
+                <button onClick="{{ ptDAssignGo }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:999px;padding:8px 16px;font:600 12px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;" style-hover="background:#0b8f43">Assign accounts</button>
+              </div>
+
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+                <sc-for list="{{ ptD.kpis }}" as="k" hint-placeholder-count="4">
+                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:14px 16px;">
+                    <div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-bottom:8px;">{{ k.lab }}</div>
+                    <div style="font:600 26px 'JetBrains Mono';letter-spacing:-0.02em;line-height:1;color:{{ k.valC }};">{{ k.val }}</div>
+                    <div style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin-top:6px;">{{ k.sub }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:16px;align-items:start;">
+                <div style="display:flex;flex-direction:column;gap:16px;min-width:0;">
+                <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);overflow:hidden;">
+                  <div style="display:flex;align-items:baseline;gap:10px;padding:15px 18px;border-bottom:1px solid #f0f4f0;">
+                    <span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">Assigned accounts</span>
+                    <span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">Prioritised by ICP fit</span>
+                  </div>
+                  <sc-if value="{{ ptD.hasAccts }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;align-items:center;height:34px;background:#f4f8f5;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#5f6d64;border-bottom:1px solid #edf2ee;">
+                      <span style="box-sizing:border-box;flex:0 0 190px;padding:0 16px;">ACCOUNT</span>
+                      <span style="box-sizing:border-box;flex:0 0 84px;padding:0 10px;">ICP FIT</span>
+                      <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;">TOP SIGNAL</span>
+                      <span style="box-sizing:border-box;flex:0 0 86px;padding:0 10px;">STATE</span>
+                      <span style="box-sizing:border-box;flex:0 0 16px;"></span>
+                    </div>
+                    <sc-for list="{{ ptD.accounts }}" as="r" hint-placeholder-count="3">
+                      <div onClick="{{ r.open }}" style="display:flex;align-items:center;height:50px;border-bottom:1px solid #f0f4f0;cursor:pointer;" style-hover="background:#fbfdfb">
+                        <span style="box-sizing:border-box;flex:0 0 190px;padding:0 16px;display:flex;align-items:center;gap:9px;min-width:0;">
+                          <span style="width:24px;height:24px;border-radius:6px;background:{{ r.logoBg }};color:{{ r.logoFg }};display:flex;align-items:center;justify-content:center;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ r.initials }}</span>
+                          <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#14211a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span><span style="font:400 9.5px 'JetBrains Mono';color:#94a399;">{{ r.domain }}</span></span>
+                        </span>
+                        <span style="box-sizing:border-box;flex:0 0 84px;padding:0 10px;"><span style="font:500 12px 'JetBrains Mono';color:#14211a;">{{ r.fit }}</span><span style="display:block;width:48px;height:4px;border-radius:2px;background:#e9efe9;margin-top:4px;overflow:hidden;"><span style="display:block;height:100%;width:{{ r.fitW }};background:{{ r.fitC }};"></span></span></span>
+                        <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;display:flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.sigColor }};flex:0 0 auto;"></span><span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.signal }}</span></span>
+                        <span style="box-sizing:border-box;flex:0 0 86px;padding:0 10px;"><span style="font:600 10px 'Pliant','Instrument Sans',sans-serif;color:{{ r.stateC }};background:{{ r.stateB }};border-radius:6px;padding:3px 8px;white-space:nowrap;">{{ r.stateL }}</span></span>
+                        <span style="box-sizing:border-box;flex:0 0 16px;"></span>
+                      </div>
+                    </sc-for>
+                  </sc-if>
+                  <sc-if value="{{ ptD.noAccts }}" hint-placeholder-val="">
+                    <div style="padding:38px 20px;text-align:center;">
+                      <div style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin-bottom:4px;">No accounts assigned yet</div>
+                      <div style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin-bottom:14px;">Pick accounts in Allocation and route them here.</div>
+                      <button onClick="{{ ptDAssignGo }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:999px;padding:9px 16px;font:600 12px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#0b8f43">Open Allocation</button>
+                    </div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ ptD.hasTrend }}" hint-placeholder-val="{{ true }}">
+                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:16px 18px;">
+                    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px;"><span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">Sourced pipeline · last 6 months</span><span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">Open value created per month</span></div>
+                    <div style="display:flex;align-items:flex-end;gap:10px;">
+                      <sc-for list="{{ ptD.trend }}" as="m" hint-placeholder-count="6">
+                        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;">
+                          <span style="font:500 9.5px 'JetBrains Mono';color:#5f6d64;">{{ m.v }}</span>
+                          <span style="width:100%;max-width:46px;height:{{ m.h }};background:{{ m.c }};border-radius:6px 6px 3px 3px;"></span>
+                          <span style="font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#94a399;">{{ m.m }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:16px 18px;">
+                    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;"><span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">Contact coverage</span><span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">On assigned accounts</span></div>
+                    <sc-for list="{{ ptD.cover }}" as="c" hint-placeholder-count="2">
+                      <div style="margin-bottom:11px;">
+                        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;"><span style="font:500 11.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;">{{ c.l }}</span><span style="font:600 11.5px 'JetBrains Mono';color:#14211a;">{{ c.v }}</span></div>
+                        <div style="height:6px;border-radius:3px;background:#e9efe9;overflow:hidden;"><div style="height:100%;width:{{ c.w }};background:#0ea84f;border-radius:3px;"></div></div>
+                      </div>
+                    </sc-for>
+                    <div style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;border-top:1px solid #f0f4f0;padding-top:10px;margin-top:2px;"><b style="font:600 11px 'JetBrains Mono';color:#14211a;">{{ ptD.committees }}</b> buying committees mapped</div>
+                  </div>
+                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:16px 18px;">
+                    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;"><span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">Engagement</span><span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">Leading indicators</span></div>
+                    <div style="display:flex;flex-direction:column;gap:9px;">
+                      <sc-for list="{{ ptD.engage }}" as="e" hint-placeholder-count="4">
+                        <div style="display:flex;justify-content:space-between;align-items:baseline;"><span style="font:500 11.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;">{{ e.l }}</span><span style="font:600 11.5px 'JetBrains Mono';color:{{ e.c }};">{{ e.v }}</span></div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:16px 18px;">
+                    <div style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin-bottom:12px;">Delivery</div>
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;"><span style="font:500 11.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;">Accept rate</span><span style="font:600 11.5px 'JetBrains Mono';color:#14211a;">{{ ptD.accept }}</span></div>
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;"><span style="font:500 11.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;">Time to first touch</span><span style="font:600 11.5px 'JetBrains Mono';color:#14211a;">{{ ptD.ttft }}</span></div>
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;"><span style="font:500 11.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;">Avg deal size</span><span style="font:600 11.5px 'JetBrains Mono';color:#14211a;">{{ ptD.avgDeal }}</span></div>
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;"><span style="font:500 11.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;">Credits used</span><span style="font:600 11.5px 'JetBrains Mono';color:#14211a;">{{ ptD.cred }}</span></div>
+                    <div style="height:6px;border-radius:3px;background:#e9efe9;overflow:hidden;"><div style="height:100%;width:{{ ptD.credW }};background:#0ea84f;border-radius:3px;"></div></div>
+                    <div style="font:400 10.5px 'JetBrains Mono';color:#94a399;margin-top:6px;">{{ ptD.credSub }}</div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+          </sc-if>
+
+          <sc-if value="{{ ptIsReporting }}" hint-placeholder-val="">
+            <div style="display:grid;grid-template-columns:1fr 1.35fr;gap:16px;align-items:start;">
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:18px;">
+                <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:16px;"><span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">Conversion</span><span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">Network-wide, all time</span></div>
+                <sc-for list="{{ ptFunnel }}" as="s" hint-placeholder-count="3">
+                  <div style="margin-bottom:14px;">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">{{ s.l }}</span><span style="font:600 12.5px 'JetBrains Mono';color:#14211a;">{{ s.v }} <span style="font:400 10.5px 'JetBrains Mono';color:#94a399;">{{ s.pct }}</span></span></div>
+                    <div style="height:22px;border-radius:7px;background:#eef3ef;overflow:hidden;"><div style="height:100%;width:{{ s.w }};border-radius:7px;background:#0ea84f;"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:18px;">
+                <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:16px;"><span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">Pipeline by partner</span><span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">Scaled to the busiest partner</span></div>
+                <sc-for list="{{ ptPipe }}" as="p" hint-placeholder-count="5">
+                  <div style="display:grid;grid-template-columns:120px 1fr 40px;gap:12px;align-items:center;margin-bottom:12px;">
+                    <span style="font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#14211a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.name }}</span>
+                    <span style="display:flex;height:20px;border-radius:6px;background:#eef3ef;overflow:hidden;"><span style="height:100%;width:{{ p.wonW }};background:#0b8f43;"></span><span style="height:100%;width:{{ p.wkW }};background:#7fd6a4;"></span></span>
+                    <span style="font:600 12px 'JetBrains Mono';color:#14211a;text-align:right;">{{ p.tot }}</span>
+                  </div>
+                </sc-for>
+                <div style="display:flex;gap:16px;margin-top:14px;">
+                  <span style="display:inline-flex;align-items:center;gap:6px;font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;"><span style="width:11px;height:11px;border-radius:3px;background:#0b8f43;"></span>Won</span>
+                  <span style="display:inline-flex;align-items:center;gap:6px;font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;"><span style="width:11px;height:11px;border-radius:3px;background:#7fd6a4;"></span>Working</span>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ ptAddOpen }}" hint-placeholder-val="">
+          <div onClick="{{ ptCloseAdd }}" style="position:fixed;inset:0;background:rgba(14,33,26,.36);z-index:140;display:flex;align-items:center;justify-content:center;">
+            <div onClick="{{ stop }}" style="width:420px;background:#fff;border-radius:16px;box-shadow:0 32px 80px -32px rgba(14,33,26,.5);padding:22px;">
+              <div style="font:600 16px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.01em;color:#14211a;margin-bottom:4px;">Add partner</div>
+              <p style="font:400 12px/1.6 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin:0 0 16px;">They get an invite to the partner workspace: only the accounts you assign, nothing else.</p>
+              <div style="margin-bottom:12px;">
+                <div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-bottom:5px;">Partner name</div>
+                <input value="{{ ptDName }}" onChange="{{ onPtDName }}" placeholder="e.g. Meridian Systems" style="width:100%;box-sizing:border-box;border:1px solid #edf2ee;background:#fbfdfb;border-radius:9px;padding:9px 11px;font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#14211a;outline:none;">
+              </div>
+              <div style="margin-bottom:12px;">
+                <div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-bottom:5px;">Contact email</div>
+                <input value="{{ ptDEmail }}" onChange="{{ onPtDEmail }}" placeholder="ops@partner.com" style="width:100%;box-sizing:border-box;border:1px solid #edf2ee;background:#fbfdfb;border-radius:9px;padding:9px 11px;font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#14211a;outline:none;">
+              </div>
+              <div style="display:flex;gap:10px;margin-bottom:18px;">
+                <div style="flex:1;">
+                  <div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-bottom:5px;">Region</div>
+                  <select value="{{ ptDRegion }}" onChange="{{ onPtDRegion }}" style="width:100%;box-sizing:border-box;border:1px solid #edf2ee;background:#fbfdfb;border-radius:9px;padding:9px 8px;font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#14211a;outline:none;"><option>West</option><option>Central</option><option>East</option><option>South</option><option>Northeast</option><option>EMEA</option><option>APAC</option></select>
+                </div>
+                <div style="flex:1;">
+                  <div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#94a399;margin-bottom:5px;">Capacity</div>
+                  <input value="{{ ptDCap }}" onChange="{{ onPtDCap }}" type="number" min="1" style="width:100%;box-sizing:border-box;border:1px solid #edf2ee;background:#fbfdfb;border-radius:9px;padding:9px 11px;font:500 13px 'JetBrains Mono';color:#14211a;outline:none;">
+                </div>
+              </div>
+              <div style="display:flex;gap:10px;justify-content:flex-end;">
+                <button onClick="{{ ptCloseAdd }}" style="border:1px solid #c6d5ca;background:#fbfdfb;cursor:pointer;border-radius:999px;padding:9px 16px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;" style-hover="border-color:#a7dfc0">Cancel</button>
+                <button onClick="{{ ptCreate }}" disabled="{{ ptCreateOff }}" style="border:none;cursor:pointer;background:{{ ptCreateBg }};color:#fff;border-radius:999px;padding:9px 18px;font:600 12px 'Pliant','Instrument Sans',sans-serif;">Add partner</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
       </div>
     </sc-if>
 
@@ -1095,7 +1489,7 @@
             <!-- OVERVIEW TAB -->
             <sc-if value="{{ segIsOverview }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:14px;padding:16px 18px;margin-bottom:16px;">
-              <span style="width:30px;height:30px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+              <span style="width:30px;height:30px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
               <div style="flex:1;min-width:0;">
                 <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;margin-bottom:6px;">Savant · this segment right now</div>
                 <p style="font:400 14px/1.65 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin:0;text-wrap:pretty;">{{ segBrief }}</p>
@@ -1183,7 +1577,7 @@
             <!-- CONTACTS TAB -->
             <sc-if value="{{ segIsContacts }}" hint-placeholder-val="">
               <div style="display:flex;gap:12px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:13px;padding:14px 16px;margin-bottom:16px;">
-                <span style="width:26px;height:26px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+                <span style="width:26px;height:26px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                 <div style="flex:1;min-width:0;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;">Savant · who to reach first</div><p style="font:500 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin:6px 0 0;">{{ seg.highPct }} of these contacts are a high ICP fit. I'd start with the <b style="color:#0b6b3a;">12 who showed buying intent this week</b>. They're warmest right now.</p></div>
                 <button style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:999px;padding:8px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;flex:0 0 auto;" style-hover="background:#0b8f43">Show highest-intent</button>
               </div>
@@ -1300,7 +1694,7 @@
             </sc-if>
             <sc-if value="{{ wspNever }}" hint-placeholder-val="">
               <div style="display:flex;gap:12px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:13px;padding:14px 16px;margin-bottom:20px;">
-                <span style="width:26px;height:26px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+                <span style="width:26px;height:26px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                 <div style="flex:1;min-width:0;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;">Savant · what I'm running here</div><p style="font:500 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin:6px 0 0;">I'm working this segment with a 4-step sequence, personalized from each account's signals. <b style="color:#0b6b3a;">Every send is gated for your approval</b> and capped at 120/day.</p></div>
                 <button onClick="{{ goSequence }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:999px;padding:8px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;flex:0 0 auto;" style-hover="background:#0b8f43">Review sequence</button>
               </div>
@@ -1400,7 +1794,7 @@
             <!-- SETTINGS TAB · folded into Overview -->
             <sc-if value="{{ wspNever }}" hint-placeholder-val="">
               <div style="display:flex;gap:12px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:13px;padding:14px 16px;margin-bottom:20px;">
-                <span style="width:26px;height:26px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+                <span style="width:26px;height:26px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                 <div style="flex:1;min-width:0;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;">Savant · keeping this segment healthy</div><p style="font:500 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin:6px 0 0;">I re-check these rules continuously and flag drift. Change anything below and I'll re-run the segment on the next refresh.</p></div>
               </div>
               <div style="margin-bottom:24px;">
@@ -1455,7 +1849,7 @@
             <!-- ACTIVITY TAB -->
             <sc-if value="{{ segIsActivity }}" hint-placeholder-val="">
               <div style="display:flex;gap:12px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:13px;padding:14px 16px;margin-bottom:16px;">
-                <span style="width:26px;height:26px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+                <span style="width:26px;height:26px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                 <div style="flex:1;min-width:0;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;">Savant · this week in this segment</div><p style="font:500 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin:6px 0 0;">This segment added <b style="color:#0b6b3a;">{{ seg.growLabel }}</b>, sent <b>397 messages</b>, and booked <b style="color:#0b6b3a;">{{ seg.mtgs }} meetings</b>. Reply rate is up 0.8%. The pricing-intent angle is landing.</p></div>
               </div>
               <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);overflow:hidden;">
@@ -2183,7 +2577,7 @@
             <sc-if value="{{ discSearchingV }}" hint-placeholder-val="">
               <div style="background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:40px 24px 34px;display:flex;flex-direction:column;align-items:center;gap:20px;flex:0 0 auto;">
                 <span style="position:relative;width:56px;height:56px;flex:0 0 auto;">
-                  <span style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);animation:obSpin 2.4s linear infinite;box-shadow:0 18px 38px -14px rgba(14,168,79,.55);"></span>
+                  <span style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(#eafff2,#8fe6b4,#0e2b20,#eafff2);animation:obSpin 2.4s linear infinite;box-shadow:0 18px 38px -14px rgba(14,168,79,.55);"></span>
                   <span style="position:absolute;inset:13px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0ea84f"></path></svg></span>
                 </span>
                 <span style="position:relative;display:block;height:18px;width:100%;max-width:340px;text-align:center;">
@@ -2629,7 +3023,7 @@
               <sc-if value="{{ discDiOff }}" hint-placeholder-val="">
                 <div style="position:absolute;inset:0;z-index:40;display:flex;align-items:flex-start;justify-content:center;padding:44px 20px 0;background:linear-gradient(180deg,rgba(243,247,244,.5) 0%,rgba(243,247,244,.92) 42%,#f4f8f5 100%);">
                   <div style="width:440px;max-width:100%;background:#ffffff;border:1px solid #edf2ee;border-radius:16px;box-shadow:0 28px 66px -34px rgba(14,33,26,.3);padding:22px 24px;text-align:center;">
-                    <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);color:#fff;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg></span>
+                    <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#0e2b20;color:#fff;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg></span>
                     <div style="font:600 16px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#14211a;margin-bottom:6px;">Deep account intelligence</div>
                     <p style="font:400 12.5px/1.6 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin:0 0 12px;">Customers using deep account intelligence see a <b style="color:#14211a;">30% bump in conversions</b>. This is where the committee, org chart and warm paths live.</p>
                     <sc-if value="{{ discDiIdle }}" hint-placeholder-val="{{ true }}">
@@ -2995,7 +3389,7 @@
             <button onClick="{{ openNewCamp }}" style="border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:999px;padding:10px 16px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;" style-hover="background:#0b8f43"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>New campaign</button>
           </div>
           <div style="display:flex;align-items:flex-start;gap:10px;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:12px;padding:13px 15px;margin-bottom:20px;">
-            <span style="width:22px;height:22px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+            <span style="width:22px;height:22px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
             <p style="font:400 13px/1.55 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;margin:1px 0 0;">{{ campBrief }}</p>
           </div>
           <div style="display:flex;align-items:center;gap:22px;border-bottom:1px solid #edf2ee;margin-bottom:20px;">
@@ -3274,14 +3668,6 @@
           </aside>
           </sc-if>
           <div style="flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;">
-          <sc-if value="{{ wspStripOn }}" hint-placeholder-val="">
-            <div style="display:flex;align-items:center;gap:10px;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:11px;padding:10px 13px;margin-bottom:11px;flex:0 0 auto;">
-              <span style="width:20px;height:20px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
-              <span style="flex:1;font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;"><b style="color:#14211a;">8 accounts crossed into High</b> this fortnight. Pricing visits and new funding did most of the lifting.</span>
-              <button onClick="{{ wspStripReview }}" style="border:none;background:#e9f6ef;cursor:pointer;border-radius:999px;padding:6px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#0b6b3a;flex:0 0 auto;" style-hover="background:#f2fbf5">Review</button>
-              <button onClick="{{ wspStripHide }}" title="Dismiss" style="border:none;background:transparent;cursor:pointer;color:#94a399;display:flex;padding:3px;flex:0 0 auto;" style-hover="color:#14211a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
-            </div>
-          </sc-if>
           <div style="display:flex;align-items:center;gap:9px;padding-bottom:11px;flex:0 0 auto;">
             <sc-if value="{{ wspRailShut }}" hint-placeholder-val="">
               <button onClick="{{ toggleWspRail }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #edf2ee;background:#fbfdfb;cursor:pointer;border-radius:9px;padding:8px 13px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;flex:0 0 auto;" style-hover="border-color:#a7dfc0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M6 12h12M10 19h4"></path></svg>Filters<sc-if value="{{ wspHasAF }}" hint-placeholder-val="{{ true }}"><span style="font:600 9px 'JetBrains Mono';color:#0b6b3a;background:#dcf3e5;border-radius:5px;padding:1px 6px;">{{ wspAFCount }}</span></sc-if></button>
@@ -3447,6 +3833,8 @@
                   <span title="Scored against Sprouts Recommended ICP. Hover a score for the breakdown." style="box-sizing:border-box;flex:0 0 96px;padding:0 12px;display:flex;align-items:center;gap:4px;">✦ ICP FIT<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a8b2a9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 16v-5M12 8h.01"></path></svg></span>
                   <span title="Live behavioral trend from visits and signals. Updates daily." style="box-sizing:border-box;flex:0 0 112px;padding:0 12px;">✦ TREND SCORE</span>
                   <span onClick="{{ togglePriSort }}" title="Fit × trend. Click to sort by priority." style="box-sizing:border-box;flex:0 0 118px;padding:0 12px;cursor:pointer;" style-hover="color:#14211a">✦ PRIORITY {{ wspPriArrow }}</span>
+                  <span title="The channel this account entered Prospects through." style="box-sizing:border-box;flex:0 0 118px;padding:0 12px;">SOURCE</span>
+                  <span title="The partner this account is assigned to, if any." style="box-sizing:border-box;flex:0 0 130px;padding:0 12px;">PARTNER</span>
                   <span style="box-sizing:border-box;flex:0 0 128px;padding:0 12px;">DEEP INTEL</span>
                   <sc-for list="{{ wspSmartHead }}" as="sh" hint-placeholder-count="4">
                     <span style="box-sizing:border-box;flex:0 0 {{ sh.w }};max-width:{{ sh.w }};padding:0 10px;display:flex;align-items:center;gap:5px;overflow:hidden;border-left:1px solid #e9efe9;position:relative;">
@@ -3559,6 +3947,13 @@
                           </button>
                         </span>
                       </sc-if>
+                    </span>
+                    <span style="box-sizing:border-box;flex:0 0 118px;padding:0 12px;overflow:hidden;">
+                      <span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;white-space:nowrap;">{{ r.srcLbl }}</span>
+                    </span>
+                    <span style="box-sizing:border-box;flex:0 0 130px;padding:0 12px;overflow:hidden;">
+                      <sc-if value="{{ r.hasPt }}" hint-placeholder-val=""><span title="Assigned via Partners" style="display:inline-flex;align-items:center;gap:5px;font:600 10px 'Pliant','Instrument Sans',sans-serif;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;border-radius:6px;padding:3px 8px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;">{{ r.ptName }}</span></sc-if>
+                      <sc-if value="{{ r.noPt }}" hint-placeholder-val="{{ true }}"><span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#c9d3cb;">·</span></sc-if>
                     </span>
                     <span style="box-sizing:border-box;flex:0 0 128px;padding:0 12px;">
                       <sc-if value="{{ r.diOnV }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;color:#0b8f43;background:#dcf3e5;border-radius:6px;padding:3px 8px;"><span style="width:5px;height:5px;border-radius:50%;background:#0ea84f;"></span>On</span></sc-if>
@@ -3818,22 +4213,12 @@
       </div>
     </sc-if>
 
-    <!-- Global credits chip -->
-    <sc-if value="{{ crChipOn }}" hint-placeholder-val="{{ true }}">
-    <div style="position:fixed;top:13px;right:18px;z-index:140;">
-      <button onClick="{{ goSetBilling }}" title="Credits remaining this cycle · resets 1 Sep. Click for billing & usage." style="display:inline-flex;align-items:center;gap:7px;border:1px solid #edf2ee;background:#ffffff;cursor:pointer;border-radius:18px;padding:6px 13px;box-shadow:0 8px 24px -14px rgba(14,33,26,.3);" style-hover="border-color:#a7dfc0">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0b8f43" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"></ellipse><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"></path><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg>
-        <span style="font:600 11.5px 'JetBrains Mono';color:#14211a;">48.8K</span>
-        <span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">credits</span>
-      </button>
-    </div>
-    </sc-if>
 
     <!-- Co-drive strip -->
     <sc-if value="{{ cdActiveV }}" hint-placeholder-val="">
       <div style="position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:155;">
         <div data-noinvert="1" style="display:flex;align-items:center;gap:12px;background:#14211a;border:1px solid #2c3a31;border-radius:14px;padding:9px 10px 9px 14px;box-shadow:0 26px 60px -30px rgba(14,33,26,.55);white-space:nowrap;transform-origin:50% 0;animation:pdItemIn .3s cubic-bezier(.16,1,.3,1) both;">
-          <span style="width:24px;height:24px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+          <span style="width:24px;height:24px;border-radius:50%;background:#0e2b20;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
           <span style="display:flex;flex-direction:column;gap:2px;min-width:0;">
             <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#7fd7a5;">Savant is driving · {{ cdStepLabel }}</span>
             <span style="display:inline-flex;align-items:center;gap:7px;">
@@ -3853,7 +4238,7 @@
     <sc-if value="{{ pdDockV }}" hint-placeholder-val="{{ true }}">
     <div style="position:fixed;right:18px;bottom:16px;z-index:150;display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
       <button onClick="{{ togglePd }}" data-noinvert="1" style="display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(244,239,227,.14);background:#14211a;cursor:pointer;border-radius:22px;padding:8px 16px;box-shadow:0 14px 40px -14px rgba(14,33,26,.55);">
-        <span style="width:20px;height:20px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+        <span style="width:20px;height:20px;border-radius:50%;background:#0e2b20;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
         <span style="font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#eef4ef;white-space:nowrap;">{{ pdLabel }}</span>
       </button>
     </div>
@@ -3864,7 +4249,7 @@
       <div style="position:fixed;top:0;right:0;bottom:0;width:{{ pnW }};z-index:160;display:flex;">
         <div style="flex:1;min-width:0;background:#ffffff;border-left:1px solid #f0f4f0;box-shadow:-18px 0 52px -30px rgba(14,33,26,.32);display:flex;flex-direction:column;overflow:hidden;animation:pnIn .3s cubic-bezier(.16,1,.3,1) both;">
           <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #eef2ee;flex:0 0 auto;">
-            <span style="width:26px;height:26px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+            <span style="width:26px;height:26px;border-radius:50%;background:#0e2b20;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
             <button onClick="{{ pdProfileToggle }}" title="About this agent" style="display:inline-flex;align-items:center;gap:6px;border:none;background:transparent;cursor:pointer;padding:0;font:600 14.5px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.01em;color:#14211a;">Savant<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a3aea6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transform:{{ pdProfileChev }};transition:transform .2s ease;"><path d="M6 9l6 6 6-6"></path></svg></button>
             <span style="flex:1;"></span>
             <button onClick="{{ pdRestart }}" title="Restart the conversation" style="border:none;background:transparent;cursor:pointer;color:#5f6d64;display:flex;padding:4px;border-radius:6px;" style-hover="color:#14211a;background:rgba(14,168,79,.06)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg></button>
@@ -3874,7 +4259,7 @@
           <sc-if value="{{ pdProfileV }}" hint-placeholder-val="">
             <div style="padding:8px 18px 16px;flex:0 0 auto;display:flex;flex-direction:column;gap:13px;border-bottom:1px solid #f0f4f0;">
               <div style="display:flex;align-items:center;gap:13px;">
-                <span style="width:46px;height:46px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);box-shadow:0 12px 28px -12px rgba(14,168,79,.4);flex:0 0 auto;"></span>
+                <span style="width:46px;height:46px;border-radius:50%;background:#0e2b20;box-shadow:0 12px 28px -12px rgba(14,168,79,.4);flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                 <span style="display:flex;flex-direction:column;gap:3px;min-width:0;">
                   <span style="display:inline-flex;align-items:center;gap:8px;"><span style="font:600 16px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#14211a;">Savant</span><span style="background:#dcf3e5;color:#0b6b3a;border-radius:999px;padding:3px 10px;font:600 10px 'Pliant','Instrument Sans',sans-serif;">Agent</span></span>
                   <span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#8a958c;">Your workspace's revenue copilot</span>
@@ -3956,14 +4341,14 @@
                 <sc-if value="{{ m.isMe }}" hint-placeholder-val=""><div style="display:flex;justify-content:flex-end;"><span style="max-width:70%;background:#0e2b20;color:#eafbe7;border-radius:16px 16px 5px 16px;padding:11px 15px;font:400 12.5px/1.55 'Pliant','Instrument Sans',sans-serif;">{{ m.text }}</span></div></sc-if>
                 <sc-if value="{{ m.isP }}" hint-placeholder-val="">
                   <div style="display:flex;gap:9px;align-items:flex-start;">
-                    <span style="width:24px;height:24px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+                    <span style="width:24px;height:24px;border-radius:50%;background:#0e2b20;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                     <span style="max-width:74%;display:flex;flex-direction:column;gap:9px;background:#fbfdfb;border:1px solid #eef2ee;color:#2f3d35;border-radius:13px 13px 13px 4px;padding:10px 14px;font:400 12.5px/1.6 'Pliant','Instrument Sans',sans-serif;">{{ m.text }}<sc-if value="{{ m.hasAct }}" hint-placeholder-val=""><span style="display:flex;flex-direction:column;gap:5px;border:1px solid #edf2ee;background:#fff;border-radius:10px;padding:9px 11px;"><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#0b6b3a;">{{ m.actKind }}</span><span style="font:600 12px/1.35 'Pliant','Instrument Sans',sans-serif;color:#14211a;">{{ m.actLabel }}</span><span style="font:400 11px/1.5 'Pliant','Instrument Sans',sans-serif;color:#8a958c;">{{ m.actSub }}</span><button onClick="{{ m.actGo }}" style="align-self:flex-start;border:1px solid #a7dfc0;background:#f2fbf5;color:#0b6b3a;border-radius:7px;padding:5px 11px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;cursor:pointer;margin-top:2px;" style-hover="background:#dcf3e5">{{ m.actCta }}</button></span></sc-if><sc-if value="{{ m.hasRun }}" hint-placeholder-val=""><button onClick="{{ m.runGo }}" style="align-self:flex-start;border:none;background:#0ea84f;color:#fff;border-radius:999px;padding:7px 14px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;cursor:pointer;" style-hover="background:#0b8f43">✦ Run it</button></sc-if></span>
                   </div>
                 </sc-if>
               </sc-for>
               <sc-if value="{{ cwTypingV }}" hint-placeholder-val="">
                 <div style="display:flex;gap:9px;align-items:center;">
-                  <span style="width:24px;height:24px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+                  <span style="width:24px;height:24px;border-radius:50%;background:#0e2b20;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                   <span style="display:inline-flex;gap:4px;background:#fbfdfb;border:1px solid #eef2ee;border-radius:13px;padding:12px 14px;"><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out .18s infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out .36s infinite;"></span></span>
                 </div>
               </sc-if>
@@ -3999,9 +4384,9 @@
             </sc-if>
             <sc-if value="{{ pdBigEmpty }}" hint-placeholder-val="{{ true }}">
               <div style="margin:auto 0;flex:0 0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;padding:34px 0 26px;">
-                <span style="width:58px;height:58px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);box-shadow:0 18px 40px -18px rgba(14,168,79,.45);"></span>
-                <div style="display:flex;flex-direction:column;gap:5px;"><div style="font:600 19px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#14211a;">What are we working on?</div>
-                <div style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#a3aea6;">Ask, speak, or point me at a screen.</div></div>
+                <button onClick="{{ pdVoiceToggle }}" title="{{ pdVoiceTitle }}" style="position:relative;width:80px;height:80px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><sc-if value="{{ pdVoiceOn }}" hint-placeholder-val=""><span style="position:absolute;inset:3px;border-radius:50%;border:2px solid rgba(14,168,79,.45);animation:pdRing 1.5s ease-out infinite;"></span><span style="position:absolute;inset:3px;border-radius:50%;border:2px solid rgba(14,168,79,.3);animation:pdRing 1.5s ease-out .55s infinite;"></span></sc-if><span style="width:58px;height:58px;border-radius:50%;background:#0e2b20;box-shadow:0 18px 40px -18px rgba(14,168,79,.55);display:inline-flex;align-items:center;justify-content:center;"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#7ce3a8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"></path><path d="M19 10v1a7 7 0 01-14 0v-1M12 18v4"></path></svg></span></button>
+                <div style="display:flex;flex-direction:column;gap:5px;"><div style="font:600 19px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#14211a;">{{ pdOrbCap }}</div>
+                <div style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#a3aea6;">Tap the mic and just talk, or hold Space. Typing works too.</div></div>
                 <div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:300px;margin-top:2px;">
                   <sc-for list="{{ pdBigActions }}" as="qa" hint-placeholder-count="3">
                     <button onClick="{{ qa.go }}" style="border:none;background:#fff;box-shadow:0 8px 22px -14px rgba(14,30,21,.22);cursor:pointer;border-radius:999px;padding:10px 16px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" style-hover="color:#0b6b3a">{{ qa.l }}</button>
@@ -4014,7 +4399,7 @@
                 <div style="display:flex;justify-content:flex-end;"><sc-if value="{{ m.isMe }}" hint-placeholder-val=""><span style="max-width:70%;background:#0e2b20;color:#eafbe7;border-radius:16px 16px 5px 16px;padding:11px 15px;font:400 12.5px/1.55 'Pliant','Instrument Sans',sans-serif;">{{ m.text }}</span></sc-if></div>
                 <sc-if value="{{ m.isP }}" hint-placeholder-val="">
                   <div style="display:flex;gap:9px;align-items:flex-start;">
-                    <span style="width:24px;height:24px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+                    <span style="width:24px;height:24px;border-radius:50%;background:#0e2b20;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                     <span style="max-width:74%;display:flex;flex-direction:column;gap:9px;background:#fbfdfb;border:1px solid #eef2ee;color:#2f3d35;border-radius:13px 13px 13px 4px;padding:12px 15px;font:400 12.5px/1.6 'Pliant','Instrument Sans',sans-serif;">{{ m.text }}<sc-if value="{{ m.hasChips }}" hint-placeholder-val=""><span style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ m.chipsV }}" as="ch"><button onClick="{{ ch.go }}" style="border:1px solid #cdeede;background:#f2fbf5;color:#0b6b3a;cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#dcf3e5">{{ ch.l }}</button></sc-for></span></sc-if><sc-if value="{{ m.isPlan }}" hint-placeholder-val=""><span style="display:flex;flex-direction:column;gap:10px;"><span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#a3aea6;">Request · {{ m.planReq }}</span><span style="display:flex;align-items:center;gap:8px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0ea84f" stroke-width="2.6" stroke-linecap="round" style="animation:obSpin 3.2s linear infinite;"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"></path></svg><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">Plan specification</span><span style="flex:1;"></span><span style="font:500 10.5px 'JetBrains Mono';color:#a3aea6;">8s</span></span><sc-for list="{{ m.planSteps }}" as="st" hint-placeholder-count="4"><span style="display:flex;gap:9px;align-items:flex-start;"><span style="width:4px;height:4px;border-radius:50%;background:#c9d6cd;margin-top:7px;flex:0 0 auto;"></span><span style="font:400 12.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;">{{ st }}</span></span></sc-for><span style="display:flex;align-items:center;gap:10px;margin-top:1px;"><span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#a3aea6;">Scope · {{ m.planScope }}</span><button onClick="{{ m.planReceipt }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#0b8f43;">⌸ Receipt</button></span></span></sc-if><sc-if value="{{ m.isAppr }}" hint-placeholder-val=""><span style="display:flex;flex-direction:column;gap:8px;"><span style="font:600 10px 'Pliant','Instrument Sans',sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#a3aea6;">Awaiting your approval</span><sc-for list="{{ m.apprRows }}" as="ap" hint-placeholder-count="4"><span style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:9px 11px;box-shadow:0 6px 18px -12px rgba(14,30,21,.18);"><span style="width:26px;height:26px;border-radius:50%;background:{{ ap.ab }};color:{{ ap.af }};display:flex;align-items:center;justify-content:center;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ ap.ini }}</span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;"><span style="font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#14211a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ap.title }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#8a958c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ap.sub }}</span></span><sc-if value="{{ ap.pending }}" hint-placeholder-val="{{ true }}"><button onClick="{{ ap.second }}" style="border:none;background:#eef3ef;cursor:pointer;border-radius:999px;padding:6px 11px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;flex:0 0 auto;" style-hover="background:#e4ece6">{{ ap.secondL }}</button><button onClick="{{ ap.approve }}" style="border:none;background:#0ea84f;color:#fff;cursor:pointer;border-radius:999px;padding:6px 12px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;" style-hover="background:#0b8f43">Approve</button></sc-if><sc-if value="{{ ap.done }}" hint-placeholder-val=""><span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.05em;color:{{ ap.doneCol }};flex:0 0 auto;">{{ ap.doneL }}</span></sc-if></span></sc-for><span style="display:flex;align-items:center;gap:12px;margin-top:2px;"><sc-if value="{{ m.apprAllPending }}" hint-placeholder-val="{{ true }}"><button onClick="{{ m.apprAll }}" style="border:none;background:#0e2b20;color:#eafbe7;cursor:pointer;border-radius:999px;padding:8px 15px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#14382a">Approve all 3 sends</button></sc-if><button onClick="{{ m.apprOpenFull }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#0b8f43;">Open in Campaigns →</button></span></span></sc-if><sc-if value="{{ m.hasAct }}" hint-placeholder-val=""><span style="display:flex;flex-direction:column;gap:5px;border:1px solid #edf2ee;background:#fff;border-radius:10px;padding:9px 11px;"><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#0b6b3a;">{{ m.actKind }}</span><span style="font:600 12px/1.35 'Pliant','Instrument Sans',sans-serif;color:#14211a;">{{ m.actLabel }}</span><span style="font:400 11px/1.5 'Pliant','Instrument Sans',sans-serif;color:#8a958c;">{{ m.actSub }}</span><button onClick="{{ m.actGo }}" style="align-self:flex-start;border:1px solid #a7dfc0;background:#f2fbf5;color:#0b6b3a;border-radius:7px;padding:5px 11px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;cursor:pointer;margin-top:2px;" style-hover="background:#dcf3e5">{{ m.actCta }}</button></span></sc-if><sc-if value="{{ m.hasRun }}" hint-placeholder-val=""><button onClick="{{ m.runGo }}" style="align-self:flex-start;border:none;background:#0ea84f;color:#fff;border-radius:999px;padding:7px 14px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;cursor:pointer;" style-hover="background:#0b8f43">✦ Run it</button></sc-if></span>
                   </div>
                 </sc-if>
@@ -4022,7 +4407,7 @@
             </sc-for>
             <sc-if value="{{ pdSearchingV }}" hint-placeholder-val="">
               <div style="display:flex;gap:9px;align-items:flex-start;">
-                <span style="width:24px;height:24px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);animation:obSpin 2.2s linear infinite;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;box-shadow:0 8px 18px -8px rgba(14,168,79,.55);"></span>
+                <span style="width:24px;height:24px;border-radius:50%;background:conic-gradient(#eafff2,#8fe6b4,#0e2b20,#eafff2);animation:obSpin 2.2s linear infinite;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;box-shadow:0 8px 18px -8px rgba(14,168,79,.55);"></span>
                 <span style="display:flex;flex-direction:column;gap:8px;background:#fbfdfb;border:1px solid #eef2ee;border-radius:13px 13px 13px 4px;padding:12px 15px;min-width:200px;">
                   <span style="position:relative;display:block;height:16px;">
                     <span style="position:absolute;left:0;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;opacity:0;animation:cxStep3 2.1s linear infinite;">Parsing your ask…</span>
@@ -4035,7 +4420,7 @@
             </sc-if>
             <sc-if value="{{ pdTypingV }}" hint-placeholder-val="">
               <div style="display:flex;gap:9px;align-items:center;">
-                <span style="width:24px;height:24px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+                <span style="width:24px;height:24px;border-radius:50%;background:#0e2b20;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                 <span style="display:inline-flex;gap:4px;background:#fbfdfb;border:1px solid #eef2ee;border-radius:13px;padding:12px 14px;"><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out .18s infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out .36s infinite;"></span></span>
               </div>
             </sc-if>
@@ -4081,10 +4466,10 @@
                   </div>
                 </sc-if>
               </div>
-              <sc-if value="{{ pdVoiceOff }}" hint-placeholder-val="{{ true }}"><span style="flex:1;display:flex;align-items:center;gap:9px;background:#fff;box-shadow:0 0 0 1.5px rgba(14,168,79,.25),0 12px 30px -20px rgba(14,30,21,.3);border-radius:999px;padding:6px 8px 6px 7px;"><span style="width:26px;height:26px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);flex:0 0 auto;"></span><input value="{{ pdBigQ }}" onChange="{{ setPdBigQ }}" onKeyDown="{{ pdBigKey }}" placeholder="Ask Savant anything…" style="flex:1;min-width:0;border:none;background:transparent;font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#14211a;outline:none;padding:5px 0;"></span></sc-if><sc-if value="{{ pdVoiceOn }}" hint-placeholder-val=""><span style="flex:1;display:flex;align-items:center;gap:10px;background:#fff;box-shadow:0 0 0 2px rgba(14,168,79,.4),0 12px 30px -20px rgba(14,30,21,.3);border-radius:999px;padding:12px 16px;"><span style="display:inline-flex;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out .18s infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out .36s infinite;"></span></span><span style="font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;">Listening…</span></span></sc-if><button onClick="{{ pdVoiceToggle }}" title="{{ pdVoiceTitle }}" style="width:38px;height:38px;border:none;cursor:pointer;background:{{ pdVoiceBg }};color:{{ pdVoiceCol }};border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"></path><path d="M19 10v1a7 7 0 01-14 0v-1M12 18v4"></path></svg></button>
-              <button onClick="{{ pdBigGo }}" style="width:38px;height:38px;border:none;cursor:pointer;background:#0ea84f;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:background .15s,transform .18s cubic-bezier(.16,1,.3,1);" style-hover="background:#0b8f43;transform:scale(1.06)" style-active="transform:scale(.94)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"></path></svg></button>
+              <sc-if value="{{ pdVoiceOff }}" hint-placeholder-val="{{ true }}"><span style="flex:1;display:flex;align-items:center;gap:9px;background:#fff;box-shadow:0 0 0 1.5px rgba(14,168,79,.25),0 12px 30px -20px rgba(14,30,21,.3);border-radius:999px;padding:6px 8px 6px 7px;"><span style="width:26px;height:26px;border-radius:50%;background:#0e2b20;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span><input value="{{ pdBigQ }}" onChange="{{ setPdBigQ }}" onKeyDown="{{ pdBigKey }}" placeholder="Ask Savant anything…" style="flex:1;min-width:0;border:none;background:transparent;font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#14211a;outline:none;padding:5px 0;"></span></sc-if><sc-if value="{{ pdVoiceOn }}" hint-placeholder-val=""><span style="flex:1;display:flex;align-items:center;gap:10px;background:#fff;box-shadow:0 0 0 2px rgba(14,168,79,.4),0 12px 30px -20px rgba(14,30,21,.3);border-radius:999px;padding:12px 16px;"><span style="display:inline-flex;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out .18s infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:#0ea84f;animation:cx-pulse 1.1s ease-in-out .36s infinite;"></span></span><span style="font:500 13px 'Pliant','Instrument Sans',sans-serif;color:#14211a;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ pdVoiceLive }}</span></span></sc-if><button onClick="{{ pdBigGo }}" title="Send" style="width:38px;height:38px;border:none;cursor:pointer;background:#eef4ef;color:#0b6b3a;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:background .15s;" style-hover="background:#e0efe6"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"></path></svg></button>
+              <button onClick="{{ pdVoiceToggle }}" title="{{ pdVoiceTitle }}" style="width:44px;height:44px;border:none;cursor:pointer;background:{{ pdVoiceBg }};color:{{ pdVoiceCol }};border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 10px 24px -12px rgba(14,168,79,.55);transition:background .15s,transform .18s cubic-bezier(.16,1,.3,1);" style-hover="transform:scale(1.06)" style-active="transform:scale(.94)"><sc-if value="{{ pdVoiceOff }}" hint-placeholder-val="{{ true }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"></path><path d="M19 10v1a7 7 0 01-14 0v-1M12 18v4"></path></svg></sc-if><sc-if value="{{ pdVoiceOn }}" hint-placeholder-val=""><span style="width:12px;height:12px;border-radius:3px;background:currentColor;display:block;"></span></sc-if></button>
             </div>
-            <div data-x="1" style="font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#a8b2a9;margin-top:8px;text-align:center;">Reads your screen · every write waits for your approval</div>
+            <div data-x="1" style="font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#a8b2a9;margin-top:8px;text-align:center;">Hold <b style="font-weight:600;color:#5f6d64;">Space</b> to talk · reads your screen · writes wait for your approval</div>
           </div>
           </sc-if>
         </div>
@@ -5236,7 +5621,7 @@
         <sc-if value="{{ acctDiOff }}" hint-placeholder-val="">
           <div style="position:absolute;inset:0;z-index:40;display:flex;align-items:flex-start;justify-content:center;padding:52px 20px 0;background:linear-gradient(180deg,rgba(243,247,244,.55) 0%,rgba(243,247,244,.96) 72%);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);">
             <div style="width:430px;max-width:100%;background:#ffffff;border:1px solid #edf2ee;border-radius:16px;box-shadow:0 28px 66px -34px rgba(14,33,26,.3);padding:22px 24px;text-align:center;">
-              <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);margin-bottom:12px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#0e2b20;margin-bottom:12px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
               <h3 style="font:600 16.5px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#14211a;margin:0 0 7px;">Deep account intelligence hasn't run on {{ acct.name }}</h3>
               <p style="font:400 12.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin:0 0 14px;">Customers using deep account intelligence see a <b style="color:#14211a;">30% bump in conversions</b> — it resolves who's on the buying committee and who can open the door.</p>
               <div style="display:flex;flex-direction:column;align-items:center;gap:5px;margin:0 0 14px;">
@@ -8626,7 +9011,7 @@
         </div>
 
         <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:14px;padding:15px 17px;margin-bottom:14px;flex:0 0 auto;">
-          <span style="width:30px;height:30px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+          <span style="width:30px;height:30px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
           <div style="flex:1;min-width:0;">
             <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;margin-bottom:6px;">Savant · who's on your site right now</div>
             <p style="font:500 15px/1.5 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin:0;">This week I de-anonymized <b style="color:#0b6b3a;">312 visitors</b> and matched <b style="color:#0b6b3a;">64</b> to your ICP. Site traffic is up 18%. <span style="background:linear-gradient(transparent 62%, #ffe3a0 62%);">One is hot right now:</span> Stripe hit /pricing 7× in the last hour.</p>
@@ -9699,7 +10084,7 @@
 
           <div style="margin:6px 0 24px;max-width:840px;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px;">
-              <span style="width:20px;height:20px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+              <span style="width:20px;height:20px;border-radius:50%;background:#0e2b20;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
               <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#0b8f43;">{{ agentName }} · your pipeline this morning</span>
             </div>
             <p style="font:400 16.5px/1.65 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.01em;color:#2f3d35;margin:0;text-wrap:pretty;">You have <b style="color:#14211a;">$2.4M</b> in influenced pipeline, up 12%, with 14 meetings booked this week. <span style="background:linear-gradient(transparent 62%, #ffe3a0 62%);">One deal needs you:</span> <b style="color:#14211a;">Philips</b>. The champion has gone quiet six days out from a $240k close.&nbsp;<button onClick="{{ reviewPhilips }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 15px 'Pliant','Instrument Sans',sans-serif;color:#0b6b3a;letter-spacing:-0.01em;" style-hover="color:#0ea84f">Review Philips →</button></p>
@@ -9806,7 +10191,7 @@
           </div>
 
           <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:14px;padding:15px 17px;margin-bottom:16px;">
-            <span style="width:30px;height:30px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+            <span style="width:30px;height:30px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
 <sc-if value="{{ nbaNotDone }}" hint-placeholder-val="{{ true }}">
             <div style="flex:1;min-width:0;">
               <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;margin-bottom:6px;">{{ agentName }} · your next best action</div>
@@ -10731,7 +11116,7 @@
               <sc-if value="{{ pePipeTestOpen }}" hint-placeholder-val="">
                 <div style="border:1px solid #cdeede;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:13px;padding:16px 18px;">
                   <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px;">
-                    <span style="width:22px;height:22px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);flex:0 0 auto;"></span>
+                    <span style="width:22px;height:22px;border-radius:50%;background:#0e2b20;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
                     <span style="font:600 10px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;">Test generation · {{ pePipeTestD.name }}</span>
                     <span style="flex:1;"></span>
                     <button onClick="{{ pePipeClose }}" style="border:none;background:#eef3ef;cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;" style-hover="background:#faf8f3">Close</button>
@@ -10752,7 +11137,7 @@
 
               <!-- capability prerequisite -->
               <div style="display:flex;align-items:flex-start;gap:12px;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:13px;padding:14px 16px;margin-bottom:20px;">
-                <span style="width:30px;height:30px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.7L19 9l-4.1 3 1.2 5L12 15l-4.1 2 1.2-5L5 9l5.1-1.3z"></path></svg></span>
+                <span style="width:30px;height:30px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.7L19 9l-4.1 3 1.2 5L12 15l-4.1 2 1.2-5L5 9l5.1-1.3z"></path></svg></span>
                 <div style="flex:1;min-width:0;">
                   <div style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin-bottom:3px;">Agent actions</div>
                   <p style="font:400 12px/1.5 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin:0;">Required for skills to run. A skill may read your engine data and call the connectors you've enabled. <b style="color:#14211a;">{{ peSkOnCount }} of {{ peSkTotal }}</b> skills are on.</p>
@@ -11403,7 +11788,7 @@
         <p style="font:400 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin:0 0 18px;max-width:660px;">Expose your GTM data layer and tools over MCP so Claude, ChatGPT, Microsoft Copilot and Salesforce agents can search accounts, read deep intelligence, and run workflows. Reads auto-run, writes are gated for approval.</p>
 
         <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:14px;padding:15px 17px;margin-bottom:22px;">
-          <span style="width:30px;height:30px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+          <span style="width:30px;height:30px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
           <div style="flex:1;min-width:0;">
             <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;margin-bottom:6px;">{{ agentName }} · what's reaching your data over MCP</div>
             <p style="font:500 15px/1.5 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin:0;">Claude, Claude Code and Cursor are live on the server (<b style="color:#0b6b3a;">2,418 requests today, 180ms avg</b>). Every read auto-runs; I hold writes for your approval. Nothing has touched production data without a sign-off.</p>
@@ -11849,7 +12234,7 @@
         <div style="font:600 11px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#1a545f;margin-bottom:6px;">Connectors · Integrations</div>
         <h1 style="font:600 28px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#14211a;margin:0 0 22px;">Integrations</h1>
         <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:14px;padding:15px 17px;margin-bottom:20px;">
-          <span style="width:30px;height:30px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+          <span style="width:30px;height:30px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
           <div style="flex:1;min-width:0;">
             <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;margin-bottom:6px;">{{ agentName }} · your integrations</div>
             <p style="font:500 15px/1.5 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin:0;">Your connected tools are syncing on schedule. <span style="background:linear-gradient(transparent 62%, #ffe3a0 62%);">Salesforce is rate-limited right now</span>. I've paused writes and queued a retry for 10:00am, so nothing is lost.</p>
@@ -11885,7 +12270,7 @@
         <div style="font:600 11px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#1a545f;margin-bottom:6px;">Connectors · Integrations</div>
         <h1 style="font:600 28px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#14211a;margin:0 0 22px;">Integrations</h1>
         <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:14px;padding:15px 17px;margin-bottom:20px;">
-          <span style="width:30px;height:30px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#0e2b20"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#0e2b20" opacity=".75"></circle></svg></span>
+          <span style="width:30px;height:30px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#7ce3a8"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#7ce3a8" opacity=".75"></circle></svg></span>
           <div style="flex:1;min-width:0;">
             <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#0b6b3a;margin-bottom:6px;">{{ agentName }} · your integrations</div>
             <p style="font:500 15px/1.5 'Pliant','Instrument Sans',sans-serif;color:#14211a;margin:0;">Your connected tools are syncing on schedule. <span style="background:linear-gradient(transparent 62%, #ffe3a0 62%);">Salesforce is rate-limited right now</span>. I've paused writes and queued a retry for 10:00am, so nothing is lost.</p>
@@ -12247,7 +12632,7 @@
         </div>
         <!-- Savant workspace-posture lead -->
         <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f0faf3,#fbf8f1);border-radius:14px;padding:16px 18px;margin-bottom:22px;">
-          <span style="width:30px;height:30px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;box-shadow:0 3px 10px -3px rgba(14,168,79,.5);">
+          <span style="width:30px;height:30px;border-radius:50%;background:#0e2b20;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;box-shadow:0 3px 10px -3px rgba(14,168,79,.5);">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.7L19 9l-4.1 3 1.2 5L12 15l-4.1 2 1.2-5L5 9l5.1-1.3z"></path></svg>
           </span>
           <div style="flex:1;min-width:0;">
@@ -12281,7 +12666,7 @@
                 <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 24px 58px -36px rgba(20,33,26,.28);padding:22px 24px;">
                   <!-- Header -->
                   <div style="display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid #edf2ee;">
-                    <span style="width:48px;height:48px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);color:#fff;display:flex;align-items:center;justify-content:center;font:600 20px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">S</span>
+                    <span style="width:48px;height:48px;border-radius:50%;background:#0e2b20;color:#fff;display:flex;align-items:center;justify-content:center;font:600 20px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">S</span>
                     <div style="flex:1;font:600 16px 'Pliant','Instrument Sans',sans-serif;color:#14211a;">Sprouts Admin</div>
                     <button onClick="{{ sEditProfile }}" style="display:flex;align-items:center;gap:6px;border:none;background:#eef3ef;cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#3d4a42;" style-hover="border-color:#a7dfc0">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
@@ -13097,7 +13482,7 @@
               <sc-if value="{{ discDiOff }}" hint-placeholder-val="">
                 <div style="position:absolute;inset:0;z-index:40;display:flex;align-items:flex-start;justify-content:center;padding:44px 20px 0;background:linear-gradient(180deg,rgba(243,247,244,.5) 0%,rgba(243,247,244,.92) 42%,#f4f8f5 100%);">
                   <div style="width:440px;max-width:100%;background:#ffffff;border:1px solid #edf2ee;border-radius:16px;box-shadow:0 28px 66px -34px rgba(14,33,26,.3);padding:22px 24px;text-align:center;">
-                    <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:conic-gradient(from 210deg,#eafff2,#8fe6b4,#2fc47d,#d9f6e4,#f8f2e3,#eafff2);color:#fff;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg></span>
+                    <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#0e2b20;color:#fff;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg></span>
                     <div style="font:600 16px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#14211a;margin-bottom:6px;">Deep account intelligence</div>
                     <p style="font:400 12.5px/1.6 'Pliant','Instrument Sans',sans-serif;color:#5f6d64;margin:0 0 12px;">Customers using deep account intelligence see a <b style="color:#14211a;">30% bump in conversions</b>. This is where the committee, org chart and warm paths live.</p>
                     <sc-if value="{{ discDiIdle }}" hint-placeholder-val="{{ true }}">
@@ -13326,8 +13711,281 @@
 <template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="22" fill="#0ea84f"></rect><path d="M50 28 L56 44 L72 50 L56 56 L50 72 L44 56 L28 50 L44 44 Z" fill="#fbfdfb"></path></svg></template></x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;agentName&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Savant&quot;,&quot;Cortex&quot;,&quot;Aria&quot;],&quot;default&quot;:&quot;Savant&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scheduleDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
+  ptBase() {
+    return [
+      { id:'nt', name:'Northwind Tech', region:'West', email:'ops@northwindtech.com', tier:'Gold', cap:14, ttft:'3.4h', accept:94, working:6, won:5, pipe:480, rev:210, avgDeal:42, win:45, lastActive:'2h ago', logins30:41, certs:'4 of 6', qbr:'12 Sep', trend:[55,70,85,80,95,95], credU:820, credCap:1200 },
+      { id:'av', name:'Apex VAR', region:'Central', email:'sales@apexvar.com', tier:'Silver', cap:12, ttft:'5.1h', accept:88, working:4, won:3, pipe:310, rev:140, avgDeal:38, win:43, lastActive:'Yesterday', logins30:26, certs:'3 of 5', qbr:'26 Sep', trend:[40,50,45,60,55,60], credU:540, credCap:900 },
+      { id:'sm', name:'Summit MSP', region:'East', email:'team@summitmsp.com', tier:'Registered', cap:10, ttft:'9.6h', accept:71, working:3, won:1, pipe:150, rev:60, avgDeal:30, win:25, lastActive:'6d ago', logins30:7, certs:'1 of 4', qbr:'Overdue', trend:[30,25,35,20,25,15], credU:610, credCap:700 },
+      { id:'bl', name:'Blue Ledger', region:'South', email:'gtm@blueledger.io', tier:'Gold', cap:16, ttft:'2.8h', accept:96, working:7, won:6, pipe:620, rev:260, avgDeal:48, win:46, lastActive:'38m ago', logins30:58, certs:'6 of 8', qbr:'4 Sep', trend:[70,90,95,105,120,140], credU:1030, credCap:1400 },
+      { id:'cr', name:'Corevance', region:'Northeast', email:'hello@corevance.com', tier:'Registered', cap:8, ttft:'6.7h', accept:79, working:2, won:1, pipe:120, rev:45, avgDeal:26, win:33, lastActive:'3d ago', logins30:12, certs:'1 of 3', qbr:'19 Sep', trend:[15,20,25,20,25,15], credU:300, credCap:500 },
+    ].concat(this.state.ptAdded || []);
+  }
+  dashVals() {
+    const S = this.state;
+    const readLS = (k) => { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } };
+    const hidden = S.dashHidden || readLS('sproutsDashV1');
+    const added = S.dashAdded || readLS('sproutsDashAdd');
+    const spans = S.dashSpans || readLS('sproutsDashSpans');
+    const saveAll = (patch) => { const st = { dashHidden: patch.dashHidden || hidden, dashAdded: patch.dashAdded || added, dashSpans: patch.dashSpans || spans };
+      try { localStorage.setItem('sproutsDashV1', JSON.stringify(st.dashHidden)); localStorage.setItem('sproutsDashAdd', JSON.stringify(st.dashAdded)); localStorage.setItem('sproutsDashSpans', JSON.stringify(st.dashSpans)); } catch (e) {}
+      this.setState(st); };
+    const partners = this.ptBase();
+    const A = S.ptAssigned || {}, ST = S.ptStalled || {};
+    const stalledN = Object.keys(ST).filter(n => A[n]).length;
+    const pipeT = partners.reduce((a, p) => a + (p.pipe || 0), 0);
+    const pipeL = pipeT >= 1000 ? '$' + (Math.round(pipeT / 10) / 100) + 'M' : '$' + pipeT + 'k';
+    const DEFS = [
+      { key:'kpis', title:'Pipeline snapshot', meta:'last 30 days', span:6, kind:'stats', aliases:['kpi','snapshot','numbers','pipeline snapshot'], go:() => this.setState({ view:'workspace', tab:'companies' }),
+        stats:[ {v:'312',l:'visitors identified',d:'+18%'}, {v:'142',l:'high-fit accounts',d:'+9'}, {v:'38',l:'active signals',d:'+6'}, {v:'14',l:'meetings booked',d:'+3'} ] },
+      { key:'approvals', title:'Needs you', meta:'approval gate', span:2, kind:'list', aliases:['approval','needs you','gate'], go:() => this.setState({ view:'campaigns' }),
+        rows:[ {t:'12 emails \u00b7 FinTech wave 2', s:'Campaigns \u00b7 waiting 2h', c:'#8f5f15'}, {t:'Workflow publish \u00b7 Win-back', s:'Agents \u00b7 waiting 1d', c:'#8f5f15'}, {t:'Segment rule change', s:'Pricing-intent \u00b7 yesterday', c:'#5f6d64'} ] },
+      { key:'partners', title:'Partner network', meta:partners.length + ' partners', span:2, kind:'stats', aliases:['partner','channel','network'], go:() => this.setState({ view:'partners' }),
+        stats:[ {v:pipeL,l:'sourced pipeline'}, {v:String(Object.keys(A).length),l:'assigned'}, {v:String(stalledN),l:'stalled',c: stalledN ? '#8f5f15' : '#14211a'} ] },
+      { key:'visitors', title:'Website visitors', meta:'30 days', span:2, kind:'stats', aliases:['visitor','traffic','website'], go:() => this.setState({ view:'visitors' }),
+        stats:[ {v:'312',l:'identified',d:'+18%'}, {v:'41',l:'match your ICP'} ] },
+      { key:'workflows', title:'Live workflows', meta:'2 running', span:3, kind:'bars', aliases:['workflow','agent','automation'], go:() => this.setState({ view:'playbooks' }),
+        bars:[ {l:'Pricing-intent \u2192 outreach', w:'72%', r:'41 in outreach'}, {l:'Buyer committees \u00b7 top opps', w:'38%', r:'25 mapped'} ] },
+      { key:'activity', title:'Recent activity', meta:'across the workspace', span:3, kind:'list', aliases:['activity','feed','events'], go:() => this.setState({ view:'actlogs' }),
+        rows:[ {t:'Philips', s:'Replied to LinkedIn touch 2 \u00b7 booked discovery', r:'4m', c:'#0b6b3a'}, {t:'Razorpay', s:'Qualified \u00b7 fit 92, pricing intent', r:'21m', c:'#0ea84f'}, {t:'HighRadius', s:'Entered outreach \u00b7 committee resolved', r:'1h', c:'#2c8ea5'}, {t:'Udemy', s:'De-anonymized from /pricing visit', r:'2h', c:'#3f7d4e'} ] },
+      { key:'segments', title:'Segments', meta:'top movers', span:3, kind:'list', aliases:['segment'], go:() => this.setState({ view:'segments', segSel:null }),
+        rows:[ {t:'Pricing-intent \u00b7 US', s:'41 members \u00b7 updated 2h ago', c:'#0b6b3a'}, {t:'Enterprise FinTech', s:'318 members \u00b7 yesterday', c:'#1a545f'}, {t:'Closed-lost \u00b7 Q3\u2013Q4', s:'96 members \u00b7 3d ago', c:'#5f6d64'} ] },
+      { key:'credits', title:'Credits & usage', meta:'resets 1 Sep', span:3, kind:'bars', aliases:['credit','usage','billing','plan'], go:() => this.setState({ view:'settings', setTab:'billing' }),
+        bars:[ {l:'48.8K of 81.3K credits left', w:'60%', r:'60%'} ] },
+      { key:'opps', extra:true, title:'Opportunities', meta:'open pipeline', span:2, kind:'stats', aliases:['opportunit','deal'], go:() => this.setState({ view:'opportunities' }),
+        stats:[ {v:'$1.2M',l:'open value'}, {v:'7',l:'in negotiation'}, {v:'3',l:'close this month'} ] },
+      { key:'topaccts', extra:true, title:'Top accounts', meta:'by priority', span:3, kind:'list', aliases:['top account','priority account','best account'], go:() => this.setState({ view:'workspace', tab:'companies' }),
+        rows:[ {t:'Philips', s:'Fit 92 \u00b7 viewed pricing 3\u00d7 \u00b7 hiring RevOps', c:'#0b6b3a'}, {t:'Razorpay', s:'Fit 90 \u00b7 pricing + demo \u00b7 expanding US', c:'#0ea84f'}, {t:'Stripe', s:'Fit 89 \u00b7 viewed /pricing + /security', c:'#2c8ea5'} ] },
+      { key:'meetings', extra:true, title:'Meetings', meta:'next 7 days', span:2, kind:'list', aliases:['meeting','calendar'], go:() => this.setState({ view:'opportunities' }),
+        rows:[ {t:'Philips \u00b7 discovery', s:'Thu 10:00 \u00b7 D. Verhoeven', c:'#0b6b3a'}, {t:'Chargebee \u00b7 demo', s:'Fri 15:30 \u00b7 K. Anand', c:'#1a545f'}, {t:'Ramp \u00b7 intro', s:'Mon 09:00 \u00b7 via Path Finder', c:'#5f6d64'} ] },
+      { key:'notifs', extra:true, title:'Notifications', meta:'unread', span:3, kind:'list', aliases:['notification','alert','inbox'], go:() => this.setState({ view:'notifications' }),
+        rows:[ {t:'Philips went quiet', s:'6 days \u00b7 $240k open \u00b7 nudge drafted', c:'#a2413a'}, {t:'Deep intel landed', s:'Razorpay \u00b7 committee + org chart ready', c:'#0b6b3a'}, {t:'Sequence reply', s:'Postman \u00b7 Maya Iyer replied positively', c:'#0ea84f'} ] },
+    ];
+    const visible = DEFS.filter(d => (d.extra ? added[d.key] : true) && !hidden[d.key]);
+    const mk = (d, i) => ({ title:d.title, meta:d.meta, span:String(spans[d.key] || d.span), go:d.go,
+      dly: (i * 45) + 'ms', dlyBar: (i * 45 + 140) + 'ms',
+      remove: (e) => { if (e && e.stopPropagation) e.stopPropagation(); const h = Object.assign({}, hidden); h[d.key] = true; saveAll({ dashHidden: h }); this.toast('Hid ' + d.title + '. Ask Savant to bring it back.'); },
+      resize: (e) => { if (e && e.stopPropagation) e.stopPropagation(); const cur = spans[d.key] || d.span; const next = cur >= 6 ? 2 : cur >= 3 ? 6 : 3;
+        const sp = Object.assign({}, spans); sp[d.key] = next; saveAll({ dashSpans: sp }); },
+      isStats:d.kind==='stats', isList:d.kind==='list', isBars:d.kind==='bars',
+      stats:(d.stats||[]).map(s => ({ v:s.v, l:s.l, d:s.d||'', hasD:!!s.d, c:s.c||'#14211a' })),
+      rows:(d.rows||[]).map(r => ({ t:r.t, s:r.s, r:r.r||'', hasR:!!r.r, c:r.c||'#0ea84f' })),
+      bars:d.bars||[] });
+    const _gh = new Date().getHours();
+    return {
+      isDashboard: S.view === 'dashboard',
+      dashGreeting: (_gh < 12 ? 'Good morning' : _gh < 18 ? 'Good afternoon' : 'Good evening') + ', Kartikay',
+      dashWidgets: visible.map(mk),
+      dashEmpty: visible.length === 0,
+      dashCustomize: () => {
+        this.setState({ pdBig: true, pdOpen: false, pdTab: 'chat' });
+        if (!this._dashSeeded) { this._dashSeeded = true;
+          this.setState(s => ({ pdMsgs: (s.pdMsgs || []).concat([{ who: 'p', text: 'This dashboard is yours to shape. Delete any tile with its \u00d7, resize with the arrows, or tell me things like \u201chide segments\u201d, \u201cadd meetings\u201d, \u201cmake activity wider\u201d, or \u201creset the dashboard\u201d. The library also has opportunities, top accounts and notifications tiles.' }]) }));
+        }
+      },
+      dashReset: () => { saveAll({ dashHidden: {}, dashAdded: {}, dashSpans: {} }); this.toast('Dashboard reset to default.'); },
+    };
+  }
+  partnerVals(allRows) {
+    const S = this.state;
+    const partners = this.ptBase();
+    const byId = {}; partners.forEach(p => { byId[p.id] = p; });
+    const A = S.ptAssigned || {}, ST = S.ptStalled || {};
+    const rows = (allRows || []).filter(r => !r.isPartner && !(S.wspDeleted || {})[r.name]);
+    const nameSet = {}; rows.forEach(r => { nameSet[r.name] = true; });
+    const assignedNames = Object.keys(A).filter(n => nameSet[n]);
+    const liveOf = (pid) => assignedNames.filter(n => A[n] === pid);
+    const stOf = (pid) => Object.keys(ST).filter(n => nameSet[n] && A[n] === pid);
+    const unassigned = rows.filter(r => !A[r.name]);
+    const minFit = S.ptMinFit || 0, q = (S.ptQ || '').toLowerCase();
+    const shown = unassigned.filter(r => r.fit >= minFit && (!q || r.name.toLowerCase().indexOf(q) >= 0));
+    const sel = (S.ptSel || []).filter(n => unassigned.some(r => r.name === n));
+    const chosen = S.ptChosen && byId[S.ptChosen] ? S.ptChosen : null;
+    const tab = S.ptTab || 'alloc';
+    const stalledTotal = partners.reduce((a, p) => a + stOf(p.id).length, 0);
+    const wonTotal = partners.reduce((a, p) => a + p.won, 0);
+    const workTotal = partners.reduce((a, p) => a + p.working + liveOf(p.id).length, 0);
+    const asgTotal = workTotal + wonTotal;
+    const capColor = (pct) => pct >= 95 ? '#a2413a' : pct >= 80 ? '#b5791b' : '#0ea84f';
+    const draft = S.ptDraft || {};
+    const initialsOf = (n) => n.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+    return {
+      isPartners: S.view === 'partners',
+      goPartners: () => this.setState({ view: 'partners' }),
+      ptKpis: [
+        { lab: 'Partners', val: String(partners.length), sub: 'in the network', attn: false },
+        { lab: 'Assigned', val: String(assignedNames.length), sub: 'accounts with a partner', attn: false },
+        { lab: 'In queue', val: String(unassigned.length), sub: 'waiting for an owner', attn: false },
+        { lab: 'Stalled', val: String(stalledTotal), sub: stalledTotal ? 'no touch past SLA' : 'nothing past SLA', attn: stalledTotal > 0 },
+        { lab: 'Sourced pipeline', val: (() => { const t = partners.reduce((a, p) => a + (p.pipe || 0), 0); return t >= 1000 ? '$' + (Math.round(t / 10) / 100) + 'M' : '$' + t + 'k'; })(), sub: '$' + partners.reduce((a, p) => a + (p.rev || 0), 0) + 'k closed by partners', attn: false },
+      ].map(k => Object.assign(k, { valC: k.attn ? '#8f5f15' : '#14211a' })),
+      ptTabs: [{ k: 'alloc', l: 'Allocation' }, { k: 'partners', l: 'Partners' }, { k: 'reporting', l: 'Reporting' }].map(t => ({
+        l: t.l, on: tab === t.k,
+        bg: tab === t.k ? '#dcf3e5' : 'transparent', col: tab === t.k ? '#0b6b3a' : '#5f6d64',
+        ring: tab === t.k ? 'inset 0 0 0 1px rgba(14,168,79,.3)' : 'none',
+        pick: () => this.setState({ ptTab: t.k, ptDetail: null }),
+      })),
+      ptIsAlloc: tab === 'alloc', ptIsPartners: tab === 'partners', ptIsReporting: tab === 'reporting',
+      ptShownN: String(shown.length), ptSelN: String(sel.length),
+      ptHasRows: shown.length > 0, ptNoRows: shown.length === 0,
+      ptQV: S.ptQ || '', onPtQ: (ev) => this.setState({ ptQ: ev.target.value }),
+      ptFits: [{ v: 0, l: 'Any fit' }, { v: 75, l: '75+' }, { v: 85, l: '85+' }].map(f => ({
+        l: f.l, bg: minFit === f.v ? '#dcf3e5' : '#fbfdfb', col: minFit === f.v ? '#0b6b3a' : '#5f6d64', bd: minFit === f.v ? '#a7dfc0' : '#e6ecdf',
+        pick: () => this.setState({ ptMinFit: f.v }),
+      })),
+      ptSelectShown: () => this.setState({ ptSel: shown.map(r => r.name) }),
+      ptRowsA: shown.map(r => { const on = sel.includes(r.name); return {
+        name: r.name, domain: r.domain, initials: r.initials, logoBg: r.logoBg, logoFg: r.logoFg,
+        signal: r.signal, sigColor: r.sigColor, fit: String(r.fit), fitC: r.fitColor, fitW: r.fit + '%',
+        seg: r.seg, segC: r.segC, segB: r.segB,
+        on, off: !on, rowBg: on ? '#f2fbf5' : 'transparent',
+        toggle: () => this.setState(s => { const cur = new Set(s.ptSel || []); if (cur.has(r.name)) { cur.delete(r.name); } else { cur.add(r.name); } return { ptSel: [...cur] }; }),
+      }; }),
+      ptOpts: partners.map(p => { const live = liveOf(p.id).length; const load = p.working + live; const pct = Math.min(100, Math.round(load / p.cap * 100)); const on = chosen === p.id; return {
+        name: p.name, initials: initialsOf(p.name),
+        meta: p.region + (p.accept != null ? ' \u00b7 ' + p.accept + '% accept' : ' \u00b7 new'),
+        cap: load + '/' + p.cap, capW: pct + '%', capC: capColor(pct),
+        bg: on ? '#f2fbf5' : '#fff', ring: on ? 'inset 0 0 0 1.5px #16b364' : 'inset 0 0 0 1px #edf2ee',
+        pick: () => this.setState({ ptChosen: on ? null : p.id }),
+      }; }),
+      ptAssignOff: !(sel.length && chosen),
+      ptAssignLbl: sel.length ? ('Assign ' + sel.length + (sel.length > 1 ? ' accounts' : ' account')) : 'Assign accounts',
+      ptAssignBg: (sel.length && chosen) ? '#0ea84f' : '#c6d5ca',
+      ptAssign: () => { if (!sel.length || !chosen) return;
+        const next = Object.assign({}, S.ptAssigned || {});
+        sel.forEach(n => { next[n] = chosen; });
+        this.setState({ ptAssigned: next, ptSel: [] });
+        this.toast(sel.length + (sel.length > 1 ? ' accounts' : ' account') + ' assigned to ' + byId[chosen].name + '. Source updated in Prospects.');
+      },
+      ptAuto: () => { if (!shown.length) { this.toast('Nothing in the queue matches these filters.'); return; }
+        const order = partners.map(p => ({ id: p.id, room: Math.max(0, p.cap - p.working - liveOf(p.id).length) })).sort((a, b) => b.room - a.room);
+        const next = Object.assign({}, S.ptAssigned || {}); let i = 0;
+        shown.forEach(r => { next[r.name] = order[i % order.length].id; i++; });
+        this.setState({ ptAssigned: next, ptSel: [] });
+        this.toast(shown.length + ' accounts distributed by remaining capacity.');
+      },
+      ptRowsB: partners.map(p => {
+        const live = liveOf(p.id).length, stn = stOf(p.id).length;
+        const working = p.working + live, load = working;
+        const pct = Math.min(100, Math.round(load / p.cap * 100));
+        const isNew = p.accept == null;
+        const risk = !isNew && (stn >= 2 || p.accept < 75);
+        const watch = !isNew && !risk && (stn === 1 || parseFloat(p.ttft) > 6);
+        const credPct = p.credCap ? Math.round(p.credU / p.credCap * 100) : 0;
+        return {
+          name: p.name, region: p.region, initials: initialsOf(p.name),
+          statusL: isNew ? 'New' : risk ? 'At risk' : watch ? 'Watch' : 'On track',
+          statusC: isNew ? '#5f6d64' : risk ? '#a2413a' : watch ? '#8f5f15' : '#0b6b3a',
+          dotC: isNew ? '#c6d5ca' : risk ? '#d98a80' : watch ? '#e3c27d' : '#0ea84f',
+          accept: isNew ? '\u2014' : p.accept + '%', ttft: isNew ? '\u2014' : p.ttft,
+          working: String(working), won: String(p.won),
+          pipe: '$' + (p.pipe || 0) + 'k',
+          stalled: String(stn), stC: stn ? '#a2413a' : '#94a399',
+          cred: credPct + '%', credSub: p.credU.toLocaleString('en-US') + '/' + p.credCap.toLocaleString('en-US'),
+          load: load + '/' + p.cap, loadW: pct + '%', loadC: capColor(pct),
+          open: () => this.setState({ ptDetail: p.id }),
+          canReclaim: stn > 0, reclaimLbl: 'Reclaim ' + stn,
+          reclaim: (e) => { if (e && e.stopPropagation) e.stopPropagation(); const names = stOf(p.id);
+            const nextA = Object.assign({}, S.ptAssigned || {}); const nextS = Object.assign({}, S.ptStalled || {});
+            names.forEach(n => { delete nextA[n]; delete nextS[n]; });
+            this.setState({ ptAssigned: nextA, ptStalled: nextS });
+            this.toast(names.length + (names.length > 1 ? ' accounts' : ' account') + ' reclaimed from ' + p.name + '. Back in the queue.');
+          },
+        };
+      }),
+      ...(() => {
+        const detId = S.ptDetail && byId[S.ptDetail] ? S.ptDetail : null;
+        const base = { ptListOn: !detId, ptDetailOn: !!detId, ptDetailBack: () => this.setState({ ptDetail: null }),
+          ptDAssignGo: () => this.setState({ ptTab: 'alloc', ptChosen: detId, ptDetail: null }) };
+        if (!detId) return Object.assign(base, { ptD: {} });
+        const COVER = { nt:{em:82,ph:61,cm:4}, av:{em:74,ph:52,cm:3}, sm:{em:58,ph:37,cm:1}, bl:{em:88,ph:69,cm:5}, cr:{em:66,ph:44,cm:2} };
+        const p = byId[detId];
+        const live = liveOf(detId).length, stn = stOf(detId).length;
+        const working = p.working + live;
+        const pct = Math.min(100, Math.round(working / p.cap * 100));
+        const isNew = p.accept == null;
+        const risk = !isNew && (stn >= 2 || p.accept < 75);
+        const watch = !isNew && !risk && (stn === 1 || parseFloat(p.ttft) > 6);
+        const cov = COVER[p.id] || { em: 0, ph: 0, cm: 0 };
+        const credPct = p.credCap ? Math.round(p.credU / p.credCap * 100) : 0;
+        const accts = rows.filter(r => A[r.name] === detId).sort((a, b) => b.fit - a.fit);
+        const requeueNames = (names, msg) => {
+          const nextA = Object.assign({}, S.ptAssigned || {}); const nextS = Object.assign({}, S.ptStalled || {});
+          names.forEach(n => { delete nextA[n]; delete nextS[n]; });
+          this.setState({ ptAssigned: nextA, ptStalled: nextS });
+          this.toast(msg);
+        };
+        const avgPipe = Math.round(partners.reduce((a, x) => a + (x.pipe || 0), 0) / Math.max(1, partners.length));
+        const TIERC = { Gold: ['#8f5f15', '#f4e5c5'], Silver: ['#5f6d64', '#e9efe9'], Registered: ['#1a545f', '#d6e9ef'] };
+        const tierPair = TIERC[p.tier || 'Registered'] || TIERC.Registered;
+        return Object.assign(base, { ptD: {
+          name: p.name, region: p.region, email: p.email || 'no contact on file', initials: initialsOf(p.name),
+          tier: p.tier || 'Registered', tierC: tierPair[0], tierB: tierPair[1],
+          hasTrend: !!(p.trend && p.trend.length),
+          trend: (p.trend || []).map((v, i, arr) => { const max = Math.max(1, ...arr); const MO = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'];
+            return { m: MO[i] || '', v: '$' + v + 'k', h: Math.max(3, Math.round(v / max * 70)) + 'px', c: i === arr.length - 1 ? '#0ea84f' : '#bfe6d6' }; }),
+          engage: [
+            { l: 'Last active', v: p.lastActive || 'Not yet active', c: '#14211a' },
+            { l: 'Portal logins \u00b7 30d', v: String(p.logins30 != null ? p.logins30 : 0), c: '#14211a' },
+            { l: 'Certified sellers', v: p.certs || '0', c: '#14211a' },
+            { l: 'Next QBR', v: p.qbr || 'Not scheduled', c: p.qbr === 'Overdue' ? '#a2413a' : '#14211a' },
+          ],
+          avgDeal: p.avgDeal != null ? '$' + p.avgDeal + 'k' : '\u2014',
+          statusL: isNew ? 'New' : risk ? 'At risk' : watch ? 'Watch' : 'On track',
+          statusC: isNew ? '#5f6d64' : risk ? '#a2413a' : watch ? '#8f5f15' : '#0b6b3a',
+          dotC: isNew ? '#c6d5ca' : risk ? '#d98a80' : watch ? '#e3c27d' : '#0ea84f',
+          accept: isNew ? '\u2014' : p.accept + '%', ttft: isNew ? '\u2014' : p.ttft,
+          load: working + '/' + p.cap, loadW: pct + '%', loadC: capColor(pct),
+          kpis: [
+            { lab: 'Sourced pipeline', val: '$' + (p.pipe || 0) + 'k', sub: 'network avg $' + avgPipe + 'k', valC: '#14211a' },
+            { lab: 'Closed revenue', val: '$' + (p.rev || 0) + 'k', sub: p.won + ' won all time', valC: '#14211a' },
+            { lab: 'Win rate', val: p.win != null ? p.win + '%' : '\u2014', sub: 'closed / worked', valC: '#14211a' },
+            { lab: 'Stalled', val: String(stn), sub: stn ? 'no touch past SLA' : 'nothing past SLA', valC: stn ? '#8f5f15' : '#14211a' },
+          ],
+          hasAccts: accts.length > 0, noAccts: accts.length === 0,
+          accounts: accts.map(r => { const isSt = !!ST[r.name]; return {
+            name: r.name, domain: r.domain, initials: r.initials, logoBg: r.logoBg, logoFg: r.logoFg,
+            fit: String(r.fit), fitC: r.fitColor, fitW: r.fit + '%', signal: r.signal, sigColor: r.sigColor,
+            stateL: isSt ? 'Stalled' : 'Working', stateC: isSt ? '#8f5f15' : '#0b6b3a', stateB: isSt ? '#fbf6ea' : '#dcf3e5',
+            canRq: isSt,
+            requeue: (e) => { if (e && e.stopPropagation) e.stopPropagation(); requeueNames([r.name], r.name + ' back in the queue.'); },
+            open: () => this.setState({ discDrawerKey: r.name, discAcctTab: 'overview' }),
+          }; }),
+          signals: accts.slice(0, 5).map(r => ({ acct: r.name, text: r.signal, c: r.sigColor })),
+          cover: [ { l: 'Verified emails', v: cov.em + '%', w: cov.em + '%' }, { l: 'Direct dials', v: cov.ph + '%', w: cov.ph + '%' } ],
+          committees: String(cov.cm),
+          cred: credPct + '%', credW: Math.min(100, credPct) + '%',
+          credSub: p.credU.toLocaleString('en-US') + ' of ' + p.credCap.toLocaleString('en-US') + ' this cycle',
+          canReclaim: stn > 0, reclaimLbl: 'Reclaim ' + stn + ' stalled',
+          reclaimAll: () => requeueNames(stOf(detId), stn + (stn > 1 ? ' accounts' : ' account') + ' reclaimed from ' + p.name + '. Back in the queue.'),
+        } });
+      })(),
+      ptFunnel: [
+        { l: 'Assigned', v: asgTotal, c: 1 },
+        { l: 'Working', v: workTotal, c: asgTotal ? workTotal / asgTotal : 0 },
+        { l: 'Won', v: wonTotal, c: asgTotal ? wonTotal / asgTotal : 0 },
+      ].map(s => ({ l: s.l, v: String(s.v), pct: Math.round(s.c * 100) + '%', w: Math.max(4, Math.round(s.c * 100)) + '%' })),
+      ptPipe: (() => { const max = Math.max(1, ...partners.map(p => p.working + liveOf(p.id).length + p.won));
+        return partners.map(p => { const wk = p.working + liveOf(p.id).length; const tot = wk + p.won;
+          return { name: p.name, tot: String(tot), wonW: (p.won / max * 100) + '%', wkW: (wk / max * 100) + '%' }; }); })(),
+      ptAddOpen: !!S.ptAddOpen,
+      ptOpenAdd: () => this.setState({ ptAddOpen: true, ptDraft: { name: '', region: 'West', cap: '10', email: '' } }),
+      ptCloseAdd: () => this.setState({ ptAddOpen: false }),
+      ptDName: draft.name || '', onPtDName: (ev) => this.setState({ ptDraft: Object.assign({}, draft, { name: ev.target.value }) }),
+      ptDEmail: draft.email || '', onPtDEmail: (ev) => this.setState({ ptDraft: Object.assign({}, draft, { email: ev.target.value }) }),
+      ptDCap: draft.cap || '10', onPtDCap: (ev) => this.setState({ ptDraft: Object.assign({}, draft, { cap: ev.target.value }) }),
+      ptDRegion: draft.region || 'West', onPtDRegion: (ev) => this.setState({ ptDraft: Object.assign({}, draft, { region: ev.target.value }) }),
+      ptCreateOff: !((draft.name || '').trim()),
+      ptCreateBg: ((draft.name || '').trim()) ? '#0ea84f' : '#c6d5ca',
+      ptCreate: () => { const nm = (draft.name || '').trim(); if (!nm) return;
+        const id = 'p' + ((S.ptAdded || []).length + 1);
+        const p = { id, name: nm, region: draft.region || 'West', email: (draft.email || '').trim() || null, cap: Math.max(1, parseInt(draft.cap, 10) || 10), ttft: null, accept: null, working: 0, won: 0, credU: 0, credCap: 600 };
+        this.setState({ ptAdded: (S.ptAdded || []).concat([p]), ptAddOpen: false });
+        this.toast(nm + ' added.' + ((draft.email || '').trim() ? ' Invite sent to ' + draft.email.trim() + '.' : ''));
+      },
+    };
+  }
   state = {
-    view: 'home', tab: 'companies', goalText: '', wfKey: 'pricing',
+    view: 'dashboard', tab: 'companies', goalText: '', wfKey: 'pricing', pdBig: true, pdTab: 'chat',
     campApproved: [], campPaused: {}, campLaunched: {}, campCreated: [], newCampOpen: false, campGoal: '', campSegPick: null,
     discQualModal: false, discQualIcp: null, discQualIcpOpen: false, discQualN: 2, discQualEmail: true, discQualPhone: false, qualFrom: null,
     wspRail: true, wspRailTab: 'filters', wspSearch: '', wspAF: [{ k:'ICP Fit', vs:['Enterprise SaaS','Mid-market FinTech','RevOps-led teams','PLG expansion'] }], wspLibOpen: null, wspDI: false,
@@ -13349,7 +14007,8 @@ class Component extends DCLogic {
       { name: 'Cloud Hiring and Technology Leadership Expansion', n: '149', last: '09 Jul, 2026' } ], wspSaved: [{ name:'ICP fit \u00b7 US fintech', meta:'4 filters \u00b7 2,140 accounts' }, { name:'Hiring RevOps \u00b7 1k+', meta:'3 filters \u00b7 860 accounts' }],
     assembling: false, scheduled: this.props && this.props.scheduleDefault === false ? false : true,
     acctKey: 'philips', acctTab: 'overview', icpHover: false, compBriefIdx: null, wfModalOpen: false, techModalOpen: false, selAccts: [], agentTab: 'workflows', connTab: 'overview', integFilter: 'All', integDrawerKey: null, integSearch: '', integTab: 'my', integConfigKey: null, integConfigTab: 'connection', paulaOpen: false, paulaThread: [], paulaInput: '', paulaThinking: false, pausedWf: [], segSel: null, segCreateOpen: false, segCompact: true, segPropsHidden: [], segDetailTab: 'overview', segCrmSync: true, seqSel: null, agentSel: null, seqStepAdds: 0,
-    wsAddAcctOpen: false, wsMoreOpen: false, showPartners: false, wsSubView: null, wsActiveView: 'all', wsColMenu: null, collapsedGroups: [], wsAddColOpen: false, wsViewMenu: null, wsAiFilterOpen: false, wsMoreViewsOpen: false, wsCreateViewOpen: false, wsAddColTab: 'library',
+    wsAddAcctOpen: false, wsMoreOpen: false, showPartners: false,
+    ptTab: 'alloc', ptSel: [], ptChosen: null, ptAdded: [], ptAssigned: { Atlassian:'nt', Plaid:'av', Notion:'bl', Recurly:'sm', Gusto:'sm' }, ptStalled: { Recurly:1, Gusto:1, Plaid:1 }, ptAddOpen: false, ptDraft: {}, ptMinFit: 0, ptQ: '', wsSubView: null, wsActiveView: 'all', wsColMenu: null, collapsedGroups: [], wsAddColOpen: false, wsViewMenu: null, wsAiFilterOpen: false, wsMoreViewsOpen: false, wsCreateViewOpen: false, wsAddColTab: 'library',
     oppView: 'board', oppSel: null, nbaDone: false, setTab: 'profile', setTgl: {}, setToast: null, roleExp: 'owner', navCollapsed: true, notifDrawerOpen: false, notifDismissed: [], notifTab: 'inbox', ctFullPage: false, acctOppSubTab: 'crm', acctOppSel: null, acctWsSel: null, acctWsTab: 'rationale', wsCollapsed: [],
     dPhase: 'hero', discEntity: 'companies', dHist: null, dThinkCollapsed: false, discAddOpen: false, discFilterOpen: null, discQuery: '', discSelAccts: [], discSegModal: false, discEnrichType: 'deep', discSegChoice: 'Pricing-intent', discSegDropOpen: false, discDrawerKey: null, discFullPage: false, discAcctTab: 'overview', discFavQueries: ['Series B\u2013D fintechs in the US hiring RevOps','Companies that churned off Clearbit this year'], discHistFilter: 'all',
     sigSubTab: 'matters', sigDetailIdx: null,
@@ -13571,8 +14230,29 @@ class Component extends DCLogic {
 
   componentDidMount() { this._applyNavWidth(); this.generateBrief();
     this._pdKey = (e) => { if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); this.setState(s => ({ pdBig: !s.pdBig, pdOpen: false, pdTab: s.pdTab || 'chat' })); } };
-    document.addEventListener('keydown', this._pdKey); }
-  componentWillUnmount() { if (this._pdKey) document.removeEventListener('keydown', this._pdKey); }
+    document.addEventListener('keydown', this._pdKey);
+    this._pdSpDown = (e) => { if (e.code !== 'Space' || e.repeat || !this.state.pdBig || this.state.pdVoice) return;
+      const t = e.target, tag = t && t.tagName; if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+      e.preventDefault(); this._voiceStart('hold'); };
+    this._pdSpUp = (e) => { if (e.code !== 'Space') return; if (this.state.pdVoice && this._pvMode === 'hold') { e.preventDefault(); this._voiceStop(); } };
+    document.addEventListener('keydown', this._pdSpDown);
+    document.addEventListener('keyup', this._pdSpUp); }
+  componentWillUnmount() { if (this._pdKey) document.removeEventListener('keydown', this._pdKey);
+    if (this._pdSpDown) document.removeEventListener('keydown', this._pdSpDown);
+    if (this._pdSpUp) document.removeEventListener('keyup', this._pdSpUp); clearInterval(this._pvI); }
+  _voiceStart(mode) { if (this.state.pdVoice) return; clearInterval(this._pvI);
+    this._pvWords = 'Which accounts heated up this week and why?'.split(' ');
+    this._pvMode = mode || 'tap'; this._pvT0 = Date.now(); this._pvN = 0;
+    this.setState({ pdVoice: true, pdVoiceTxt: '', pdBig: true, pdOpen: false, pdTab: 'chat' });
+    this._pvI = setInterval(() => { if (this._pvN < this._pvWords.length) { this._pvN++;
+        this.setState({ pdVoiceTxt: this._pvWords.slice(0, this._pvN).join(' ') });
+        if (this._pvN === this._pvWords.length && this._pvMode === 'tap') setTimeout(() => this._voiceStop(true), 420);
+      } }, 240); }
+  _voiceStop(complete) { if (!this.state.pdVoice) return; clearInterval(this._pvI);
+    const heard = complete ? this._pvWords.join(' ') : (this.state.pdVoiceTxt || '');
+    this.setState({ pdVoice: false, pdVoiceTxt: '' });
+    if (!complete && Date.now() - (this._pvT0 || 0) < 700) { this.toast('Didn\u2019t catch that. Hold Space and speak, or tap the mic.'); return; }
+    this.pdBigSend(heard || this._pvWords.join(' ')); }
   // single source of truth for the brief sentence AND the hero action
   attnItem() {
     const self = this;
@@ -13933,8 +14613,35 @@ class Component extends DCLogic {
           ? ['Find lookalikes of my best customers', 'Turn this search into a segment', 'Open Website Visitors']
           : v === 'workspace'
             ? ['Build a segment from these filters', 'Why is Philips \u201cAct now\u201d?', 'Take me to approvals']
+          : v === 'dashboard'
+            ? ['Which accounts hit high ICP fit since yesterday?', 'Did engagement rise anywhere overnight?', 'Any new signals since yesterday?']
+          : v === 'partners'
+            ? ['Which partner has capacity right now?', 'Why is Summit MSP at risk?', 'Open Prospects']
+          : v === 'segments'
+            ? ['Build a segment from my filters', 'Which segments moved this week?', 'Open Prospects']
+          : v === 'campaigns'
+            ? ['What needs my approval?', 'How is the FinTech wave performing?', 'Draft a follow-up for non-openers']
+          : v === 'visitors'
+            ? ['Who visited pricing this week?', 'Qualify this week\u2019s visitors', 'Open Prospects']
+          : v === 'opportunities'
+            ? ['Which deals are stalling?', 'Map the committee on my top opp', 'Why is Philips \u201cAct now\u201d?']
+          : v === 'playbooks' || v === 'wfcanvas'
+            ? ['Which workflows ran today?', 'Draft a win-back workflow', 'Take me to approvals']
+          : v === 'account'
+            ? ['Why is Philips \u201cAct now\u201d?', 'Map the buying committee', 'Draft an intro email']
+          : v === 'personalization'
+            ? ['Rescore ICP fit', 'Which personas reply most?', 'Open Prospects']
+          : v === 'sources' || v === 'connections'
+            ? ['Which sources fed Prospects this week?', 'Any sync errors?', 'Open Prospects']
+          : v === 'settings'
+            ? ['How many credits are left?', 'What changed in my plan?', 'Open Dashboard']
             : ['What needs my approval?', 'Open Prospects', 'Build a segment from my filters'];
         const send = (q) => { this.setState({ pdOpen: false, pdQ: '', pdBig: true, pdTab: 'chat' }); this.pdBigSend(q); };
+        const LEAD = v === 'dashboard'
+          ? { l: '\u2726 Walk me through my day', go: () => send('Walk me through my day') }
+          : (v === 'discover' || v === 'workspace' || v === 'segments' || v === 'campaigns')
+            ? { l: '\u2726 Co-drive: build a fintech play', go: () => this.startCoDrive() }
+            : null;
         return {
           pdOpenV: !!S.pdOpen,
           pdDockV: !S.pdBig,
@@ -13951,11 +14658,11 @@ class Component extends DCLogic {
           pnWideTitle: S.pnWide ? 'Narrow the pane' : 'Widen the pane',
           pnWideFlip: () => this.setState(s => ({ pnWide: !s.pnWide })),
           togglePd: () => this.setState(s => ({ pdBig: !s.pdBig, pdOpen: false, pdTab: s.pdTab || 'chat' })),
-          pdLabel: 'Ask Savant',
+          pdLabel: 'Talk to Savant',
           pdQ: S.pdQ || '', setPdQ: (e) => this.setState({ pdQ: e.target.value }),
           pdKey: (e) => { if (e.key === 'Enter' && (S.pdQ || '').trim()) send(S.pdQ.trim()); },
           pdSend: () => { const q = (S.pdQ || '').trim(); if (!q) { this.toast('Type a question first.'); return; } send(q); },
-          pdActions: [{ l: '\u2726 Co-drive: build a fintech play', dly: '0.04s', go: () => this.startCoDrive() }].concat(QA.slice(0, 2).map((l, qi) => ({ l, dly: (0.085 + qi * 0.045).toFixed(3) + 's', go: () => send(l) }))),
+          pdActions: (LEAD ? [{ l: LEAD.l, dly: '0.04s', go: LEAD.go }] : []).concat(QA.slice(0, LEAD ? 2 : 3).map((l, qi) => ({ l, dly: (0.085 + qi * 0.045).toFixed(3) + 's', go: () => send(l) }))),
           pdExpand: () => this.setState(s => ({ pdOpen: false, pdBig: true, pdTab: s.cdActive ? 'work' : (s.pdTab || 'chat') })),
           ...(() => { const t = S.pdTab || 'chat'; const on = (x) => t === x;
             return { pdTabChat: on('chat'), pdTabWork: on('work'),
@@ -14033,14 +14740,14 @@ class Component extends DCLogic {
           pdBigEmpty: (S.pdMsgs || []).length === 0 && !S.pdTyping,
           pdTypingV: !!S.pdTyping,
           pdSearchingV: !!S.pdSearching,
-          pdBigActions: [{ l: '\u2726 Co-drive a fintech play', dly: '0.04s', go: () => this.startCoDrive() }].concat(QA.slice(0, 2).map((l, qi) => ({ l, dly: (0.085 + qi * 0.045).toFixed(3) + 's', go: () => this.pdBigSend(l) }))),
+          pdBigActions: (LEAD ? [{ l: LEAD.l, dly: '0.04s', go: LEAD.go }] : []).concat(QA.slice(0, LEAD ? 2 : 3).map((l, qi) => ({ l, dly: (0.085 + qi * 0.045).toFixed(3) + 's', go: () => this.pdBigSend(l) }))),
           pdBigQ: S.pdBigQ || '', setPdBigQ: (e) => this.setState({ pdBigQ: e.target.value }),
           pdVoiceOn: !!S.pdVoice, pdVoiceOff: !S.pdVoice,
-          pdVoiceTitle: S.pdVoice ? 'Stop listening' : 'Talk to Savant',
-          pdVoiceBg: S.pdVoice ? '#14211a' : '#f4f8f5', pdVoiceCol: S.pdVoice ? '#7ce3a8' : '#5f6d64',
-          pdVoiceToggle: () => { clearTimeout(this._pvT); if (S.pdVoice) { this.setState({ pdVoice: false }); return; }
-            this.setState({ pdVoice: true, pdTab: 'chat' });
-            this._pvT = setTimeout(() => this.setState({ pdVoice: false, pdBigQ: 'Which accounts heated up this week and why?' }), 2800); },
+          pdVoiceTitle: S.pdVoice ? 'Finish and send' : 'Tap to talk',
+          pdVoiceBg: S.pdVoice ? '#0e2b20' : '#0ea84f', pdVoiceCol: S.pdVoice ? '#7ce3a8' : '#fff',
+          pdOrbCap: S.pdVoice ? 'Listening\u2026' : 'What are we working on?',
+          pdVoiceLive: S.pdVoiceTxt || 'Listening\u2026',
+          pdVoiceToggle: () => { if (S.pdVoice) { this._voiceStop(true); return; } this._voiceStart('tap'); },
           pdBigKey: (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); const q = (S.pdBigQ || '').trim(); if (q) this.pdBigSend(q); } },
           pdBigGo: () => { const q = (S.pdBigQ || '').trim(); if (!q && !(S.pdFiles || []).length) { this.toast('Type a question or attach a file.'); return; } this.pdBigSend(q || 'Here\u2019s a file. What can you do with it?'); },
           pdFiles: (S.pdFiles || []).map((f, fi) => ({ nm: f, rm: () => this.setState(s => ({ pdFiles: (s.pdFiles || []).filter((x, j) => j !== fi) })) })),
@@ -14773,9 +15480,72 @@ class Component extends DCLogic {
     clearTimeout(this._cdT);
     this._cdT = setTimeout(() => { if (this.state.cdPaused || !this.state.cdActive) return; this._cdRun(i + 1); }, st.d);
   }
+  _dashCmd(q) {
+    const t = (q || '').toLowerCase();
+    const W = [
+      ['kpis','Pipeline snapshot',['kpi','snapshot','numbers'],6,0],
+      ['approvals','Needs you',['approval','needs you','gate'],2,0],
+      ['partners','Partner network',['partner','channel','network'],2,0],
+      ['visitors','Website visitors',['visitor','traffic','website'],2,0],
+      ['workflows','Live workflows',['workflow','automation'],3,0],
+      ['activity','Recent activity',['activity','feed','events'],3,0],
+      ['segments','Segments',['segment'],3,0],
+      ['credits','Credits & usage',['credit','usage','billing'],3,0],
+      ['opps','Opportunities',['opportunit','deal'],2,1],
+      ['topaccts','Top accounts',['top account','priority account','best account'],3,1],
+      ['meetings','Meetings',['meeting','calendar'],2,1],
+      ['notifs','Notifications',['notification','alert','inbox'],3,1],
+    ];
+    const rd = (k) => { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } };
+    const hidden = Object.assign({}, this.state.dashHidden || rd('sproutsDashV1'));
+    const added = Object.assign({}, this.state.dashAdded || rd('sproutsDashAdd'));
+    const spans = Object.assign({}, this.state.dashSpans || rd('sproutsDashSpans'));
+    const wr = (h, a, s) => { try { localStorage.setItem('sproutsDashV1', JSON.stringify(h)); localStorage.setItem('sproutsDashAdd', JSON.stringify(a)); localStorage.setItem('sproutsDashSpans', JSON.stringify(s)); } catch (e) {} };
+    if (/widget|tile|dashboard/.test(t) && /what|which|available|library|list/.test(t))
+      return { patch: {}, sub: '8 defaults \u00b7 4 in the library', say: 'On the dashboard now: snapshot, approvals, partners, visitors, workflows, activity, segments, credits. In the library: opportunities, top accounts, meetings, notifications \u2014 say \u201cadd meetings\u201d. You can also delete any tile with its \u00d7 or say \u201cmake activity wider\u201d.' };
+    if (/reset (the )?(dashboard|widgets|tiles)/.test(t) || (/widget|tile|dashboard/.test(t) && /reset|default/.test(t))) {
+      wr({}, {}, {});
+      return { patch: { dashHidden: {}, dashAdded: {}, dashSpans: {} }, sub: 'Defaults restored', say: 'Dashboard reset. The eight default tiles are back at their normal sizes.' };
+    }
+    const did = [];
+    (t.split(/,| and | then /)).forEach(cl => {
+      const rm = /remove|hide|drop|without|get rid|delete/.test(cl);
+      const grow = /wider|bigger|expand|larger|full width|grow/.test(cl);
+      const shrink = /narrower|smaller|shrink|compact/.test(cl);
+      const add = !rm && /(\badd\b|include|restore|bring back|put back)/.test(cl);
+      if (!rm && !add && !grow && !shrink) return;
+      W.forEach(w => { const hit = [w[0]].concat(w[2]).some(a => cl.indexOf(a) >= 0); if (!hit) return;
+        const cur = spans[w[0]] || w[3];
+        if (rm) { hidden[w[0]] = true; did.push('hid ' + w[1]); }
+        else if (grow) { spans[w[0]] = /full width/.test(cl) ? 6 : (cur >= 3 ? 6 : 3); delete hidden[w[0]]; if (w[4]) added[w[0]] = true; did.push('widened ' + w[1]); }
+        else if (shrink) { spans[w[0]] = cur >= 6 ? 3 : 2; did.push('shrunk ' + w[1]); }
+        else { delete hidden[w[0]]; if (w[4]) added[w[0]] = true; did.push('added ' + w[1]); } });
+    });
+    if (!did.length) return null;
+    wr(hidden, added, spans);
+    return { patch: { dashHidden: hidden, dashAdded: added, dashSpans: spans }, sub: did.join(' \u00b7 '), say: 'Done: ' + did.join(', ') + '. The dashboard already reflects it.' };
+  }
   _savantPlan(q) {
     const t = (re) => re.test(q);
     const P = (kind, patch, label, sub, say, cta) => ({ kind, patch, label, sub, say, cta: cta || 'Show me' });
+    const _dw = this._dashCmd(q);
+    if (_dw) return P('Navigated', Object.assign({ view: 'dashboard' }, _dw.patch), 'Dashboard', _dw.sub, _dw.say, 'Open Dashboard');
+    if (t(/\b(walk me through|my day|morning brief|start my day)\b/i))
+      return P('Briefed', { view: 'campaigns', seqSel: null }, 'Your day so far',
+        '3 new high-fit accounts \u00b7 engagement up on 5 \u00b7 7 fresh signals \u00b7 3 approvals parked.',
+        'Since yesterday: Philips, Postman and Chargebee crossed into high ICP fit. Engagement rose on five accounts, led by Philips with three pricing visits and a reshared case study. Seven new signals landed overnight, including a RevOps hire at Razorpay. The one thing waiting on you: three sends parked at approval.', 'Clear the approvals');
+    if (t(/(icp|fit)[^?.]{0,44}(yesterday|since|overnight|today|new)/i))
+      return P('Briefed', { view: 'workspace', tab: 'companies' }, 'New high-fit accounts',
+        'Philips 91 \u00b7 Postman 88 \u00b7 Chargebee 85 \u00b7 all Pricing-intent \u00b7 US.',
+        'Three accounts crossed into high ICP fit since yesterday: Philips (91), Postman (88) and Chargebee (85). All three sit in Pricing-intent \u00b7 US, so they qualify for the running play the moment you approve their sends.', 'See them in Prospects');
+    if (t(/\bengag/i))
+      return P('Briefed', { view: 'workspace', tab: 'companies' }, 'Engagement overnight',
+        'Up on 5 accounts \u00b7 Philips leads at 2\u00d7 week over week.',
+        'Engagement rose on five accounts overnight. Philips leads: three pricing visits and a reshared case study, 2\u00d7 week over week. Postman and Chargebee are close behind on docs and integration pages.', 'See them in Prospects');
+    if (t(/\bsignals?\b[^?.]{0,40}(came|come|new|since|overnight|yesterday|today)|new signals?\b/i))
+      return P('Briefed', { view: 'workspace', tab: 'companies' }, 'Signals since yesterday',
+        '7 new \u00b7 2 pricing bursts \u00b7 1 RevOps hire \u00b7 3 reshares \u00b7 1 committee change.',
+        'Seven signals since yesterday: pricing-page bursts at Philips and Chargebee, a RevOps hire at Razorpay, three case-study reshares, and a committee change at Postman. The pricing bursts are the ones worth acting on today.', 'See them in Prospects');
     if (t(/\b(approv|awaiting|waiting on me|sign.?off|gate)/i))
       return P('Action', { view: 'campaigns', seqSel: null }, 'Campaigns \u00b7 Awaiting your approval',
         '3 sends parked: Maya Iyer (Postman), Dan Kohler (Chargebee), Priya Nair (Razorpay).',
@@ -14851,9 +15621,9 @@ class Component extends DCLogic {
         'Fit 91 \u00b7 heating \u00b7 $240k open, quiet 6 days.',
         'Philips is open. Fit is 91 and the trend heated 2\u00d7 this week: three pricing visits, a reshared case study, and a RevOps lead in the integration docs.');
     if (t(/\b(home|mission control|dashboard|what changed|what.s new)/i))
-      return P('Navigated', { view: 'home' }, 'Mission Control',
+      return P('Navigated', { view: 'dashboard' }, 'Dashboard',
         'Today\u2019s changes across the workspace.',
-        'Mission Control is up. The one thing worth your attention: Philips has gone quiet six days out from a $240k close.');
+        'Dashboard is up. Tell me to add or remove any widget and I will reshape it.');
     return null;
   }
   pdBigSend(q) {
@@ -15033,13 +15803,14 @@ class Component extends DCLogic {
       : { bg:'transparent', col:'#cfe4d6', icol:'#8fb3a0', ring:'none' };
     const isWS = v === 'workspace';
     const nav = {
-      cortex: navOn(v === 'home' || v === 'workflow' || v === 'live'),
+      cortex: navOn(v === 'dashboard' || v === 'home' || v === 'workflow' || v === 'live'),
       discover: navOn(v === 'discover'),
       sources: navOn(v === 'sources'),
       prospects: navOn((isWS && (tab === 'companies' || tab === 'contacts')) || v === 'account' || v === 'segments'),
       accounts: navOn((isWS && tab === 'companies') || v === 'account'),
       segments: navOn(v === 'segments'),
       campaigns: navOn(v === 'campaigns'),
+      partners: navOn(v === 'partners'),
       contacts: navOn(isWS && tab === 'contacts'),
       visitors: navOn(v === 'visitors'),
       sequence: navOn(v === 'sequence'),
@@ -15259,7 +16030,13 @@ class Component extends DCLogic {
     const isSel = (n) => selAccts.includes(n);
     const toggleAcct = (n) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState(s => { const set = new Set(s.selAccts || []); set.has(n) ? set.delete(n) : set.add(n); return { selAccts: [...set] }; }); };
     const SEGC = { 'Pricing-intent':{c:'#0b6b3a',b:'#dcf3e5'}, 'Enterprise FinTech':{c:'#1a545f',b:'#d6e9ef'}, 'ABM Tier 1':{c:'#2f5d3a',b:'#dbebdc'}, 'Watchlist':{c:'#5f6d64',b:'#e9efe9'} };
+    const _ptA = this.state.ptAssigned || {};
+    const _ptNames = {}; this.ptBase().forEach(p => { _ptNames[p.id] = p.name; });
+    const _srcMap = { Philips:'Website', Udemy:'Website', Stripe:'Website', Chargebee:'Website', Ramp:'Website', Razorpay:'Global Search', BrowserStack:'Global Search', Postman:'Global Search', Paddle:'Global Search', Plaid:'Global Search', HighRadius:'Salesforce', Atlassian:'Salesforce', 'Checkout.com':'Salesforce', Brex:'Salesforce', Notion:'Salesforce', Freshworks:'List upload', Zuora:'List upload', Recurly:'List upload', Mollie:'List upload', Gusto:'List upload', AWS:'Direct' };
     const acct = (o) => ({ ...o,
+      hasPt: !!_ptA[o.name], noPt: !_ptA[o.name],
+      ptName: _ptA[o.name] ? (_ptNames[_ptA[o.name]] || 'Partner') : '',
+      srcLbl: _srcMap[o.name] || 'Global Search',
       isPartner:!!o.isPartner, diOn:o.di, diOff:!o.di,
       segC:(SEGC[o.seg]||SEGC.Watchlist).c, segB:(SEGC[o.seg]||SEGC.Watchlist).b,
       fitColor: o.fit>=85?'#3f7d4e':o.fit>=75?'#b5791b':'#a2413a',
@@ -18579,9 +19356,9 @@ class Component extends DCLogic {
     ];
     [['Resume Workflow','View Logs'],['View Account','Start Sequence'],['View Analysis','Create Campaign'],['View Signals','Archive'],['View Profile','Add to Sequence'],['View Replies','Adjust Sequence'],['View Records','Mark Read']].forEach((a,i)=>{_notifItems[i].nba=a[0];_notifItems[i].a2=a[1];});
     var _self_nf = this;
-    var _nfRoutes = [ {view:'playbooks',agentSel:null}, {view:'account',acctKey:'philips',acctTab:'overview'}, {view:'account',acctKey:'razorpay',acctTab:'overview'}, {view:'home'}, {view:'account',acctKey:'highradius',acctTab:'overview'}, {view:'playbooks',agentSel:null}, {view:'connections',connTab:'overview'} ];
+    var _nfRoutes = [ {view:'playbooks',agentSel:null}, {view:'account',acctKey:'philips',acctTab:'overview'}, {view:'account',acctKey:'razorpay',acctTab:'overview'}, {view:'dashboard'}, {view:'account',acctKey:'highradius',acctTab:'overview'}, {view:'playbooks',agentSel:null}, {view:'connections',connTab:'overview'} ];
     var _nfDismissedArr = this.state.notifDismissed || [];
-    _notifItems.forEach(function(n,i){ n.id='n'+i; n.crit=(n.pri==='critical'); n.cardBg=n.crit?'#fcece8':'#fff'; n.cardBd=n.crit?'#e3b0a8':'#e6ece7'; var rt=_nfRoutes[i]||{view:'home'}; n.go=function(){ _self_nf.setState(Object.assign({},rt,{notifDrawerOpen:false})); }; n.dismiss=function(e){ if(e&&e.stopPropagation)e.stopPropagation(); _self_nf.setState(function(s){ var d=(s.notifDismissed||[]).slice(); if(d.indexOf(n.id)<0)d.push(n.id); return {notifDismissed:d}; }); }; n.dismissed=_nfDismissedArr.indexOf('n'+i)>=0; });
+    _notifItems.forEach(function(n,i){ n.id='n'+i; n.crit=(n.pri==='critical'); n.cardBg=n.crit?'#fcece8':'#fff'; n.cardBd=n.crit?'#e3b0a8':'#e6ece7'; var rt=_nfRoutes[i]||{view:'dashboard'}; n.go=function(){ _self_nf.setState(Object.assign({},rt,{notifDrawerOpen:false})); }; n.dismiss=function(e){ if(e&&e.stopPropagation)e.stopPropagation(); _self_nf.setState(function(s){ var d=(s.notifDismissed||[]).slice(); if(d.indexOf(n.id)<0)d.push(n.id); return {notifDismissed:d}; }); }; n.dismissed=_nfDismissedArr.indexOf('n'+i)>=0; });
     var _nfVisible = _notifItems.filter(function(n){ return !n.dismissed; });
     var _dNeed = _nfVisible.filter(function(n){ return n.pri==='critical'||n.pri==='high'; });
     var _dFyi = _nfVisible.filter(function(n){ return n.pri==='normal'; });
@@ -20498,11 +21275,13 @@ class Component extends DCLogic {
       goLiveWf: () => this.setState({ view:'live', wfKey:'pricing' }),
       goMeetings: () => this.setState({ view:'opportunities' }),
       reviewPhilips: () => this.setState({ view:'account', acctKey:'philips', acctTab:'overview' }),
-      goCortex: () => this.setState({ view:'home' }),
+      goCortex: () => this.setState({ view:'dashboard' }),
       goAccounts: () => this.setState({ view:'workspace', tab:'companies' }),
       goSegments: () => this.setState({ view:'segments', segSel:null, segCreateOpen:false }),
       isSources: this.state.view === 'sources',
       goSources: () => this.setState({ view:'sources' }),
+      ...this.partnerVals(_allAccountRows),
+      ...this.dashVals(),
       srcLive: [
         { nm:'Global Search', d:'Natural-language company & contact search, run by you', n:'1,284', unit:'added \u00b7 30d', act:'Open', go:() => this.setState({ view:'discover' }) },
         { nm:'Website Visitors', d:'Pixel-identified companies browsing your site', n:'312', unit:'identified \u00b7 30d', act:'Open', go:() => this.setState({ view:'visitors' }) },
@@ -20665,6 +21444,7 @@ class Component extends DCLogic {
       goPeVoice: () => this.setState({ view:'personalization', peTab:'voice' }),
       goSettings: () => this.setState({ view:'settings' }),
       goSetBilling: () => this.setState({ view:'settings', setTab:'billing' }),
+      goSetBillingStop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ view:'settings', setTab:'billing' }); },
       ...(() => {
         const SEED = [
           { nm:'packagetest', env:'live', by:'Ashwini Singh', tail:'ABtA', made:'13 Aug 2026', used:'13 Aug 2026', exp:'11 Nov 2026', scopes:'search.read · usage.read' },
