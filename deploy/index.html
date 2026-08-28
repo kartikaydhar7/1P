@@ -1396,10 +1396,10 @@
 
             
 
-            <p style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0 0 10px;">Slices of Prospects that campaigns run on. Rules move accounts in and out; the campaign works whoever is inside.</p>
+            <p style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0 0 10px;">A segment is the people you are targeting: rules pick the accounts and the contacts inside them. Its campaign is what happens to those people.</p>
             <div style="display:flex;align-items:center;border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:13px 4px;margin-bottom:14px;">
               <span style="flex:1;text-align:center;border-right:1px solid #eaeaf0;"><span style="display:block;font:600 17px 'JetBrains Mono';letter-spacing:-0.02em;color:#2d2b2b;">{{ segSumN }}</span><span style="display:block;font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:2px;">segments</span></span>
-              <span style="flex:1;text-align:center;border-right:1px solid #eaeaf0;"><span style="display:block;font:600 17px 'JetBrains Mono';letter-spacing:-0.02em;color:#2d2b2b;">{{ segSumAccts }}</span><span style="display:block;font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:2px;">accounts inside</span></span>
+              <span style="flex:1;text-align:center;border-right:1px solid #eaeaf0;"><span style="display:block;font:600 17px 'JetBrains Mono';letter-spacing:-0.02em;color:#2d2b2b;">{{ segSumPeople }}</span><span style="display:block;font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:2px;">people inside · {{ segSumAccts }} accounts</span></span>
               <span style="flex:1;text-align:center;border-right:1px solid #eaeaf0;"><span style="display:block;font:600 17px 'JetBrains Mono';letter-spacing:-0.02em;color:#4b4390;">{{ segSumGrow }}</span><span style="display:block;font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:2px;">entered this week</span></span>
               <span style="flex:1;text-align:center;"><span style="display:block;font:600 17px 'JetBrains Mono';letter-spacing:-0.02em;color:#2d2b2b;">{{ segSumAttached }}</span><span style="display:block;font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:2px;">have a campaign<sc-if value="{{ segSumHasGaps }}" hint-placeholder-val=""> · <span style="color:#8f5f15;font-weight:600;">{{ segSumGaps }} waiting</span></sc-if></span></span>
             </div>
@@ -1409,16 +1409,16 @@
             
             <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
               <div style="display:flex;align-items:center;gap:14px;padding:0 16px;height:36px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;">
-                <span style="width:104px;flex:0 0 auto;">ACCOUNTS</span>
+                <span style="width:118px;flex:0 0 auto;">PEOPLE</span>
                 <span style="flex:1;min-width:240px;">SEGMENT</span>
                 <span style="width:186px;flex:0 0 auto;">CAMPAIGN</span>
                 <span style="width:72px;flex:0 0 auto;">UPDATED</span>
               </div>
               <sc-for list="{{ segments }}" as="s" hint-placeholder-count="6">
                 <div onClick="{{ s.open }}" style="display:flex;align-items:center;gap:14px;padding:0 16px;height:58px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
-                  <span style="width:104px;flex:0 0 auto;display:flex;align-items:baseline;gap:7px;">
-                    <span style="font:600 16px 'JetBrains Mono';letter-spacing:-0.02em;color:#2d2b2b;">{{ s.members }}</span>
-                    <sc-if value="{{ s.grow }}" hint-placeholder-val=""><span style="font:600 9.5px 'JetBrains Mono';color:#4b4390;">{{ s.growLabel }}</span></sc-if>
+                  <span style="width:118px;flex:0 0 auto;display:flex;flex-direction:column;gap:1px;">
+                    <span style="display:flex;align-items:baseline;gap:6px;"><span style="font:600 16px 'JetBrains Mono';letter-spacing:-0.02em;color:#2d2b2b;">{{ s.people }}</span><sc-if value="{{ s.grow }}" hint-placeholder-val=""><span style="font:600 9.5px 'JetBrains Mono';color:#4b4390;">{{ s.growLabel }}</span></sc-if></span>
+                    <span style="font:400 9.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ s.members }} accounts</span>
                   </span>
                   <span style="flex:1;min-width:240px;display:flex;align-items:center;gap:10px;">
                     <span title="{{ s.typeLabel }}" style="width:28px;height:28px;border-radius:8px;background:{{ s.tB }};color:{{ s.tC }};display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ s.tIcon }}"></path></svg></span>
@@ -1432,7 +1432,7 @@
                     <sc-if value="{{ s.noPlay }}" hint-placeholder-val=""><span style="display:inline-flex;align-items:center;gap:6px;font:500 11.5px 'Pliant','Instrument Sans',sans-serif;color:#8f5f15;"><span style="width:6px;height:6px;border-radius:50%;background:#b5791b;"></span>No campaign attached</span></sc-if>
                   </span>
                   <span style="width:72px;flex:0 0 auto;font:400 10.5px 'JetBrains Mono';color:#908d9c;">{{ s.updated }}</span>
-                  <button onClick="{{ s.openRules }}" title="Rules and entry actions" style="width:26px;height:26px;flex:0 0 auto;border:none;background:transparent;cursor:pointer;border-radius:7px;color:#908d9c;display:flex;align-items:center;justify-content:center;" style-hover="background:rgba(123,107,216,.08);color:#6553cc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h.01a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51h.01a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.01a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"></path></svg></button>
+                  <button onClick="{{ s.openRules }}" title="Open rules" style="width:26px;height:26px;flex:0 0 auto;border:none;background:transparent;cursor:pointer;border-radius:7px;color:#908d9c;display:flex;align-items:center;justify-content:center;" style-hover="background:rgba(123,107,216,.08);color:#6553cc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h.01a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51h.01a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.01a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"></path></svg></button>
                 </div>
               </sc-for>
             </div>
@@ -1442,31 +1442,6 @@
         </sc-if>
 
         <!-- DETAIL MODE -->
-        <sc-if value="{{ segRuleOpen }}" hint-placeholder-val="">
-          <div onClick="{{ closeSegRules }}" style="position:fixed;inset:0;background:rgba(22,21,28,.38);backdrop-filter:blur(3px);z-index:210;display:flex;align-items:center;justify-content:center;padding:24px;">
-            <div onClick="{{ stop }}" style="background:#ffffff;border:1px solid #ececf2;border-radius:16px;width:460px;max-width:100%;padding:20px 22px;box-shadow:0 3px 8px rgba(24,23,30,.06), 0 20px 56px -14px rgba(24,23,30,.2);">
-              <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px;">
-                <h3 style="font:600 17px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#2d2b2b;margin:0;flex:1;">{{ segRuleV.name }}</h3>
-                <button onClick="{{ closeSegRules }}" style="border:none;background:transparent;cursor:pointer;color:#908d9c;padding:2px;" style-hover="color:#2d2b2b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
-              </div>
-              <p style="font:400 12px/1.5 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0 0 14px;">{{ segRuleV.typeLabel }} · {{ segRuleV.members }} accounts inside</p>
-              <div style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;margin-bottom:7px;">Entry rule</div>
-              <sc-for list="{{ segRuleV.ruleRows }}" as="rr" hint-placeholder-count="1">
-                <div style="display:flex;align-items:center;gap:8px;border:1px solid #ececf2;background:#fbfbfd;border-radius:9px;padding:9px 12px;margin-bottom:7px;">
-                  <span style="flex:1;font:500 11.5px 'JetBrains Mono';color:#48454f;">{{ rr.t }}</span>
-                </div>
-              </sc-for>
-              <button onClick="{{ segRuleEdit }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;text-decoration:underline;text-underline-offset:2px;margin-bottom:14px;" style-hover="color:#7b6bd8">Edit rule in the builder →</button>
-              <div style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;margin-bottom:5px;">When an account enters</div>
-              <sc-for list="{{ segRuleAutos }}" as="au" hint-placeholder-count="3">
-                <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #ededf3;">
-                  <span style="flex:1;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;">{{ au.l }}</span>
-                  <button onClick="{{ au.flip }}" style="width:32px;height:18px;border-radius:10px;border:none;cursor:pointer;background:{{ au.bg }};position:relative;flex:0 0 auto;padding:0;"><span style="position:absolute;top:2px;left:{{ au.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s;"></span></button>
-                </div>
-              </sc-for>
-            </div>
-          </div>
-        </sc-if>
 
         <sc-if value="{{ segDetailMode }}" hint-placeholder-val="">
           <div style="max-width:1000px;margin:0 auto;padding:28px 34px 80px;">
@@ -1478,17 +1453,13 @@
                 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><h1 style="font:600 24px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.025em;color:#2d2b2b;margin:0;">{{ seg.name }}</h1><span style="font:600 9px 'Pliant','Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.05em;color:{{ seg.tC }};background:{{ seg.tB }};border-radius:5px;padding:3px 8px;">{{ seg.typeLabel }}</span></div>
                 <div style="font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:5px;">{{ seg.desc }}</div>
               </div>
-              <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto;">
-                <button onClick="{{ goSequence }}" style="border:none;cursor:pointer;border-radius:9px;padding:9px 16px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#fff;background:#7b6bd8;display:inline-flex;align-items:center;gap:7px;" style-hover="background:#6a5ac7"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>Open campaign</button>
-              </div>
             </div>
 
             <!-- Tab Bar -->
             <div style="display:flex;align-items:center;gap:0;border-bottom:2px solid #e2e2ea;margin-bottom:20px;">
               <button onClick="{{ segTabOverview }}" style="border:none;background:transparent;cursor:pointer;white-space:nowrap;padding:10px 16px;font:{{ sdtOverview.font }};color:{{ sdtOverview.col }};border-bottom:2px solid {{ sdtOverview.bd }};margin-bottom:-2px;" style-hover="color:#2d2b2b">Overview</button>
-              <button onClick="{{ segTabContacts }}" style="border:none;background:transparent;cursor:pointer;white-space:nowrap;padding:10px 16px;font:{{ sdtContacts.font }};color:{{ sdtContacts.col }};border-bottom:2px solid {{ sdtContacts.bd }};margin-bottom:-2px;" style-hover="color:#2d2b2b">Contacts</button>
-              <button onClick="{{ segTabOutreach }}" style="border:none;background:transparent;cursor:pointer;white-space:nowrap;padding:10px 16px;font:{{ sdtOutreach.font }};color:{{ sdtOutreach.col }};border-bottom:2px solid {{ sdtOutreach.bd }};margin-bottom:-2px;" style-hover="color:#2d2b2b">Outreach Agent</button>
-              <button onClick="{{ segTabActivity }}" style="border:none;background:transparent;cursor:pointer;white-space:nowrap;padding:10px 16px;font:{{ sdtActivity.font }};color:{{ sdtActivity.col }};border-bottom:2px solid {{ sdtActivity.bd }};margin-bottom:-2px;" style-hover="color:#2d2b2b">Activity</button>
+              <button onClick="{{ segTabMembers }}" style="border:none;background:transparent;cursor:pointer;white-space:nowrap;padding:10px 16px;font:{{ sdtMembers.font }};color:{{ sdtMembers.col }};border-bottom:2px solid {{ sdtMembers.bd }};margin-bottom:-2px;" style-hover="color:#2d2b2b">Members</button>
+              <button onClick="{{ segTabRules }}" style="border:none;background:transparent;cursor:pointer;white-space:nowrap;padding:10px 16px;font:{{ sdtRules.font }};color:{{ sdtRules.col }};border-bottom:2px solid {{ sdtRules.bd }};margin-bottom:-2px;" style-hover="color:#2d2b2b">Rules</button>
 
             </div>
 
@@ -1509,19 +1480,76 @@
             </div>
 
 
-            <!-- Members -->
-            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;">
-              <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;">Accounts in this segment · highest fit first</span>
-              <span style="flex:1;"></span>
-              <button onClick="{{ segOpenInTable }}" style="border:none;background:transparent;cursor:pointer;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;padding:0;text-decoration:underline;text-underline-offset:3px;" style-hover="color:#7b6bd8">Open all in the Prospects table →</button>
+            <!-- How this segment works · pipeline -->
+            <div style="display:grid;grid-template-columns:1fr 24px 1fr 24px 1.25fr;align-items:stretch;margin-bottom:8px;">
+              <button onClick="{{ goRulesTab }}" style="text-align:left;border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);border:none;cursor:pointer;padding:13px 16px;display:flex;flex-direction:column;gap:5px;min-width:0;" style-hover="box-shadow:0 2px 5px rgba(24,23,30,.07), 0 16px 48px -10px rgba(24,23,30,.18)">
+                <span style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;">1 · Accounts enter</span>
+                <span style="display:flex;align-items:baseline;gap:6px;"><span style="font:600 19px 'JetBrains Mono';letter-spacing:-0.02em;color:#2d2b2b;">{{ seg.members }}</span><span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">in right now</span></span>
+                <span style="font:500 10.5px 'JetBrains Mono';color:#63606e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;">{{ seg.ruleLine }}</span>
+              </button>
+              <span style="display:flex;align-items:center;justify-content:center;color:#b6b3c2;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+              <button onClick="{{ goRulesTab }}" style="text-align:left;border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);border:none;cursor:pointer;padding:13px 16px;display:flex;flex-direction:column;gap:5px;min-width:0;" style-hover="box-shadow:0 2px 5px rgba(24,23,30,.07), 0 16px 48px -10px rgba(24,23,30,.18)">
+                <span style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;">2 · People picked inside</span>
+                <span style="display:flex;align-items:baseline;gap:6px;"><span style="font:600 19px 'JetBrains Mono';letter-spacing:-0.02em;color:#4b4390;">{{ segContactsN }}</span><span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">the campaign can talk to</span></span>
+                <span style="font:500 10.5px 'JetBrains Mono';color:#63606e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;">{{ segWhoRule }}</span>
+              </button>
+              <span style="display:flex;align-items:center;justify-content:center;color:#b6b3c2;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:13px 16px;display:flex;flex-direction:column;gap:5px;min-width:0;">
+                <span style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;">3 · The campaign works them</span>
+                <sc-if value="{{ seg.hasPlay }}" hint-placeholder-val="{{ true }}">
+                  <span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ seg.playNm }}</span>
+                  <span style="display:flex;align-items:center;gap:8px;">
+                    <span style="font:500 10.5px 'JetBrains Mono';color:#908d9c;">{{ segCampMeta }}</span>
+                    <span style="flex:1;"></span>
+                    <button onClick="{{ goSequence }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;white-space:nowrap;" style-hover="color:#7b6bd8">Open →</button>
+                  </span>
+                </sc-if>
+                <sc-if value="{{ seg.noPlay }}" hint-placeholder-val="">
+                  <span style="display:flex;align-items:center;gap:6px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#8f5f15;"><span style="width:6px;height:6px;border-radius:50%;background:#b5791b;"></span>None attached · members are waiting</span>
+                  <span style="position:relative;display:inline-flex;">
+                    <button onClick="{{ segAttach }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #c5b9f0;background:#f5f3fd;cursor:pointer;border-radius:8px;padding:6px 12px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;" style-hover="background:#e6e1f9">Attach a campaign <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+                    <sc-if value="{{ segAttachOpen }}" hint-placeholder-val="">
+                      <div style="position:absolute;top:36px;left:0;z-index:80;width:290px;background:#ffffff;border:1px solid #ececf2;border-radius:11px;box-shadow:0 2px 6px rgba(24,23,30,.05), 0 16px 56px -12px rgba(24,23,30,.16);padding:6px;display:flex;flex-direction:column;">
+                        <div style="font:600 8px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#908d9c;padding:7px 10px 4px;">Your campaigns</div>
+                        <sc-for list="{{ segAttachOpts }}" as="ao" hint-placeholder-count="4">
+                          <button onClick="{{ ao.pick }}" style="display:flex;align-items:center;gap:8px;text-align:left;border:none;background:transparent;cursor:pointer;border-radius:7px;padding:8px 10px;" style-hover="background:rgba(123,107,216,.08)">
+                            <span style="width:7px;height:7px;border-radius:50%;background:{{ ao.dot }};flex:0 0 auto;"></span>
+                            <span style="flex:1;min-width:0;display:flex;flex-direction:column;"><span style="font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ao.nm }}</span><span style="font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#8c8a95;">{{ ao.meta }}</span></span>
+                          </button>
+                        </sc-for>
+                        <div style="height:1px;background:#ededf3;margin:5px 8px;"></div>
+                        <button onClick="{{ segAttachNew }}" style="display:flex;align-items:center;gap:8px;text-align:left;border:none;background:transparent;cursor:pointer;border-radius:7px;padding:8px 10px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;" style-hover="background:rgba(123,107,216,.08)">+ Create a new campaign →</button>
+                      </div>
+                    </sc-if>
+                  </span>
+                </sc-if>
+              </div>
             </div>
-            <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
-              <div style="display:flex;align-items:center;padding:0 16px;height:36px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;"><span style="width:220px;">ACCOUNT</span><span style="width:120px;">ICP FIT</span><span style="flex:1;">WHY TOP ACCOUNT</span></div>
-              <sc-for list="{{ segTop10 }}" as="t" hint-placeholder-count="10">
-                <div onClick="{{ t.openAcct }}" style="display:flex;align-items:center;padding:0 16px;height:50px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
-                  <span style="width:220px;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:{{ t.avBg }};color:{{ t.avFg }};display:flex;align-items:center;justify-content:center;font:600 10px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ t.initials }}</span><span style="display:flex;flex-direction:column;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ t.name }}</span><span style="font:400 9.5px 'JetBrains Mono';color:#908d9c;">{{ t.domain }}</span></span></span>
-                  <span style="width:120px;display:flex;align-items:center;gap:8px;"><span style="width:42px;height:6px;border-radius:6px;background:#e2e2ea;overflow:hidden;"><span style="display:block;height:100%;width:{{ t.fitPct }};background:{{ t.fitColor }};"></span></span><span style="font:600 11px 'JetBrains Mono';color:#2d2b2b;">{{ t.fit }}</span></span>
-                  <span style="flex:1;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;">{{ t.reason }}</span>
+            <p style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin:0 0 22px;">Rules decide who is in; the campaign is what happens to them. <button onClick="{{ goRulesTab }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;" style-hover="color:#7b6bd8">Edit the rules →</button></p>
+
+            <!-- People preview -->
+            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;">
+              <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;">Who to contact first · warmest, highest fit</span>
+              <span style="flex:1;"></span>
+              <button onClick="{{ goMembersTab }}" style="border:none;background:transparent;cursor:pointer;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;padding:0;text-decoration:underline;text-underline-offset:3px;" style-hover="color:#7b6bd8">All {{ segContactsN }} people →</button>
+            </div>
+            <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;margin-bottom:24px;">
+              <div style="display:flex;align-items:center;padding:0 16px;height:36px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;"><span style="flex:1;min-width:200px;">CONTACT</span><span style="width:200px;">EMAIL</span><span style="width:140px;">PHONE</span><span style="width:170px;">ROLE</span></div>
+              <sc-for list="{{ segTopPeople }}" as="c" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;padding:0 16px;height:50px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
+                  <span style="flex:1;min-width:200px;display:flex;align-items:center;gap:10px;">
+                    <span style="width:28px;height:28px;border-radius:50%;background:{{ c.avBg }};color:{{ c.avFg }};display:flex;align-items:center;justify-content:center;font:600 10px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ c.initials }}</span>
+                    <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.name }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ c.company }}</span></span>
+                  </span>
+                  <span style="width:200px;padding-right:10px;">
+                    <sc-if value="{{ c.emailShow }}" hint-placeholder-val="{{ true }}"><span style="display:block;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#2c6fbb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ c.email }}</span></sc-if>
+                    <sc-if value="{{ c.emailNeeds }}" hint-placeholder-val=""><button onClick="{{ c.enrichEmail }}" title="Enrich · 1 credit · charged only when verified" style="display:inline-flex;align-items:center;gap:5px;border:1px dashed #c5b9f0;background:#f5f3fd;color:#6553cc;cursor:pointer;border-radius:12px;padding:3px 10px;font:600 10px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#e6e1f9">✚ Enrich · 1 cr</button></sc-if>
+                  </span>
+                  <span style="width:140px;">
+                    <sc-if value="{{ c.phoneShow }}" hint-placeholder-val="{{ true }}"><span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ c.phoneVal }}</span></sc-if>
+                    <sc-if value="{{ c.phoneNeeds }}" hint-placeholder-val=""><button onClick="{{ c.enrichPhone }}" title="Enrich · 2 credits · charged only when verified" style="display:inline-flex;align-items:center;gap:5px;border:1px dashed #c5b9f0;background:#f5f3fd;color:#6553cc;cursor:pointer;border-radius:12px;padding:3px 10px;font:600 10px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#e6e1f9">✚ Enrich · 2 cr</button></sc-if>
+                  </span>
+                  <span style="width:170px;display:flex;flex-direction:column;"><span style="font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.role }}</span><span style="font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ c.dept }}</span></span>
                 </div>
               </sc-for>
             </div>
@@ -1538,42 +1566,11 @@
               </sc-for>
               <div style="display:flex;align-items:center;gap:10px;padding:9px 0;">
                 <span style="width:34px;font:600 12px 'JetBrains Mono';color:#6a5ac7;flex:0 0 auto;">{{ segReply }}·{{ segMtgsN }}</span>
-                <span style="flex:1;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;">replies · meetings from attached plays, last 30 days</span>
+                <span style="flex:1;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;">replies · meetings from the campaign, last 30 days</span>
                 <button onClick="{{ goSequence }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;flex:0 0 auto;" style-hover="color:#7b6bd8">View campaign →</button>
               </div>
             </div>
 
-            <!-- Rule & automations -->
-            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Who gets in · entry rule (accounts)</div>
-            <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:13px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
-              <span style="font:500 12.5px 'JetBrains Mono';color:#2d2b2b;flex:1;min-width:0;">{{ seg.ruleLine }}</span>
-              <span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;white-space:nowrap;">Exit: reply, meeting, or disqualify</span>
-              <button onClick="{{ segEditRule }}" style="border:1px solid #ececf2;background:transparent;cursor:pointer;border-radius:7px;padding:5px 12px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;flex:0 0 auto;" style-hover="border-color:#c5b9f0;color:#6553cc">Edit</button>
-            </div>
-            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Who inside · people rule (contacts)</div>
-            <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:13px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
-              <span style="font:500 12.5px 'JetBrains Mono';color:#2d2b2b;flex:0 0 auto;white-space:nowrap;">{{ segWhoRule }}</span>
-              <span style="flex:1;min-width:0;font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ segWhoCoverage }}</span>
-              <button onClick="{{ segWhoSource }}" style="border:1px solid #c5b9f0;background:#f5f3fd;cursor:pointer;border-radius:7px;padding:5px 12px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;flex:0 0 auto;white-space:nowrap;" style-hover="background:#e6e1f9">Source contacts</button> <button onClick="{{ segRunDeepIntel }}" style="display:inline-flex;align-items:center;gap:5px;border:1px solid #e8d9b0;background:#f8f8fb;cursor:pointer;border-radius:7px;padding:5px 12px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#8f5f15;flex:0 0 auto;white-space:nowrap;" style-hover="border-color:#d9c07a"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg>Deep Intel · 1,000 cr</button>
-            </div>
-            <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">What happens · on entry</div>
-            <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:6px 16px;margin-bottom:16px;">
-              <sc-for list="{{ segAutoRows }}" as="a" hint-placeholder-count="3">
-                <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #ededf3;">
-                  <span style="flex:1;display:flex;flex-direction:column;gap:1px;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ a.l }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#8c8a95;">{{ a.d }}</span></span>
-                  <div onClick="{{ a.flip }}" style="width:34px;height:19px;border-radius:10px;background:{{ a.bg }};position:relative;cursor:pointer;transition:background .15s;flex:0 0 auto;"><div style="width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18);position:absolute;top:2px;left:{{ a.knob }};transition:left .15s;"></div></div>
-                </div>
-              </sc-for>
-            </div>
-            <div style="display:flex;gap:10px;margin-bottom:16px;">
-              <div style="flex:1;display:flex;align-items:center;gap:10px;border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:11px 15px;">
-                <span style="flex:1;display:flex;flex-direction:column;gap:1px;"><span style="font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">CRM sync · {{ segCrmSyncLabel }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ segCrmSyncMeta }}</span></span>
-                <div onClick="{{ toggleSegCrmSync }}" style="width:34px;height:19px;border-radius:10px;background:{{ segCrmSyncTrackBg }};cursor:pointer;position:relative;transition:background .15s;flex:0 0 auto;">
-                  <span style="position:absolute;top:2px;left:{{ segCrmSyncKnobLeft }};width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .15s;"></span>
-                </div>
-              </div>
-              <div style="flex:1;display:flex;align-items:center;padding:11px 2px;font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">Rules re-evaluate daily at 8:00 AM.</div>
-            </div>
 
 
 
@@ -1581,7 +1578,30 @@
             </sc-if>
 
             <!-- CONTACTS TAB -->
-            <sc-if value="{{ segIsContacts }}" hint-placeholder-val="">
+            <!-- MEMBERS TAB -->
+            <sc-if value="{{ segIsMembers }}" hint-placeholder-val="">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                <div style="display:inline-flex;align-items:center;gap:2px;background:#eeeef4;border-radius:999px;padding:3px;">
+                  <button onClick="{{ segMemPickContacts }}" style="{{ memTabC }}">{{ segContactsN }} people</button>
+                  <button onClick="{{ segMemPickAccts }}" style="{{ memTabA }}">{{ seg.members }} accounts</button>
+                </div>
+                <span style="flex:1;"></span>
+                <span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">The campaign talks to these people; their accounts qualify by the entry rule.</span>
+              </div>
+              <sc-if value="{{ segMemAccts }}" hint-placeholder-val="">
+                <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;margin-bottom:12px;">
+                  <div style="display:flex;align-items:center;padding:0 16px;height:36px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;"><span style="width:220px;">ACCOUNT</span><span style="width:120px;">ICP FIT</span><span style="flex:1;">WHY IT QUALIFIES</span></div>
+                  <sc-for list="{{ segTop10 }}" as="t" hint-placeholder-count="10">
+                    <div onClick="{{ t.openAcct }}" style="display:flex;align-items:center;padding:0 16px;height:50px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
+                      <span style="width:220px;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:{{ t.avBg }};color:{{ t.avFg }};display:flex;align-items:center;justify-content:center;font:600 10px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ t.initials }}</span><span style="display:flex;flex-direction:column;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ t.name }}</span><span style="font:400 9.5px 'JetBrains Mono';color:#908d9c;">{{ t.domain }}</span></span></span>
+                      <span style="width:120px;display:flex;align-items:center;gap:8px;"><span style="width:42px;height:6px;border-radius:6px;background:#e2e2ea;overflow:hidden;"><span style="display:block;height:100%;width:{{ t.fitPct }};background:{{ t.fitColor }};"></span></span><span style="font:600 11px 'JetBrains Mono';color:#2d2b2b;">{{ t.fit }}</span></span>
+                      <span style="flex:1;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;">{{ t.reason }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <p style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin:0;">Accounts enter and leave by the entry rule. <button onClick="{{ goRulesTab }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;" style-hover="color:#7b6bd8">See the rule →</button> · <button onClick="{{ segOpenInTable }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;" style-hover="color:#7b6bd8">Open in the Prospects table →</button></p>
+              </sc-if>
+              <sc-if value="{{ segMemContacts }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex;gap:12px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f1eefc,#fdf3ee);border-radius:13px;padding:14px 16px;margin-bottom:16px;">
                 <span style="width:26px;height:26px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#beb3f2"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#beb3f2" opacity=".75"></circle></svg></span>
                 <div style="flex:1;min-width:0;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#6553cc;">Savant · who to reach first</div><p style="font:500 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin:6px 0 0;">{{ seg.highPct }} of these contacts are a high ICP fit. I'd start with the <b style="color:#6553cc;">12 who showed buying intent this week</b>. They're warmest right now.</p></div>
@@ -1590,6 +1610,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
                 <div style="position:relative;width:300px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#63606e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg><input placeholder="Search by name, account, email..." style="width:100%;box-sizing:border-box;border:1px solid #ececf2;background:#fbfbfd;border-radius:9px;padding:8px 12px 8px 32px;font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;outline:none;"></div>
                 <div style="display:flex;align-items:center;gap:8px;">
+                  <button onClick="{{ segEnrichAll }}" title="Email 1 cr · phone 2 cr · charged only when verified" style="display:inline-flex;align-items:center;gap:6px;border:1px dashed #c5b9f0;background:#f5f3fd;cursor:pointer;border-radius:999px;padding:8px 14px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;" style-hover="background:#e6e1f9">✚ Enrich missing</button>
                   <button style="display:inline-flex;align-items:center;gap:6px;border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:8px 14px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="background:rgba(123,107,216,.06)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>Export</button>
                   <button style="display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;background:#7b6bd8;color:#fff;border-radius:999px;padding:8px 14px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#383440"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Add Members</button>
                 </div>
@@ -1597,23 +1618,21 @@
               <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
                 <div style="display:flex;align-items:center;padding:0 16px;height:38px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;">
                   <span style="width:36px;"></span>
-                  <span style="flex:1;min-width:240px;">CONTACT</span>
-                  <span style="width:180px;">ROLE</span>
-                  <span style="width:80px;">COUNTRY</span>
-                  <span style="width:190px;">EMAIL</span>
+                  <span style="flex:1;min-width:220px;">CONTACT</span>
+                  <span style="width:200px;">EMAIL</span>
                   <span style="width:150px;">PHONE</span>
+                  <span style="width:170px;">ROLE</span>
+                  <span style="width:70px;">COUNTRY</span>
                   <span style="width:30px;display:flex;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="#63606e"><path d="M20.4 20.4h-3.5v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.3v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.1zM5.3 7.4a2.1 2.1 0 110-4.1 2.1 2.1 0 010 4.1zM7.1 20.4H3.6V9h3.5z"></path></svg></span>
                 </div>
                 <sc-for list="{{ segContactRows }}" as="c" hint-placeholder-count="11">
                   <div style="display:flex;align-items:center;padding:0 16px;height:58px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
                     <span style="width:36px;display:flex;align-items:center;"><span style="width:18px;height:18px;border-radius:50%;border:1.5px solid #cbcad8;flex:0 0 auto;"></span></span>
-                    <span style="flex:1;min-width:240px;display:flex;align-items:center;gap:10px;">
+                    <span style="flex:1;min-width:220px;display:flex;align-items:center;gap:10px;">
                       <span style="width:32px;height:32px;border-radius:50%;background:{{ c.avBg }};color:{{ c.avFg }};display:flex;align-items:center;justify-content:center;font:600 11px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ c.initials }}</span>
                       <span style="display:flex;flex-direction:column;"><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ c.name }}</span><span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ c.company }}</span></span>
                     </span>
-                    <span style="width:180px;display:flex;flex-direction:column;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ c.role }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ c.dept }}</span></span>
-                    <span style="width:80px;font:500 11px 'Pliant','Instrument Sans',sans-serif;color:#63606e;text-transform:uppercase;letter-spacing:.03em;">{{ c.cc }}</span>
-                    <span style="width:190px;padding-right:10px;">
+                    <span style="width:200px;padding-right:10px;">
                       <sc-if value="{{ c.emailShow }}" hint-placeholder-val="{{ true }}"><span style="display:block;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#2c6fbb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ c.email }}</span></sc-if>
                       <sc-if value="{{ c.emailNeeds }}" hint-placeholder-val=""><button onClick="{{ c.enrichEmail }}" title="Enrich · 1 credit · charged only when verified" style="display:inline-flex;align-items:center;gap:5px;border:1px dashed #c5b9f0;background:#f5f3fd;color:#6553cc;cursor:pointer;border-radius:12px;padding:3px 10px;font:600 10px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#e6e1f9">✚ Enrich · 1 cr</button></sc-if>
                     </span>
@@ -1621,29 +1640,49 @@
                       <sc-if value="{{ c.phoneShow }}" hint-placeholder-val="{{ true }}"><span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ c.phoneVal }}</span></sc-if>
                       <sc-if value="{{ c.phoneNeeds }}" hint-placeholder-val=""><button onClick="{{ c.enrichPhone }}" title="Enrich · 2 credits · charged only when verified" style="display:inline-flex;align-items:center;gap:5px;border:1px dashed #c5b9f0;background:#f5f3fd;color:#6553cc;cursor:pointer;border-radius:12px;padding:3px 10px;font:600 10px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#e6e1f9">✚ Enrich · 2 cr</button></sc-if>
                     </span>
+                    <span style="width:170px;display:flex;flex-direction:column;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.role }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ c.dept }}</span></span>
+                    <span style="width:70px;font:500 11px 'Pliant','Instrument Sans',sans-serif;color:#63606e;text-transform:uppercase;letter-spacing:.03em;">{{ c.cc }}</span>
                     <span style="width:30px;display:flex;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#908d9c"><path d="M20.4 20.4h-3.5v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.3v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.1zM5.3 7.4a2.1 2.1 0 110-4.1 2.1 2.1 0 010 4.1zM7.1 20.4H3.6V9h3.5z"></path></svg></span>
                   </div>
                 </sc-for>
               </div>
+              </sc-if>
             </sc-if>
 
-            <!-- OUTREACH TAB · attached plays only -->
-            <sc-if value="{{ segIsOutreach }}" hint-placeholder-val="">
-              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Enrolment rules</div>
+            <!-- RULES TAB -->
+            <sc-if value="{{ segIsRules }}" hint-placeholder-val="">
+              <p style="font:400 13px/1.6 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0 0 20px;max-width:64ch;text-wrap:pretty;">Two rules decide who is in this segment. Step 1 moves <b style="color:#2d2b2b;">accounts</b> in and out. Step 2 picks the <b style="color:#2d2b2b;">people</b> inside each account. The campaign never chooses members; it works whoever these rules let in.</p>
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Step 1 · Which accounts enter</div>
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:13px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+                <span style="font:500 12.5px 'JetBrains Mono';color:#2d2b2b;flex:1;min-width:0;">{{ seg.ruleLine }}</span>
+                <span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;white-space:nowrap;">Exit: reply, meeting, or disqualify</span>
+                <button onClick="{{ segEditRule }}" style="border:1px solid #ececf2;background:transparent;cursor:pointer;border-radius:7px;padding:5px 12px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;flex:0 0 auto;" style-hover="border-color:#c5b9f0;color:#6553cc">Edit</button>
+              </div>
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Step 2 · Which people inside each account</div>
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:13px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+                <span style="font:500 12.5px 'JetBrains Mono';color:#2d2b2b;flex:0 0 auto;white-space:nowrap;">{{ segWhoRule }}</span>
+                <span style="flex:1;min-width:0;font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ segWhoCoverage }}</span>
+                <button onClick="{{ segWhoSource }}" style="border:1px solid #c5b9f0;background:#f5f3fd;cursor:pointer;border-radius:7px;padding:5px 12px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;flex:0 0 auto;white-space:nowrap;" style-hover="background:#e6e1f9">Source contacts</button>
+                <button onClick="{{ segRunDeepIntel }}" style="display:inline-flex;align-items:center;gap:5px;border:1px solid #e8d9b0;background:#f8f8fb;cursor:pointer;border-radius:7px;padding:5px 12px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#8f5f15;flex:0 0 auto;white-space:nowrap;" style-hover="border-color:#d9c07a"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg>Deep Intel · 1,000 cr</button>
+              </div>
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">When an account enters</div>
+              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:6px 16px;margin-bottom:20px;">
+                <sc-for list="{{ segAutoRows }}" as="a" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #ededf3;">
+                    <span style="flex:1;display:flex;flex-direction:column;gap:1px;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ a.l }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#8c8a95;">{{ a.d }}</span></span>
+                    <div onClick="{{ a.flip }}" style="width:34px;height:19px;border-radius:10px;background:{{ a.bg }};position:relative;cursor:pointer;transition:background .15s;flex:0 0 auto;"><div style="width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18);position:absolute;top:2px;left:{{ a.knob }};transition:left .15s;"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Enrolment gates · before the campaign may touch anyone</div>
               <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:11px 15px;margin-bottom:8px;">
                 <div style="display:flex;align-items:center;gap:10px;padding-bottom:10px;">
-                  <span style="flex:1;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;">Entry point</span>
-                  <sc-for list="{{ enrStep }}" as="ep" hint-placeholder-count="2">
-                    <button onClick="{{ ep.pick }}" style="border:1px solid {{ ep.bd }};background:{{ ep.bg }};cursor:pointer;border-radius:7px;padding:5px 11px;font:{{ ep.font }};color:{{ ep.col }};" style-hover="border-color:#c5b9f0">{{ ep.l }}</button>
-                  </sc-for>
-                </div>
-                <div style="display:flex;align-items:center;gap:10px;border-top:1px solid #ededf3;padding:10px 0;">
                   <span style="flex:1;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;">Cap new enrolments per day</span>
                   <input value="{{ enrCap }}" onInput="{{ onEnrCap }}" style="width:66px;border:1px solid #ececf2;border-radius:7px;background:#fff;padding:6px 9px;font:500 11.5px 'JetBrains Mono';color:#2d2b2b;outline:none;text-align:right;" />
                   <span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">contacts</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;border-top:1px solid #ededf3;padding:10px 0;">
-                  <span style="flex:1;"><span style="display:block;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Skip contacts already in a campaign</span><span style="display:block;font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:1px;">No one is worked by two plays at once</span></span>
+                  <span style="flex:1;"><span style="display:block;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Skip contacts already in a campaign</span><span style="display:block;font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:1px;">No one is worked by two campaigns at once</span></span>
                   <button onClick="{{ enrSkipDup.flip }}" style="width:32px;height:18px;border-radius:10px;border:none;cursor:pointer;background:{{ enrSkipDup.bg }};position:relative;flex:0 0 auto;padding:0;"><span style="position:absolute;top:2px;left:{{ enrSkipDup.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s;"></span></button>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;border-top:1px solid #ededf3;padding:10px 0;">
@@ -1655,224 +1694,21 @@
                   <button onClick="{{ enrGate.flip }}" style="width:32px;height:18px;border-radius:10px;border:none;cursor:pointer;background:{{ enrGate.bg }};position:relative;flex:0 0 auto;padding:0;"><span style="position:absolute;top:2px;left:{{ enrGate.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s;"></span></button>
                 </div>
               </div>
-              <p style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin:0 0 18px;">These apply to everyone who enters this segment, now and later.</p>
-              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Attached plays</div>
-              <sc-if value="{{ segHasPlays }}" hint-placeholder-val="{{ true }}">
-                <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;margin-bottom:12px;">
-                  <sc-for list="{{ segPlaysAttached }}" as="pl" hint-placeholder-count="1">
-                    <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #ededf3;">
-                      <span style="width:8px;height:8px;border-radius:50%;background:#7b6bd8;flex:0 0 auto;"></span>
-                      <span style="flex:0 0 auto;display:flex;flex-direction:column;gap:2px;min-width:210px;">
-                        <span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ pl.name }}</span>
-                        <span style="font:600 8.5px 'Pliant','Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.05em;color:#6553cc;">{{ pl.status }}</span>
-                      </span>
-                      <span style="flex:1;min-width:0;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ pl.line }}</span>
-                      <button onClick="{{ goSequence }}" style="border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:7px 14px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;flex:0 0 auto;" style-hover="border-color:#c5b9f0;color:#6553cc">Open campaign →</button>
-                    </div>
-                  </sc-for>
-                </div>
-              </sc-if>
-              <sc-if value="{{ segNoPlays }}" hint-placeholder-val="">
-                <div style="border:1px dashed #cbcad8;border-radius:12px;padding:18px;text-align:center;margin-bottom:12px;">
-                  <div style="font:500 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin-bottom:4px;">No play attached yet</div>
-                  <div style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ segAttachHint }}</div>
-                </div>
-              </sc-if>
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-                <div style="position:relative;">
-                  <button onClick="{{ segAttach }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #c5b9f0;background:#f5f3fd;cursor:pointer;border-radius:9px;padding:8px 15px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;" style-hover="background:#e6e1f9"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Attach a campaign <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg></button>
-                  <sc-if value="{{ segAttachOpen }}" hint-placeholder-val="">
-                    <div style="position:absolute;top:38px;left:0;z-index:80;width:290px;background:#ffffff;border:1px solid #ececf2;border-radius:11px;box-shadow:0 2px 6px rgba(24,23,30,.05), 0 16px 56px -12px rgba(24,23,30,.16);padding:6px;display:flex;flex-direction:column;">
-                      <div style="font:600 8px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#908d9c;padding:7px 10px 4px;">Your campaigns</div>
-                      <sc-for list="{{ segAttachOpts }}" as="ao" hint-placeholder-count="4">
-                        <button onClick="{{ ao.pick }}" style="display:flex;align-items:center;gap:8px;text-align:left;border:none;background:transparent;cursor:pointer;border-radius:7px;padding:8px 10px;" style-hover="background:rgba(123,107,216,.08)">
-                          <span style="width:7px;height:7px;border-radius:50%;background:{{ ao.dot }};flex:0 0 auto;"></span>
-                          <span style="flex:1;min-width:0;display:flex;flex-direction:column;"><span style="font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ao.nm }}</span><span style="font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#8c8a95;">{{ ao.meta }}</span></span>
-                        </button>
-                      </sc-for>
-                      <div style="height:1px;background:#ededf3;margin:5px 8px;"></div>
-                      <button onClick="{{ segAttachNew }}" style="display:flex;align-items:center;gap:8px;text-align:left;border:none;background:transparent;cursor:pointer;border-radius:7px;padding:8px 10px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;" style-hover="background:rgba(123,107,216,.08)">+ Create a new campaign →</button>
-                    </div>
-                  </sc-if>
-                </div>
-                <span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">Mailbox, channels and message instructions live on the campaign. Who gets enrolled and when lives here.</span>
-              </div>
-            </sc-if>
-            <sc-if value="{{ wspNever }}" hint-placeholder-val="">
-              <div style="display:flex;gap:12px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f1eefc,#fdf3ee);border-radius:13px;padding:14px 16px;margin-bottom:20px;">
-                <span style="width:26px;height:26px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#beb3f2"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#beb3f2" opacity=".75"></circle></svg></span>
-                <div style="flex:1;min-width:0;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#6553cc;">Savant · what I'm running here</div><p style="font:500 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin:6px 0 0;">I'm working this segment with a 4-step sequence, personalized from each account's signals. <b style="color:#6553cc;">Every send is gated for your approval</b> and capped at 120/day.</p></div>
-                <button onClick="{{ goSequence }}" style="border:none;cursor:pointer;background:#7b6bd8;color:#fff;border-radius:999px;padding:8px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;flex:0 0 auto;" style-hover="background:#6a5ac7">Review sequence</button>
-              </div>
-              <!-- Assigned Agent -->
-              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:20px;margin-bottom:22px;">
-                <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6553cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"></path></svg>
-                  <span style="font:600 15px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Assigned Agent</span>
-                </div>
-                <p style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:4px 0 14px;">Select an outreach agent to run automated sequences on this segment's contacts.</p>
-
-                <div style="border:1.5px solid #7b6bd8;background:#f5f3fd;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;">
-                  <span style="width:42px;height:42px;border-radius:11px;background:#e6e1f9;color:#6553cc;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"></path></svg></span>
-                  <div style="flex:1;min-width:0;">
-                    <div style="display:flex;align-items:center;gap:8px;"><span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Pricing-intent Outreach</span><span style="display:inline-flex;align-items:center;gap:4px;font:600 9px 'Pliant','Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.05em;color:#4b4390;background:#e2def3;border-radius:5px;padding:3px 7px;"><span style="width:5px;height:5px;border-radius:50%;background:#6157b2;"></span>Active</span></div>
-                    <div style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:3px;">Multi-channel sequence for accounts showing pricing intent. LinkedIn + email, 4 touches.</div>
-                  </div>
-                  <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto;">
-                    <button style="border:1px solid #7b6bd8;background:transparent;cursor:pointer;border-radius:8px;padding:7px 13px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#7b6bd8;" style-hover="background:#efedfb">View Agent</button>
-                    <button style="border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:7px 13px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="background:rgba(123,107,216,.06)">Change</button>
+              <p style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin:0 0 20px;">These apply to everyone who enters, now and later. Message content, mailbox and channels live on the campaign. <button onClick="{{ goSequence }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;" style-hover="color:#7b6bd8">Open campaign →</button></p>
+              <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Sync &amp; refresh</div>
+              <div style="display:flex;gap:10px;margin-bottom:16px;">
+                <div style="flex:1;display:flex;align-items:center;gap:10px;border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:11px 15px;">
+                  <span style="flex:1;display:flex;flex-direction:column;gap:1px;"><span style="font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">CRM sync · {{ segCrmSyncLabel }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ segCrmSyncMeta }}</span></span>
+                  <div onClick="{{ toggleSegCrmSync }}" style="width:34px;height:19px;border-radius:10px;background:{{ segCrmSyncTrackBg }};cursor:pointer;position:relative;transition:background .15s;flex:0 0 auto;">
+                    <span style="position:absolute;top:2px;left:{{ segCrmSyncKnobLeft }};width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .15s;"></span>
                   </div>
                 </div>
-              </div>
-
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;align-items:start;">
-                <!-- Capabilities -->
-                <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;">
-                  <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:14px;">Capabilities · Tools it can call</div>
-                  <div style="display:flex;flex-direction:column;">
-                    <sc-for list="{{ segAgentCaps }}" as="cap" hint-placeholder-count="5">
-                      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f4;">
-                        <span style="width:8px;height:8px;border-radius:50%;background:{{ cap.dot }};flex:0 0 auto;"></span>
-                        <div style="flex:1;min-width:0;">
-                          <div style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ cap.name }}</div>
-                          <div style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:1px;">{{ cap.desc }}</div>
-                        </div>
-                        <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.05em;text-transform:uppercase;color:{{ cap.tagC }};background:{{ cap.tagB }};border-radius:5px;padding:3px 7px;white-space:nowrap;">{{ cap.tag }}</span>
-                      </div>
-                    </sc-for>
-                  </div>
-                </div>
-
-                <!-- Guardrails + Outreach Config -->
-                <div style="display:flex;flex-direction:column;gap:16px;">
-                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;">
-                    <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:14px;">Guardrails</div>
-                    <div style="display:flex;flex-direction:column;gap:10px;">
-                      <sc-for list="{{ segAgentGuardrails }}" as="g" hint-placeholder-count="4">
-                        <div style="display:flex;align-items:center;justify-content:space-between;">
-                          <span style="font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ g.label }}</span>
-                          <span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ g.value }}</span>
-                        </div>
-                      </sc-for>
-                    </div>
-                  </div>
-
-                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;">
-                    <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:14px;">Outreach Configuration</div>
-                    <div style="display:flex;flex-direction:column;gap:12px;">
-                      <div style="padding:12px 14px;background:#fff;border:1px solid #ececf2;border-radius:10px;">
-                        <div style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:4px;">Mailbox</div>
-                        <div style="display:flex;align-items:center;gap:7px;font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7b6bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>outreach@sprouts.ai</div>
-                      </div>
-                      <div style="padding:12px 14px;background:#fff;border:1px solid #ececf2;border-radius:10px;">
-                        <div style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:6px;">Signature · travels with this mailbox</div>
-                        <textarea value="{{ sigTextV }}" onChange="{{ setSigText }}" rows="3" style="width:100%;box-sizing:border-box;border:1px solid #ececf2;background:#fbfbfd;border-radius:8px;padding:8px 10px;font:400 12px/1.5 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;outline:none;resize:vertical;"></textarea>
-                        <div style="font:400 10.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#a9a7b2;margin-top:6px;">Appended automatically to the first email of each thread. Never typed into a step. In-thread follow-ups sign off short (— Kartikay).</div>
-                      </div>
-                      <div style="padding:12px 14px;background:#fff;border:1px solid #ececf2;border-radius:10px;">
-                        <div style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:6px;">Channels</div>
-                        <div style="display:flex;align-items:center;gap:8px;">
-                          <span style="display:inline-flex;align-items:center;gap:5px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;background:#e2def3;border-radius:6px;padding:4px 9px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6157b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>Email</span>
-                          <span style="display:inline-flex;align-items:center;gap:5px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;background:#d6e9ef;border-radius:6px;padding:4px 9px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1a545f"><path d="M20.4 20.4h-3.5v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.3v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.1zM5.3 7.4a2.1 2.1 0 110-4.1 2.1 2.1 0 010 4.1zM7.1 20.4H3.6V9h3.5z"></path></svg>LinkedIn</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Custom Instructions -->
-              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#63606e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path></svg>
-                    <span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Custom Instructions / Context for Personalized Messages</span>
-                  </div>
-                  <button style="display:inline-flex;align-items:center;gap:5px;border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:6px 12px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="background:rgba(123,107,216,.06)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"></path></svg>Edit</button>
-                </div>
-                <div style="background:#fdfcff;border:1px solid #eaeaf0;border-radius:10px;padding:14px 16px;margin-bottom:10px;">
-                  <p style="font:400 13px/1.6 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin:0;">Follow standard outreach guidelines. Personalize based on company context and role. Keep initial touch under 100 words.</p>
-                </div>
-                <p style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin:0;font-style:italic;">These instructions guide AI-generated messaging for members of this segment.</p>
+                <div style="flex:1;display:flex;align-items:center;padding:11px 2px;font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">Rules re-evaluate daily at 8:00 AM.</div>
               </div>
             </sc-if>
 
             <!-- SETTINGS TAB · folded into Overview -->
-            <sc-if value="{{ wspNever }}" hint-placeholder-val="">
-              <div style="display:flex;gap:12px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f1eefc,#fdf3ee);border-radius:13px;padding:14px 16px;margin-bottom:20px;">
-                <span style="width:26px;height:26px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#beb3f2"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#beb3f2" opacity=".75"></circle></svg></span>
-                <div style="flex:1;min-width:0;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#6553cc;">Savant · keeping this segment healthy</div><p style="font:500 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin:6px 0 0;">I re-check these rules continuously and flag drift. Change anything below and I'll re-run the segment on the next refresh.</p></div>
-              </div>
-              <div style="margin-bottom:24px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-                  <div style="font:600 16px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Sourcing Criteria</div>
-                  <button style="display:inline-flex;align-items:center;gap:6px;border:1px solid #7b6bd8;background:transparent;cursor:pointer;border-radius:9px;padding:8px 14px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#7b6bd8;" style-hover="background:#efedfb"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"></path></svg>Edit Criteria</button>
-                </div>
-                <p style="font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0 0 16px;">Define how contacts are discovered and added to this segment. Changes apply on the next refresh cycle.</p>
 
-                <div style="display:flex;flex-direction:column;">
-                  <sc-for list="{{ segSourcingCriteria }}" as="sc" hint-placeholder-count="8">
-                    <div style="display:flex;align-items:flex-start;gap:0;padding:16px 0;border-bottom:1px solid #f0f0f4;">
-                      <div style="width:140px;flex:0 0 auto;padding-top:4px;">
-                        <div style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ sc.field }}</div>
-                        <sc-if value="{{ sc.sub }}" hint-placeholder-val=""><div style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;font-style:italic;margin-top:2px;">{{ sc.sub }}</div></sc-if>
-                      </div>
-                      <div style="flex:1;display:flex;flex-wrap:wrap;gap:7px;">
-                        <sc-for list="{{ sc.tags }}" as="tag" hint-placeholder-count="4">
-                          <span style="display:inline-flex;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;background:#fff;border:1px solid #ececf2;border-radius:7px;padding:5px 11px;">{{ tag }}</span>
-                        </sc-for>
-                      </div>
-                    </div>
-                  </sc-for>
-                </div>
-              </div>
-
-              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6157b2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-                  <span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Sync &amp; Refresh</span>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                  <div style="display:flex;flex-direction:column;gap:6px;padding:14px 16px;background:#fff;border:1px solid #ececf2;border-radius:10px;">
-                    <div style="display:flex;align-items:center;justify-content:space-between;">
-                      <span style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">CRM Sync</span>
-                      <div onClick="{{ toggleSegCrmSync }}" style="width:36px;height:20px;border-radius:10px;background:{{ segCrmSyncTrackBg }};cursor:pointer;position:relative;transition:background .15s;">
-                        <span style="position:absolute;top:2px;left:{{ segCrmSyncKnobLeft }};width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .15s;"></span>
-                      </div>
-                    </div>
-                    <span style="display:flex;align-items:center;gap:6px;font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;"><span style="width:7px;height:7px;border-radius:50%;background:{{ segCrmSyncDot }};"></span>{{ segCrmSyncLabel }}</span>
-                    <span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ segCrmSyncMeta }}</span>
-                  </div>
-                  <div style="display:flex;flex-direction:column;gap:4px;padding:12px 14px;background:#fff;border:1px solid #ececf2;border-radius:10px;">
-                    <span style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">Auto-refresh</span>
-                    <span style="display:flex;align-items:center;gap:6px;font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;"><span style="width:7px;height:7px;border-radius:50%;background:#6157b2;"></span>Enabled · Daily</span>
-                    <span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">Next refresh at 8:00 AM</span>
-                  </div>
-                </div>
-              </div>
-            </sc-if>
-
-            <!-- ACTIVITY TAB -->
-            <sc-if value="{{ segIsActivity }}" hint-placeholder-val="">
-              <div style="display:flex;gap:12px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f1eefc,#fdf3ee);border-radius:13px;padding:14px 16px;margin-bottom:16px;">
-                <span style="width:26px;height:26px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#beb3f2"></path><circle cx="19.4" cy="4.6" r="1.9" fill="#beb3f2" opacity=".75"></circle></svg></span>
-                <div style="flex:1;min-width:0;"><div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#6553cc;">Savant · this week in this segment</div><p style="font:500 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin:6px 0 0;">This segment added <b style="color:#6553cc;">{{ seg.growLabel }}</b>, sent <b>397 messages</b>, and booked <b style="color:#6553cc;">{{ seg.mtgs }} meetings</b>. Reply rate is up 0.8%. The pricing-intent angle is landing.</p></div>
-              </div>
-              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
-                <sc-for list="{{ segActivityLog }}" as="a" hint-placeholder-count="7">
-                  <div style="display:flex;align-items:flex-start;gap:14px;padding:18px 20px;border-bottom:1px solid #f0f0f4;">
-                    <span style="width:10px;height:10px;border-radius:50%;background:{{ a.dot }};flex:0 0 auto;margin-top:4px;"></span>
-                    <div style="flex:1;min-width:0;">
-                      <div style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin-bottom:3px;">{{ a.title }}</div>
-                      <div style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ a.meta }}</div>
-                    </div>
-                    <sc-if value="{{ a.hasLink }}" hint-placeholder-val="">
-                      <button style="border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;white-space:nowrap;padding:0;" style-hover="color:#7b6bd8">{{ a.link }}</button>
-                    </sc-if>
-                  </div>
-                </sc-for>
-              </div>
-            </sc-if>
 
           </div>
         </sc-if>
@@ -2074,105 +1910,6 @@
                 </div>
               </sc-if>
             </div>
-            </div>
-          </div>
-        </sc-if>
-        <sc-if value="{{ wspNever }}" hint-placeholder-val="">
-          <div style="display:flex;flex-direction:column;height:100%;">
-            <div class="cx-scroll" style="flex:1;overflow-y:auto;padding:30px 0 80px;">
-              <div style="max-width:700px;margin:0 auto;padding:0 34px;">
-                <h1 style="font:600 24px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.025em;color:#2d2b2b;margin:0 0 20px;">Create Segment</h1>
-
-                <!-- AI describe card -->
-                <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;margin-bottom:28px;border-top:3px solid #7b6bd8;">
-                  <div style="padding:22px 22px 20px;">
-                    <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px;">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7b6bd8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10z"></path></svg>
-                      <span style="font:600 16px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Describe who you're trying to reach</span>
-                    </div>
-                    <p style="font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0 0 14px;padding-left:27px;">Tell us in plain language and we'll build the segment for you</p>
-
-                    <textarea rows="4" placeholder="e.g. &quot;VPs of Engineering at Series B+ fintech companies in the US with 50-500 employees who are active on LinkedIn&quot;" style="display:block;width:100%;box-sizing:border-box;resize:none;border:1px solid #ececf2;background:#fff;border-radius:10px;padding:13px 14px;font:400 13.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;outline:none;"></textarea>
-
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;">
-                      <div style="display:flex;align-items:center;gap:8px;">
-                        <span style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ececf2;background:#fff;border-radius:8px;padding:7px 11px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7b6bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1.5a3.5 3.5 0 00-3.5-3.5h-5A3.5 3.5 0 004 17.5V19"></path><circle cx="10" cy="8" r="3.5"></circle><path d="M20 19v-1.5a3.5 3.5 0 00-2.6-3.4"></path></svg>
-                          Contacts <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#908d9c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                        <span style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ececf2;background:#fff;border-radius:8px;padding:7px 11px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7b6bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10z"></path></svg>
-                          Dynamic <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#908d9c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
-                        </span>
-                      </div>
-                      <button style="display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;background:#7b6bd8;color:#fff;border-radius:999px;padding:9px 18px;font:600 13px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#6a5ac7">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10z"></path></svg>
-                        Generate
-                      </button>
-                    </div>
-
-                    <div style="margin-top:18px;padding-top:14px;border-top:1px solid #eaeaf0;">
-                      <div style="font:600 9px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Quick starts</div>
-                      <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                        <span style="display:inline-flex;border:1px solid #ececf2;background:#fff;border-radius:8px;padding:7px 13px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;cursor:pointer;" style-hover="background:rgba(123,107,216,.06)">ICP Lookalike</span>
-                        <span style="display:inline-flex;border:1px solid #ececf2;background:#fff;border-radius:8px;padding:7px 13px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;cursor:pointer;" style-hover="background:rgba(123,107,216,.06)">Competitor Audience</span>
-                        <span style="display:inline-flex;border:1px solid #ececf2;background:#fff;border-radius:8px;padding:7px 13px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;cursor:pointer;" style-hover="background:rgba(123,107,216,.06)">Re-engagement</span>
-                        <span style="display:inline-flex;border:1px solid #ececf2;background:#fff;border-radius:8px;padding:7px 13px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;cursor:pointer;" style-hover="background:rgba(123,107,216,.06)">Event Follow-up</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Segment Name -->
-                <div style="margin-bottom:28px;">
-                  <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
-                    <span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Segment Name</span>
-                    <span style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;font-style:italic;">optional, AI will suggest one</span>
-                  </div>
-                  <input placeholder="e.g. Enterprise VP Engineering" style="width:100%;box-sizing:border-box;border:1px solid #ececf2;background:#fbfbfd;border-radius:10px;padding:12px 14px;font:400 13.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;outline:none;">
-                </div>
-
-                <!-- Divider -->
-                <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
-                  <span style="flex:1;height:1px;background:#e2e2ea;"></span>
-                  <span style="font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;white-space:nowrap;">Or build with a specific source</span>
-                  <span style="flex:1;height:1px;background:#e2e2ea;"></span>
-                </div>
-
-                <!-- Source cards -->
-                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
-                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;" style-hover="border-color:#c5b9f0">
-                    <span style="width:36px;height:36px;border-radius:9px;background:#e6e1f9;color:#6a5ac7;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8.5V18l-4 2v-7.5z"></path></svg></span>
-                    <div><div style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Filters</div><div style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:2px;">Use Discover's structured filters</div></div>
-                  </div>
-                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;" style-hover="border-color:#c5b9f0">
-                    <span style="width:36px;height:36px;border-radius:9px;background:#d6e9ef;color:#1a545f;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M8 17V9M13 17V5M18 17v-6"></path></svg></span>
-                    <div><div style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Sales Navigator</div><div style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:2px;">Import from a saved search URL</div></div>
-                  </div>
-                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;" style-hover="border-color:#c5b9f0">
-                    <span style="width:36px;height:36px;border-radius:9px;background:#e2def3;color:#6157b2;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"></path></svg></span>
-                    <div><div style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Signals</div><div style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:2px;">LinkedIn engagement, keywords, visitors</div></div>
-                  </div>
-                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;" style-hover="border-color:#c5b9f0">
-                    <span style="width:36px;height:36px;border-radius:9px;background:#e2def3;color:#6157b2;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9h6M9 13h6M9 17h4"></path></svg></span>
-                    <div><div style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">CRM</div><div style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:2px;">Auto-add from Salesforce or Dynamics</div></div>
-                  </div>
-                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;" style-hover="border-color:#c5b9f0">
-                    <span style="width:36px;height:36px;border-radius:9px;background:#f0f0f5;color:#63606e;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"></path></svg></span>
-                    <div><div style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">CSV Upload</div><div style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:2px;">Import contacts from a spreadsheet</div></div>
-                  </div>
-                  <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;" style-hover="border-color:#c5b9f0">
-                    <span style="width:36px;height:36px;border-radius:9px;background:#e2def3;color:#6157b2;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>
-                    <div><div style="font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Existing Campaign</div><div style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:2px;">Pull from a previous campaign</div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Footer -->
-            <div style="border-top:1px solid #ececf2;background:rgba(255,255,255,.95);padding:14px 34px;display:flex;align-items:center;justify-content:flex-end;gap:12px;flex:0 0 auto;">
-              <button onClick="{{ cancelCreateSegment }}" style="border:none;background:transparent;cursor:pointer;font:500 13.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;padding:9px 14px;border-radius:9px;" style-hover="background:rgba(123,107,216,.06)">Cancel</button>
-              <button style="border:none;cursor:pointer;background:#7b6bd8;color:#fff;border-radius:999px;padding:10px 20px;font:600 13px 'Pliant','Instrument Sans',sans-serif;display:inline-flex;align-items:center;gap:7px;" style-hover="background:#6a5ac7">Create Segment</button>
             </div>
           </div>
         </sc-if>
@@ -3387,11 +3124,9 @@
         <div style="max-width:1040px;margin:0 auto;padding:30px 34px 80px;">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:14px;">
             <div>
-              <div style="font:600 11px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#7b6bd8;margin-bottom:6px;">Engage</div>
               <h1 style="font:600 28px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#2d2b2b;margin:0;">Campaigns</h1>
-              <p style="font:400 13.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:7px 0 0;">Plays that run on living segments. You set the strategy; {{ agentName }} writes each touch in <button onClick="{{ goPeVoice }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;text-decoration:underline;text-underline-offset:2px;">your voice</button> from the contact's own signals.</p>
+              <p style="font:400 13.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:7px 0 0;">Campaigns run on living segments. You set the strategy; {{ agentName }} writes each touch in <button onClick="{{ goPeVoice }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 13.5px 'Pliant','Instrument Sans',sans-serif;color:#6553cc;text-decoration:underline;text-underline-offset:2px;">your voice</button> from the contact's own signals.</p>
             </div>
-            <button onClick="{{ goSrcOutreach }}" style="border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:9px;padding:10px 14px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;white-space:nowrap;margin-right:9px;" style-hover="border-color:#c5b9f0;background:#f5f3fd">Connect a sending channel</button>
             <button onClick="{{ openNewCamp }}" style="border:none;cursor:pointer;background:#7b6bd8;color:#fff;border-radius:999px;padding:10px 16px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;" style-hover="background:#6a5ac7"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>New campaign</button>
           </div>
           <div style="display:flex;align-items:flex-start;gap:10px;border:none;background:linear-gradient(160deg,#f1eefc,#fdf3ee);border-radius:12px;padding:13px 15px;margin-bottom:20px;">
@@ -3456,7 +3191,6 @@
           </sc-if>
           <sc-if value="{{ campPgAwait }}" hint-placeholder-val="">
             <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
-              <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
                 <sc-for list="{{ caAwait }}" as="aw" hint-placeholder-count="3">
                   <div style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid #ededf3;">
                     <div style="width:210px;flex:0 0 auto;display:flex;flex-direction:column;gap:1px;">
@@ -3464,10 +3198,9 @@
                       <span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ aw.sub }}</span>
                     </div>
                     <span style="flex:1;min-width:0;font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;">{{ aw.line }}</span>
-                    <span style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#1a545f;background:#d6e9ef;border-radius:6px;padding:3px 9px;white-space:nowrap;flex:0 0 auto;">{{ aw.camp }}</span>
+                    <sc-if value="{{ aw.hasGo }}" hint-placeholder-val=""><button onClick="{{ aw.goCamp }}" style="border:none;cursor:pointer;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#4b4390;background:#e2def3;border-radius:6px;padding:3px 9px;white-space:nowrap;flex:0 0 auto;" style-hover="background:#d3cdeb">{{ aw.camp }} →</button></sc-if><sc-if value="{{ aw.noGo }}" hint-placeholder-val="{{ true }}"><span style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#4b4390;background:#e2def3;border-radius:6px;padding:3px 9px;white-space:nowrap;flex:0 0 auto;">{{ aw.camp }}</span></sc-if>
                   </div>
                 </sc-for>
-              </sc-if>
             </div>
           </sc-if>
           <sc-if value="{{ campPgTable }}" hint-placeholder-val="{{ true }}">
@@ -3512,13 +3245,13 @@
               <sc-for list="{{ campSegOptions }}" as="o" hint-placeholder-count="4">
                 <button onClick="{{ o.pick }}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid {{ o.bd }};background:{{ o.bg }};border-radius:10px;padding:10px 13px;cursor:pointer;">
                   <span style="flex:1;font:500 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ o.name }}</span>
-                  <span style="font:500 11px 'JetBrains Mono';color:#63606e;">{{ o.members }} accounts</span>
+                  <span style="font:500 11px 'JetBrains Mono';color:#63606e;">{{ o.people }} people · {{ o.members }} accounts</span>
                 </button>
               </sc-for>
             </div>
             <div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:18px;">
               <button onClick="{{ closeNewCamp }}" style="border:1px solid #ececf2;background:transparent;color:#48454f;border-radius:9px;padding:9px 15px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;cursor:pointer;" style-hover="background:rgba(123,107,216,.06)">Cancel</button>
-              <button onClick="{{ createCamp }}" style="border:none;background:#7b6bd8;color:#fff;border-radius:999px;padding:9px 16px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;cursor:pointer;" style-hover="background:#6a5ac7">Create draft play</button>
+              <button onClick="{{ createCamp }}" style="border:none;background:#7b6bd8;color:#fff;border-radius:999px;padding:9px 16px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;cursor:pointer;" style-hover="background:#6a5ac7">Create draft campaign</button>
             </div>
           </div>
         </div>
@@ -9137,7 +8870,7 @@
         <!-- DETAIL MODE -->
         <sc-if value="{{ seqDetailMode }}" hint-placeholder-val="">
           <div style="max-width:1280px;margin:0 auto;padding:28px 40px 80px;">
-            <button onClick="{{ backToSequence }}" style="display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:18px;padding:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>All sequences</button>
+            <button onClick="{{ backToSequence }}" style="display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:18px;padding:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>All campaigns</button>
 
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap;padding-right:118px;">
               <div style="min-width:0;">
@@ -9146,14 +8879,17 @@
                   <sc-for list="{{ seqChannelChips }}" as="ch" hint-placeholder-count="2">
                     <span style="display:inline-flex;align-items:center;gap:6px;font:500 11px 'Pliant','Instrument Sans',sans-serif;color:{{ ch.c }};background:{{ ch.b }};border-radius:6px;padding:4px 9px;">{{ ch.l }}</span>
                   </sc-for>
-                  <span style="font:500 11px 'JetBrains Mono';color:#63606e;">· {{ seq.accounts }} enrolled</span>
+                  <span style="font:500 11px 'JetBrains Mono';color:#63606e;">· {{ seq.accounts }} contacts enrolled</span>
                   <button onClick="{{ cycleSeqAuto }}" title="{{ seqAutoTip }}" style="border:1px solid {{ seqAutoBd }};background:{{ seqAutoBg }};color:{{ seqAutoC }};cursor:pointer;border-radius:6px;padding:4px 10px;font:600 10px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;">{{ seqAutonomy }}</button>
+                  <sc-if value="{{ seqHasSeg }}" hint-placeholder-val="{{ true }}"><button onClick="{{ seqGoSeg }}" title="Open the segment this campaign runs on" style="display:inline-flex;align-items:center;gap:5px;border:1px solid #d9d1f6;background:#f5f3fd;color:#6553cc;cursor:pointer;border-radius:6px;padding:4px 10px;font:600 10px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#e6e1f9">Runs on {{ seqSegName }} →</button></sc-if>
+                  <sc-if value="{{ seqNoSeg }}" hint-placeholder-val=""><button onClick="{{ seqAttachSeg }}" title="Pick the segment this campaign should run on" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #e8d9b0;background:#fdf8ee;color:#8f5f15;cursor:pointer;border-radius:6px;padding:4px 10px;font:600 10px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="border-color:#d9c07a"><span style="width:5px;height:5px;border-radius:50%;background:#b5791b;"></span>No segment · pick one</button></sc-if>
                 </div>
               </div>
               <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto;">
-                <button style="border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:9px 14px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;display:inline-flex;align-items:center;gap:6px;" style-hover="background:rgba(123,107,216,.06)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h3v16H6zM15 4h3v16h-3z"></path></svg>Pause</button>
-                <button style="border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:9px 14px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="background:rgba(123,107,216,.06)">Edit steps</button>
-                <button style="border:none;cursor:pointer;border-radius:9px;padding:9px 15px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#fff;background:#7b6bd8;display:inline-flex;align-items:center;gap:7px;" style-hover="background:#6a5ac7"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Add contacts</button>
+                <sc-if value="{{ seqHasData }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ seqTogglePause }}" style="border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:9px 14px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;display:inline-flex;align-items:center;gap:6px;" style-hover="background:rgba(123,107,216,.06)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h3v16H6zM15 4h3v16h-3z"></path></svg>{{ seqPauseLabel }}</button>
+                </sc-if>
+                <button onClick="{{ seqAddContacts }}" style="border:none;cursor:pointer;border-radius:9px;padding:9px 15px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#fff;background:#7b6bd8;display:inline-flex;align-items:center;gap:7px;" style-hover="background:#6a5ac7"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Add contacts</button>
               </div>
             </div>
 
@@ -9206,19 +8942,19 @@
 
               <!-- LEFT: steps -->
               <div>
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;">Sequence steps</div><span style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ seqStepsCaption }}</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;">Steps</div><span style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ seqStepsCaption }}</span></div>
                 <div style="display:flex;flex-direction:column;">
                   <sc-if value="{{ seqIsEmpty }}" hint-placeholder-val="">
                     <div style="border:1px dashed #cbcad8;background:#fbfbfd;border-radius:12px;padding:18px;margin-bottom:12px;">
                       <div style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin-bottom:4px;">No steps yet</div>
-                      <div style="font:400 12px/1.55 'Pliant','Instrument Sans',sans-serif;color:#63606e;">Add your first touch below. Savant drafts the copy from each contact's signals. Most plays open with a LinkedIn connection, then email.</div>
+                      <div style="font:400 12px/1.55 'Pliant','Instrument Sans',sans-serif;color:#63606e;">Add your first touch below. Savant drafts the copy from each contact's signals. Most campaigns open with a LinkedIn connection, then email.</div>
                     </div>
                   </sc-if>
                   <sc-for list="{{ seqSteps }}" as="s" hint-placeholder-count="5">
                     <sc-if value="{{ s.isWait }}" hint-placeholder-val="">
                       <div style="display:flex;gap:14px;">
                         <div style="width:38px;display:flex;flex-direction:column;align-items:center;flex:0 0 auto;">
-                          <span style="width:30px;height:30px;border-radius:50%;border:1px dashed #cbcad8;background:#ffffff;color:#63606e;display:flex;align-items:center;justify-content:center;margin:4px 0;flex:0 0 auto;font-size:13px;">⏱</span>
+                          <span style="width:30px;height:30px;border-radius:50%;border:1px dashed #cbcad8;background:#ffffff;color:#63606e;display:flex;align-items:center;justify-content:center;margin:4px 0;flex:0 0 auto;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>
                           <div style="width:2px;flex:1;min-height:20px;background:#e2e2ea;"></div>
                         </div>
                         <div style="flex:1;min-width:0;border:1px dashed #cbcad8;background:transparent;border-radius:12px;padding:10px 16px;margin-bottom:12px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
@@ -9235,13 +8971,13 @@
                       <div style="display:flex;gap:14px;">
                         <div style="width:38px;display:flex;flex-direction:column;align-items:center;flex:0 0 auto;">
                           <span style="width:26px;height:26px;transform:rotate(45deg);border:1.5px solid #b5791b;background:#f8f8fb;border-radius:6px;display:flex;align-items:center;justify-content:center;margin:6px;flex:0 0 auto;"><span style="transform:rotate(-45deg);font:700 10px 'JetBrains Mono';color:#8f5f15;">?</span></span>
-                          <div style="width:2px;flex:1;min-height:30px;background:#e2e2ea;position:relative;"><sc-if value="{{ s.hasWait }}" hint-placeholder-val=""><button onClick="{{ s.cycleWait }}" title="Click to change the wait" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid #ececf2;background:#ffffff;cursor:pointer;border-radius:11px;padding:3px 10px;font:600 9.5px 'JetBrains Mono';color:#63606e;white-space:nowrap;z-index:1;" style-hover="border-color:#c5b9f0;color:#6553cc">⏱ {{ s.waitPill }}</button></sc-if></div>
+                          <div style="width:2px;flex:1;min-height:30px;background:#e2e2ea;position:relative;"><sc-if value="{{ s.hasWait }}" hint-placeholder-val=""><button onClick="{{ s.cycleWait }}" title="Click to change the wait" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid #ececf2;background:#ffffff;cursor:pointer;border-radius:11px;padding:3px 10px;font:600 9.5px 'JetBrains Mono';color:#63606e;white-space:nowrap;z-index:1;" style-hover="border-color:#c5b9f0;color:#6553cc">{{ s.waitPill }}</button></sc-if></div>
                         </div>
                         <div style="flex:1;min-width:0;border:1px solid #ecdfc2;background:#f8f8fb;border-radius:12px;padding:12px 16px;margin-bottom:12px;">
                           <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:8px;">
                             <span style="font:600 9px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:#8f5f15;background:#f3e8cf;border-radius:5px;padding:3px 7px;">Condition</span>
                             <span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;letter-spacing:-0.01em;">{{ s.title }}</span>
-                            <sc-if value="{{ s.hasWin }}" hint-placeholder-val="{{ true }}"><button onClick="{{ s.cycleWin }}" title="How long Savant monitors before taking the No path · click to change" style="border:1px solid #ecdfc2;background:#ffffff;cursor:pointer;border-radius:11px;padding:3px 10px;font:600 9.5px 'JetBrains Mono';color:#8f5f15;white-space:nowrap;" style-hover="border-color:#b5791b">⏱ {{ s.winPill }}</button></sc-if>
+                            <sc-if value="{{ s.hasWin }}" hint-placeholder-val="{{ true }}"><button onClick="{{ s.cycleWin }}" title="How long Savant monitors before taking the No path · click to change" style="border:1px solid #ecdfc2;background:#ffffff;cursor:pointer;border-radius:11px;padding:3px 10px;font:600 9.5px 'JetBrains Mono';color:#8f5f15;white-space:nowrap;" style-hover="border-color:#b5791b">{{ s.winPill }}</button></sc-if>
                             <sc-if value="{{ s.hasWin }}" hint-placeholder-val=""><span style="font:600 9.5px 'JetBrains Mono';color:#8f5f15;">{{ s.winPill }}</span></sc-if>
                             <span style="flex:1;"></span>
                             <span style="font:600 10px 'JetBrains Mono';color:#63606e;background:#f0f0f5;border-radius:5px;padding:3px 8px;">{{ s.day }}</span>
@@ -9252,7 +8988,7 @@
                               <div>
                                 <div style="display:inline-flex;font:600 9px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#4b4390;background:#e2def3;border-radius:5px;padding:3px 8px;margin-bottom:6px;">If yes</div>
                                 <div onClick="{{ s.laneYes.edit }}" title="Click to edit this branch step" style="border:1px solid #ececf2;background:#fbfbfd;border-radius:10px;padding:10px 13px;cursor:pointer;" style-hover="border-color:#c5b9f0">
-                                  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;"><button onClick="{{ s.laneYes.cycleCh }}" title="Click to switch channel · Email / LinkedIn / Call" style="border:none;cursor:pointer;font:600 9px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:{{ s.laneYes.cC }};background:{{ s.laneYes.cB }};border-radius:5px;padding:3px 7px;">{{ s.laneYes.ch }} ⇄</button><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ s.laneYes.t }}</span></div>
+                                  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;"><button onClick="{{ s.laneYes.cycleCh }}" title="Click to switch channel · Email / LinkedIn / Call" style="border:none;cursor:pointer;font:600 9px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:{{ s.laneYes.cC }};background:{{ s.laneYes.cB }};border-radius:5px;padding:3px 7px;">{{ s.laneYes.ch }} <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;"><path d="M7 15V5M7 5L4 8M7 5l3 3M17 9v10M17 19l3-3M17 19l-3-3"></path></svg></button><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ s.laneYes.t }}</span></div>
                                   <div style="font:400 11.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#63606e;font-style:italic;">“{{ s.laneYes.p }}”</div>
                                 </div>
                               </div>
@@ -9260,13 +8996,13 @@
                                 <div>
                                   <div style="display:inline-flex;font:600 9px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#63606e;background:#f0f0f5;border-radius:5px;padding:3px 8px;margin-bottom:6px;">If no · after the window</div>
                                   <div onClick="{{ s.laneNo.edit }}" title="Click to edit this branch step" style="border:1px solid #ececf2;background:#fbfbfd;border-radius:10px;padding:10px 13px;cursor:pointer;" style-hover="border-color:#c5b9f0">
-                                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;"><button onClick="{{ s.laneNo.cycleCh }}" title="Click to switch channel · Email / LinkedIn / Call" style="border:none;cursor:pointer;font:600 9px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:{{ s.laneNo.cC }};background:{{ s.laneNo.cB }};border-radius:5px;padding:3px 7px;">{{ s.laneNo.ch }} ⇄</button><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ s.laneNo.t }}</span></div>
+                                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;"><button onClick="{{ s.laneNo.cycleCh }}" title="Click to switch channel · Email / LinkedIn / Call" style="border:none;cursor:pointer;font:600 9px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:{{ s.laneNo.cC }};background:{{ s.laneNo.cB }};border-radius:5px;padding:3px 7px;">{{ s.laneNo.ch }} <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;"><path d="M7 15V5M7 5L4 8M7 5l3 3M17 9v10M17 19l3-3M17 19l-3-3"></path></svg></button><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ s.laneNo.t }}</span></div>
                                     <div style="font:400 11.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#63606e;font-style:italic;">“{{ s.laneNo.p }}”</div>
                                   </div>
                                 </div>
                               </sc-if>
                               <sc-if value="{{ s.noLaneNo }}" hint-placeholder-val=""><span style="align-self:flex-start;font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;background:#f0f0f5;border-radius:11px;padding:4px 11px;white-space:nowrap;">{{ s.condNo }}</span></sc-if>
-                              <div style="font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#a9a7b2;">Both paths rejoin the sequence below · {{ s.condNote }}</div>
+                              <div style="font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#a9a7b2;">Both paths rejoin the flow below · {{ s.condNote }}</div>
                             </div>
                           </sc-if>
                           <sc-if value="{{ s.noLanes }}" hint-placeholder-val="">
@@ -9283,7 +9019,7 @@
                       <div style="display:flex;gap:14px;">
                         <div style="width:38px;display:flex;flex-direction:column;align-items:center;flex:0 0 auto;">
                           <span style="width:30px;height:30px;border-radius:9px;background:#f0f0f5;color:#48454f;display:flex;align-items:center;justify-content:center;margin:4px 0;flex:0 0 auto;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-                          <div style="width:2px;flex:1;min-height:24px;background:#e2e2ea;position:relative;"><sc-if value="{{ s.hasWait }}" hint-placeholder-val=""><button onClick="{{ s.cycleWait }}" title="Click to change the wait" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid #ececf2;background:#ffffff;cursor:pointer;border-radius:11px;padding:3px 10px;font:600 9.5px 'JetBrains Mono';color:#63606e;white-space:nowrap;z-index:1;" style-hover="border-color:#c5b9f0;color:#6553cc">⏱ {{ s.waitPill }}</button></sc-if></div>
+                          <div style="width:2px;flex:1;min-height:24px;background:#e2e2ea;position:relative;"><sc-if value="{{ s.hasWait }}" hint-placeholder-val=""><button onClick="{{ s.cycleWait }}" title="Click to change the wait" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid #ececf2;background:#ffffff;cursor:pointer;border-radius:11px;padding:3px 10px;font:600 9.5px 'JetBrains Mono';color:#63606e;white-space:nowrap;z-index:1;" style-hover="border-color:#c5b9f0;color:#6553cc">{{ s.waitPill }}</button></sc-if></div>
                         </div>
                         <div style="flex:1;min-width:0;border:1px solid #ececf2;background:#f6f6f9;border-radius:12px;padding:11px 16px;margin-bottom:12px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
                           <span style="font:600 9px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:#63606e;background:#f0f0f5;border-radius:5px;padding:3px 7px;">Action</span>
@@ -9299,7 +9035,7 @@
                     <div style="display:flex;gap:14px;">
                       <div style="display:flex;flex-direction:column;align-items:center;flex:0 0 auto;">
                         <span style="width:38px;height:38px;border-radius:10px;background:{{ s.cB }};color:{{ s.cC }};display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ s.cIcon }}"></path></svg></span>
-                        <sc-if value="{{ s.connect }}" hint-placeholder-val="{{ true }}"><div style="width:2px;flex:1;min-height:34px;background:#e2e2ea;position:relative;"><sc-if value="{{ s.hasWait }}" hint-placeholder-val="{{ true }}"><button onClick="{{ s.cycleWait }}" title="Click to change the wait" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid #ececf2;background:#ffffff;cursor:pointer;border-radius:11px;padding:3px 10px;font:600 9.5px 'JetBrains Mono';color:#63606e;white-space:nowrap;z-index:1;" style-hover="border-color:#c5b9f0;color:#6553cc">⏱ {{ s.waitPill }}</button></sc-if></div></sc-if>
+                        <sc-if value="{{ s.connect }}" hint-placeholder-val="{{ true }}"><div style="width:2px;flex:1;min-height:34px;background:#e2e2ea;position:relative;"><sc-if value="{{ s.hasWait }}" hint-placeholder-val="{{ true }}"><button onClick="{{ s.cycleWait }}" title="Click to change the wait" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid #ececf2;background:#ffffff;cursor:pointer;border-radius:11px;padding:3px 10px;font:600 9.5px 'JetBrains Mono';color:#63606e;white-space:nowrap;z-index:1;" style-hover="border-color:#c5b9f0;color:#6553cc">{{ s.waitPill }}</button></sc-if></div></sc-if>
                       </div>
                       <div onClick="{{ s.edit }}" style="flex:1;min-width:0;background:#fbfbfd;border:1px solid #ececf2;border-radius:12px;padding:14px 16px;margin-bottom:12px;cursor:pointer;" style-hover="border-color:#c5b9f0">
                         <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px;flex-wrap:wrap;"><span style="font:600 9px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:{{ s.cC }};background:{{ s.cB }};border-radius:5px;padding:3px 7px;">{{ s.ch }}</span><span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;letter-spacing:-0.01em;">{{ s.title }}</span><span style="flex:1;"></span><span style="font:600 10px 'JetBrains Mono';color:#63606e;background:#f0f0f5;border-radius:5px;padding:3px 8px;">{{ s.day }}</span><sc-if value="{{ s.canRemove }}" hint-placeholder-val=""><button onClick="{{ s.removeStep }}" title="Remove step" style="border:none;background:transparent;cursor:pointer;color:#908d9c;padding:2px 4px;font:600 14px 'Pliant','Instrument Sans',sans-serif;line-height:1;" style-hover="color:#a2413a">×</button></sc-if></div>
@@ -9361,7 +9097,7 @@
                 </div>
                 <sc-if value="{{ seqNoData }}" hint-placeholder-val="">
                   <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px;">
-                    <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;margin-bottom:9px;">Draft play</div>
+                    <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;margin-bottom:9px;">Draft campaign</div>
                     <p style="font:400 12.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0;">{{ seqDraftNote }}</p>
                   </div>
                 </sc-if>
@@ -9385,7 +9121,7 @@
                       <div style="display:flex;align-items:center;gap:10px;">
                         <span style="font:600 10px 'Pliant','Instrument Sans',sans-serif;color:{{ c.c }};background:{{ c.b }};border-radius:6px;padding:4px 9px;width:74px;text-align:center;flex:0 0 auto;">{{ c.l }}</span>
                         <span style="display:flex;flex-direction:column;flex:1;"><span style="font:600 12px 'JetBrains Mono';color:#2d2b2b;">{{ c.sent }}</span><span style="font:500 8.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;text-transform:uppercase;letter-spacing:.04em;">Sent</span></span>
-                        <span style="display:flex;flex-direction:column;flex:1;"><span style="font:600 12px 'JetBrains Mono';color:#8f5f15;">{{ c.open }}</span><span style="font:500 8.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;text-transform:uppercase;letter-spacing:.04em;">Open</span></span>
+                        <span style="display:flex;flex-direction:column;flex:1;"><span style="font:600 12px 'JetBrains Mono';color:#63606e;">{{ c.open }}</span><span style="font:500 8.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;text-transform:uppercase;letter-spacing:.04em;">Open</span></span>
                         <span style="display:flex;flex-direction:column;flex:1;"><span style="font:600 12px 'JetBrains Mono';color:#4b4390;">{{ c.reply }}</span><span style="font:500 8.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;text-transform:uppercase;letter-spacing:.04em;">Reply</span></span>
                       </div>
                     </sc-for>
@@ -9395,7 +9131,8 @@
                 <div style="border:1px solid #d9d1f6;background:#f5f3fd;border-radius:14px;padding:16px 18px;">
                   <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6553cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10z"></path></svg><span style="font:600 10px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#6a5ac7;">{{ agentName }} suggests</span></div>
                   <p style="font:400 12.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#35323c;margin:0 0 12px;">Step 4 reply rate is low. Try sending the value follow-up 2 days earlier and lead with the HighRadius proof point.</p>
-                  <button style="border:none;cursor:pointer;background:#7b6bd8;color:#fff;border-radius:999px;padding:8px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#6a5ac7">Apply suggestion</button>
+                  <sc-if value="{{ seqSugIdle }}" hint-placeholder-val="{{ true }}"><button onClick="{{ seqSugApply }}" style="border:none;cursor:pointer;background:#7b6bd8;color:#fff;border-radius:999px;padding:8px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#6a5ac7">Apply suggestion</button></sc-if>
+                  <sc-if value="{{ seqSugDone }}" hint-placeholder-val=""><span style="display:inline-flex;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#4b4390;background:#e2def3;border-radius:7px;padding:6px 11px;">✓ Applied · the follow-up now sends 2 days earlier</span></sc-if>
                 </div>
                 </sc-if>
               </div>
@@ -15596,6 +15333,10 @@ class Component extends DCLogic {
       return P('Navigated', { view: 'visitors' }, 'Website Visitors',
         '312 companies identified in 30 days \u00b7 41 qualified.',
         'Website Visitors is open. 312 companies identified this month, 41 clearing your qualification rules.');
+    if (t(/\b(new|create|build|make|launch|start)\b[^.]{0,40}\b(campaign|play|sequence|outreach)/i))
+      return P('Action', { view: 'campaigns', newCampOpen: true, campGoal: '', campSegPick: null }, 'Campaigns · New draft',
+        'Goal first. I propose audience, channels and steps; you approve before anything sends.',
+        'I opened the campaign builder. Give it a goal or pick the segment it should run on — I’ll propose the strategy and steps, and every send waits at your approval gate.', 'Open the builder');
     if (t(/\b(campaign|play|sequence|outreach|touch|enrol)/i))
       return P('Navigated', { view: 'campaigns' }, 'Campaigns',
         'Each play runs on a living segment.',
@@ -15724,7 +15465,7 @@ class Component extends DCLogic {
       { key:'fintech', name:'Enterprise FinTech outbound', segKey:'fintech', seg:'Enterprise FinTech', status:'Paused', autonomy:'Approve first batch', channels:'Email \u00b7 5 touches', enrolled:120, replies:'8%', mtgs:4, pipe:'$540k' },
       { key:'closedlost', name:'Closed-lost re-engage', segKey:'closedlost', seg:'Closed-lost \u00b7 Q3\u2013Q4', status:'Draft', autonomy:'Approve each send', channels:'Email \u00b7 3 touches', enrolled:0, replies:'\u2014', mtgs:0, pipe:'\u2014' },
     ];
-    const created = (S.campCreated || []).map((c, i) => ({ key:'new'+i, name:c.name, segKey:c.segKey, seg:c.seg, status:'Draft', autonomy:'Approve each send', channels:'Savant is proposing the strategy', enrolled:0, replies:'\u2014', mtgs:0, pipe:'\u2014' }));
+    const created = (S.campCreated || []).map((c, i) => ({ key:'new'+i, flowKey:c.key, name:c.name, segKey:c.segKey, seg:c.seg, status:'Draft', autonomy:'Approve each send', channels:'Savant is proposing the strategy', enrolled:0, replies:'\u2014', mtgs:0, pipe:'\u2014' }));
     const STATUS = { Live:{c:'#6553cc',b:'#e6e1f9'}, Paused:{c:'#8f5f15',b:'#f4e5c5'}, Draft:{c:'#48454f',b:'#eaeaf0'} };
     const campList = created.concat(BASE).map(c => {
       const launched = S.campLaunched[c.key];
@@ -15736,7 +15477,7 @@ class Component extends DCLogic {
         pauseLabel: status === 'Live' ? 'Pause' : 'Resume',
         togglePause: () => this.setState(s => ({ campPaused: { ...s.campPaused, [c.key]: status === 'Live' } })),
         launch: () => { this.setState(s => ({ campLaunched: { ...s.campLaunched, [c.key]: true } })); this.toast('Live. Members enroll as they enter the segment.'); },
-        openFlow: () => this.setState({ view:'sequence', seqSel:'pricing' }),
+        openFlow: () => { const MAP = { pricing:'pricing', closedlost:'winback' }; this.setState({ view:'sequence', seqSel: MAP[c.key] || c.flowKey || 'pricing' }); },
         goSeg: openSeg(c.segKey) };
     });
     const DRAFTS = this.getDrafts();
@@ -15753,7 +15494,7 @@ class Component extends DCLogic {
       { key:'fintech', name:'Enterprise FinTech', members:'318' },
       { key:'visitors', name:'Website visitors \u00b7 7d', members:'312' },
       { key:'champions', name:'Champions to re-engage', members:'64' },
-    ].map(o => ({ ...o,
+    ].map(o => ({ ...o, people: Math.round(parseInt(o.members, 10) * 1.35).toLocaleString(),
       bd: S.campSegPick === o.key ? '#7b6bd8' : '#e2e2ea',
       bg: S.campSegPick === o.key ? '#f5f3fd' : '#fbfbfd',
       pick: () => this.setState({ campSegPick: o.key }) }));
@@ -15774,7 +15515,8 @@ class Component extends DCLogic {
           cpGoTable: () => this.setState({ campPgTab:'table' }), cpGoAppr: () => this.setState({ campPgTab:'appr' }), cpGoAwait: () => this.setState({ campPgTab:'await' }),
           caIsWaiting: true,
           caAwN: String(AW.length),
-          caAwait: AW };
+          caAwait: AW.map(a => { const MAPC = { 'Fast follow · pricing intent': 'pricing' }; const k = MAPC[a.camp];
+            return { ...a, hasGo: !!k, noGo: !k, goCamp: () => this.setState({ view: 'sequence', seqSel: k }) }; }) };
       })(),
       ...(() => { const done = S.wfGateDone || {};
         const gates = [{ id: 'g1', wf: 'High-Intent Account Alert', node: 'Wait for approval \u00b7 step 4', wants: 'Enroll 12 accounts in the Pricing-intent play and notify their owners in Slack', rec: '12 accounts', trig: 'Intent spike on 12 accounts \u00b7 2h ago' }]
@@ -15789,7 +15531,10 @@ class Component extends DCLogic {
           apprTotal: total, pdApprNudge: total > 0,
           apprBreak: campDrafts.length + ' campaign send' + (campDrafts.length === 1 ? '' : 's') + (gates.length ? ' and ' + gates.length + ' automation gate' + (gates.length === 1 ? '' : 's') + ' (' + gates[0].wf + ')' : '') }; })(),
       newCampOpen: S.newCampOpen,
-      openNewCamp: () => this.setState({ newCampOpen:true, campGoal:'', campSegPick:null }),
+      openNewCamp: () => this.engageSavant('New campaign. Give me the goal in one sentence — I’ll propose the audience, channels and steps, and every send waits at your approval gate. Or start from a segment:',
+        [ { l: 'Pricing intent · this week', send: 'Create a campaign on the Pricing intent segment' },
+          { l: 'Champions to re-engage', send: 'Create a campaign for the champions who changed jobs' },
+          { l: 'Open the builder instead', patch: { view: 'campaigns', newCampOpen: true, campGoal: '', campSegPick: null } } ]),
       closeNewCamp: () => this.setState({ newCampOpen:false }),
       campGoal: S.campGoal,
       setCampGoal: (e) => this.setState({ campGoal: e.target.value }),
@@ -15797,7 +15542,7 @@ class Component extends DCLogic {
       createCamp: () => {
         const goal = (S.campGoal || '').trim();
         const seg = campSegOptions.filter(o => o.key === S.campSegPick)[0];
-        const name = goal ? (goal.length > 52 ? goal.slice(0, 52) + '\u2026' : goal) : (seg ? seg.name + ' outreach' : 'Untitled play');
+        const name = goal ? (goal.length > 52 ? goal.slice(0, 52) + '\u2026' : goal) : (seg ? seg.name + ' outreach' : 'Untitled campaign');
         const key = 'custom-' + Date.now();
         this.setState(s => ({ campCreated: [{ key, name, seg: seg ? seg.name : 'Savant will propose', segKey: seg ? seg.key : null }].concat(s.campCreated), newCampOpen:false, view:'sequence', seqSel:key, seqAddedSteps:[], seqWaits:{}, seqMsgEdits:{}, seqEditIdx:null, seqAddOpen:false }));
         this.toast('Draft created. Savant is assembling audience and strategy for review.');
@@ -16145,12 +15890,14 @@ class Component extends DCLogic {
     };
     const _CAMP = { pricing:'Pricing-intent', cloudsig:'Cloud-migration', champions:'Champion win-back', fintech:'Enterprise nurture', abm:'ABM sequence', visitors:'Visitor follow-up' };
     const _segAcctSum = segSeed.reduce((a, x) => a + x.members, 0);
+    const _segPeopleSum = segSeed.reduce((a, x) => a + Math.round(x.members * 1.35), 0);
     const _segGrowSum = segSeed.reduce((a, x) => a + (parseInt(String(x.growth || '0').replace('+', ''), 10) || 0), 0);
     const _segAttached = segSeed.filter(x => _CAMP[x.key]).length;
     const segments = segSeed.map(s => { const L = _SEGLIVE[s.key] || {}; const _g = s.growth && s.growth !== '0'; const _n = parseInt(String(s.growth||'0').replace('+',''),10) || 0; const _spark = L.spark || [30,30,30,30,30,30,30]; return {
       ...s, members: s.members.toLocaleString(),
+      people: Math.round(s.members * 1.35).toLocaleString(),
       playNm: _CAMP[s.key] || '', hasPlay: !!_CAMP[s.key], noPlay: !_CAMP[s.key],
-      openRules: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ segRuleKey: s.key }); },
+      openRules: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ segSel: s.key, segDetailTab: 'rules' }); },
       tC: SEGTYPE[s.type].c, tB: SEGTYPE[s.type].b, tIcon: SEGTYPE[s.type].icon,
       typeLabel: s.type==='AI' ? 'AI-built' : s.type==='Static' ? 'Manual' : s.type,
       highPct: s.high+'%', medPct: s.med+'%', lowPct: s.low+'%',
@@ -16177,6 +15924,7 @@ class Component extends DCLogic {
     const _sdt = this.state.segDetailTab || 'overview';
     const sdtStyle = (on) => ({ font: on ? "600 13px 'Pliant','Instrument Sans',sans-serif" : "400 13px 'Pliant','Instrument Sans',sans-serif", col: on ? '#2d2b2b' : '#63606e', bd: on ? '#7b6bd8' : 'transparent' });
     const sdtOverview = sdtStyle(_sdt==='overview'), sdtContacts = sdtStyle(_sdt==='contacts'), sdtOutreach = sdtStyle(_sdt==='outreach'), sdtSettings = sdtStyle(_sdt==='settings'), sdtActivity = sdtStyle(_sdt==='activity');
+    const sdtMembers = sdtStyle(_sdt==='members'), sdtRules = sdtStyle(_sdt==='rules');
 
     const segTop10 = [
       { name:'Stripe', domain:'stripe.com', initials:'ST', avBg:'#ede9fe', avFg:'#5b21b6', fit:94, fitColor:'#6157b2', fitPct:'94%', reason:'3\u00d7 pricing page visits + hiring 4 RevOps roles' },
@@ -17714,12 +17462,13 @@ class Component extends DCLogic {
     const seqKpis = [ {l:'Active campaigns',v:'4'}, {l:'In sequence',v:'147'}, {l:'Reply rate',v:'18%'}, {l:'Meetings booked',v:'12'} ];
     const seqChart = [ {d:'Mon',hpx:'34px'}, {d:'Tue',hpx:'58px'}, {d:'Wed',hpx:'46px'}, {d:'Thu',hpx:'72px'}, {d:'Fri',hpx:'54px'}, {d:'Sat',hpx:'20px'}, {d:'Sun',hpx:'28px'} ];
     const campaigns = [
-      { key:'pricing', name:'Pricing-intent · multi-channel', status:'Active', channels:['LinkedIn','Email'], accounts:41, replies:9, pct:'72%' },
-      { key:'committee', name:'Buyer committee sequences', status:'Active', channels:['Email'], accounts:25, replies:4, pct:'38%' },
-      { key:'winback', name:'Closed-lost win-back', status:'Draft', channels:['LinkedIn','Email'], accounts:23, replies:0, pct:'0%' },
+      { key:'pricing', name:'Pricing-intent · multi-channel', segKey:'pricing', status:'Active', channels:['LinkedIn','Email'], accounts:41, replies:9, pct:'72%' },
+      { key:'committee', name:'Buyer committee multi-thread', segKey:'abm', status:'Active', channels:['Email'], accounts:25, replies:4, pct:'38%' },
+      { key:'winback', name:'Closed-lost win-back', segKey:'closedlost', status:'Draft', channels:['LinkedIn','Email'], accounts:23, replies:0, pct:'0%' },
       { key:'event', name:'Event follow-up · SaaStr', status:'Paused', channels:['Email'], accounts:58, replies:12, pct:'54%' },
-    ].concat((this.state.campCreated || []).filter(c => c.key).map(c => ({ key:c.key, name:c.name, status:'Draft', channels:['Email'], accounts:0, replies:0, pct:'0%', isNew:true, segName:c.seg })))
-     .map(c => ({ ...c, dot:STATUS[c.status].dot, statusCol:STATUS[c.status].col, statusBg:STATUS[c.status].bg, open: () => this.setState({ seqSel:c.key }) }));
+    ].concat((this.state.campCreated || []).filter(c => c.key).map(c => ({ key:c.key, name:c.name, status:'Draft', channels:['Email'], accounts:0, replies:0, pct:'0%', isNew:true, segName:c.seg, segKey:c.segKey })))
+     .map(c => { const _p = this.state.campPaused[c.key]; const status = (_p === undefined || c.status === 'Draft') ? c.status : (_p ? 'Paused' : 'Active');
+       return { ...c, status, dot:STATUS[status].dot, statusCol:STATUS[status].col, statusBg:STATUS[status].bg, open: () => this.setState({ seqSel:c.key }) }; });
 
     // ── sequence deep-dive ──
     const CHAN = {
@@ -19838,11 +19587,13 @@ class Component extends DCLogic {
       segPropsLine: (3 - (this.state.segPropsHidden||[]).length) + ' ways to sharpen these segments. One merge, one new rule, one archive.',
       segPropsBtn: this.state.segPropsOpen ? 'Hide' : 'Review',
       segProposals: [
-        { id:'create', kind:'Create', kindC:'#6553cc', kindB:'#e6e1f9', title:'Series B Fintech · RevOps', because:'you\u2019ve hand-added 9 accounts matching this pattern in 6 days. A dynamic segment keeps it current \u2014 ~120 match today.', cta:'Create segment', run:()=>this.setState({ segCreateOpen:true, segSel:null }) },
+        { id:'create', kind:'Create', kindC:'#6553cc', kindB:'#e6e1f9', title:'Series B Fintech · RevOps', because:'you\u2019ve hand-added 9 accounts matching this pattern in 6 days. A dynamic segment keeps it current \u2014 ~120 match today.', cta:'Create segment', run:()=>this.engageSavant('Series B Fintech \u00b7 RevOps \u2014 you\u2019ve hand-added 9 accounts matching this pattern in 6 days. Want me to make it a living segment? ~120 accounts match today.',
+        [ { l: 'Yes, build it', send: 'Create a segment: Series B fintech with a RevOps motion' },
+          { l: 'Open the builder instead', patch: { view: 'segments', segCreateOpen: true, segSel: null } } ]) },
         { id:'champions', kind:'Act now', kindC:'#8f5f15', kindB:'#f7ecd3', amber:true, title:'Champions to re-engage · 9 just changed jobs', because:'a champion is warmest in their first 30 days at a new company. Reach these 9 before the window closes.', cta:'Start outreach', run:()=>this.setState({ segSel:'champions' }) },
         { id:'closedlost', kind:'Improve', kindC:'#6a5ac7', kindB:'#e6e1f9', title:'Closed-lost · Q3\u2013Q4 is static & going stale', because:'it hasn\u2019t refreshed in 3 weeks, yet 6 accounts just re-entered a buying window. Make it dynamic to catch new signals.', cta:'Make it dynamic', run:()=>this.setState({ segSel:'closedlost' }) },
       ].filter(p => !(this.state.segPropsHidden||[]).includes(p.id)).map(p => Object.assign({}, p, { amberBg: p.amber ? '#fdf8ee' : '#fff', amberBorder: p.amber ? '#f0d9b0' : '#e7e7ed', dismiss: () => this.setState(s => ({ segPropsHidden: [...(s.segPropsHidden||[]), p.id] })) })),
-      segContactRows: segContactRows.map((c, ci) => {
+      ...(() => { const _rows = segContactRows.map((c, ci) => {
         const em = this.state.segEnr || {};
         const ek = 'e' + ci, pk = 'p' + ci;
         const eLocked = (ci === 5 || ci === 9) && !em[ek];
@@ -19855,10 +19606,21 @@ class Component extends DCLogic {
             this.setState(s => ({ segEnr: { ...(s.segEnr || {}), [ek]: true } })); this.toast('Verified email added. 1 credit.'); },
           enrichPhone: (e) => { if (e && e.stopPropagation) e.stopPropagation();
             this.setState(s => ({ segEnr: { ...(s.segEnr || {}), [pk]: true } })); this.toast('Verified mobile added. 2 credits.'); } };
-      }),
+      });
+      return { segContactRows: _rows, segTopPeople: _rows.slice(0, 5),
+        segEnrichAll: () => { const ks = {}; let em = 0, ph = 0;
+          _rows.forEach((r, ci) => { if (r.emailNeeds) { ks['e' + ci] = true; em++; } if (r.phoneNeeds) { ks['p' + ci] = true; ph++; } });
+          if (!em && !ph) { this.toast('Everyone here already has a verified email and phone.'); return; }
+          this.setState(s => ({ segEnr: { ...(s.segEnr || {}), ...ks } }));
+          this.toast('Enriched ' + (em ? em + ' emails' : '') + (em && ph ? ' and ' : '') + (ph ? ph + ' phones' : '') + '. ' + (em + ph * 2) + ' credits, charged only on verification.'); } }; })(),
       segWeeklyOpen, segFunnel, segActivityLog,
-      sdtOverview, sdtContacts, sdtOutreach, sdtSettings, sdtActivity,
+      sdtOverview, sdtContacts, sdtOutreach, sdtSettings, sdtActivity, sdtMembers, sdtRules,
       segIsOverview: _sdt==='overview', segIsContacts: _sdt==='contacts', segIsOutreach: _sdt==='outreach', segIsSettings: _sdt==='settings', segIsActivity: _sdt==='activity',
+      segIsMembers: _sdt==='members', segIsRules: _sdt==='rules',
+      ...(() => { const mv = this.state.segMembersView || 'contacts';
+        const st = (on) => 'border:none;cursor:pointer;padding:6px 13px;border-radius:999px;font:' + (on ? '600' : '500') + " 12px 'Pliant','Instrument Sans',sans-serif;color:" + (on ? '#6553cc' : '#63606e') + ';background:' + (on ? '#fff' : 'transparent') + (on ? ';box-shadow:0 1px 2px rgba(29,28,35,.10)' : '') + ';';
+        return { segMemAccts: mv === 'accounts', segMemContacts: mv === 'contacts', memTabA: st(mv === 'accounts'), memTabC: st(mv === 'contacts'),
+          segMemPickAccts: () => this.setState({ segMembersView: 'accounts' }), segMemPickContacts: () => this.setState({ segMembersView: 'contacts' }) }; })(),
       ...(() => { const k = this.state.segRuleKey; const sv = k ? segments.find(x => x.key === k) : null;
         const AUTOS = ['Enroll in the attached campaign', 'Notify the owner in Slack', 'Run Deep Intelligence'];
         const cfg = (this.state.segRuleAutoCfg || {})[k] || { 0: true, 1: true, 2: false };
@@ -19868,7 +19630,7 @@ class Component extends DCLogic {
           segRuleAutos: AUTOS.map((l, i) => ({ l, bg: cfg[i] ? '#7b6bd8' : '#cbcad8', knob: cfg[i] ? '16px' : '2px',
             flip: () => this.setState(st => ({ segRuleAutoCfg: { ...(st.segRuleAutoCfg || {}), [k]: { ...cfg, [i]: !cfg[i] } } })) })) };
       })(),
-      segSumN: String(segSeed.length), segSumAccts: _segAcctSum.toLocaleString(), segSumGrow: '+' + _segGrowSum, segSumAttached: _segAttached + ' of ' + segSeed.length, segSumGaps: segSeed.length - _segAttached, segSumHasGaps: segSeed.length - _segAttached > 0,
+      segSumN: String(segSeed.length), segSumAccts: _segAcctSum.toLocaleString(), segSumPeople: _segPeopleSum.toLocaleString(), segSumGrow: '+' + _segGrowSum, segSumAttached: _segAttached + ' of ' + segSeed.length, segSumGaps: segSeed.length - _segAttached, segSumHasGaps: segSeed.length - _segAttached > 0,
       segTop10: segTop10.map(t => ({ ...t, openAcct: (e) => { if (e && e.stopPropagation) e.stopPropagation(); if (discoverResults.find(r => r.name === t.name)) { this.setState({ discDrawerKey: t.name }); } else { this.toast(t.name + '. Full profile syncs from Discover; run a search that includes it to unlock.'); } } })), segOutreachAgents, segAgentCaps, segAgentGuardrails, segSourcingCriteria,
       ...(() => {
         const sk = this.state.segSel || '';
@@ -20000,11 +19762,11 @@ class Component extends DCLogic {
             const pl = PLAY[sk] ? { ...PLAY[sk], line: PLAY[sk].enrolled + ' enrolled \u00b7 ' + PLAY[sk].reply + ' reply \u00b7 ' + PLAY[sk].mtgs + ' meeting' + (PLAY[sk].mtgs === 1 ? '' : 's') } : null;
             const HINT = {
               hotfit: 'These are Act-now accounts \u2014 \u201cFast follow\u201d fits; Savant can draft it for your approval.',
-              closedlost: 'A re-warm play fits here. Reference the old evaluation, lead with what changed.' };
+              closedlost: 'A re-warm campaign fits here. Reference the old evaluation, lead with what changed.' };
             const g = segSelData;
             const brief = !g ? '' : (() => {
               const s1 = g.members + ' accounts are in. ' + (g.whatChanged || '');
-              if (!pl) return s1 + ' None of them have heard from you. Attach a play, or let me draft one for your approval.';
+              if (!pl) return s1 + ' None of them have heard from you. Attach a campaign, or let me draft one for your approval.';
               const m = /(\d+)\s+of\s+(\d+)/.exec(pl.enrolled) || [];
               const gap = m.length ? (parseInt(m[2], 10) - parseInt(m[1], 10)) : 0;
               return s1 + ' \u201c' + pl.name + '\u201d is working them. ' + pl.enrolled + ' enrolled, replying at ' + pl.reply + ' with ' + pl.mtgs + ' meeting' + (pl.mtgs === 1 ? '' : 's')
@@ -20014,6 +19776,8 @@ class Component extends DCLogic {
             const membersN = g ? parseInt(String(g.members).replace(/,/g, ''), 10) || 0 : 0;
             const whoMatched = Math.round(membersN * 1.35), whoMissing = Math.max(1, Math.round(membersN * 0.2));
             return { segBrief: brief, segReply: pl ? pl.reply : '', segMtgsN: pl ? String(pl.mtgs) : '0',
+              segContactsN: whoMatched.toLocaleString('en-US'),
+              segCampMeta: pl ? (pl.reply + ' reply · ' + pl.mtgs + ' meeting' + (pl.mtgs === 1 ? '' : 's') + ' · 30d') : 'Attached · not started yet',
               segWhoRule: '2 per account \u00b7 ' + (PR[sk] || 'Economic buyer + Champion'),
               segWhoCoverage: whoMatched.toLocaleString('en-US') + ' people matched \u00b7 ' + whoMissing + ' account' + (whoMissing === 1 ? '' : 's') + ' missing a champion',
               segWhoSource: () => { const names = (segMembers || []).map(m => m.name).slice(0, 4);
@@ -20044,6 +19808,10 @@ class Component extends DCLogic {
       })(),
       segTabOverview: () => this.setState({ segDetailTab:'overview' }),
       segTabContacts: () => this.setState({ segDetailTab:'contacts' }),
+      segTabMembers: () => this.setState({ segDetailTab:'members' }),
+      segTabRules: () => this.setState({ segDetailTab:'rules' }),
+      goRulesTab: () => this.setState({ segDetailTab:'rules' }),
+      goMembersTab: () => this.setState({ segDetailTab: 'members', segMembersView: 'contacts' }),
       segTabOutreach: () => this.setState({ segDetailTab:'outreach' }),
       segTabSettings: () => this.setState({ segDetailTab:'settings' }),
       toggleSegCrmSync: () => this.setState(s => ({ segCrmSync: !s.segCrmSync })),
@@ -20054,7 +19822,11 @@ class Component extends DCLogic {
       segCrmSyncMeta: this.state.segCrmSync ? 'Last synced 2h ago' : 'Enable to sync contacts to CRM',
       segTabActivity: () => this.setState({ segDetailTab:'activity' }),
       backToSegments: () => this.setState({ segSel:null, segCreateOpen:false, segDetailTab:'overview' }),
-      openCreateSegment: () => this.setState({ segCreateOpen:true, segSel:null }),
+      openCreateSegment: () => this.engageSavant('New segment. Tell me who you\u2019re targeting in one sentence \u2014 I\u2019ll build the entry rule, preview the matches, and keep it live. Or start from a pattern:',
+        [ { l: 'ICP lookalike of my best customers', send: 'Create a segment: ICP lookalike of my best customers' },
+          { l: 'Competitor\u2019s customers heating up', send: 'Create a segment: competitor\u2019s customers heating up' },
+          { l: 'Re-engage closed-lost', send: 'Create a segment: re-engage closed-lost accounts heating again' },
+          { l: 'Open the builder instead', patch: { view: 'segments', segCreateOpen: true, segSel: null } } ]),
       cancelCreateSegment: () => this.setState({ segCreateOpen:false }),
       isSequence: v==='sequence', seqListMode: v==='sequence' && !seqSelData, seqDetailMode: v==='sequence' && !!seqSelData,
       seqGenBusyV: !!this.state.seqGenBusy, seqGenIdle: !this.state.seqGenBusy,
@@ -20368,9 +20140,23 @@ class Component extends DCLogic {
       })(),
       seqHasData: !!seqSelData && !seqSelData.isNew, seqNoData: !!seqSelData && !!seqSelData.isNew,
       seqIsEmpty: seqStepsFull.length === 0,
-      seqStepsCaption: (function(){ const n = seqStepsFull.filter(s => s.isMsg).length; return seqSelData ? (seqSelData.accounts + ' enrolled · ' + n + ' step' + (n === 1 ? '' : 's')) : ''; })(),
-      seqDraftNote: (seqSelData && seqSelData.isNew) ? ('Audience: ' + (seqSelData.segName || 'Savant will propose') + '. Funnel and channel stats appear once the play launches.') : '',
+      seqStepsCaption: (function(){ const n = seqStepsFull.filter(s => s.isMsg).length; return seqSelData ? (seqSelData.accounts + ' contacts · ' + n + ' step' + (n === 1 ? '' : 's')) : ''; })(),
+      seqDraftNote: (seqSelData && seqSelData.isNew) ? ('Audience: ' + (seqSelData.segName || 'Savant will propose') + '. Funnel and channel stats appear once the campaign launches.') : '',
       backToSequence: () => this.setState({ view:'campaigns', seqSel:null, seqAddedSteps:[], seqEditIdx:null, seqAddOpen:false }),
+      seqPauseLabel: (seqSelData && seqSelData.status === 'Paused') ? 'Resume' : 'Pause',
+      ...(() => { const raw = seqSelData ? seqSelData.segName : null;
+        const viaKey = (seqSelData && seqSelData.segKey) ? ((segSeed.find(x => x.key === seqSelData.segKey) || {}).name || null) : null;
+        const sm = viaKey || (raw && raw !== 'Savant will propose' ? raw : null);
+        return { seqHasSeg: !!sm, seqNoSeg: !!seqSelData && !sm, seqSegName: sm || '',
+          seqGoSeg: () => this.setState({ view:'segments', segSel: (seqSelData && seqSelData.segKey) || null, segCreateOpen:false }),
+          seqAttachSeg: () => this.setState({ view:'segments', segSel:null, segCreateOpen:false }) }; })(),
+      seqTogglePause: () => { const k = this.state.seqSel; const isP = seqSelData && seqSelData.status === 'Paused';
+        this.setState(s => ({ campPaused: { ...s.campPaused, [k]: !isP } }));
+        this.toast(isP ? 'Resumed. Sends continue inside the delivery window.' : 'Paused. Nothing sends; contacts hold at their current step.'); },
+      seqAddContacts: () => { const names = []; seqEnrolledSeed.forEach(c => { if (names.indexOf(c.account) < 0) names.push(c.account); });
+        this.setState({ srcOpen: true, srcAccts: names.slice(0, 4), srcSel: [], srcTab: 'new', srcF: {}, srcLibOpen: 'Persona ICP' }); },
+      seqSugIdle: !this.state.seqSugDone, seqSugDone: !!this.state.seqSugDone,
+      seqSugApply: () => { this.setState({ seqSugDone: true }); this.toast('Done. The value follow-up moves 2 days earlier for contacts not yet at step 4.'); },
       addSeqStep: (e) => {
         let up = true, sb = 400, st = 400;
         if (e && e.currentTarget && e.currentTarget.getBoundingClientRect) {
