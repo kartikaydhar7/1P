@@ -8,8 +8,8 @@
 //
 // Run directly with `node scripts/sync-deploy.mjs`, or let the pre-commit hook
 // in .githooks/ run it for you.
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { dirname, join, posix } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -26,7 +26,17 @@ const PAGES = [
 const ASSETS = [
   ['support.js', 'deploy/support.js'],
   ['uploads/sprouts.ai-logo.png', 'deploy/uploads/sprouts.ai-logo.png'],
+  ['fonts/Pliant-Variable.ttf', 'deploy/fonts/Pliant-Variable.ttf'],
+  ['fonts/OFL.txt', 'deploy/fonts/OFL.txt'],
+  ['assets/savant-orb.png', 'deploy/assets/savant-orb.png'],
 ];
+
+// Assets the pages reference but that we knowingly cannot ship yet. Anything
+// missing and NOT listed here fails the sync, because a 404 on a background
+// image or a webfont is invisible in the markup and silently degrades the live
+// page -- exactly how the Savant orb and the Pliant typeface went unnoticed
+// across several deploys.
+const KNOWN_MISSING = new Map();
 
 let changed = 0;
 
@@ -58,6 +68,43 @@ for (const [src, dest] of ASSETS) {
     console.log(`  synced  ${dest}`);
     changed++;
   }
+}
+
+// --- Verify every local asset a synced page references actually shipped. ---
+// Covers CSS url() as well as src=/href=; the orb was referenced only from
+// url(), which is why an attribute-only check never caught it.
+// The lookbehind keeps JS identifiers such as URL.revokeObjectURL(url) from
+// being read as a CSS url() reference.
+const REF_RE = /(?:src|href)\s*=\s*"([^"]+)"|(?<![\w.])url\(\s*['"]?([^'")]+)['"]?\s*\)/gi;
+// Component logic is not markup; scanning it only produces false positives.
+const stripScripts = (html) => html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+const missing = new Map();
+const skipped = [];
+
+for (const [, dest] of PAGES) {
+  const html = stripScripts(readFileSync(r(dest), 'utf8'));
+  for (const m of html.matchAll(REF_RE)) {
+    const ref = (m[1] ?? m[2] ?? '').trim();
+    // Not a local file we control: remote, inline, anchors, mail, template
+    // bindings, and the clean routes we deliberately rewrote links to.
+    if (!ref || /^(https?:|data:|mailto:|tel:|#|\/\/)/i.test(ref)) continue;
+    if (ref.includes('{{') || ref.startsWith('/')) { skipped.push(ref); continue; }
+    const rel = posix.normalize(ref.replace(/^\.\//, ''));
+    if (existsSync(join(dirname(r(dest)), rel))) continue;
+    if (!missing.has(rel)) missing.set(rel, new Set());
+    missing.get(rel).add(dest);
+  }
+}
+
+const unexpected = [...missing.keys()].filter(k => !KNOWN_MISSING.has(k));
+for (const [k, why] of KNOWN_MISSING) {
+  if (missing.has(k)) console.warn(`  WARNING  ${k} is referenced but not shipped (${why})`);
+}
+if (unexpected.length) {
+  throw new Error(
+    'These files are referenced by the deployed pages but are missing from deploy/:\n' +
+    unexpected.map(k => `  - ${k}  (used by ${[...missing.get(k)].join(', ')})`).join('\n') +
+    '\nAdd each to ASSETS, or to KNOWN_MISSING with a reason if it cannot ship yet.');
 }
 
 console.log(changed ? `deploy/ updated (${changed} file(s))` : 'deploy/ already up to date');
