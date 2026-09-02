@@ -79,7 +79,7 @@ for (const [src, dest] of ASSETS) {
 // being read as a CSS url() reference.
 const REF_RE = /(?:src|href)\s*=\s*"([^"]+)"|(?<![\w.])url\(\s*['"]?([^'")]+)['"]?\s*\)/gi;
 // Component logic is not markup; scanning it only produces false positives.
-const stripScripts = (html) => html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+const stripScripts = (html) => html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
 const missing = new Map();
 const skipped = [];
 

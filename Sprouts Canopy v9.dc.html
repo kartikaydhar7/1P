@@ -969,7 +969,7 @@
                         <sc-if value="{{ r.off }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:4px;border:1.5px solid #c4c1cf;background:#fff;"></span></sc-if>
                       </span>
                       <span style="box-sizing:border-box;flex:0 0 220px;padding:0 10px;display:flex;align-items:center;gap:9px;min-width:0;">
-                        <span style="width:24px;height:24px;border-radius:6px;background:{{ r.logoBg }};color:{{ r.logoFg }};display:flex;align-items:center;justify-content:center;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ r.initials }}</span>
+                        <span style="width:24px;height:24px;border-radius:6px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ r.logoSty16 }}"></span></span>
                         <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span><span style="font:400 9.5px 'JetBrains Mono';color:#908d9c;">{{ r.domain }}</span></span>
                       </span>
                       <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;display:flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.sigColor }};flex:0 0 auto;"></span><span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.signal }}</span></span>
@@ -992,7 +992,7 @@
                 <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;">
                   <sc-for list="{{ ptOpts }}" as="p" hint-placeholder-count="5">
                     <div onClick="{{ p.pick }}" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:{{ p.bg }};box-shadow:{{ p.ring }};cursor:pointer;">
-                      <span style="width:28px;height:28px;border-radius:8px;background:#e3eef9;color:#205e9e;display:flex;align-items:center;justify-content:center;font:600 10.5px 'JetBrains Mono';flex:0 0 auto;">{{ p.initials }}</span>
+                      <span style="width:28px;height:28px;border-radius:8px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ p.logoSty18 }}"></span></span>
                       <span style="flex:1;min-width:0;display:flex;flex-direction:column;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.name }}</span><span style="font:400 10px 'JetBrains Mono';color:#908d9c;">{{ p.meta }}</span></span>
                       <span style="flex:0 0 auto;text-align:right;"><span style="font:500 9.5px 'JetBrains Mono';color:#63606e;">{{ p.cap }}</span><span style="display:block;width:54px;height:5px;border-radius:3px;background:#eaeaf0;margin-top:3px;overflow:hidden;"><span style="display:block;height:100%;width:{{ p.capW }};background:{{ p.capC }};"></span></span></span>
                     </div>
@@ -1030,7 +1030,7 @@
                   <sc-for list="{{ ptRowsB }}" as="p" hint-placeholder-count="5">
                     <div onClick="{{ p.open }}" style="display:flex;align-items:center;height:56px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fbfbfd;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
                       <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 16px;display:flex;align-items:center;gap:10px;">
-                        <span style="width:28px;height:28px;border-radius:8px;background:#e3eef9;color:#205e9e;display:flex;align-items:center;justify-content:center;font:600 10.5px 'JetBrains Mono';flex:0 0 auto;">{{ p.initials }}</span>
+                        <span style="width:28px;height:28px;border-radius:8px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ p.logoSty18 }}"></span></span>
                         <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.name }}</span><span style="font:400 10px 'JetBrains Mono';color:#908d9c;">{{ p.region }}</span></span>
                       </span>
                       <span style="box-sizing:border-box;flex:0 0 88px;padding:0 8px;display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ p.dotC }};flex:0 0 auto;"></span><span style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:{{ p.statusC }};white-space:nowrap;">{{ p.statusL }}</span></span>
@@ -1057,7 +1057,7 @@
             <sc-if value="{{ ptDetailOn }}" hint-placeholder-val="">
               <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
                 <button onClick="{{ ptDetailBack }}" title="All partners" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:10px;color:#48454f;flex:0 0 auto;" style-hover="border-color:#b7d4c3;color:#1f5a3a"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg></button>
-                <span style="width:44px;height:44px;border-radius:12px;background:#e3eef9;color:#205e9e;display:flex;align-items:center;justify-content:center;font:600 15px 'JetBrains Mono';flex:0 0 auto;">{{ ptD.initials }}</span>
+                <span style="width:44px;height:44px;border-radius:12px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ ptD.logoSty26 }}"></span></span>
                 <span style="display:flex;flex-direction:column;gap:3px;min-width:0;">
                   <span style="display:flex;align-items:center;gap:10px;"><span style="font:600 19px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#2d2b2b;">{{ ptD.name }}</span><span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ ptD.dotC }};"></span><span style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:{{ ptD.statusC }};">{{ ptD.statusL }}</span></span></span>
                   <span style="font:400 11.5px 'JetBrains Mono';color:#908d9c;">{{ ptD.region }} · {{ ptD.email }}</span>
@@ -1099,7 +1099,7 @@
                     <sc-for list="{{ ptD.accounts }}" as="r" hint-placeholder-count="3">
                       <div onClick="{{ r.open }}" style="display:flex;align-items:center;height:50px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fbfbfd">
                         <span style="box-sizing:border-box;flex:0 0 190px;padding:0 16px;display:flex;align-items:center;gap:9px;min-width:0;">
-                          <span style="width:24px;height:24px;border-radius:6px;background:{{ r.logoBg }};color:{{ r.logoFg }};display:flex;align-items:center;justify-content:center;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ r.initials }}</span>
+                          <span style="width:24px;height:24px;border-radius:6px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ r.logoSty16 }}"></span></span>
                           <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span><span style="font:400 9.5px 'JetBrains Mono';color:#908d9c;">{{ r.domain }}</span></span>
                         </span>
                         <span style="box-sizing:border-box;flex:0 0 84px;padding:0 10px;"><span style="font:500 12px 'JetBrains Mono';color:#2d2b2b;">{{ r.fit }}</span><span style="display:block;width:48px;height:4px;border-radius:2px;background:#eaeaf0;margin-top:4px;overflow:hidden;"><span style="display:block;height:100%;width:{{ r.fitW }};background:{{ r.fitC }};"></span></span></span>
@@ -1275,7 +1275,7 @@
           <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;margin-bottom:34px;">
             <sc-for list="{{ connSystems }}" as="cs" hint-placeholder-count="3">
               <div onClick="{{ cs.manage }}" style="display:flex;align-items:center;gap:13px;padding:12px 16px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fbfbfd">
-                <span style="width:30px;height:30px;border-radius:8px;background:{{ cs.iB }};color:{{ cs.iC }};display:flex;align-items:center;justify-content:center;font:700 10.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ cs.ini }}</span>
+                <span style="width:30px;height:30px;border-radius:8px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;font:700 10.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;"><span style="{{ cs.logoSty }}"></span></span>
                 <div style="width:170px;flex:0 0 auto;min-width:0;">
                   <div style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ cs.nm }}</div>
                   <div style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:1px;">{{ cs.meta }}</div>
@@ -1305,7 +1305,7 @@
               <sc-for list="{{ cat.items }}" as="it" hint-placeholder-count="3">
                 <div onClick="{{ it.openInfo }}" style="display:flex;flex-direction:column;gap:7px;border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:15px 16px;box-shadow:0 2px 5px rgba(24,23,30,.05), 0 14px 44px -12px rgba(24,23,30,.16);cursor:pointer;" style-hover="border-color:#b7d4c3">
                   <div style="display:flex;align-items:center;gap:9px;">
-                    <span style="width:26px;height:26px;border-radius:7px;background:{{ it.br }};color:#fff;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ it.mono }}</span>
+                    <span style="width:26px;height:26px;border-radius:7px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ it.logoSty }}"></span></span>
                     <span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;flex:1;min-width:0;">{{ it.nm }}</span>
                     <span style="font:500 8.5px 'JetBrains Mono';letter-spacing:.06em;color:#908d9c;border:1px solid #e5e5eb;border-radius:5px;padding:2px 6px;flex:0 0 auto;">{{ it.auth }}</span>
                   </div>
@@ -1608,7 +1608,7 @@
               <sc-for list="{{ segTopPeople }}" as="c" hint-placeholder-count="5">
                 <div style="display:flex;align-items:center;padding:0 16px;height:50px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
                   <span style="flex:1;min-width:200px;display:flex;align-items:center;gap:10px;">
-                    <span style="width:28px;height:28px;border-radius:50%;background:{{ c.avBg }};color:{{ c.avFg }};display:flex;align-items:center;justify-content:center;font:600 10px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ c.initials }}</span>
+                    <span style="width:28px;height:28px;border-radius:50%;background:{{ c.avBg }};flex:0 0 auto;overflow:hidden;display:flex;"><span style="{{ c.avSty }}"></span></span>
                     <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.name }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ c.company }}</span></span>
                   </span>
                   <span style="width:200px;padding-right:10px;">
@@ -1696,10 +1696,10 @@
                   <span style="width:30px;display:flex;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="#63606e"><path d="M20.4 20.4h-3.5v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.3v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.1zM5.3 7.4a2.1 2.1 0 110-4.1 2.1 2.1 0 010 4.1zM7.1 20.4H3.6V9h3.5z"></path></svg></span>
                 </div>
                 <sc-for list="{{ segContactRows }}" as="c" hint-placeholder-count="11">
-                  <div style="display:flex;align-items:center;padding:0 16px;height:58px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
+                  <div style="display:flex;align-items:center;padding:0 16px;height:46px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
                     <span style="width:36px;display:flex;align-items:center;"><span style="width:18px;height:18px;border-radius:50%;border:1.5px solid #cbcad8;flex:0 0 auto;"></span></span>
                     <span style="flex:1;min-width:220px;display:flex;align-items:center;gap:10px;">
-                      <span style="width:32px;height:32px;border-radius:50%;background:{{ c.avBg }};color:{{ c.avFg }};display:flex;align-items:center;justify-content:center;font:600 11px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ c.initials }}</span>
+                      <span style="width:28px;height:28px;border-radius:50%;background:{{ c.avBg }};flex:0 0 auto;overflow:hidden;display:flex;"><span style="{{ c.avSty }}"></span></span>
                       <span style="display:flex;flex-direction:column;"><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ c.name }}</span><span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ c.company }}</span></span>
                     </span>
                     <span style="width:200px;padding-right:10px;">
@@ -2204,7 +2204,7 @@
         </sc-if>
 
         <!-- MAIN -->
-        <div class="cx-scroll" style="flex:1;min-width:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:16px;padding:24px 30px 60px;">
+        <div style="flex:1;min-width:0;overflow:hidden;display:flex;flex-direction:column;gap:16px;padding:24px 30px 24px;">
           <!-- page header (results) -->
           <sc-if value="{{ dResults }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;align-items:center;gap:11px;flex:0 0 auto;">
@@ -2401,9 +2401,9 @@
 
             <!-- results table -->
             <sc-if value="{{ discIsCompanies }}" hint-placeholder-val="{{ true }}">
-            <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;flex:0 0 auto;">
-              <div>
-                <div class="cx-scroll" style="overflow-x:auto;">
+            <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;flex:1;min-height:120px;display:flex;flex-direction:column;">
+              <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
+                <div class="cx-scroll" style="flex:1;min-height:0;overflow:auto;">
                 <div style="min-width:max-content;">
                 <div style="display:flex;align-items:center;height:32px;background:#f0f0f5;padding:0 14px 0 0;font:600 8.5px 'JetBrains Mono';letter-spacing:.07em;color:#63606e;">
                   <span style="box-sizing:border-box;width:38px;padding-left:14px;flex:0 0 auto;position:sticky;left:0;background:#f0f0f5;z-index:4;display:flex;align-items:center;">
@@ -2438,7 +2438,7 @@
                       <sc-if value="{{ r.unselected }}" hint-placeholder-val="{{ true }}"><span style="width:14px;height:14px;border:1.5px solid #c4c1cf;border-radius:4px;display:block;background:#fff;"></span></sc-if>
                     </span>
                     <span onClick="{{ r.openDrawer }}" style="box-sizing:border-box;width:210px;flex:0 0 auto;display:flex;align-items:center;gap:10px;cursor:pointer;padding-right:10px;position:sticky;left:38px;background:{{ r.rowBg }};z-index:1;">
-                      <span style="width:28px;height:28px;border-radius:7px;background:{{ r.logoBg }};color:{{ r.logoFg }};display:flex;align-items:center;justify-content:center;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ r.initials }}</span>
+                      <span style="width:28px;height:28px;border-radius:7px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;"><span style="{{ r.logoSty18 }}"></span></span>
                       <span style="display:flex;flex-direction:column;min-width:0;">
                         <span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span>
                         <span style="font:400 10.5px 'JetBrains Mono';color:#a9a7b2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.domain }}</span>
@@ -2550,7 +2550,7 @@
                           </span>
                         </span>
                         <span style="box-sizing:border-box;width:168px;flex:0 0 auto;padding-right:10px;display:flex;align-items:center;gap:9px;">
-                          <span style="width:26px;height:26px;border-radius:50%;background:{{ ct.avBg }};color:{{ ct.avFg }};display:flex;align-items:center;justify-content:center;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ ct.initials }}</span>
+                          <span style="{{ ct.avSty }}"></span>
                           <span title="{{ ct.name }}" style="min-width:0;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ct.name }}</span>
                         </span>
                         <span style="box-sizing:border-box;width:74px;flex:0 0 auto;padding-right:10px;display:flex;align-items:center;gap:5px;">
@@ -2584,9 +2584,12 @@
                     </sc-for>
                   </div>
                 </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 16px;border-top:1px solid #ececf2;flex:0 0 auto;">
+                <div style="display:flex;align-items:center;gap:12px;padding:11px 16px;border-top:1px solid #ececf2;flex:0 0 auto;">
                   <span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ discCtRangeLabel }}</span>
-                  <span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#a9a7b2;">{{ discCtScopeNote }}</span>
+                  <span style="flex:1;font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#a9a7b2;">{{ discCtScopeNote }}</span>
+                  <button onClick="{{ discCtPrev }}" style="width:26px;height:26px;border:1px solid #ececf2;background:#fff;cursor:pointer;border-radius:7px;display:flex;align-items:center;justify-content:center;color:{{ discCtPrevC }};"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+                  <span style="font:500 11px 'JetBrains Mono';color:#63606e;white-space:nowrap;">{{ discCtPg }} / {{ discCtPages }}</span>
+                  <button onClick="{{ discCtNext }}" style="width:26px;height:26px;border:1px solid #ececf2;background:#fff;cursor:pointer;border-radius:7px;display:flex;align-items:center;justify-content:center;color:{{ discCtNextC }};"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
                 </div>
               </div>
             </sc-if>
@@ -3647,7 +3650,7 @@
             <!-- ACCOUNTS -->
             <sc-if value="{{ wsIsCompanies }}" hint-placeholder-val="{{ true }}">
               <div style="min-width:max-content;">
-                <div style="display:flex;align-items:center;position:sticky;top:0;z-index:3;background:#f4f4f8;height:36px;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;border-bottom:1px solid #ececf2;">
+                <div style="display:flex;align-items:center;position:sticky;top:0;z-index:3;background:#f4f4f8;height:36px;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;letter-spacing:.05em;color:#63606e;border-bottom:1px solid #ececf2;">
                   <span style="box-sizing:border-box;flex:0 0 44px;"></span>
                   <span style="box-sizing:border-box;flex:0 0 240px;padding:0 12px;">ACCOUNT NAME</span>
                   <span style="box-sizing:border-box;flex:0 0 84px;padding:0 12px;">ASSIGN TO</span>
@@ -3682,7 +3685,7 @@
                       <sc-if value="{{ r.unselected }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:4px;border:1.5px solid #c4c1cf;background:#fff;"></span></sc-if>
                     </span>
                     <span style="box-sizing:border-box;flex:0 0 240px;max-width:240px;overflow:hidden;padding:0 12px;display:flex;align-items:center;gap:9px;">
-                      <span style="width:24px;height:24px;border-radius:6px;background:{{ r.logoBg }};color:{{ r.logoFg }};display:flex;align-items:center;justify-content:center;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ r.initials }}</span>
+                      <span style="width:24px;height:24px;border-radius:6px;background:#fff;border:1px solid #ececf2;display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;"><span style="{{ r.logoSty16 }}"></span></span>
                       <span style="display:flex;flex-direction:column;min-width:0;flex:1;">
                         <span style="display:flex;align-items:center;gap:6px;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span><sc-if value="{{ r.isExcluded }}" hint-placeholder-val=""><span title="Excluded from outbound" style="font:600 7.5px 'Pliant','Instrument Sans',sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#a2413a;background:#f3dcd8;border:1px solid #e9c7c0;border-radius:4px;padding:2px 6px;flex:0 0 auto;">Excluded</span></sc-if><sc-if value="{{ r.isWatched }}" hint-placeholder-val=""><span onClick="{{ r.toggleWatch }}" title="Watching. Click to stop" style="display:inline-flex;align-items:center;flex:0 0 auto;color:#8f5f15;cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="2.6"></circle></svg></span></sc-if><sc-if value="{{ r.isPartner }}" hint-placeholder-val=""><span style="font:600 7.5px 'Pliant','Instrument Sans',sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;border-radius:4px;padding:2px 6px;flex:0 0 auto;">Partner</span></sc-if></span>
                         <span style="font:400 9.5px 'JetBrains Mono';color:#908d9c;">{{ r.domain }}</span>
@@ -3834,7 +3837,7 @@
             </sc-if>
             <sc-if value="{{ wspNever }}" hint-placeholder-val="">
               <div style="display:none;">
-                <div style="display:flex;align-items:center;position:sticky;top:0;z-index:3;background:#f4f4f8;height:36px;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;border-bottom:1px solid #ececf2;">
+                <div style="display:flex;align-items:center;position:sticky;top:0;z-index:3;background:#f4f4f8;height:36px;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;letter-spacing:.05em;color:#63606e;border-bottom:1px solid #ececf2;">
                   <span style="box-sizing:border-box;flex:0 0 44px;"></span>
                   <span style="box-sizing:border-box;flex:0 0 210px;padding:0 12px;cursor:pointer;" style-hover="color:#2d2b2b">NAME</span>
                   <span style="box-sizing:border-box;flex:0 0 140px;padding:0 12px;cursor:pointer;" style-hover="color:#2d2b2b">SEGMENT</span>
@@ -3925,7 +3928,7 @@
             <!-- CONTACTS -->
             <sc-if value="{{ wsIsContacts }}" hint-placeholder-val="{{ true }}">
               <div style="min-width:max-content;">
-                <div style="display:flex;align-items:center;position:sticky;top:0;z-index:3;background:#f4f4f8;height:36px;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;border-bottom:1px solid #ececf2;">
+                <div style="display:flex;align-items:center;position:sticky;top:0;z-index:3;background:#f4f4f8;height:36px;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;letter-spacing:.05em;color:#63606e;border-bottom:1px solid #ececf2;">
                   <span style="box-sizing:border-box;flex:0 0 44px;"></span>
                   <span style="box-sizing:border-box;flex:0 0 230px;padding:0 12px;">CONTACT</span>
                   <span style="box-sizing:border-box;flex:0 0 130px;padding:0 12px;">ACCOUNT</span>
@@ -3944,13 +3947,13 @@
                   </span>
                 </div>
                 <sc-for list="{{ wspContactRows }}" as="c" hint-placeholder-count="6">
-                  <div onClick="{{ c.toggle }}" style="display:flex;align-items:center;height:54px;border-bottom:1px solid #f0f0f4;cursor:pointer;background:{{ c.bg }};" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
+                  <div onClick="{{ c.toggle }}" style="display:flex;align-items:center;height:46px;border-bottom:1px solid #f0f0f4;cursor:pointer;background:{{ c.bg }};" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
                     <span style="box-sizing:border-box;flex:0 0 44px;display:flex;align-items:center;justify-content:center;">
                       <sc-if value="{{ c.on }}" hint-placeholder-val=""><span style="width:16px;height:16px;border-radius:4px;background:#2f7050;display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></span></sc-if>
                       <sc-if value="{{ c.offSel }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:4px;border:1.5px solid #c4c1cf;background:#fff;"></span></sc-if>
                     </span>
                     <span style="box-sizing:border-box;flex:0 0 230px;padding:0 12px;display:flex;align-items:center;gap:9px;">
-                      <span style="width:30px;height:30px;border-radius:50%;background:{{ c.avBg }};color:{{ c.avFg }};display:flex;align-items:center;justify-content:center;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ c.initials }}</span>
+                      <span style="width:28px;height:28px;border-radius:50%;background:{{ c.avBg }};flex:0 0 auto;overflow:hidden;display:flex;"><span style="{{ c.avSty }}"></span></span>
                       <span style="display:flex;flex-direction:column;min-width:0;flex:1;">
                         <span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.name }}</span>
                         <span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.title }}</span>
@@ -8470,7 +8473,7 @@
                 </div>
                 <sc-for list="{{ wvAccRows }}" as="a" hint-placeholder-count="10">
                   <div onClick="{{ a.open }}" title="Open account detail" style="display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid #ededf3;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
-                    <span style="flex:0 0 240px;display:flex;align-items:center;gap:10px;min-width:0;"><span style="width:28px;height:28px;border-radius:8px;background:{{ a.av }};color:#fff;display:flex;align-items:center;justify-content:center;font:700 11px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ a.ini }}</span><span style="display:flex;flex-direction:column;min-width:0;"><span style="display:flex;align-items:center;gap:6px;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ a.nm }}</span><sc-if value="{{ a.qual }}" hint-placeholder-val=""><span title="Added to {{ a.qual }}" style="font:600 7.5px 'JetBrains Mono';letter-spacing:.08em;color:#1f5a3a;background:#e2efe7;border-radius:4px;padding:2px 5px;flex:0 0 auto;">QUALIFIED</span></sc-if></span><span style="font:400 10.5px 'JetBrains Mono';color:#8c8a95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ a.dom }}</span></span></span>
+                    <span style="flex:0 0 240px;display:flex;align-items:center;gap:10px;min-width:0;"><span style="width:28px;height:28px;border-radius:8px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ a.logoSty }}"></span></span><span style="display:flex;flex-direction:column;min-width:0;"><span style="display:flex;align-items:center;gap:6px;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ a.nm }}</span><sc-if value="{{ a.qual }}" hint-placeholder-val=""><span title="Added to {{ a.qual }}" style="font:600 7.5px 'JetBrains Mono';letter-spacing:.08em;color:#1f5a3a;background:#e2efe7;border-radius:4px;padding:2px 5px;flex:0 0 auto;">QUALIFIED</span></sc-if></span><span style="font:400 10.5px 'JetBrains Mono';color:#8c8a95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ a.dom }}</span></span></span>
                     <sc-if value="{{ wvColInd }}" hint-placeholder-val="{{ true }}"><span style="flex:0 0 185px;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;box-sizing:border-box;">{{ a.ind }}</span></sc-if>
                     <span style="flex:0 0 56px;"><span style="display:inline-flex;min-width:28px;justify-content:center;font:700 11.5px 'JetBrains Mono';color:#8f5f15;background:#f4e5c5;border:1px solid #ecdfc2;border-radius:7px;padding:3px 6px;">{{ a.score }}</span></span>
                     <span style="flex:0 0 92px;"><span title="How confidently this traffic resolves to this company" style="display:inline-flex;font:600 10px 'JetBrains Mono';color:{{ a.confC }};background:{{ a.confB }};border-radius:9px;padding:3px 8px;">{{ a.conf }}</span></span>
@@ -8815,7 +8818,7 @@
         <div onClick="{{ wvAcctClose }}" style="position:fixed;inset:0;background:rgba(25,24,32,.34);z-index:205;"></div>
         <div style="position:fixed;top:0;right:0;bottom:0;width:500px;max-width:94vw;background:#ffffff;border-left:1px solid #f0f0f4;box-shadow:-18px 0 44px -18px rgba(25,24,32,.4);z-index:206;display:flex;flex-direction:column;">
           <div style="display:flex;align-items:center;gap:11px;padding:15px 20px;border-bottom:1px solid #ededf3;flex:0 0 auto;">
-            <span style="width:34px;height:34px;border-radius:9px;background:{{ wvA.av }};color:#fff;display:flex;align-items:center;justify-content:center;font:700 12.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ wvA.ini }}</span>
+            <span style="width:34px;height:34px;border-radius:9px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ wvA.logoSty }}"></span></span>
             <span style="display:flex;flex-direction:column;min-width:0;">
               <span style="display:flex;align-items:center;gap:7px;"><span style="font:600 14.5px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.01em;color:#2d2b2b;white-space:nowrap;">{{ wvA.nm }}</span><sc-if value="{{ wvA.hasQual }}" hint-placeholder-val=""><span title="{{ wvA.qual }}" style="font:600 7.5px 'JetBrains Mono';letter-spacing:.08em;color:#1f5a3a;background:#e2efe7;border-radius:4px;padding:2px 6px;">QUALIFIED</span></sc-if></span>
               <span style="font:400 11px 'JetBrains Mono';color:#8c8a95;">{{ wvA.dom }} · match confidence {{ wvA.conf }}</span>
@@ -8949,7 +8952,7 @@
                 <div style="display:flex;align-items:center;padding:0 14px;height:38px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.07em;color:#63606e;position:sticky;top:0;"><span style="width:220px;">ACCOUNT</span><span style="width:132px;">QUALIFICATION</span><span style="flex:1;min-width:200px;">INTENT KEYWORDS</span><span style="width:108px;">INTENT SCORE</span><span style="width:64px;">HITS</span></div>
                 <sc-for list="{{ visitorRows }}" as="r" hint-placeholder-count="6">
                   <div onClick="{{ r.open }}" style="display:flex;align-items:center;padding:0 14px;height:58px;border-bottom:1px solid #f0f0f4;background:#fbfbfd;cursor:pointer;" style-hover="background:rgba(47,112,80,.05)">
-                    <span style="width:220px;display:flex;align-items:center;gap:10px;"><span style="width:30px;height:30px;border-radius:8px;background:{{ r.logoBg }};color:{{ r.logoFg }};display:flex;align-items:center;justify-content:center;font:600 12px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ r.initials }}</span><span style="display:flex;flex-direction:column;"><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ r.name }}</span><span style="font:400 10.5px 'JetBrains Mono';color:#908d9c;">{{ r.domain }}</span></span></span>
+                    <span style="width:220px;display:flex;align-items:center;gap:10px;"><span style="width:30px;height:30px;border-radius:8px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ r.logoSty18 }}"></span></span><span style="display:flex;flex-direction:column;"><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ r.name }}</span><span style="font:400 10.5px 'JetBrains Mono';color:#908d9c;">{{ r.domain }}</span></span></span>
                     <span style="width:132px;"><span style="display:inline-flex;align-items:center;gap:6px;font:500 11px 'Pliant','Instrument Sans',sans-serif;color:{{ r.qualC }};background:{{ r.qualB }};border-radius:6px;padding:4px 9px;"><span style="width:6px;height:6px;border-radius:50%;background:{{ r.qualC }};"></span>{{ r.qual }}</span></span>
                     <span style="flex:1;min-width:200px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-right:12px;"><sc-for list="{{ r.keywords }}" as="kw" hint-placeholder-count="2"><span style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;background:#f0f0f5;border:1px solid #ececf2;border-radius:6px;padding:3px 9px;">{{ kw }}</span></sc-for><sc-if value="{{ r.more }}" hint-placeholder-val=""><span style="font:500 10.5px 'JetBrains Mono';color:#908d9c;">{{ r.more }}</span></sc-if></span>
                     <span style="width:108px;"><span style="font:600 10px 'Pliant','Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ r.scoreC }};background:{{ r.scoreB }};border-radius:5px;padding:3px 9px;">{{ r.score }}</span></span>
@@ -9259,7 +9262,7 @@
               <div style="display:flex;align-items:center;padding:0 16px;height:36px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;"><span style="width:240px;">CONTACT</span><span style="width:170px;">ACCOUNT</span><span style="flex:1;">CURRENT STEP</span><span style="width:150px;">STATUS</span><span style="width:90px;">LAST</span></div>
               <sc-for list="{{ seqEnrolled }}" as="c" hint-placeholder-count="6">
                 <div style="display:flex;align-items:center;padding:0 16px;height:56px;border-bottom:1px solid #f0f0f4;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
-                  <span style="width:240px;display:flex;align-items:center;gap:10px;"><span style="width:30px;height:30px;border-radius:50%;background:{{ c.avBg }};color:{{ c.avFg }};display:flex;align-items:center;justify-content:center;font:600 11px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ c.initials }}</span><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ c.name }}</span></span>
+                  <span style="width:240px;display:flex;align-items:center;gap:10px;"><span style="{{ c.avSty }}"></span><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ c.name }}</span></span>
                   <span style="width:170px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ c.account }}</span>
                   <span style="flex:1;font:400 12px 'JetBrains Mono';color:#48454f;">{{ c.step }}</span>
                   <span style="width:150px;"><span style="display:inline-flex;align-items:center;gap:6px;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ c.stC }};background:{{ c.stB }};border-radius:5px;padding:4px 9px;"><span style="width:6px;height:6px;border-radius:50%;background:{{ c.stC }};"></span>{{ c.status }}</span></span>
@@ -9965,7 +9968,7 @@
                     <sc-for list="{{ col.items }}" as="d" hint-placeholder-count="2">
                       <div onClick="{{ d.open }}" draggable="{{ true }}" onDragStart="{{ d.dragStart }}" title="Click to open · drag to another stage" style="background:#fbfbfd;border:1px solid #ececf2;border-radius:11px;padding:12px;cursor:pointer;box-shadow:0 1px 2px rgba(30,27,23,.04);" style-hover="border-color:#b7d4c3">
                         <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                          <span style="width:26px;height:26px;border-radius:7px;background:{{ d.logoBg }};color:{{ d.logoFg }};display:flex;align-items:center;justify-content:center;font:600 10px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ d.initials }}</span>
+                          <span style="width:26px;height:26px;border-radius:7px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ d.logoSty28 }}"></span></span>
                           <span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ d.name }}</span>
                           <span style="width:7px;height:7px;border-radius:50%;background:{{ d.healthDot }};flex:0 0 auto;"></span>
                         </div>
@@ -9993,7 +9996,7 @@
             <div style="display:flex;align-items:center;padding:0 16px;height:38px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.07em;color:#63606e;"><span style="width:188px;">ACCOUNT</span><span style="width:80px;">VALUE</span><span style="width:120px;">STAGE</span><span style="width:96px;">HEALTH</span><span style="width:80px;">COMMITTEE</span><span style="width:34px;"></span><span style="flex:1;">NEXT BEST ACTION</span></div>
             <sc-for list="{{ dealList }}" as="o" hint-placeholder-count="8">
               <div onClick="{{ o.open }}" style="display:flex;align-items:center;padding:0 16px;height:58px;border-bottom:1px solid #f0f0f4;background:#fbfbfd;cursor:pointer;" style-hover="background:rgba(47,112,80,.05)">
-                <span style="width:188px;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:{{ o.logoBg }};color:{{ o.logoFg }};display:flex;align-items:center;justify-content:center;font:600 11px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ o.initials }}</span><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ o.name }}</span></span>
+                <span style="width:188px;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ o.logoSty28 }}"></span></span><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ o.name }}</span></span>
                 <span style="width:80px;font:600 13px 'JetBrains Mono';color:#2d2b2b;">{{ o.valueLabel }}</span>
                 <span style="width:120px;"><span style="font:500 9.5px 'Pliant','Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ o.stageC }};background:{{ o.stageB }};border-radius:5px;padding:4px 8px;">{{ o.stage }}</span></span>
                 <span style="width:96px;"><span title="{{ o.healthWhy }}" style="display:inline-flex;align-items:center;gap:5px;font:500 10px 'Pliant','Instrument Sans',sans-serif;color:{{ o.healthC }};"><span style="width:6px;height:6px;border-radius:50%;background:{{ o.healthDot }};"></span>{{ o.health }}</span></span>
@@ -10016,7 +10019,7 @@
           <button onClick="{{ backToOpps }}" style="display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:18px;padding:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>All opportunities</button>
 
           <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;flex-wrap:wrap;">
-            <span style="width:48px;height:48px;border-radius:12px;background:{{ dealDetail.logoBg }};color:{{ dealDetail.logoFg }};display:flex;align-items:center;justify-content:center;font:600 18px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ dealDetail.initials }}</span>
+            <span style="width:48px;height:48px;border-radius:12px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ dealDetail.logoSty48 }}"></span></span>
             <div style="flex:1;min-width:0;">
               <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><h1 style="font:600 24px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.025em;color:#2d2b2b;margin:0;">{{ dealDetail.name }}</h1><span style="display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ dealDetail.healthC }};background:{{ dealDetail.healthB }};border-radius:6px;padding:3px 9px;"><span style="width:6px;height:6px;border-radius:50%;background:{{ dealDetail.healthDot }};"></span>{{ dealDetail.health }}</span></div>
               <div style="display:flex;align-items:center;gap:4px;font:400 12px 'JetBrains Mono';color:#908d9c;margin-top:3px;">{{ dealDetail.industry }} · owner {{ dealDetail.owner }} · closes <input value="{{ dealDetail.close }}" onChange="{{ dealDetail.setClose }}" title="Click to edit the close date · written back to the CRM" style="width:64px;border:1px solid transparent;background:transparent;border-radius:6px;padding:1px 4px;font:400 12px 'JetBrains Mono';color:#63606e;outline:none;" style-hover="border-color:#e2e2ea;background:#fff" style-focus="border-color:#b7d4c3;background:#fff;color:#2d2b2b"></div>
@@ -13442,10 +13445,10 @@
 class Component extends DCLogic {
   ptBase() {
     return [
-      { id:'cap', name:'Capio International', region:'EMEA', email:'partners@capio.com', tier:'Gold', cap:14, ttft:'3.4h', accept:94, working:6, won:5, pipe:480, rev:210, avgDeal:42, win:45, lastActive:'2h ago', logins30:41, certs:'4 of 6', qbr:'12 Sep', trend:[55,70,85,80,95,95], credU:820, credCap:1200, sheet:'https://docs.google.com/spreadsheets/d/1MJHjM6ubBba_ZHXBk8jsYqLdcixdOBrgxvH8AdZWZYI/edit', dash:'https://capio-dashboard.vercel.app', dashName:'Capio International Account Intelligence' },
-      { id:'jk', name:'JK Technology', region:'APAC', email:'sales@jktech.com', tier:'Silver', cap:12, ttft:'5.1h', accept:88, working:4, won:3, pipe:310, rev:140, avgDeal:38, win:43, lastActive:'Yesterday', logins30:26, certs:'3 of 5', qbr:'26 Sep', trend:[40,50,45,60,55,60], credU:540, credCap:900, sheet:'https://docs.google.com/spreadsheets/d/1PdhDA5K2N1ZZDh5hnpMF8A3C5VLi9R5XprpJBB69TfA/edit', dash:'https://jk-dashboard-zeta.vercel.app', dashName:'JK Technology Account Intelligence' },
-      { id:'sh', name:'StarHub', region:'APAC', email:'gtm@starhub.com', tier:'Silver', cap:10, ttft:'6.7h', accept:79, working:2, won:1, pipe:120, rev:45, avgDeal:26, win:33, lastActive:'3d ago', logins30:12, certs:'1 of 3', qbr:'19 Sep', trend:[15,20,25,20,25,15], credU:300, credCap:500, sheet:'https://docs.google.com/spreadsheets/d/1Zj6giFp1XPILuewS_n_hy_YlpgdFipAdISN0GtWB67g/edit', dash:'https://star-hub-dashboard.vercel.app', dashName:'StarHub Account Intelligence' },
-      { id:'ny', name:'Nanyang Technologies', region:'APAC', email:'team@nanyang.tech', tier:'Registered', cap:10, ttft:'9.6h', accept:71, working:3, won:1, pipe:150, rev:60, avgDeal:30, win:25, lastActive:'6d ago', logins30:7, certs:'1 of 4', qbr:'Overdue', trend:[30,25,35,20,25,15], credU:610, credCap:700, sheet:'https://docs.google.com/spreadsheets/d/1TtZr3L_sDqU16oIBiJXWi6fhMHRVVZ9py-CjKU8ap9k/edit', dash:'https://nanyang-one.vercel.app', dashName:'Nanyang Tech Account Intelligence' },
+      { id:'cap', name:'Capio International', region:'EMEA', domain:'capio.com', email:'partners@capio.com', tier:'Gold', cap:14, ttft:'3.4h', accept:94, working:6, won:5, pipe:480, rev:210, avgDeal:42, win:45, lastActive:'2h ago', logins30:41, certs:'4 of 6', qbr:'12 Sep', trend:[55,70,85,80,95,95], credU:820, credCap:1200, sheet:'https://docs.google.com/spreadsheets/d/1MJHjM6ubBba_ZHXBk8jsYqLdcixdOBrgxvH8AdZWZYI/edit', dash:'https://capio-dashboard.vercel.app', dashName:'Capio International Account Intelligence' },
+      { id:'jk', name:'JK Technology', region:'APAC', domain:'jktech.com', email:'sales@jktech.com', tier:'Silver', cap:12, ttft:'5.1h', accept:88, working:4, won:3, pipe:310, rev:140, avgDeal:38, win:43, lastActive:'Yesterday', logins30:26, certs:'3 of 5', qbr:'26 Sep', trend:[40,50,45,60,55,60], credU:540, credCap:900, sheet:'https://docs.google.com/spreadsheets/d/1PdhDA5K2N1ZZDh5hnpMF8A3C5VLi9R5XprpJBB69TfA/edit', dash:'https://jk-dashboard-zeta.vercel.app', dashName:'JK Technology Account Intelligence' },
+      { id:'sh', name:'StarHub', region:'APAC', domain:'starhub.com', email:'gtm@starhub.com', tier:'Silver', cap:10, ttft:'6.7h', accept:79, working:2, won:1, pipe:120, rev:45, avgDeal:26, win:33, lastActive:'3d ago', logins30:12, certs:'1 of 3', qbr:'19 Sep', trend:[15,20,25,20,25,15], credU:300, credCap:500, sheet:'https://docs.google.com/spreadsheets/d/1Zj6giFp1XPILuewS_n_hy_YlpgdFipAdISN0GtWB67g/edit', dash:'https://star-hub-dashboard.vercel.app', dashName:'StarHub Account Intelligence' },
+      { id:'ny', name:'Nanyang Technologies', region:'APAC', domain:'nanyang.tech', email:'team@nanyang.tech', tier:'Registered', cap:10, ttft:'9.6h', accept:71, working:3, won:1, pipe:150, rev:60, avgDeal:30, win:25, lastActive:'6d ago', logins30:7, certs:'1 of 4', qbr:'Overdue', trend:[30,25,35,20,25,15], credU:610, credCap:700, sheet:'https://docs.google.com/spreadsheets/d/1TtZr3L_sDqU16oIBiJXWi6fhMHRVVZ9py-CjKU8ap9k/edit', dash:'https://nanyang-one.vercel.app', dashName:'Nanyang Tech Account Intelligence' },
     ].concat(this.state.ptAdded || []);
   }
   dashVals() {
@@ -13573,14 +13576,14 @@ class Component extends DCLogic {
       })),
       ptSelectShown: () => this.setState({ ptSel: shown.map(r => r.name) }),
       ptRowsA: shown.map(r => { const on = sel.includes(r.name); return {
-        name: r.name, domain: r.domain, initials: r.initials, logoBg: r.logoBg, logoFg: r.logoFg,
+        name: r.name, domain: r.domain, initials: r.initials, logoBg: r.logoBg, logoFg: r.logoFg, logoSty16: r.logoSty16,
         signal: r.signal, sigColor: r.sigColor, fit: String(r.fit), fitC: r.fitColor, fitW: r.fit + '%',
         seg: r.seg, segC: r.segC, segB: r.segB,
         on, off: !on, rowBg: on ? '#f1f7f3' : 'transparent',
         toggle: () => this.setState(s => { const cur = new Set(s.ptSel || []); if (cur.has(r.name)) { cur.delete(r.name); } else { cur.add(r.name); } return { ptSel: [...cur] }; }),
       }; }),
       ptOpts: partners.map(p => { const live = liveOf(p.id).length; const load = p.working + live; const pct = Math.min(100, Math.round(load / p.cap * 100)); const on = chosen === p.id; return {
-        name: p.name, initials: initialsOf(p.name),
+        name: p.name, initials: initialsOf(p.name), logoSty18: this._imgSty('https://www.google.com/s2/favicons?domain=' + (p.domain || ((p.email || 'x@example.com').split('@')[1])) + '&sz=64', 18, 3),
         meta: p.region + (p.accept != null ? ' \u00b7 ' + p.accept + '% accept' : ' \u00b7 new'),
         cap: load + '/' + p.cap, capW: pct + '%', capC: capColor(pct),
         bg: on ? '#f1f7f3' : '#fff', ring: on ? 'inset 0 0 0 1.5px #2f7050' : 'inset 0 0 0 1px #ececf2',
@@ -13611,6 +13614,7 @@ class Component extends DCLogic {
         const watch = !isNew && !risk && (stn === 1 || parseFloat(p.ttft) > 6);
         const credPct = p.credCap ? Math.round(p.credU / p.credCap * 100) : 0;
         return {
+          logoSty18: this._imgSty('https://www.google.com/s2/favicons?domain=' + (p.domain || ((p.email || 'x@example.com').split('@')[1])) + '&sz=64', 18, 3),
           name: p.name, region: p.region, initials: initialsOf(p.name),
           statusL: isNew ? 'New' : risk ? 'At risk' : watch ? 'Watch' : 'On track',
           statusC: isNew ? '#63606e' : risk ? '#a2413a' : watch ? '#8f5f15' : '#1f5a3a',
@@ -13658,6 +13662,7 @@ class Component extends DCLogic {
         const tierPair = TIERC[p.tier || 'Registered'] || TIERC.Registered;
         return Object.assign(base, { ptD: {
           name: p.name, region: p.region, email: p.email || 'no contact on file', initials: initialsOf(p.name),
+          logoSty26: this._imgSty('https://www.google.com/s2/favicons?domain=' + (p.domain || ((p.email || 'x@example.com').split('@')[1])) + '&sz=64', 26, 5),
           tier: p.tier || 'Registered', tierC: tierPair[0], tierB: tierPair[1],
           hasTrend: !!(p.trend && p.trend.length),
           trend: (p.trend || []).map((v, i, arr) => { const max = Math.max(1, ...arr); const MO = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'];
@@ -13682,7 +13687,7 @@ class Component extends DCLogic {
           ],
           hasAccts: accts.length > 0, noAccts: accts.length === 0,
           accounts: accts.map(r => { const isSt = !!ST[r.name]; return {
-            name: r.name, domain: r.domain, initials: r.initials, logoBg: r.logoBg, logoFg: r.logoFg,
+            name: r.name, domain: r.domain, initials: r.initials, logoBg: r.logoBg, logoFg: r.logoFg, logoSty16: r.logoSty16,
             fit: String(r.fit), fitC: r.fitColor, fitW: r.fit + '%', signal: r.signal, sigColor: r.sigColor,
             stateL: isSt ? 'Stalled' : 'Working', stateC: isSt ? '#8f5f15' : '#1f5a3a', stateB: isSt ? '#f8f8fb' : '#e2efe7',
             canRq: isSt,
@@ -14901,7 +14906,9 @@ class Component extends DCLogic {
         const ctSel = S.wspCtSel || [];
         const LOCP = ['Amsterdam, NL', 'Bengaluru, IN', 'San Francisco, US', 'Austin, US', 'Dublin, IE', 'Sydney, AU', 'Berlin, DE', 'New York, US'];
         const deptOf = (t) => /revops|systems|revenue op/i.test(t) ? 'RevOps' : /market|demand|growth|brand/i.test(t) ? 'Marketing' : /cfo|finance|procure/i.test(t) ? 'Finance' : /\bit\b|security/i.test(t) ? 'IT' : 'Sales';
-        const wspContactRows = (ctRows || []).map(c => { const on = ctSel.indexOf(c.name) >= 0;
+        const wspContactRows = (ctRows || []).map(c0 => { const on = ctSel.indexOf(c0.name) >= 0;
+          const _ph = H(c0.name + 'px'); const _fem = /^(Anita|Sara|Priya|Lena|Maya|Ines|Grace|Elena|Nora|Divya|Sofia|Emma|Aisha)/i.test(c0.name);
+          const c = { ...c0, avSty: this._imgSty('https://randomuser.me/api/portraits/' + (_fem ? 'women' : 'men') + '/' + (_ph % 90) + '.jpg', 28, 14) };
           const fitHi = /VP|Director|C-/i.test(c.seniority) || /buyer|champion/i.test(c.persona);
           const ch = H(c.name + 'cs');
           const _wfr = this.state.wfRan || {};
@@ -15663,6 +15670,7 @@ class Component extends DCLogic {
       },
     };
   }
+  _imgSty(u, px, r) { return { width: px + 'px', height: px + 'px', borderRadius: r + 'px', background: 'url(' + u + ') center/cover no-repeat', display: 'block', flex: '0 0 auto' }; }
   renderVals() {
     const agentName = (this.props && this.props.agentName) || 'Savant';
     const v = this.state.view, tab = this.state.tab;
@@ -15915,6 +15923,8 @@ class Component extends DCLogic {
     const _ptNames = {}; this.ptBase().forEach(p => { _ptNames[p.id] = p.name; });
     const _srcMap = { Philips:'Website', Udemy:'Website', Stripe:'Website', Chargebee:'Website', Ramp:'Website', Razorpay:'Global Search', BrowserStack:'Global Search', Postman:'Global Search', Paddle:'Global Search', Plaid:'Global Search', HighRadius:'Salesforce', Atlassian:'Salesforce', 'Checkout.com':'Salesforce', Brex:'Salesforce', Notion:'Salesforce', Freshworks:'List upload', Zuora:'List upload', Recurly:'List upload', Mollie:'List upload', Gusto:'List upload', AWS:'Direct' };
     const acct = (o) => ({ ...o,
+      logoSrc: 'https://www.google.com/s2/favicons?domain=' + o.domain + '&sz=64',
+      logoSty16: this._imgSty('https://www.google.com/s2/favicons?domain=' + o.domain + '&sz=64', 16, 3), logoSty18: this._imgSty('https://www.google.com/s2/favicons?domain=' + o.domain + '&sz=64', 18, 3),
       hasPt: !!_ptA[o.name], noPt: !_ptA[o.name],
       ptName: _ptA[o.name] ? (_ptNames[_ptA[o.name]] || 'Partner') : '',
       srcLbl: _srcMap[o.name] || 'Global Search',
@@ -16084,6 +16094,7 @@ class Component extends DCLogic {
       { field:'Exclude', sub:'', tags:['Existing customers','Competitors','Open opportunities'] },
     ];
 
+    const _segFem = /^(Sarah|Anita|Priya|Lena|Maya|Grace|Elena|Nora|Divya|Sofia|Emma|Aisha|Rachel|Julia|Nina)/i;
     const segContactRows = [
       { name:'Sarah Chen', company:'Stripe', initials:'SC', avBg:'#dcebe2', avFg:'#123524', role:'VP Engineering', dept:'Engineering', cc:'US', email:'sarah.chen@stripe.com', phone:'+1 (415) 555-0123', phoneCol:'#2d2b2b' },
       { name:'Marcus Johnson', company:'Plaid', initials:'MJ', avBg:'#e2efe7', avFg:'#265c41', role:'Sr. Director Eng.', dept:'Engineering', cc:'US', email:'mjohnson@plaid.com', phone:'+1 (628) 555-0456', phoneCol:'#2d2b2b' },
@@ -17531,7 +17542,7 @@ class Component extends DCLogic {
     const QUAL = { Qualified:{c:'#123524',b:'#dcebe2'}, Unqualified:{c:'#63606e',b:'#eaeaf0'}, Disqualified:{c:'#a2413a',b:'#f3dcd8'}, 'Already Exists':{c:'#8f5f15',b:'#f4e5c5'} };
     const SCORE = { High:{c:'#1f5a3a',b:'#e2efe7'}, Medium:{c:'#8f5f15',b:'#f4e5c5'}, Low:{c:'#63606e',b:'#eaeaf0'} };
     const vis = (name,domain,initials,logoBg,logoFg,qual,score,keywords,hits,revealed,time) => ({
-      name,domain,initials,logoBg,logoFg,hits,time,
+      name,domain,initials,logoBg,logoFg,hits,time, logoSty18: this._imgSty('https://www.google.com/s2/favicons?domain=' + domain + '&sz=64', 18, 3),
       qual, qualC:QUAL[qual].c, qualB:QUAL[qual].b,
       score, scoreC:SCORE[score].c, scoreB:SCORE[score].b,
       keywords: keywords.slice(0,2), more: keywords.length>2 ? '+'+(keywords.length-2)+' more' : '',
@@ -17678,7 +17689,8 @@ class Component extends DCLogic {
       { name:'Tom Becker', account:'Udemy', step:'Step 2 · Email', status:'Bounced', when:'3h ago' },
       { name:'Sara Klein', account:'Freshworks', step:'Step 5 · Call', status:'Meeting booked', when:'5h ago' },
     ];
-    const seqEnrolled = seqEnrolledSeed.map((c,i) => { const a=AV[i%AV.length].split('|'); return { ...c, initials:c.name.split(' ').map(s=>s[0]).slice(0,2).join(''), avBg:a[0], avFg:a[1], stC:SEQST[c.status].c, stB:SEQST[c.status].b }; });
+    const _seqFem = /^(Anita|Sara|Priya|Lena|Maya|Grace|Elena|Nora|Sofia|Emma)/i;
+    const seqEnrolled = seqEnrolledSeed.map((c,i) => { const a=AV[i%AV.length].split('|'); return { ...c, initials:c.name.split(' ').map(s=>s[0]).slice(0,2).join(''), avBg:a[0], avFg:a[1], avSty: this._imgSty('https://randomuser.me/api/portraits/' + (_seqFem.test(c.name) ? 'women' : 'men') + '/' + ((i * 17 + 23) % 90) + '.jpg', 30, 15), stC:SEQST[c.status].c, stB:SEQST[c.status].b }; });
     const seqSelData = campaigns.find(c => c.key === this.state.seqSel) || null;
     let seqFunnel = [];
     if (seqSelData) {
@@ -17909,9 +17921,12 @@ class Component extends DCLogic {
         angles:['Won on contact accuracy + agent automation'],
         offer:['Onboarding','Expansion segments'] },
     ];
+    const _dealDom = { philips:'philips.com', highradius:'highradius.com', razorpay:'razorpay.com', udemy:'udemy.com', browserstack:'browserstack.com', freshworks:'freshworks.com', stripe:'stripe.com', chargebee:'chargebee.com', postman:'postman.com', zuora:'zuora.com' };
     const dealList = DEALS.map(d0 => {
       const _ov = (this.state.oppStageOv || {})[d0.key];
       const d = (_ov && _ov !== d0.stage) ? { ...d0, stage: _ov, health: _ov === 'Closed Won' ? 'Won' : d0.health, age: 0 } : d0;
+      d.logoSty28 = this._imgSty('https://www.google.com/s2/favicons?domain=' + (_dealDom[d.key] || (d.key + '.com')) + '&sz=64', 18, 3);
+      d.logoSty48 = this._imgSty('https://www.google.com/s2/favicons?domain=' + (_dealDom[d.key] || (d.key + '.com')) + '&sz=64', 28, 5);
       const stageIdx = OSTAGES.indexOf(d.stage);
       const prob = OPROB[d.stage];
       const weighted = Math.round(d.value * prob / 100);
@@ -18611,11 +18626,11 @@ class Component extends DCLogic {
     const connIntegConnected = integrationsCatalog.filter(c => c.connected).length;
     const connIntegTotal = integrationsCatalog.length;
     const connSystems = [
-      { nm: 'Salesforce', ini: 'SF', iB: '#e3eef9', iC: '#205e9e', dot: '#b5791b', stL: 'Attention', stC: '#8f5f15', stB: '#f4e5c5', line: 'Rate limit hit. Writes paused, retrying 10:00am', meta: 'CRM · two-way sync', pw: 'Discovery · Conversion', last: 'sync 5m ago' },
-      { nm: 'Gmail', ini: 'GM', iB: '#f4e5c5', iC: '#8f5f15', dot: '#2c6fbb', stL: 'Healthy', stC: '#123524', stB: '#dcebe2', line: 'Sending and reply tracking on 2 seats', meta: 'Mailbox', pw: 'Outreach', last: 'send 12m ago' },
-      { nm: 'Google Calendar', ini: 'GC', iB: '#dbe7f6', iC: '#2b5797', dot: '#2c6fbb', stL: 'Healthy', stC: '#123524', stB: '#dcebe2', line: 'Meeting booking and availability', meta: 'Calendar', pw: 'Conversion', last: 'sync 1h ago' },
-      { nm: 'Slack', ini: 'SL', iB: '#f6e3e8', iC: '#7e3f55', dot: '#2c6fbb', stL: 'Healthy', stC: '#123524', stB: '#dcebe2', line: 'Notifications and approvals in-channel', meta: 'Messaging', pw: 'Notifications', last: 'webhook 3h ago' },
-    ].map(s => ({ ...s, manage: () => this.setState({ view: 'connections', connTab: 'integrations' }) }));
+      { nm: 'Salesforce', dom: 'salesforce.com', ini: 'SF', iB: '#e3eef9', iC: '#205e9e', dot: '#b5791b', stL: 'Attention', stC: '#8f5f15', stB: '#f4e5c5', line: 'Rate limit hit. Writes paused, retrying 10:00am', meta: 'CRM · two-way sync', pw: 'Discovery · Conversion', last: 'sync 5m ago' },
+      { nm: 'Gmail', dom: 'mail.google.com', ini: 'GM', iB: '#f4e5c5', iC: '#8f5f15', dot: '#2c6fbb', stL: 'Healthy', stC: '#123524', stB: '#dcebe2', line: 'Sending and reply tracking on 2 seats', meta: 'Mailbox', pw: 'Outreach', last: 'send 12m ago' },
+      { nm: 'Google Calendar', dom: 'calendar.google.com', ini: 'GC', iB: '#dbe7f6', iC: '#2b5797', dot: '#2c6fbb', stL: 'Healthy', stC: '#123524', stB: '#dcebe2', line: 'Meeting booking and availability', meta: 'Calendar', pw: 'Conversion', last: 'sync 1h ago' },
+      { nm: 'Slack', dom: 'slack.com', ini: 'SL', iB: '#f6e3e8', iC: '#7e3f55', dot: '#2c6fbb', stL: 'Healthy', stC: '#123524', stB: '#dcebe2', line: 'Notifications and approvals in-channel', meta: 'Messaging', pw: 'Notifications', last: 'webhook 3h ago' },
+    ].map(s => ({ ...s, logoSty: this._imgSty('https://www.google.com/s2/favicons?domain=' + s.dom + '&sz=64', 18, 4), manage: () => this.setState({ view: 'connections', connTab: 'integrations' }) }));
     const connActivity = [
       { label:'Salesforce sync completed', detail:'41 accounts updated', time:'5m ago', c:'#2c6fbb', b:'#dcebe2', ic:'SF' },
       { label:'Claude called search_accounts', detail:'Returned 12 matches', time:'12m ago', c:'#1f5a3a', b:'#e2efe7', ic:'Cl' },
@@ -19746,7 +19761,7 @@ class Component extends DCLogic {
         { id:'champions', kind:'Act now', kindC:'#8f5f15', kindB:'#f7ecd3', amber:true, title:'Champions to re-engage · 9 just changed jobs', because:'a champion is warmest in their first 30 days at a new company. Reach these 9 before the window closes.', cta:'Start outreach', run:()=>this.setState({ segSel:'champions' }) },
         { id:'closedlost', kind:'Improve', kindC:'#265c41', kindB:'#e2efe7', title:'Closed-lost · Q3\u2013Q4 is static & going stale', because:'it hasn\u2019t refreshed in 3 weeks, yet 6 accounts just re-entered a buying window. Make it dynamic to catch new signals.', cta:'Make it dynamic', run:()=>this.setState({ segSel:'closedlost' }) },
       ].filter(p => !(this.state.segPropsHidden||[]).includes(p.id)).map(p => Object.assign({}, p, { amberBg: p.amber ? '#fdf8ee' : '#fff', amberBorder: p.amber ? '#f0d9b0' : '#e7e7ed', dismiss: () => this.setState(s => ({ segPropsHidden: [...(s.segPropsHidden||[]), p.id] })) })),
-      ...(() => { const _rows = segContactRows.map((c, ci) => {
+      ...(() => { const _rows = segContactRows.map((c0, ci) => { const c = { ...c0, avSty: this._imgSty('https://randomuser.me/api/portraits/' + (_segFem.test(c0.name) ? 'women' : 'men') + '/' + ((ci * 7 + 11) % 90) + '.jpg', 28, 14) };
         const em = this.state.segEnr || {};
         const ek = 'e' + ci, pk = 'p' + ci;
         const eLocked = (ci === 5 || ci === 9) && !em[ek];
@@ -20040,7 +20055,7 @@ class Component extends DCLogic {
           .filter(a => !F.page || a[13].indexOf(F.page) >= 0)
           .map(a => { const cf = a[8]; const cc = cf >= 90 ? ['#1f5a3a', '#e2efe7'] : (cf >= 70 ? ['#8f5f15', '#f4e5c5'] : ['#63606e', '#eaeaf0']);
             return { nm: a[0], dom: a[1], ind: a[2], emp: a[3], rev: a[4], loc: a[5], visits: a[6], pgs: a[7], conf: cf + '%', confC: cc[0], confB: cc[1], score: a[9], prod: a[10], isp: a[14],
-              qual: (S3.wvQual || {})[a[0]] || null, ini: ini2(a[0]), av: av(a[0]), open: () => this.setState({ wvAcctSel: a[0] }) }; });
+              qual: (S3.wvQual || {})[a[0]] || null, ini: ini2(a[0]), av: av(a[0]), logoSty: this._imgSty('https://www.google.com/s2/favicons?domain=' + a[1] + '&sz=64', 18, 3), open: () => this.setState({ wvAcctSel: a[0] }) }; });
         const FDEF = [
           ['prod', 'Product', ['Identify Intent Signals', 'Enrich Database', 'Discover ICP', 'Sprouts', 'Free GTM Audit', 'Predict Purchase Patterns']],
           ['topic', 'Topic', ['Intent Data', 'Data Enrichment', 'Account Scoring', 'Lead Generation', 'GTM Audit', 'Sales Intelligence', 'Office Locations', 'Pricing']],
@@ -20202,7 +20217,7 @@ class Component extends DCLogic {
             const segT = RS[S3.wvQSeg || 0]; const qv = (S3.wvQual || {})[raw[0]] || null;
             return { wvAcctOpen: true, wvAcctClose: () => this.setState({ wvAcctSel: null }),
               wvA: { nm: raw[0], dom: raw[1], ind: raw[2], emp: raw[3], rev: raw[4], loc: raw[5], visits: raw[6], pgs: raw[7], conf: raw[8] + '%', score: raw[9], prod: raw[10],
-                ini: ini2(raw[0]), av: av(raw[0]), qual: qv, hasQual: !!qv, noQual: !qv,
+                ini: ini2(raw[0]), av: av(raw[0]), logoSty: this._imgSty('https://www.google.com/s2/favicons?domain=' + raw[1] + '&sz=64', 20, 4), qual: qv, hasQual: !!qv, noQual: !qv,
                 behav: Math.min(100, raw[9] + 31), intent: Math.max(5, raw[9] + 2), fit: raw[9] >= 30 ? 50 : 0,
                 tops: raw[12].map(t => ({ l: tc(t) })), kws: pgOf(raw[13][0]).kws.slice(0, 3).map(k => ({ l: tc(k) })),
                 pages: raw[13].map(u => { const g = pgOf(u); return { u, st: g.st, stC: STG[g.st][0], stB: STG[g.st][1], v: g.views, t1: tc(g.topics[0][0]) }; }) },
@@ -21273,7 +21288,13 @@ class Component extends DCLogic {
       ],
       ...(() => {
         const A = this.state.srcAuth || {};
+        const SRCDOM = { sf0:'salesforce.com', hub:'hubspot.com', pipe:'pipedrive.com', attio:'attio.com', close:'close.com', zoho:'zoho.com', dyn:'microsoft.com',
+          circle:'circleback.ai', gong:'gong.io', fire:'fireflies.ai', fathom:'fathom.video', granola:'granola.ai', readai:'read.ai',
+          apollo:'apollo.io', zoominfo:'zoominfo.com', lusha:'lusha.com', leadiq:'leadiq.com', clay:'clay.com',
+          outreach:'outreach.io', salesloft:'salesloft.com', heyreach:'heyreach.io',
+          sheets:'sheets.google.com', airtable:'airtable.com', notion:'notion.so', nav:'linkedin.com', zapier:'zapier.com', make:'make.com' };
         const mk = (key, nm, d, auth, objs, mech, st0) => { const st = A[key] || st0 || 'off'; return { key, nm, d, auth: auth || 'OAuth 2.0', objs, mech,
+          logoSty: this._imgSty('https://www.google.com/s2/favicons?domain=' + (SRCDOM[key] || 'example.com') + '&sz=64', 16, 3),
           isOff: st === 'off', isBusy: st === 'busy', isMap: st === 'map', isOn: st === 'on',
           openMap: (ev) => { if (ev && ev.stopPropagation) ev.stopPropagation(); this.setState({ srcMapKey: key, srcInfoKey: null }); },
           onLbl: A[key] === 'on' ? '\u2713 Connected \u00b7 first sync queued' : '\u2713 Connected',
@@ -22409,6 +22430,7 @@ class Component extends DCLogic {
         return {
           discoverResults: paged.map(r => ({
             ...r,
+            logoSty18: r.logoSty18 || this._imgSty('https://www.google.com/s2/favicons?domain=' + (r.domain || (String(r.name || 'x').toLowerCase().replace(/[^a-z0-9]/g, '') + '.com')) + '&sz=64', 18, 3),
             cells: visible.map(c => ({
               cellStyle: styleOf(c) + (c.presence ? 'display:flex;align-items:center;gap:5px;' : (c.chips ? 'display:flex;flex-wrap:wrap;align-items:center;gap:4px;' : (c.sub ? 'display:flex;flex-direction:column;' : ''))),
               isChips: !!c.chips, isPresence: !!c.presence, isPlain: !c.chips && !c.presence,
@@ -22921,8 +22943,16 @@ class Component extends DCLogic {
                   self.setState({ discCtSel: [r.key], discSegPicked: null, discSegModal: true }); } };
             });
             const size = self.state.discPageSize || 20;
-            const shown = marked.slice(0, size);
+            const _fem2 = /^(Anita|Sara|Priya|Lena|Maya|Grace|Elena|Nora|Divya|Sofia|Emma|Aisha|Rachel|Julia|Nina|Sarah|Karen|Laura|Meera)/i;
+            const ctPages = Math.max(1, Math.ceil(marked.length / size));
+            const ctPg = Math.min(self.state.discCtPage || 1, ctPages);
+            const shown = marked.slice((ctPg - 1) * size, ctPg * size).map((r, ri) => ({ ...r,
+              avSty: self._imgSty('https://randomuser.me/api/portraits/' + (_fem2.test(r.name) ? 'women' : 'men') + '/' + (((ctPg - 1) * size + ri) * 13 % 90) + '.jpg', 26, 13) }));
             return {
+              discCtPg: String(ctPg), discCtPages: String(ctPages),
+              discCtPrev: () => self.setState({ discCtPage: Math.max(1, ctPg - 1) }),
+              discCtNext: () => self.setState({ discCtPage: Math.min(ctPages, ctPg + 1) }),
+              discCtPrevC: ctPg > 1 ? '#48454f' : '#cbcad8', discCtNextC: ctPg < ctPages ? '#48454f' : '#cbcad8',
               discContacts: shown,
               discCtPersonaL: pFil || 'Persona ICP',
               discCtPersonaOpen: !!self.state.discCtPersonaOpen,
@@ -22934,7 +22964,7 @@ class Component extends DCLogic {
                 pick: (e) => { if (e && e.stopPropagation) e.stopPropagation(); self.setState({ discCtPersona: on ? '' : n, discCtPersonaOpen: false }); } }; }),
               discCoCount: (self.state.discResolved === 'contacts' && !self.state.discCoRan) ? 'run' : String(base.length),
               discCtCount: (self.state.discResolved === 'contacts' || self.state.discCtRan) ? String(marked.length) : 'run',
-              discCtRangeLabel: marked.length ? '1\u2013' + shown.length + ' of ' + marked.length + ' contacts' : 'No contacts in this scope',
+              discCtRangeLabel: marked.length ? (((ctPg - 1) * size + 1) + '\u2013' + ((ctPg - 1) * size + shown.length) + ' of ' + marked.length + ' contacts') : 'No contacts in this scope',
               discScopeLabel: sel.length ? sel.length + ' selected ' + (sel.length === 1 ? 'account' : 'accounts') : base.length + ' accounts from your search',
               discCtScopeNote: sel.length
                 ? 'Scoped to the accounts you selected. Clear the selection to see all.'
