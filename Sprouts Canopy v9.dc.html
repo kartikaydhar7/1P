@@ -15,9 +15,10 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-  @font-face { font-family:'Pliant'; src:url('./fonts/Pliant-Variable.ttf') format('truetype-variations'); font-weight:100 900; font-style:normal; font-display:swap; }
-  body { margin:0; font-family:'Pliant','Instrument Sans',system-ui,sans-serif; -webkit-font-smoothing:antialiased; color:#2d2b2b; }
+  @font-face { font-family:'Pliant'; src:url('./fonts/Manrope-VariableFont_wght.ttf') format('truetype-variations'); font-weight:200 800; font-style:normal; font-display:swap; }
+  body { margin:0; font-family:'Pliant','Manrope',system-ui,sans-serif; -webkit-font-smoothing:antialiased; color:#2d2b2b; }
   @keyframes cx-spin { to { transform: rotate(360deg); } }
+  @keyframes swIn { from { opacity:0; transform:translateY(7px); } to { opacity:1; transform:none; } }
   @keyframes cx-pulse { 0%,100% { opacity:.4; transform:scale(1);} 50% { opacity:1; transform:scale(1.25);} }
   @keyframes pdBreathe { from { transform:scale(1); } to { transform:scale(1.045); } }
   @keyframes pdIdleRing { 0% { transform:scale(.92); opacity:0; } 18% { opacity:.5; } 100% { transform:scale(1.34); opacity:0; } }
@@ -88,6 +89,7 @@
   .dm-on button[style*="background:#2f7050"], .dm-on button[style*="background: #2f7050"], .dm-on button[style*="background:#265c41"], .dm-on button[style*="background: #265c41"] { font-weight:500 !important; letter-spacing:.01em; }
   .dm-on [style*="#a5a3ae"] { color:#8f8c99 !important; }
   .dm-on [style*="#b6b3c2"] { color:#9d9aa8 !important; }
+  .dm-on .cx-wfgrid { background-image:linear-gradient(180deg,rgba(101,83,204,.30),rgba(228,164,120,.10) 300px,rgba(101,83,204,0) 430px),linear-gradient(rgba(45,43,60,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(45,43,60,.22) 1px,transparent 1px) !important; }
   @keyframes cxDashIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes cxGrowX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   @media (prefers-reduced-motion: reduce) { .cx-dashin, .cx-growx { animation: none !important; } .sv-railin { animation: svRailFade .2s ease both !important; } .sv-orbspin, .sv-halo { animation: none !important; } .ag-in { animation: svRailFade .25s ease both !important; } .ag-card, .ag-card:hover { transform: none !important; } }
@@ -162,10 +164,7 @@
         <span style="display:flex;color:{{ nav.personalization.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 L19 8 L19 16 L12 20.5 L5 16 L5 8 Z"></path><path d="M12 8 L15.5 10 L15.5 14 L12 16 L8.5 14 L8.5 10 Z" fill="currentColor" stroke="none"></path></svg></span>
         <span style="font:500 13.5px 'Pliant','Instrument Sans',sans-serif;color:{{ nav.personalization.col }};">Personalization</span>
       </button>
-      <button onClick="{{ goConnections }}" title="Connectors" style-hover="background:rgba(47,112,80,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.connections.bg }};box-shadow:{{ nav.connections.ring }};">
-        <span style="display:flex;color:{{ nav.connections.icol }};"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h2a4 4 0 010 8h-2M9 7H7a4 4 0 000 8h2"></path><path d="M8 11h8"></path></svg></span>
-        <span style="font:500 13.5px 'Pliant','Instrument Sans',sans-serif;color:{{ nav.connections.col }};">Connectors</span>
-      </button>
+
 
       <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#716d85;padding:12px 11px 5px;margin-top:auto;">Developer</div>
       <a href="https://gentle-profiterole-a155dc.netlify.app/" target="_blank" rel="noopener" title="Sprouts MCP · opens in a new tab" style-hover="background:rgba(47,112,80,.06)" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;box-sizing:border-box;text-align:left;text-decoration:none;background:transparent;">
@@ -630,7 +629,7 @@
 
           <!-- canvas -->
           <div style="order:2;flex:1;min-width:0;min-height:0;position:relative;">
-            <div class="cx-scroll" style="position:absolute;inset:0;overflow:auto;background-image:radial-gradient(#d9d6e3 1px,transparent 1.2px);background-size:22px 22px;">
+            <div class="cx-scroll cx-wfgrid" style="position:absolute;inset:0;overflow:auto;background-image:linear-gradient(180deg,rgba(179,166,241,.16),rgba(253,243,238,.1) 300px,rgba(179,166,241,0) 420px),linear-gradient(rgba(202,199,214,.55) 1px,transparent 1px),linear-gradient(90deg,rgba(202,199,214,.55) 1px,transparent 1px);background-size:100% 100%,22px 22px,22px 22px;background-attachment:local;">
               <sc-if value="{{ assembling }}" hint-placeholder-val="">
                 <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:80px 24px;">
                   <span style="position:relative;width:48px;height:48px;"><span style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(#f0eefc,#c6bcf5,#2d2b2b,#f0eefc);animation:obSpin 2.4s linear infinite;box-shadow:0 18px 38px -14px rgba(47,112,80,.55);"></span><span style="position:absolute;inset:11px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2.8l2.25 6.95L21.2 12l-6.95 2.25L12 21.2l-2.25-6.95L2.8 12l6.95-2.25Z" fill="#2f7050"></path></svg></span></span>
@@ -653,9 +652,9 @@
                   </div>
                   <!-- connector 0 -->
                   <div style="position:relative;display:flex;flex-direction:column;align-items:center;">
-                    <span style="width:1.5px;height:16px;background:#bdbacb;"></span>
+                    <span style="width:2px;height:16px;background:#8f8c99;border-radius:2px;"></span>
                     <button onClick="{{ wbInsTop }}" title="Add a step here" style="width:24px;height:24px;border:none;background:#fff;cursor:pointer;border-radius:50%;box-shadow:0 6px 16px -6px rgba(29,28,35,.4);display:flex;align-items:center;justify-content:center;color:#63606e;" style-hover="color:#1f5a3a">＋</button>
-                    <span style="width:1.5px;height:16px;background:#bdbacb;"></span>
+                    <span style="width:2px;height:16px;background:#8f8c99;border-radius:2px;"></span>
                     <sc-if value="{{ wbInsTopOpen }}" hint-placeholder-val="">
                       <div style="position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:60;width:266px;background:#fff;border-radius:13px;box-shadow:0 3px 8px rgba(24,23,30,.06), 0 20px 56px -14px rgba(24,23,30,.2);padding:10px;text-align:left;">
                         <input value="{{ wbLibQ }}" onChange="{{ onWbLibQ }}" placeholder="Search steps…" style="box-sizing:border-box;width:100%;border:1px solid #e3e3e9;border-radius:9px;background:#fff;padding:7px 10px;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;outline:none;"></input>
@@ -690,9 +689,9 @@
                       </div>
                     </div>
                     <div style="position:relative;display:flex;flex-direction:column;align-items:center;">
-                      <span style="width:1.5px;height:16px;background:#bdbacb;"></span>
+                      <span style="width:2px;height:16px;background:#8f8c99;border-radius:2px;"></span>
                       <button onClick="{{ n.insBelow }}" title="Add a step here" style="width:24px;height:24px;border:none;background:#fff;cursor:pointer;border-radius:50%;box-shadow:0 6px 16px -6px rgba(29,28,35,.4);display:flex;align-items:center;justify-content:center;color:#63606e;" style-hover="color:#1f5a3a">＋</button>
-                      <span style="width:1.5px;height:16px;background:#bdbacb;"></span>
+                      <span style="width:2px;height:16px;background:#8f8c99;border-radius:2px;"></span>
                       <sc-if value="{{ n.insBelowOpen }}" hint-placeholder-val="">
                         <div style="position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:60;width:266px;background:#fff;border-radius:13px;box-shadow:0 3px 8px rgba(24,23,30,.06), 0 20px 56px -14px rgba(24,23,30,.2);padding:10px;text-align:left;">
                           <input value="{{ wbLibQ }}" onChange="{{ onWbLibQ }}" placeholder="Search steps…" style="box-sizing:border-box;width:100%;border:1px solid #e3e3e9;border-radius:9px;background:#fff;padding:7px 10px;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;outline:none;"></input>
@@ -726,7 +725,7 @@
 
           <!-- right: step settings -->
           <sc-if value="{{ wbPanelOn }}" hint-placeholder-val="">
-            <div style="order:0;width:316px;flex:0 0 auto;background:#fff;border-right:1px solid #e2e2ea;display:flex;flex-direction:column;min-height:0;position:relative;z-index:21;">
+            <div style="order:4;width:316px;flex:0 0 auto;background:#fff;border-left:1px solid #e2e2ea;display:flex;flex-direction:column;min-height:0;position:relative;z-index:21;">
               <sc-if value="{{ wbSelOn }}" hint-placeholder-val="">
                 <div style="display:flex;align-items:center;gap:9px;padding:13px 15px 11px;border-bottom:1px solid #ededf3;flex:0 0 auto;">
                   <span style="width:28px;height:28px;border-radius:8px;background:{{ wbSelNode.b }};color:{{ wbSelNode.c }};display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="{{ wbSelNode.p }}"></path></svg></span>
@@ -835,7 +834,23 @@
               <h1 style="font:600 30px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#2d2b2b;margin:0 0 7px;">{{ dashGreeting }}</h1>
               <p style="font:400 13px/1.6 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0;max-width:64ch;">Your workspace at a glance. Ask Savant to reshape it.</p>
             </div>
-
+            <div style="position:relative;flex:0 0 auto;">
+              <button onClick="{{ dashCustFlip }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:9px;padding:9px 14px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="border-color:#b7d4c3;color:#1f5a3a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><path d="M17.5 14v7M14 17.5h7"></path></svg>Customize</button>
+              <sc-if value="{{ dashCustOpenV }}" hint-placeholder-val="">
+                <div style="position:absolute;top:42px;right:0;z-index:120;width:290px;background:#ffffff;border:1px solid #ececf2;border-radius:12px;box-shadow:0 2px 6px rgba(24,23,30,.05), 0 22px 56px -18px rgba(24,23,30,.25);padding:6px;">
+                  <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#8c8a95;padding:7px 10px 4px;">Widgets</div>
+                  <sc-for list="{{ dashCustRows }}" as="cw" hint-placeholder-count="6">
+                    <div style="display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px;" style-hover="background:rgba(47,112,80,.05)">
+                      <span style="flex:1;min-width:0;display:flex;flex-direction:column;"><span style="font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ cw.t }}</span><span style="font:400 10px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ cw.m }}</span></span>
+                      <sc-if value="{{ cw.on }}" hint-placeholder-val="{{ true }}"><button onClick="{{ cw.hide }}" title="Hide from the dashboard" style="border:none;background:transparent;cursor:pointer;padding:3px 6px;border-radius:6px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;" style-hover="color:#a2413a;background:#f7e4e1">Hide</button></sc-if>
+                      <sc-if value="{{ cw.off }}" hint-placeholder-val=""><button onClick="{{ cw.restore }}" style="border:1px solid #cfe3d7;background:#f1f7f3;cursor:pointer;padding:3px 9px;border-radius:6px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#1f5a3a;" style-hover="background:#e2efe7">Add</button></sc-if>
+                    </div>
+                  </sc-for>
+                  <div style="height:1px;background:#ededf3;margin:5px 8px;"></div>
+                  <button onClick="{{ dashCustReset }}" style="display:block;width:100%;text-align:left;border:none;background:transparent;cursor:pointer;border-radius:8px;padding:8px 10px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#1f5a3a;" style-hover="background:rgba(47,112,80,.05)">Reset to default</button>
+                </div>
+              </sc-if>
+            </div>
           </div>
 
           <sc-if value="{{ dashEmpty }}" hint-placeholder-val="">
@@ -1049,6 +1064,10 @@
                 </span>
                 <span style="flex:1;"></span>
                 <span style="text-align:right;flex:0 0 auto;"><span style="font:500 10px 'JetBrains Mono';color:#63606e;">Load {{ ptD.load }}</span><span style="display:block;width:90px;height:5px;border-radius:3px;background:#eaeaf0;margin-top:4px;overflow:hidden;"><span style="display:block;height:100%;width:{{ ptD.loadW }};background:{{ ptD.loadC }};"></span></span></span>
+                <sc-if value="{{ ptD.hasDash }}" hint-placeholder-val="">
+                  <button onClick="{{ ptD.openSheet }}" title="Source data · Google Sheet" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:9px;padding:8px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;flex:0 0 auto;" style-hover="border-color:#b7d4c3;color:#1f5a3a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg>Sheet</button>
+                  <button onClick="{{ ptD.openDash }}" title="{{ ptD.dashName }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:9px;padding:8px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;flex:0 0 auto;" style-hover="border-color:#b7d4c3;color:#1f5a3a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z"></path></svg>Intelligence</button>
+                </sc-if>
                 <button onClick="{{ ptDAssignGo }}" style="border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:8px 16px;font:600 12px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;" style-hover="background:#265c41">Assign accounts</button>
               </div>
 
@@ -1249,9 +1268,29 @@
             </sc-for>
           </div>
 
+          <div style="display:flex;align-items:baseline;gap:10px;margin:0 0 12px;">
+            <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;">Connected · status</span>
+            <span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">Salesforce hit a rate limit. Writes retry at 10:00am.</span>
+          </div>
+          <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;margin-bottom:34px;">
+            <sc-for list="{{ connSystems }}" as="cs" hint-placeholder-count="3">
+              <div onClick="{{ cs.manage }}" style="display:flex;align-items:center;gap:13px;padding:12px 16px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fbfbfd">
+                <span style="width:30px;height:30px;border-radius:8px;background:{{ cs.iB }};color:{{ cs.iC }};display:flex;align-items:center;justify-content:center;font:700 10.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ cs.ini }}</span>
+                <div style="width:170px;flex:0 0 auto;min-width:0;">
+                  <div style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ cs.nm }}</div>
+                  <div style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:1px;">{{ cs.meta }}</div>
+                </div>
+                <span style="width:96px;flex:0 0 auto;"><span style="display:inline-flex;align-items:center;gap:6px;font:600 10px 'Pliant','Instrument Sans',sans-serif;color:{{ cs.stC }};background:{{ cs.stB }};border-radius:7px;padding:4px 10px;"><span style="width:6px;height:6px;border-radius:50%;background:{{ cs.dot }};"></span>{{ cs.stL }}</span></span>
+                <span style="flex:1;min-width:170px;font:400 11.5px/1.45 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ cs.line }}</span>
+                <span style="width:118px;flex:0 0 auto;text-align:right;"><span style="display:block;font:600 8.5px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#908d9c;">{{ cs.pw }}</span><span style="display:block;font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:2px;">{{ cs.last }}</span></span>
+                <span style="font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#48454f;border:1px solid #ececf2;background:#fff;border-radius:8px;padding:6px 12px;flex:0 0 auto;">Manage</span>
+              </div>
+            </sc-for>
+          </div>
+
           <div style="display:flex;align-items:center;gap:10px;margin:0 0 14px;">
             <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;flex:0 0 auto;">Connect more</span>
-            <span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">Approve access once. Connections stay healthy in Connectors.</span>
+            <span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">Approve access once.</span>
             <input value="{{ srcQ }}" onInput="{{ onSrcQ }}" placeholder="Search connectors" style="margin-left:auto;width:230px;border:1px solid #ececf2;border-radius:9px;background:#fff;padding:8px 12px;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;outline:none;" />
           </div>
           <div style="display:flex;align-items:center;gap:7px;margin:0 0 16px;">
@@ -1953,18 +1992,6 @@
     <sc-if value="{{ discListMode }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;height:100%;min-height:0;">
         <!-- HISTORY SIDEBAR (left) -->
-        <!-- Collapsed tab -->
-        <sc-if value="{{ dRailStripOn }}" hint-placeholder-val="">
-          <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;padding:14px 0;border-right:none;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);width:42px;">
-            <button onClick="{{ openDiscFilters }}" title="{{ discFilterTip }}" style="border:none;background:transparent;cursor:pointer;color:#63606e;padding:6px;border-radius:7px;display:flex;align-items:center;justify-content:center;" style-hover="background:rgba(47,112,80,.08);color:#2f7050"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M6 12h12M10 19h4"></path></svg>
-              </button>
-            <sc-if value="{{ discHasFilters }}" hint-placeholder-val="{{ true }}">
-              <span onClick="{{ openDiscFilters }}" title="{{ discFilterCountTip }}" style="min-width:15px;height:15px;border-radius:8px;background:#e2efe7;color:#1f5a3a;font:600 9.5px 'JetBrains Mono';display:flex;align-items:center;justify-content:center;padding:0 4px;margin-top:2px;cursor:pointer;">{{ discFilterCount }}</span>
-            </sc-if>
-            <span style="width:16px;height:1px;background:#e4e4ea;margin:5px 0 7px;"></span>
-            <button onClick="{{ openDiscSearches }}" title="{{ discSearchTip }}" style="border:none;background:transparent;cursor:pointer;color:#63606e;padding:6px;border-radius:7px;display:flex;align-items:center;justify-content:center;" style-hover="background:rgba(47,112,80,.08);color:#2f7050"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M15.6 8.4l-2.2 5.2-5.2 2.2 2.2-5.2z"></path></svg></button>
-          </div>
-        </sc-if>
         <!-- Expanded sidebar -->
         <sc-if value="{{ dHist }}" hint-placeholder-val="">
           <aside style="width:248px;flex:0 0 auto;border-right:none;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);display:flex;flex-direction:column;min-height:0;">
@@ -2291,6 +2318,10 @@
 
             <!-- quick filters · columns · primary action -->
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:0 0 auto;padding-left:2px;">
+              <sc-if value="{{ dRailStripOn }}" hint-placeholder-val="">
+                <button onClick="{{ openDiscFilters }}" title="{{ discFilterTip }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:9px;padding:8px 13px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;flex:0 0 auto;" style-hover="border-color:#b7d4c3"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M6 12h12M10 19h4"></path></svg>Filters<sc-if value="{{ discHasFilters }}" hint-placeholder-val="{{ true }}"><span style="font:600 9px 'JetBrains Mono';color:#1f5a3a;background:#e2efe7;border-radius:5px;padding:1px 6px;">{{ discFilterCount }}</span></sc-if></button>
+                <button onClick="{{ openDiscSearches }}" title="{{ discSearchTip }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:9px;padding:8px 13px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;flex:0 0 auto;" style-hover="border-color:#b7d4c3"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M15.6 8.4l-2.2 5.2-5.2 2.2 2.2-5.2z"></path></svg>Searches</button>
+              </sc-if>
               <sc-if value="{{ discHasQuick }}" hint-placeholder-val="{{ true }}">
                 <button onClick="{{ discEditFilters }}" title="Edit these in the Filters panel" style="display:inline-flex;align-items:center;gap:5px;border:none;background:transparent;cursor:pointer;padding:0;font:600 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#8c8a95;flex:0 0 auto;" style-hover="color:#1f5a3a">Applied<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
               </sc-if>
@@ -3312,12 +3343,12 @@
 
     <!-- ===== WORKSPACE (Accounts / Contacts) ===== -->
     <sc-if value="{{ isMainWorkspace }}" hint-placeholder-val="{{ true }}">
-      <div style="box-sizing:border-box;display:flex;flex-direction:column;height:100%;min-height:0;padding:20px 32px 16px;">
+      <div style="box-sizing:border-box;display:flex;flex-direction:column;height:100%;min-height:0;min-width:0;padding:20px 32px 16px;">
         <div style="margin-bottom:10px;flex:0 0 auto;">
           <span style="display:inline-flex;align-items:center;gap:10px;"><h1 style="font:600 24px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#2d2b2b;margin:0;">Prospects</h1><span style="display:inline-flex;align-items:center;gap:5px;font:600 10px 'Pliant','Instrument Sans',sans-serif;color:#123524;background:#e8e4f6;border:1px solid #cfe3d7;border-radius:999px;padding:4px 10px;position:relative;top:-2px;"><span style="width:5px;height:5px;border-radius:50%;background:#2f7050;animation:cx-pulse 2.2s ease-in-out infinite;"></span>Live</span></span>
           <p style="font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:5px 0 0;">Accounts, contacts and segments in one place, qualified and enriched by deep intelligence.</p>
         </div>
-        <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
+        <div style="flex:1;min-height:0;min-width:0;display:flex;flex-direction:column;">
           <!-- Tabs -->
           <div style="display:flex;align-items:center;gap:0;border-bottom:1px solid #ececf2;flex:0 0 auto;">
             <button onClick="{{ tabCompanies }}" style="border:none;background:transparent;cursor:pointer;padding:11px 18px 11px 0;font:{{ wsTab.companies.font }};color:{{ wsTab.companies.col }};border-bottom:2px solid {{ wsTab.companies.bd }};margin-bottom:-1px;">Accounts</button>
@@ -3355,7 +3386,7 @@
             </div>
           </div>
 
-          <div style="flex:1;min-height:0;display:flex;gap:14px;padding-top:14px;align-items:stretch;">
+          <div style="flex:1;min-height:0;min-width:0;display:flex;gap:14px;padding-top:14px;align-items:stretch;">
           <sc-if value="{{ wspRailOpen }}" hint-placeholder-val="{{ true }}">
           <aside style="width:252px;flex:0 0 auto;border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);display:flex;flex-direction:column;min-height:0;overflow:hidden;">
             <div style="display:flex;align-items:center;gap:2px;padding:9px 9px 7px;border-bottom:1px solid #ededf3;flex:0 0 auto;">
@@ -3484,7 +3515,7 @@
               </div>
             </sc-for>
             <span style="flex:1;"></span>
-            <button onClick="{{ openWspSmart }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #b7d4c3;background:#f1f7f3;cursor:pointer;border-radius:9px;padding:8px 13px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#1f5a3a;flex:0 0 auto;" style-hover="background:#e2efe7"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"></path></svg>Add smart column</button>
+            <button onClick="{{ openWspSmart }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #b7d4c3;background:#f1f7f3;cursor:pointer;border-radius:9px;padding:8px 13px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#1f5a3a;flex:0 0 auto;" style-hover="background:#e2efe7"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"></path></svg>Add column</button>
           </div>
           <sc-if value="{{ selOn }}" hint-placeholder-val="">
             <div data-noinvert="1" style="position:fixed;left:50%;bottom:74px;transform:translateX(-50%);z-index:120;display:flex;align-items:center;gap:8px;background:#2d2b2b;border:1px solid #322f39;border-radius:13px;padding:8px 10px 8px 16px;box-shadow:0 26px 60px -30px rgba(25,24,32,.55);white-space:nowrap;">
@@ -3612,7 +3643,7 @@
           </div>
           </sc-if>
           <!-- table area -->
-          <div class="cx-scroll" style="flex:1;min-height:0;overflow:auto;border:1px solid #ececf2;border-radius:12px;">
+          <div class="cx-scroll" style="flex:1;min-height:0;min-width:0;max-width:100%;overflow:auto;border:1px solid #ececf2;border-radius:12px;">
             <!-- ACCOUNTS -->
             <sc-if value="{{ wsIsCompanies }}" hint-placeholder-val="{{ true }}">
               <div style="min-width:max-content;">
@@ -3641,7 +3672,7 @@
                   <span style="box-sizing:border-box;flex:0 0 104px;padding:0 12px;">STAGE</span>
                   <span style="box-sizing:border-box;flex:0 0 150px;padding:0 12px;">HQ</span>
                   <span style="box-sizing:border-box;flex:0 0 44px;display:flex;align-items:center;justify-content:center;position:sticky;right:0;background:#f4f4f8;">
-                    <button onClick="{{ openWspSmart }}" title="Add smart column" style="border:none;background:transparent;cursor:pointer;color:#908d9c;display:flex;padding:2px;" style-hover="color:#2f7050"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+                    <button onClick="{{ openWspSmart }}" title="Add column" style="border:none;background:transparent;cursor:pointer;color:#908d9c;display:flex;padding:2px;" style-hover="color:#2f7050"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></button>
                   </span>
                 </div>
                 <sc-for list="{{ wspAccountRows }}" as="r" hint-placeholder-count="9">
@@ -3909,7 +3940,7 @@
                   <span title="Per-contact research signal · re-checked weekly" style="box-sizing:border-box;flex:0 0 140px;padding:0 10px;">✦ LINKEDIN ACTIVITY</span>
                   <span style="box-sizing:border-box;flex:0 0 180px;padding:0 12px;">LAST ACTIVITY</span>
                   <span style="box-sizing:border-box;flex:0 0 44px;display:flex;align-items:center;justify-content:center;position:sticky;right:0;background:#f4f4f8;">
-                    <button onClick="{{ openWspSmart }}" title="Add smart column" style="border:none;background:transparent;cursor:pointer;color:#908d9c;display:flex;padding:2px;" style-hover="color:#2f7050"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+                    <button onClick="{{ openWspSmart }}" title="Add column" style="border:none;background:transparent;cursor:pointer;color:#908d9c;display:flex;padding:2px;" style-hover="color:#2f7050"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></button>
                   </span>
                 </div>
                 <sc-for list="{{ wspContactRows }}" as="c" hint-placeholder-count="6">
@@ -4212,6 +4243,64 @@
                   <div style="display:flex;gap:9px;align-items:flex-start;">
                     <span style="width:24px;height:24px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;"></span>
                     <span style="max-width:74%;display:flex;flex-direction:column;gap:9px;background:#fbfbfd;border:1px solid #ededf3;color:#35323c;border-radius:13px 13px 13px 4px;padding:12px 15px;font:400 12.5px/1.6 'Pliant','Instrument Sans',sans-serif;">{{ m.text }}<sc-if value="{{ m.hasChips }}" hint-placeholder-val=""><span style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ m.chipsV }}" as="ch"><button onClick="{{ ch.go }}" style="border:1px solid #cfe3d7;background:#f1f7f3;color:#1f5a3a;cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#e2efe7">{{ ch.l }}</button></sc-for></span></sc-if><sc-if value="{{ m.isPlan }}" hint-placeholder-val=""><span style="display:flex;flex-direction:column;gap:10px;"><span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#a5a3ae;">Request · {{ m.planReq }}</span><span style="display:flex;align-items:center;gap:8px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2f7050" stroke-width="2.6" stroke-linecap="round" style="animation:obSpin 3.2s linear infinite;"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"></path></svg><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Plan specification</span><span style="flex:1;"></span><span style="font:500 10.5px 'JetBrains Mono';color:#a5a3ae;">8s</span></span><sc-for list="{{ m.planSteps }}" as="st" hint-placeholder-count="4"><span style="display:flex;gap:9px;align-items:flex-start;"><span style="width:4px;height:4px;border-radius:50%;background:#cac7d6;margin-top:7px;flex:0 0 auto;"></span><span style="font:400 12.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#48454f;">{{ st }}</span></span></sc-for><span style="display:flex;align-items:center;gap:10px;margin-top:1px;"><span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#a5a3ae;">Scope · {{ m.planScope }}</span><button onClick="{{ m.planReceipt }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#265c41;">⌸ Receipt</button></span></span></sc-if><sc-if value="{{ m.isAppr }}" hint-placeholder-val=""><span style="display:flex;flex-direction:column;gap:8px;"><span style="font:600 10px 'Pliant','Instrument Sans',sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#a5a3ae;">Awaiting your approval</span><sc-for list="{{ m.apprRows }}" as="ap" hint-placeholder-count="4"><span style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:9px 11px;box-shadow:0 6px 18px -12px rgba(24,23,30,.18);"><span style="width:26px;height:26px;border-radius:50%;background:{{ ap.ab }};color:{{ ap.af }};display:flex;align-items:center;justify-content:center;font:600 9.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ ap.ini }}</span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;"><span style="font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ap.title }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#8c8a95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ap.sub }}</span></span><sc-if value="{{ ap.pending }}" hint-placeholder-val="{{ true }}"><button onClick="{{ ap.second }}" style="border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:6px 11px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;flex:0 0 auto;" style-hover="background:#e5e4ec">{{ ap.secondL }}</button><button onClick="{{ ap.approve }}" style="border:none;background:#2f7050;color:#fff;cursor:pointer;border-radius:999px;padding:6px 12px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;" style-hover="background:#265c41">Approve</button></sc-if><sc-if value="{{ ap.done }}" hint-placeholder-val=""><span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.05em;color:{{ ap.doneCol }};flex:0 0 auto;">{{ ap.doneL }}</span></sc-if></span></sc-for><span style="display:flex;align-items:center;gap:12px;margin-top:2px;"><sc-if value="{{ m.apprAllPending }}" hint-placeholder-val="{{ true }}"><button onClick="{{ m.apprAll }}" style="border:none;background:#2f7050;color:#efeefb;cursor:pointer;border-radius:999px;padding:8px 15px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#232132">Approve all 3 sends</button></sc-if><button onClick="{{ m.apprOpenFull }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#265c41;">Open in Campaigns →</button></span></span></sc-if><sc-if value="{{ m.hasAct }}" hint-placeholder-val=""><span style="display:flex;flex-direction:column;gap:5px;border:1px solid #ececf2;background:#fff;border-radius:10px;padding:9px 11px;"><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#1f5a3a;">{{ m.actKind }}</span><span style="font:600 12px/1.35 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ m.actLabel }}</span><span style="font:400 11px/1.5 'Pliant','Instrument Sans',sans-serif;color:#8c8a95;">{{ m.actSub }}</span><button onClick="{{ m.actGo }}" style="align-self:flex-start;border:1px solid #b7d4c3;background:#f1f7f3;color:#1f5a3a;border-radius:7px;padding:5px 11px;font:600 10.5px 'Pliant','Instrument Sans',sans-serif;cursor:pointer;margin-top:2px;" style-hover="background:#e2efe7">{{ m.actCta }}</button></span></sc-if><sc-if value="{{ m.hasRun }}" hint-placeholder-val=""><button onClick="{{ m.runGo }}" style="align-self:flex-start;border:none;background:#2f7050;color:#fff;border-radius:999px;padding:7px 14px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;cursor:pointer;" style-hover="background:#265c41">✦ Run it</button></sc-if></span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ m.isWiz }}" hint-placeholder-val="">
+                  <div style="display:flex;gap:9px;align-items:flex-start;">
+                    <span style="width:24px;height:24px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;flex:0 0 auto;margin-top:2px;"></span>
+                    <div style="width:86%;max-width:520px;background:#fbfbfd;border:1px solid #ededf3;border-radius:13px 13px 13px 4px;padding:14px 16px;display:flex;flex-direction:column;gap:13px;">
+                      <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#1f5a3a;">New signal</span>
+                        <span style="flex:1;"></span>
+                        <span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#a5a3ae;">runs on 6,077 in view</span>
+                      </div>
+                      <sc-if value="{{ swS1 }}" hint-placeholder-val="{{ true }}">
+                        <div style="animation:swIn .45s cubic-bezier(.22,1,.36,1) both;display:flex;flex-direction:column;gap:8px;">
+                          <span style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Watch for</span>
+                          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                            <sc-for list="{{ swSrcs }}" as="so" hint-placeholder-count="5">
+                              <button onClick="{{ so.pick }}" style="border:1px solid {{ so.bd }};background:{{ so.bg }};color:{{ so.col }};cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;">{{ so.l }}</button>
+                            </sc-for>
+                          </div>
+                          <input value="{{ swQ }}" onChange="{{ swSetQ }}" placeholder="…or type the question in plain English" style="width:100%;box-sizing:border-box;border:1px solid #ececf2;border-radius:9px;background:#fff;padding:9px 12px;font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;outline:none;" />
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ swS2 }}" hint-placeholder-val="">
+                        <div style="animation:swIn .45s cubic-bezier(.22,1,.36,1) both;display:flex;gap:18px;flex-wrap:wrap;">
+                          <span style="display:flex;flex-direction:column;gap:7px;"><span style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Look-back window</span><span style="display:flex;gap:5px;"><sc-for list="{{ swWins }}" as="w"><button onClick="{{ w.pick }}" style="border:1px solid {{ w.bd }};background:{{ w.bg }};color:{{ w.col }};cursor:pointer;border-radius:8px;padding:5px 11px;font:600 10.5px 'JetBrains Mono';white-space:nowrap;">{{ w.l }}</button></sc-for></span></span>
+                          <span style="display:flex;flex-direction:column;gap:7px;"><span style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Re-check every</span><span style="display:flex;gap:5px;"><sc-for list="{{ swRefs }}" as="w"><button onClick="{{ w.pick }}" style="border:1px solid {{ w.bd }};background:{{ w.bg }};color:{{ w.col }};cursor:pointer;border-radius:8px;padding:5px 11px;font:600 10.5px 'JetBrains Mono';white-space:nowrap;">{{ w.l }}</button></sc-for></span></span>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ swS3 }}" hint-placeholder-val="">
+                        <div style="animation:swIn .45s cubic-bezier(.22,1,.36,1) both;display:flex;flex-direction:column;gap:7px;">
+                          <span style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Preview · free, no credits</span>
+                          <div style="border:1px solid #ececf2;border-radius:10px;overflow:hidden;background:#fff;">
+                            <sc-for list="{{ swPrevRows }}" as="pr" hint-placeholder-count="3">
+                              <div style="display:flex;align-items:center;gap:9px;padding:8px 11px;border-bottom:1px solid #f0f0f4;">
+                                <span style="width:22px;height:22px;border-radius:6px;background:{{ pr.bg }};color:{{ pr.fg }};display:flex;align-items:center;justify-content:center;font:600 8.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ pr.ini }}</span>
+                                <span style="width:88px;flex:0 0 auto;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ pr.nm }}</span>
+                                <sc-if value="{{ pr.searching }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:6px;font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#265c41;"><span style="width:5px;height:5px;border-radius:50%;background:#2f7050;animation:cx-pulse 1.2s infinite;"></span>Searching…</span></sc-if>
+                                <sc-if value="{{ pr.done }}" hint-placeholder-val=""><span style="display:inline-flex;align-items:center;gap:7px;min-width:0;"><span style="font:600 9.5px 'Pliant','Instrument Sans',sans-serif;color:{{ pr.c }};background:{{ pr.b }};border-radius:5px;padding:2px 8px;flex:0 0 auto;">{{ pr.yn }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#8c8a95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ pr.why }}</span></span></sc-if>
+                              </div>
+                            </sc-for>
+                          </div>
+                          <sc-if value="{{ swCanCreate }}" hint-placeholder-val="{{ true }}">
+                            <div style="display:flex;align-items:center;gap:10px;margin-top:3px;">
+                              <span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">{{ swCost }}</span>
+                              <span style="flex:1;"></span>
+                              <button onClick="{{ swCreate }}" style="border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:8px 15px;font:600 12px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#265c41">Create signal</button>
+                            </div>
+                          </sc-if>
+                          <sc-if value="{{ swDone }}" hint-placeholder-val="">
+                            <div style="animation:swIn .45s cubic-bezier(.22,1,.36,1) both;display:flex;align-items:center;gap:9px;margin-top:3px;background:#f1f7f3;border:1px solid #cfe3d7;border-radius:10px;padding:9px 12px;">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1f5a3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg>
+                              <span style="flex:1;min-width:0;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#1f5a3a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ swName }} · live</span>
+                              <button onClick="{{ swSeeCol }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#1f5a3a;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;" style-hover="color:#2f7050">See the column →</button>
+                            </div>
+                          </sc-if>
+                        </div>
+                      </sc-if>
+                    </div>
                   </div>
                 </sc-if>
               </sc-if>
@@ -4538,13 +4627,13 @@
       </div>
     </sc-if>
 
-    <!-- Add Smart Column Modal -->
+    <!-- Add Column Modal -->
     <sc-if value="{{ wspSmartOpen }}" hint-placeholder-val="">
       <div onClick="{{ closeWspSmart }}" style="position:fixed;inset:0;background:transparent;z-index:200;">
         <div onClick="{{ stop }}" style="position:absolute;top:0;right:0;bottom:0;width:{{ pnW }};box-sizing:border-box;overflow-y:auto;overflow-x:hidden;background:#fbfbfd;border-left:1px solid #ececf2;box-shadow:-30px 0 70px -40px rgba(24,23,30,.12);padding:22px 24px;" class="cx-scroll">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
             <div>
-              <h3 style="font:600 18px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#2d2b2b;margin:0;">Add smart column</h3>
+              <h3 style="font:600 18px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#2d2b2b;margin:0;">Add column</h3>
               <p style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:5px 0 0;">Ask for any column. Savant researches it, shows you a preview, then keeps it fresh. Columns get sharper with more inputs: <button onClick="{{ goSrcQual }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#1f5a3a;text-decoration:underline;text-underline-offset:2px;">connect a signal source</button>.</p>
             </div>
             <button onClick="{{ closeWspSmart }}" style="border:none;background:transparent;cursor:pointer;padding:4px;color:#63606e;border-radius:6px;" style-hover="background:rgba(47,112,80,.06)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
@@ -8266,8 +8355,20 @@
 
           <!-- OVERVIEW -->
           <sc-if value="{{ wvIsOverview }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f1eefc,#fdf3ee);border-radius:14px;padding:15px 17px;margin-bottom:16px;">
+              <span style="width:30px;height:30px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;flex:0 0 auto;margin-top:2px;"></span>
+              <div style="flex:1;min-width:0;">
+                <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#1f5a3a;margin-bottom:6px;">Savant · what the traffic says</div>
+                <p style="font:400 14px/1.6 'Pliant','Instrument Sans',sans-serif;color:#35323c;margin:0 0 10px;text-wrap:pretty;">312 companies identified this month; <b style="color:#2d2b2b;">41 clear your ICP rules</b>. Pricing pages drew twice last week's traffic, and 9 of those accounts heated. The rest of this page is the detail.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                  <button onClick="{{ wvAskHeat }}" style="border:1px solid #d9d1f6;background:rgba(255,255,255,.6);color:#4b4390;cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#fff">✦ Who heated this week?</button>
+                  <button onClick="{{ wvAskSeg }}" style="border:1px solid #d9d1f6;background:rgba(255,255,255,.6);color:#4b4390;cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#fff">✦ Build a segment from hot visitors</button>
+                  <button onClick="{{ wvAskPin }}" style="border:1px solid #d9d1f6;background:rgba(255,255,255,.6);color:#4b4390;cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;white-space:nowrap;" style-hover="background:#fff">✦ Pin visitors to my dashboard</button>
+                </div>
+              </div>
+            </div>
             <div style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;margin-bottom:10px;">Last 30 days</div>
-            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:14px;">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;">
               <sc-for list="{{ wvTiles }}" as="s" hint-placeholder-count="6">
                 <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:15px 17px;box-shadow:0 2px 5px rgba(24,23,30,.05), 0 14px 44px -12px rgba(24,23,30,.14);">
                   <div style="font:600 21px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#2d2b2b;">{{ s.v }}</div>
@@ -8275,8 +8376,8 @@
                 </div>
               </sc-for>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;">
-              <sc-for list="{{ wvCharts }}" as="ch" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:14px;">
+              <sc-for list="{{ wvCharts }}" as="ch" hint-placeholder-count="1">
                 <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:15px 17px 10px;">
                   <div style="display:flex;align-items:baseline;justify-content:space-between;"><span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;">{{ ch.t }}</span><span style="font:500 10.5px 'JetBrains Mono';color:#8c8a95;">{{ ch.peak }}</span></div>
                   <div style="font:600 22px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.02em;color:#2d2b2b;margin:2px 0 8px;">{{ ch.v }}</div>
@@ -8296,32 +8397,6 @@
                       <div style="height:4px;background:#f0f0f5;border-radius:2px;margin-top:5px;"><div style="height:4px;background:#2f7050;border-radius:2px;width:{{ p.w }};"></div></div>
                     </div>
                   </sc-for>
-                </div>
-              </div>
-              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:17px 19px;">
-                <div style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Top topics</div>
-                <div style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#8c8a95;margin:2px 0 13px;">Topics driving traffic in range</div>
-                <div style="display:flex;flex-direction:column;gap:10px;">
-                  <sc-for list="{{ wvTopTopics }}" as="p" hint-placeholder-count="8">
-                    <div>
-                      <div style="display:flex;align-items:baseline;gap:7px;"><span style="font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ p.t }}</span><span style="flex:1;"></span><span style="font:600 11.5px 'JetBrains Mono';color:#48454f;">{{ p.v }}</span><span style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#a9a7b2;">· {{ p.n }}</span></div>
-                      <div style="height:4px;background:#f0f0f5;border-radius:2px;margin-top:5px;"><div style="height:4px;background:#2f7050;border-radius:2px;width:{{ p.w }};"></div></div>
-                    </div>
-                  </sc-for>
-                </div>
-              </div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:17px 19px;">
-                <div style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Topic distribution</div>
-                <div style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#8c8a95;margin:2px 0 14px;">Share of traffic by topic</div>
-                <div style="display:flex;align-items:center;gap:22px;">
-                  <div style="width:118px;height:118px;border-radius:50%;background:conic-gradient({{ wvDonut }});flex:0 0 auto;"></div>
-                  <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1;">
-                    <sc-for list="{{ wvDist }}" as="d" hint-placeholder-count="6">
-                      <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{ d.c }};flex:0 0 auto;"></span><span style="font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;">{{ d.t }}</span><span style="flex:1;"></span><span style="font:600 11px 'JetBrains Mono';color:#63606e;">{{ d.pct }}</span></div>
-                    </sc-for>
-                  </div>
                 </div>
               </div>
               <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:17px 19px;">
@@ -8867,7 +8942,7 @@
             <span style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">312 accounts</span>
           </div>
 
-          <div class="cx-scroll" style="flex:1;min-height:0;overflow:auto;border:1px solid #ececf2;border-radius:12px;">
+          <div class="cx-scroll" style="flex:1;min-height:0;min-width:0;max-width:100%;overflow:auto;border:1px solid #ececf2;border-radius:12px;">
             <!-- ACCOUNTS -->
             <sc-if value="{{ visIsAccounts }}" hint-placeholder-val="{{ true }}">
               <div style="min-width:1000px;">
@@ -9915,7 +9990,7 @@
         <sc-if value="{{ oppIsTable }}" hint-placeholder-val="">
           <div class="cx-scroll" style="background:#fbfbfd;border:1px solid #ececf2;border-radius:14px;overflow-x:auto;">
             <div style="min-width:884px;">
-            <div style="display:flex;align-items:center;padding:0 16px;height:38px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.07em;color:#63606e;"><span style="width:188px;">ACCOUNT</span><span style="width:80px;">VALUE</span><span style="width:120px;">STAGE</span><span style="width:96px;">HEALTH</span><span style="width:80px;">COMMITTEE</span><span style="flex:1;">NEXT BEST ACTION</span></div>
+            <div style="display:flex;align-items:center;padding:0 16px;height:38px;background:#f0f0f5;font:600 9px 'JetBrains Mono';letter-spacing:.07em;color:#63606e;"><span style="width:188px;">ACCOUNT</span><span style="width:80px;">VALUE</span><span style="width:120px;">STAGE</span><span style="width:96px;">HEALTH</span><span style="width:80px;">COMMITTEE</span><span style="width:34px;"></span><span style="flex:1;">NEXT BEST ACTION</span></div>
             <sc-for list="{{ dealList }}" as="o" hint-placeholder-count="8">
               <div onClick="{{ o.open }}" style="display:flex;align-items:center;padding:0 16px;height:58px;border-bottom:1px solid #f0f0f4;background:#fbfbfd;cursor:pointer;" style-hover="background:rgba(47,112,80,.05)">
                 <span style="width:188px;display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;border-radius:7px;background:{{ o.logoBg }};color:{{ o.logoFg }};display:flex;align-items:center;justify-content:center;font:600 11px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ o.initials }}</span><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ o.name }}</span></span>
@@ -9923,6 +9998,7 @@
                 <span style="width:120px;"><span style="font:500 9.5px 'Pliant','Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ o.stageC }};background:{{ o.stageB }};border-radius:5px;padding:4px 8px;">{{ o.stage }}</span></span>
                 <span style="width:96px;"><span title="{{ o.healthWhy }}" style="display:inline-flex;align-items:center;gap:5px;font:500 10px 'Pliant','Instrument Sans',sans-serif;color:{{ o.healthC }};"><span style="width:6px;height:6px;border-radius:50%;background:{{ o.healthDot }};"></span>{{ o.health }}</span></span>
                 <span style="width:80px;font:500 11px 'JetBrains Mono';color:#1f5a3a;">{{ o.committeeLabel }}</span>
+                <span style="width:34px;flex:0 0 auto;"><button onClick="{{ o.openIntel }}" title="Account intelligence" style="border:none;background:transparent;cursor:pointer;color:#b6b3c2;display:flex;padding:4px;border-radius:6px;" style-hover="color:#1f5a3a;background:#f1f7f3"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"></path></svg></button></span>
                 <span style="flex:1;min-width:240px;display:flex;align-items:center;gap:6px;padding-right:12px;min-width:0;">
                   <sc-for list="{{ o.riskChips }}" as="rc" hint-placeholder-count="1">
                     <span style="font:600 9px 'Pliant','Instrument Sans',sans-serif;color:{{ rc.c }};background:{{ rc.b }};border-radius:9px;padding:3px 8px;white-space:nowrap;flex:0 0 auto;">{{ rc.l }}</span>
@@ -9946,6 +10022,7 @@
               <div style="display:flex;align-items:center;gap:4px;font:400 12px 'JetBrains Mono';color:#908d9c;margin-top:3px;">{{ dealDetail.industry }} · owner {{ dealDetail.owner }} · closes <input value="{{ dealDetail.close }}" onChange="{{ dealDetail.setClose }}" title="Click to edit the close date · written back to the CRM" style="width:64px;border:1px solid transparent;background:transparent;border-radius:6px;padding:1px 4px;font:400 12px 'JetBrains Mono';color:#63606e;outline:none;" style-hover="border-color:#e2e2ea;background:#fff" style-focus="border-color:#b7d4c3;background:#fff;color:#2d2b2b"></div>
             </div>
             <div style="display:flex;gap:9px;flex:0 0 auto;">
+              <button onClick="{{ dealDetail.openIntel }}" title="Open the full account intelligence page · org chart, signals, tech, news" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:999px;padding:9px 15px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="border-color:#b7d4c3;color:#1f5a3a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"></path></svg>Account intelligence</button>
               <sc-if value="{{ dealDetail.canAdvance }}" hint-placeholder-val="{{ true }}"><button onClick="{{ dealDetail.advance }}" title="Moves the deal to the next stage · written back to the CRM" style="border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:9px 15px;font:600 12px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#265c41">{{ dealDetail.advanceLabel }}</button></sc-if>
               <sc-if value="{{ dealDetail.wonNow }}" hint-placeholder-val=""><span style="display:inline-flex;align-items:center;gap:6px;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#123524;background:#dcebe2;border-radius:999px;padding:9px 15px;">✓ Closed won</span></sc-if>
             </div>
@@ -9974,7 +10051,7 @@
             <sc-for list="{{ dealDetail.stageSteps }}" as="st" hint-placeholder-count="5">
               <div style="display:flex;align-items:center;flex:1;min-width:120px;">
                 <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:0 0 auto;">
-                  <span style="width:22px;height:22px;border-radius:50%;background:{{ st.doneBg }};display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></span>
+                  <span style="width:22px;height:22px;border-radius:50%;background:{{ st.cBg }};border:{{ st.cBd }};box-sizing:border-box;display:flex;align-items:center;justify-content:center;"><sc-if value="{{ st.past }}" hint-placeholder-val="{{ true }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></sc-if><sc-if value="{{ st.notPast }}" hint-placeholder-val=""><span style="width:6px;height:6px;border-radius:50%;background:{{ st.dotC }};"></span></sc-if></span>
                   <span style="font:600 9.5px 'Pliant','Instrument Sans',sans-serif;color:{{ st.col }};white-space:nowrap;">{{ st.name }}</span>
                 </div>
                 <span style="flex:1;height:2px;background:#e2e2ea;margin:0 6px 16px;"></span>
@@ -9983,9 +10060,9 @@
             <div style="text-align:right;flex:0 0 auto;padding-left:8px;"><div style="font:600 20px 'JetBrains Mono';color:#2d2b2b;letter-spacing:-0.02em;">{{ dealDetail.valueLabel }}</div><div style="font:500 9.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ dealDetail.probLabel }} · {{ dealDetail.weightedLabel }} weighted</div></div>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start;">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 332px;gap:16px;align-items:start;">
             <!-- LEFT -->
-            <div style="display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;flex-direction:column;gap:16px;min-width:0;">
               <!-- Why they buy -->
               <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;">
                 <div style="font:600 9px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;margin-bottom:11px;">Why they buy</div>
@@ -10103,13 +10180,6 @@
                   </sc-for>
                 </div>
               </div>
-              <!-- Next best action -->
-              <div style="border:1px solid #b7d4c3;background:#f1f7f3;border-radius:14px;padding:17px;">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2f7050" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"></path></svg><span style="font:600 10.5px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:#1f5a3a;">Next best action</span></div>
-                <p style="font:400 13px/1.5 'Pliant','Instrument Sans',sans-serif;color:#8f5f15;margin:0 0 13px;">{{ dealDetail.nba }}</p>
-                <button onClick="{{ doNba }}" style="width:100%;border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:10px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#265c41">Do it with {{ agentName }}</button>
-              </div>
-              <!-- Risk -->
               <sc-if value="{{ dealDetail.riskOn }}" hint-placeholder-val="">
                 <div style="border:1px solid #f3dcd8;background:#f7e4e1;border-radius:14px;padding:17px;">
                   <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a2413a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path><path d="M12 9v4M12 17h.01"></path></svg><span style="font:600 10.5px 'JetBrains Mono';letter-spacing:.06em;text-transform:uppercase;color:#a2413a;">Risk flags</span></div>
@@ -11438,59 +11508,10 @@
     <!-- ===== CONNECTIONS ===== -->
     <sc-if value="{{ isConnections }}" hint-placeholder-val="">
 
-      <!-- CONNECTIONS OVERVIEW -->
-      <sc-if value="{{ connIsOverview }}" hint-placeholder-val="{{ true }}">
-      <div style="max-width:1080px;margin:0 auto;padding:28px 34px 80px;">
-        <div style="font:600 11px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#1f5a3a;margin-bottom:6px;">Platform</div>
-        <h1 style="font:600 28px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#2d2b2b;margin:0 0 6px;">Connectors</h1>
-        <p style="font:400 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0 0 18px;max-width:660px;">Credentials, scopes and sync health for everything connected. Browsing and connecting new systems happens in Sources.</p>
-
-        <div style="margin:4px 0 22px;max-width:760px;">
-          <p style="font:400 15px/1.65 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.01em;color:#35323c;margin:0;text-wrap:pretty;">Three systems are connected and syncing. <span style="background:linear-gradient(transparent 62%, #ffe3a0 62%);">One needs attention:</span> <b style="color:#2d2b2b;">Salesforce</b> hit a rate limit. Writes are paused and retry at 10:00am.&nbsp;<button onClick="{{ goConnIntegrations }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#1f5a3a;" style-hover="color:#2f7050">Review Salesforce →</button></p>
-        </div>
-
-        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:11px;">
-          <span style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;">Connected</span>
-          <span style="flex:1;"></span>
-          <button onClick="{{ goSources }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#1f5a3a;" style-hover="color:#2f7050">Browse connectors in Sources →</button>
-        </div>
-        <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;margin-bottom:28px;">
-          <sc-for list="{{ connSystems }}" as="cs" hint-placeholder-count="3">
-            <div onClick="{{ cs.manage }}" style="display:flex;align-items:center;gap:13px;padding:13px 16px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fff;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
-              <span style="width:34px;height:34px;border-radius:9px;background:{{ cs.iB }};color:{{ cs.iC }};display:flex;align-items:center;justify-content:center;font:700 11.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ cs.ini }}</span>
-              <div style="width:170px;flex:0 0 auto;min-width:0;">
-                <div style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ cs.nm }}</div>
-                <div style="font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:1px;">{{ cs.meta }}</div>
-              </div>
-              <span style="width:96px;flex:0 0 auto;"><span style="display:inline-flex;align-items:center;gap:6px;font:600 10px 'Pliant','Instrument Sans',sans-serif;color:{{ cs.stC }};background:{{ cs.stB }};border-radius:7px;padding:4px 10px;"><span style="width:6px;height:6px;border-radius:50%;background:{{ cs.dot }};"></span>{{ cs.stL }}</span></span>
-              <span style="flex:1;min-width:170px;font:400 11.5px/1.45 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ cs.line }}</span>
-              <span style="width:118px;flex:0 0 auto;text-align:right;"><span style="display:block;font:600 8.5px 'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:#908d9c;">{{ cs.pw }}</span><span style="display:block;font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;margin-top:2px;">{{ cs.last }}</span></span>
-              <span style="font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#48454f;border:1px solid #ececf2;background:#fff;border-radius:8px;padding:6px 12px;flex:0 0 auto;">Manage</span>
-            </div>
-          </sc-for>
-        </div>
-
-        <!-- Unified activity feed -->
-        <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:12px;">Recent activity</div>
-        <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
-          <sc-for list="{{ connActivity }}" as="a" hint-placeholder-count="7">
-            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #f0f0f4;">
-              <span style="width:28px;height:28px;border-radius:7px;background:{{ a.b }};color:{{ a.c }};display:flex;align-items:center;justify-content:center;font:700 9px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ a.ic }}</span>
-              <div style="flex:1;min-width:0;">
-                <div style="font:500 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ a.label }}</div>
-                <div style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ a.detail }}</div>
-              </div>
-              <span style="font:400 10.5px 'JetBrains Mono';color:#908d9c;flex:0 0 auto;">{{ a.time }}</span>
-            </div>
-          </sc-for>
-        </div>
-      </div>
-      </sc-if>
-
       <!-- MCP DETAIL (legacy, unrouted) -->
       <sc-if value="{{ connIsMcp }}" hint-placeholder-val="">
       <div style="max-width:1080px;margin:0 auto;padding:28px 34px 80px;">
-        <button onClick="{{ backToConnOverview }}" style="display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:18px;padding:0;" style-hover="color:#2d2b2b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Back to Connections</button>
+        <button onClick="{{ backToConnOverview }}" style="display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:18px;padding:0;" style-hover="color:#2d2b2b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Back to Sources</button>
         <div style="font:600 11px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#1f5a3a;margin-bottom:6px;">Model Context Protocol</div>
         <h1 style="font:600 28px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#2d2b2b;margin:0 0 6px;">Connect Sprouts to your agents</h1>
         <p style="font:400 13.5px/1.5 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin:0 0 18px;max-width:660px;">Expose your GTM data layer and tools over MCP so Claude, ChatGPT, Microsoft Copilot and Salesforce agents can search accounts, read deep intelligence, and run your agents. Reads auto-run, writes are gated for approval.</p>
@@ -11938,7 +11959,7 @@
       <!-- My Integrations -->
       <sc-if value="{{ integIsMy }}" hint-placeholder-val="{{ true }}">
       <div style="max-width:1080px;margin:0 auto;padding:28px 34px 80px;">
-        <button onClick="{{ backToConnOverview }}" style="display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:18px;padding:0;" style-hover="color:#2d2b2b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Back to Connections</button>
+        <button onClick="{{ backToConnOverview }}" style="display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:18px;padding:0;" style-hover="color:#2d2b2b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Back to Sources</button>
         <div style="font:600 11px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#205e9e;margin-bottom:6px;">Connectors · Integrations</div>
         <h1 style="font:600 28px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#2d2b2b;margin:0 0 22px;">Integrations</h1>
         <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f1eefc,#fdf3ee);border-radius:14px;padding:15px 17px;margin-bottom:20px;">
@@ -11974,7 +11995,7 @@
       <!-- Available Integrations -->
       <sc-if value="{{ integIsAvail }}" hint-placeholder-val="">
       <div style="max-width:1080px;margin:0 auto;padding:28px 34px 80px;">
-        <button onClick="{{ backToConnOverview }}" style="display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:18px;padding:0;" style-hover="color:#2d2b2b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Back to Connections</button>
+        <button onClick="{{ backToConnOverview }}" style="display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-bottom:18px;padding:0;" style-hover="color:#2d2b2b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Back to Sources</button>
         <div style="font:600 11px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#205e9e;margin-bottom:6px;">Connectors · Integrations</div>
         <h1 style="font:600 28px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#2d2b2b;margin:0 0 22px;">Integrations</h1>
         <div style="display:flex;gap:13px;align-items:flex-start;border:none;background:linear-gradient(160deg,#f1eefc,#fdf3ee);border-radius:14px;padding:15px 17px;margin-bottom:20px;">
@@ -13421,11 +13442,10 @@
 class Component extends DCLogic {
   ptBase() {
     return [
-      { id:'nt', name:'Northwind Tech', region:'West', email:'ops@northwindtech.com', tier:'Gold', cap:14, ttft:'3.4h', accept:94, working:6, won:5, pipe:480, rev:210, avgDeal:42, win:45, lastActive:'2h ago', logins30:41, certs:'4 of 6', qbr:'12 Sep', trend:[55,70,85,80,95,95], credU:820, credCap:1200 },
-      { id:'av', name:'Apex VAR', region:'Central', email:'sales@apexvar.com', tier:'Silver', cap:12, ttft:'5.1h', accept:88, working:4, won:3, pipe:310, rev:140, avgDeal:38, win:43, lastActive:'Yesterday', logins30:26, certs:'3 of 5', qbr:'26 Sep', trend:[40,50,45,60,55,60], credU:540, credCap:900 },
-      { id:'sm', name:'Summit MSP', region:'East', email:'team@summitmsp.com', tier:'Registered', cap:10, ttft:'9.6h', accept:71, working:3, won:1, pipe:150, rev:60, avgDeal:30, win:25, lastActive:'6d ago', logins30:7, certs:'1 of 4', qbr:'Overdue', trend:[30,25,35,20,25,15], credU:610, credCap:700 },
-      { id:'bl', name:'Blue Ledger', region:'South', email:'gtm@blueledger.io', tier:'Gold', cap:16, ttft:'2.8h', accept:96, working:7, won:6, pipe:620, rev:260, avgDeal:48, win:46, lastActive:'38m ago', logins30:58, certs:'6 of 8', qbr:'4 Sep', trend:[70,90,95,105,120,140], credU:1030, credCap:1400 },
-      { id:'cr', name:'Corevance', region:'Northeast', email:'hello@corevance.com', tier:'Registered', cap:8, ttft:'6.7h', accept:79, working:2, won:1, pipe:120, rev:45, avgDeal:26, win:33, lastActive:'3d ago', logins30:12, certs:'1 of 3', qbr:'19 Sep', trend:[15,20,25,20,25,15], credU:300, credCap:500 },
+      { id:'cap', name:'Capio International', region:'EMEA', email:'partners@capio.com', tier:'Gold', cap:14, ttft:'3.4h', accept:94, working:6, won:5, pipe:480, rev:210, avgDeal:42, win:45, lastActive:'2h ago', logins30:41, certs:'4 of 6', qbr:'12 Sep', trend:[55,70,85,80,95,95], credU:820, credCap:1200, sheet:'https://docs.google.com/spreadsheets/d/1MJHjM6ubBba_ZHXBk8jsYqLdcixdOBrgxvH8AdZWZYI/edit', dash:'https://capio-dashboard.vercel.app', dashName:'Capio International Account Intelligence' },
+      { id:'jk', name:'JK Technology', region:'APAC', email:'sales@jktech.com', tier:'Silver', cap:12, ttft:'5.1h', accept:88, working:4, won:3, pipe:310, rev:140, avgDeal:38, win:43, lastActive:'Yesterday', logins30:26, certs:'3 of 5', qbr:'26 Sep', trend:[40,50,45,60,55,60], credU:540, credCap:900, sheet:'https://docs.google.com/spreadsheets/d/1PdhDA5K2N1ZZDh5hnpMF8A3C5VLi9R5XprpJBB69TfA/edit', dash:'https://jk-dashboard-zeta.vercel.app', dashName:'JK Technology Account Intelligence' },
+      { id:'sh', name:'StarHub', region:'APAC', email:'gtm@starhub.com', tier:'Silver', cap:10, ttft:'6.7h', accept:79, working:2, won:1, pipe:120, rev:45, avgDeal:26, win:33, lastActive:'3d ago', logins30:12, certs:'1 of 3', qbr:'19 Sep', trend:[15,20,25,20,25,15], credU:300, credCap:500, sheet:'https://docs.google.com/spreadsheets/d/1Zj6giFp1XPILuewS_n_hy_YlpgdFipAdISN0GtWB67g/edit', dash:'https://star-hub-dashboard.vercel.app', dashName:'StarHub Account Intelligence' },
+      { id:'ny', name:'Nanyang Technologies', region:'APAC', email:'team@nanyang.tech', tier:'Registered', cap:10, ttft:'9.6h', accept:71, working:3, won:1, pipe:150, rev:60, avgDeal:30, win:25, lastActive:'6d ago', logins30:7, certs:'1 of 4', qbr:'Overdue', trend:[30,25,35,20,25,15], credU:610, credCap:700, sheet:'https://docs.google.com/spreadsheets/d/1TtZr3L_sDqU16oIBiJXWi6fhMHRVVZ9py-CjKU8ap9k/edit', dash:'https://nanyang-one.vercel.app', dashName:'Nanyang Tech Account Intelligence' },
     ].concat(this.state.ptAdded || []);
   }
   dashVals() {
@@ -13493,6 +13513,15 @@ class Component extends DCLogic {
         }
       },
       dashReset: () => { saveAll({ dashHidden: {}, dashAdded: {}, dashSpans: {} }); this.toast('Dashboard reset to default.'); },
+      dashCustOpenV: !!S.dashCustOpen,
+      dashCustFlip: () => this.setState(s => ({ dashCustOpen: !s.dashCustOpen })),
+      dashCustRows: DEFS.map(d => { const isOn = visible.includes(d);
+          return { t: d.title, m: d.meta, on: isOn, off: !isOn,
+            hide: () => { const h = Object.assign({}, hidden); h[d.key] = true; saveAll({ dashHidden: h }); },
+            restore: () => { const h = Object.assign({}, hidden); delete h[d.key];
+              const a = Object.assign({}, added); if (d.extra) a[d.key] = true;
+              saveAll({ dashHidden: h, dashAdded: a }); this.toast(d.title + ' added.'); } }; }),
+      dashCustReset: () => { saveAll({ dashHidden: {}, dashAdded: {}, dashSpans: {} }); this.setState({ dashCustOpen: false }); this.toast('Dashboard reset to default.'); },
     };
   }
   partnerVals(allRows) {
@@ -13665,6 +13694,9 @@ class Component extends DCLogic {
           committees: String(cov.cm),
           cred: credPct + '%', credW: Math.min(100, credPct) + '%',
           credSub: p.credU.toLocaleString('en-US') + ' of ' + p.credCap.toLocaleString('en-US') + ' this cycle',
+          hasDash: !!p.dash, dashName: p.dashName || (p.name + ' Account Intelligence'),
+          openDash: () => window.open(p.dash, '_blank'),
+          openSheet: () => window.open(p.sheet, '_blank'),
           canReclaim: stn > 0, reclaimLbl: 'Reclaim ' + stn + ' stalled',
           reclaimAll: () => requeueNames(stOf(detId), stn + (stn > 1 ? ' accounts' : ' account') + ' reclaimed from ' + p.name + '. Back in the queue.'),
         } });
@@ -14462,9 +14494,10 @@ class Component extends DCLogic {
           pdSk2Install: () => { this.setState({ pdSk2: true }); this.toast('Champion win-back installed. Available as a co-drive.'); },
           pdGoSkills: () => this.setState({ pdBig: false, view: 'personalization', peTab: 'skills' }),
           pdGoMcp: () => this.setState({ pdBig: false, view: 'sproutsmcp' }),
+          ...this._swVals(),
           pdBigV: !!S.pdBig,
           pdCollapse: () => this.setState({ pdBig: false }),
-          pdBigMsgs: (S.pdMsgs || []).map(m => ({ ...m, isMe: m.who === 'me', isP: m.who === 'p', hasRun: !!m.run, runGo: () => this.startCoDrive(),
+          pdBigMsgs: (S.pdMsgs || []).map(m => ({ ...m, isMe: m.who === 'me', isP: m.who === 'p', isWiz: m.who === 'wiz', hasRun: !!m.run, runGo: () => this.startCoDrive(),
             hasChips: !!(m.chips || []).length, chipsV: (m.chips || []).map(c => ({ l: c.l, go: () => { if (c.patch) this.setState(c.patch); if (c.send) this.pdBigSend(c.send); if (c.toast) this.toast(c.toast); } })),
             isPlan: !!m.plan, planReq: m.plan ? m.plan.req : '', planScope: m.plan ? m.plan.scope : '', planSteps: m.plan ? m.plan.steps : [],
             planReceipt: () => this.toast('Receipt: 6,077 scanned \u00b7 34 matched \u00b7 0 credits spent.'),
@@ -15286,8 +15319,8 @@ class Component extends DCLogic {
   engageSavant(text, chips) { this.setState({ pdBig: true, pdOpen: false, pdTab: 'chat' });
     this.setState(s => ({ pdMsgs: (s.pdMsgs || []).concat([{ who: 'p', text: text, chips: chips || [] }]) })); }
   engageSmartCol() { this.engageSavant('New column: tell me what it should show and I\u2019ll research it, preview it on this table, then keep it fresh. Try \u201ctop 3 competitors mentioned in recent calls\u201d or \u201clikelihood to expand\u201d.',
-    [ { l: 'Hiring signals', send: 'Add a smart column: open GTM roles in the last 90 days' },
-      { l: 'Tech stack', send: 'Add a smart column: current CRM and data stack' },
+    [ { l: 'Hiring signals', send: 'Add a column: open GTM roles in the last 90 days' },
+      { l: 'Tech stack', send: 'Add a column: current CRM and data stack' },
       { l: 'Browse the library', patch: { pnWide: true, wspSmartModal: true, wspSmartStep: 1, wspSmartPrompt: '', wspSmartFrom: null } } ]); }
   _savantPlan(q) {
     const t = (re) => re.test(q);
@@ -15338,7 +15371,7 @@ class Component extends DCLogic {
       return P('Navigated', { view: 'visitors' }, 'Website Visitors',
         '312 companies identified in 30 days \u00b7 41 qualified.',
         'Website Visitors is open. 312 companies identified this month, 41 clearing your qualification rules.');
-    if (t(/create a signal|signal:/i)) { const NM = /pricing/i.test(q) ? 'Pricing-page visits \u00b7 2+ in 14d' : /champion|new role|changed jobs/i.test(q) ? 'Champion changed jobs' : /hiring|revops/i.test(q) ? 'Hiring RevOps \u00b7 EMEA' : q.replace(/create a signal:?\s*/i, '').slice(0, 48);
+    if (false) { const NM = /pricing/i.test(q) ? 'Pricing-page visits \u00b7 2+ in 14d' : /champion|new role|changed jobs/i.test(q) ? 'Champion changed jobs' : /hiring|revops/i.test(q) ? 'Hiring RevOps \u00b7 EMEA' : q.replace(/create a signal:?\s*/i, '').slice(0, 48);
       return P('Action', { view: 'workspace', tab: 'companies' }, 'Prospects \u00b7 Signals', NM + ' \u00b7 live', 'Signal is live: \u201c' + NM + '\u201d. Every account is being scored against it now; the TOP SIGNAL column re-ranks as matches land, and I\u2019ll notify you when one crosses 80. Rules re-evaluate daily at 8:00 AM.', 'See it'); }
     if (t(/report(ing)? widget/i)) { const K = /credit/i.test(q) ? 'ptRepWCred' : /first touch|time from/i.test(q) ? 'ptRepWTouch' : 'ptRepWMeet';
       const NM = K === 'ptRepWCred' ? 'Credit spend' : K === 'ptRepWTouch' ? 'Time to first touch' : 'Meetings booked';
@@ -15375,6 +15408,10 @@ class Component extends DCLogic {
       return P('Navigated', { view: 'connections', connTab: 'integrations' }, 'Connections \u00b7 Integrations',
         'Salesforce two-way \u00b7 healthy \u00b7 last sync 5m ago.',
         'Integrations are open. Salesforce is syncing both directions; the last pass updated 41 accounts.');
+    if (t(/heat(ed)?|hot (visitor|account)/i))
+      return P('Navigated', { view: 'workspace', tab: 'companies', wspQF: { tr: ['Heating'] }, wspPage: 1 }, 'Prospects \u00b7 Trend = Heating',
+        '9 accounts heated this week \u00b7 filtered',
+        'Nine accounts heated this week, led by Philips (3 pricing visits) and Stripe (committee activity). I\u2019ve filtered Prospects to Trend = Heating so you\u2019re looking at all of them \u2014 the TOP SIGNAL column says why each one moved.', 'See them');
     if (t(/\bsource/i))
       return P('Navigated', { view: 'sources' }, 'Sources',
         'Every route data takes into Prospects.',
@@ -15399,8 +15436,65 @@ class Component extends DCLogic {
         'Dashboard is up. Tell me to add or remove any widget and I will reshape it.');
     return null;
   }
+  _sigDrive(q) {
+    const raw = q.replace(/^.*?create a signal[:\u00b7,]?\s*/i, '').trim();
+    const question = raw ? raw[0].toUpperCase() + raw.slice(1) + (/[?.!]$/.test(raw) ? '' : '?') : '';
+    const srcKey = /pricing/i.test(q) ? 'pricing' : /champion|job|role/i.test(q) ? 'champion' : /hiring|revops|recruit/i.test(q) ? 'hiring' : /tech|stack|crm/i.test(q) ? 'tech' : /fund|raise|news/i.test(q) ? 'news' : (question ? 'custom' : null);
+    (this._swT || []).forEach(clearTimeout); this._swT = [];
+    this.setState(s => ({ pdBig: true, pdOpen: true,
+      pdMsgs: (s.pdMsgs || []).concat([{ who: 'wiz' }]),
+      sw: { step: 0, q: question, src: srcKey, win: 1, ref: 1, prev: false, prevDone: false, done: false } }));
+    const at = (ms, f) => this._swT.push(setTimeout(f, ms));
+    at(350, () => this.setState(s => ({ sw: { ...s.sw, step: 1 } })));
+    at(1250, () => this.setState(s => ({ sw: { ...s.sw, step: 2 } })));
+    at(2150, () => this.setState(s => ({ sw: { ...s.sw, step: 3, prev: true } })));
+    at(3900, () => this.setState(s => ({ sw: { ...s.sw, prevDone: true } })));
+  }
+  _swVals() {
+    const S = this.state, sw = S.sw || {};
+    const SRC = [
+      { k: 'pricing', l: 'Pricing-page visits', q: 'Did the company visit the pricing page twice in 14 days?' },
+      { k: 'champion', l: 'Champion changed jobs', q: 'Did a past champion start a new role?' },
+      { k: 'hiring', l: 'Hiring surge', q: 'Did they open RevOps roles in EMEA?' },
+      { k: 'tech', l: 'Tech-stack change', q: 'Did their CRM or data stack change this quarter?' },
+      { k: 'news', l: 'Funding & news', q: 'Did they announce funding or a major launch?' },
+    ];
+    const up = (patch) => this.setState(s => ({ sw: { ...(s.sw || {}), ...patch } }));
+    const q = sw.q || '';
+    const name = (q.length > 44 ? q.slice(0, 42) + '\u2026' : q).replace(/\?$/, '');
+    const PREV = [
+      { nm: 'Philips', ini: 'PH', bg: '#e3eef9', fg: '#205e9e', yn: 'Yes', c: '#1f5a3a', b: '#e2efe7', why: '3 visits Tue\u2013Thu \u00b7 champion reshared the case study' },
+      { nm: 'Razorpay', ini: 'RZ', bg: '#e2efe7', fg: '#1f5a3a', yn: 'Likely', c: '#8f5f15', b: '#f4e5c5', why: '2 independent mentions \u00b7 no formal announcement' },
+      { nm: 'HighRadius', ini: 'HR', bg: '#f4e5c5', fg: '#8f5f15', yn: 'No', c: '#a2413a', b: '#f7e4e1', why: 'no evidence inside the window' },
+    ];
+    return {
+      swS1: (sw.step || 0) >= 1, swS2: (sw.step || 0) >= 2, swS3: (sw.step || 0) >= 3,
+      swQ: q, swSetQ: (e) => up({ q: e.target.value }),
+      swSrcs: SRC.map(o => ({ l: o.l, on: sw.src === o.k,
+        bd: sw.src === o.k ? '#265c41' : '#e2e2ea', bg: sw.src === o.k ? '#e2efe7' : '#fbfbfd', col: sw.src === o.k ? '#1f5a3a' : '#48454f',
+        pick: () => up({ src: o.k, q: o.q, prevDone: sw.step >= 3 ? sw.prevDone : false }) })),
+      swWins: ['7 days', '14 days', '30 days'].map((l, i) => ({ l, on: (sw.win || 0) === i,
+        bd: (sw.win || 0) === i ? '#265c41' : '#e2e2ea', bg: (sw.win || 0) === i ? '#e2efe7' : '#fbfbfd', col: (sw.win || 0) === i ? '#1f5a3a' : '#63606e',
+        pick: () => up({ win: i }) })),
+      swRefs: ['7d', '15d', '30d', 'Off'].map((l, i) => ({ l, on: (sw.ref || 0) === i,
+        bd: (sw.ref || 0) === i ? '#265c41' : '#e2e2ea', bg: (sw.ref || 0) === i ? '#e2efe7' : '#fbfbfd', col: (sw.ref || 0) === i ? '#1f5a3a' : '#63606e',
+        pick: () => up({ ref: i }) })),
+      swPrevRows: PREV.map(r => ({ ...r, searching: !sw.prevDone, done: !!sw.prevDone })),
+      swCost: 'Preview free \u00b7 full run ~6,077 credits at 1 cr / account',
+      swCanCreate: !!q.trim() && !sw.done, swDone: !!sw.done, swName: name,
+      swCreate: () => { if (!q.trim()) { this.toast('Pick what to watch first.'); return; }
+        this.setState(s => ({
+          sigActive: [{ name, n: '\u2014', last: 'Running now' }].concat(s.sigActive || []),
+          wspSmartCols: (s.wspSmartCols || []).indexOf('sg:' + name) < 0 ? (s.wspSmartCols || []).concat('sg:' + name) : s.wspSmartCols,
+          sw: { ...(s.sw || {}), done: true },
+          pdMsgs: (s.pdMsgs || []).concat([{ who: 'p', text: 'Live. \u201c' + name + '\u201d is a column on the table and listed under Active in the builder' + ((sw.ref || 0) !== 3 ? ' \u2014 re-checked every ' + ['7', '15', '30'][sw.ref || 0] + ' days, changed accounts only.' : '.') }]) }));
+        this.toast('Signal live. A column on the table.'); },
+      swSeeCol: () => this.setState({ view: 'workspace', tab: 'companies', pdBig: false, pdOpen: false }),
+    };
+  }
   pdBigSend(q) {
     if (/co-?drive/i.test(q)) { this.setState({ pdBigQ: '' }); this.startCoDrive(); return; }
+    if (/create a signal|signal:/i.test(q)) { this.setState(s => ({ pdMsgs: (s.pdMsgs || []).concat([{ who: 'me', text: q }]), pdBigQ: '' })); this._sigDrive(q); return; }
     const files = (this.state.pdFiles || []).slice();
     this.setState(s => ({ pdMsgs: (s.pdMsgs || []).concat([{ who: 'me', text: q + (files.length ? '  \ud83d\udcce ' + files.join(', ') : '') }]), pdBigQ: '', pdFiles: [], pdTyping: true }));
     clearTimeout(this._pdT);
@@ -17843,6 +17937,7 @@ class Component extends DCLogic {
         healthWhy: 'Health \u00b7 ' + d.health + '. ' + hf.map(f => f.l + ': ' + f.v).join(' \u00b7 '),
         riskChips: riskChips.slice(0, 2),
         dragStart: (e) => { try { e.dataTransfer.setData('text/plain', d.key); e.dataTransfer.effectAllowed = 'move'; } catch (x) {} },
+        openIntel: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ view: 'account', acctKey: d.key, acctTab: 'overview', profileFrom: 'opps' }); },
         open: () => this.setState({ oppSel: d.key }) };
     });
     const pipelineStages = OSTAGES.map(s => {
@@ -17961,7 +18056,8 @@ class Component extends DCLogic {
         autoMap: () => { const m = {}; people.forEach(p => { if (!p.role) return; let si = p.sen; let key = p.role + '|' + si; let guard = 0; while (m[key] && guard < 4) { si = (si + 1) % 4; key = p.role + '|' + si; guard++; } m[key] = p.id; });
           this.setState(s => ({ oppMap: { ...(s.oppMap || {}), [d.key]: m } })); this.toast(agentName + ' mapped ' + Object.keys(m).length + ' contacts by role \u00d7 seniority. Drag any card to correct her.'); },
         mapReset: () => { this.setState(s => ({ oppMap: { ...(s.oppMap || {}), [d.key]: {} } })); this.toast('Board cleared. Contacts are back in the unmapped list.'); },
-        stageSteps: OSTAGES.map((s,i) => ({ name:s, done:i<=d.stageIdx, current:i===d.stageIdx, doneBg: i<=d.stageIdx?OSTOK[d.stage].c:'#e2e2ea', col: i<=d.stageIdx?'#2d2b2b':'#908d9c' })),
+        openIntel: () => this.setState({ view: 'account', acctKey: d.key, acctTab: 'overview', profileFrom: 'opps' }),
+        stageSteps: OSTAGES.map((s,i) => ({ name:s, past: i<d.stageIdx || d.stage==='Closed Won', notPast: !(i<d.stageIdx || d.stage==='Closed Won'), cBg: (i<d.stageIdx || d.stage==='Closed Won') ? '#2f7050' : i===d.stageIdx ? '#e2efe7' : '#fff', cBd: i===d.stageIdx ? '2px solid #2f7050' : '1.5px solid #d6d5de', dotC: i===d.stageIdx ? '#2f7050' : '#d6d5de', col: i<=d.stageIdx?'#2d2b2b':'#908d9c' })),
         meddic: [
           ms('Metrics', d.metric, 'met'),
           ms('Economic buyer', d.ebuyer, d.ebuyer==='—'?'missing':'met'),
@@ -20069,8 +20165,13 @@ class Component extends DCLogic {
           wvExAdd: () => { const v = (S3.wvExQ || '').trim(); if (!v) { this.toast('Type a domain, IP range, or path first.'); return; } this.setState(s => ({ wvExclAdd: (s.wvExclAdd || []).concat([[v, EXT[s.wvExT || 0].toLowerCase()]]), wvExQ: '' })); this.toast(v + ' excluded. Applies to new traffic from now on.'); },
           wvCopySnip: () => { try { navigator.clipboard.writeText(['<scr', 'ipt src="https://px.sprouts.ai/s.js" data-site="sprouts-ai" async></scr', 'ipt>'].join('')); } catch (e) {} this.toast('Snippet copied. Paste it before the closing head tag on every page.'); },
           wvSitesOpen: !!S3.wvSitesOpen, wvSitesFlip: () => this.setState(s => ({ wvSitesOpen: !s.wvSitesOpen, wvExclOpen: false, wvIcpOpen: false, wvAutoOpen: false })),
-          wvTiles: [['6,265','Visitors'],['1,038','Identified'],['859','Companies'],['12,322','Sessions'],['27,267','Page views'],['17,970','Product-page views']].map(x => ({ v: x[0], l: x[1] })),
-          wvCharts: [{ t: 'Visitors', v: '9,027', peak: 'peak 1,708', ...c1 }, { t: 'Sessions', v: '12,354', peak: 'peak 3,029', ...c2 }, { t: 'Page views', v: '27,267', peak: 'peak 3,930', ...c3 }],
+          wvTiles: [['6,265','Visitors'],['1,038','Identified'],['859','Companies'],['41','Match your ICP']].map(x => ({ v: x[0], l: x[1] })),
+          wvAskHeat: () => { this.setState({ pdBig: true, pdOpen: false, pdTab: 'chat' }); this.pdBigSend('Which accounts heated from website visits this week?'); },
+          wvAskSeg: () => this.engageSavant('Hot visitors \u2192 segment. I\u2019ll take the 41 ICP-matched companies with pricing or product visits this week and keep the rule live. Name it, or go with mine:',
+            [ { l: 'Create \u201cHot visitors \u00b7 weekly\u201d', send: 'Create a segment from hot website visitors' },
+              { l: 'Only pricing-page visitors', send: 'Create a segment: pricing-page visitors this week' } ]),
+          wvAskPin: () => { this.setState({ pdBig: true, pdOpen: false, pdTab: 'chat' }); this.pdBigSend('Add the visitors widget to my dashboard'); },
+          wvCharts: [{ t: 'Visitors \u00b7 30 days', v: '9,027', peak: '12.3K sessions \u00b7 27.3K page views', ...c1 }],
           wvTopPages: TP.map(p => ({ u: p[0], isProd: !!p[1], v: p[2].toLocaleString('en-US'), w: pctW(p[2], 9532), open: () => this.setState({ wvPageSel: p[0] }) })),
           wvTopTopics: TT.map(t => ({ t: tc(t[0]), v: t[1], n: t[2], w: pctW(t[3], 17613) })),
           wvDonut: donut, wvDist: DIST.filter(d => d[0] !== 'other').map(d => ({ t: tc(d[0]), pct: d[1] + '%', c: d[2] })),
@@ -21288,7 +21389,7 @@ class Component extends DCLogic {
       goSequence: () => this.setState({ view:'sequence', seqSel:'pricing' }),
       goPlaybooks: () => this.setState({ view:'playbooks', agentSel:null, agentTemplateLib:false, newWfMenuOpen:false }),
       goOpps: () => this.setState({ view:'opportunities' }),
-      goConnections: () => this.setState({ view:'connections', connTab:'overview' }),
+      goConnections: () => this.setState({ view:'sources' }),
       goSproutsMcp: () => this.setState({ view:'sproutsmcp' }),
       isSproutsMcp: v==='sproutsmcp',
       mcpCopyUrl: () => { try { navigator.clipboard.writeText('https://mcp.sprouts.ai/v1'); } catch (e) {} this.toast('Endpoint copied. Paste it into your MCP client config.'); },
@@ -21316,9 +21417,9 @@ class Component extends DCLogic {
       goDataPipelines: () => this.setState({ view:'datapipelines' }),
       dpFromConn: v==='connections',
       goConnIntegrations: () => this.setState({ view:'connections', connTab:'integrations' }),
-      backToConnOverview: () => this.setState({ connTab:'overview' }),
-      acctBackLbl: this.state.profileFrom === 'discover' ? 'Back to results' : 'Back to Prospects',
-      acctBack: () => { if (this.state.profileFrom === 'discover') { this.setState({ view:'discover', dPhase:'results', profileFrom:null }); }
+      backToConnOverview: () => this.setState({ view:'sources' }),
+      acctBackLbl: this.state.profileFrom === 'opps' ? 'Back to the deal' : this.state.profileFrom === 'discover' ? 'Back to results' : 'Back to Prospects',
+      acctBack: () => { if (this.state.profileFrom === 'opps') { this.setState({ view:'opportunities', profileFrom:null }); } else if (this.state.profileFrom === 'discover') { this.setState({ view:'discover', dPhase:'results', profileFrom:null }); }
         else { this.setState({ view:'workspace', tab:this.state.profileFromTab || 'companies', profileFrom:null }); } },
       goPersonalization: () => this.setState({ view:'personalization' }),
       goPeIcp: () => this.setState({ view:'personalization', peTab:'icp', icpDetailOpen:false, wspIcpDetail:null }),

@@ -26,8 +26,10 @@ const PAGES = [
 const ASSETS = [
   ['support.js', 'deploy/support.js'],
   ['uploads/sprouts.ai-logo.png', 'deploy/uploads/sprouts.ai-logo.png'],
-  ['fonts/Pliant-Variable.ttf', 'deploy/fonts/Pliant-Variable.ttf'],
-  ['fonts/OFL.txt', 'deploy/fonts/OFL.txt'],
+  // The @font-face is still named 'Pliant' but now sources Manrope, so Manrope
+  // is what ships -- with its own OFL notice, which the licence requires.
+  ['fonts/Manrope-VariableFont_wght.ttf', 'deploy/fonts/Manrope-VariableFont_wght.ttf'],
+  ['fonts/Manrope-OFL.txt', 'deploy/fonts/Manrope-OFL.txt'],
   ['assets/savant-orb.png', 'deploy/assets/savant-orb.png'],
 ];
 
