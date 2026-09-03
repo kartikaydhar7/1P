@@ -8,7 +8,7 @@
 //
 // Run directly with `node scripts/sync-deploy.mjs`, or let the pre-commit hook
 // in .githooks/ run it for you.
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, posix } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -30,25 +30,19 @@ const ASSETS = [
   // is what ships -- with its own OFL notice, which the licence requires.
   ['fonts/Manrope-VariableFont_wght.ttf', 'deploy/fonts/Manrope-VariableFont_wght.ttf'],
   ['fonts/Manrope-OFL.txt', 'deploy/fonts/Manrope-OFL.txt'],
-  ['assets/savant-orb.png', 'deploy/assets/savant-orb.png'],
 ];
+
+// assets/ is mirrored wholesale -- the partner dashboards pull in their own
+// marks, logos and scripts, and naming each one here would go stale the moment
+// a dashboard is re-exported.
+const ASSET_DIRS = ['assets'];
 
 // Assets the pages reference but that we knowingly cannot ship yet. Anything
 // missing and NOT listed here fails the sync, because a 404 on a background
 // image or a webfont is invisible in the markup and silently degrades the live
 // page -- exactly how the Savant orb and the Pliant typeface went unnoticed
 // across several deploys.
-const KNOWN_MISSING = new Map([
-  ['assets/capio-dashboard.html', 'partner dashboard export not yet provided'],
-  ['assets/jk-dashboard.html', 'partner dashboard export not yet provided'],
-  ['assets/nanyang-dashboard.html', 'partner dashboard export not yet provided'],
-  ['assets/ncs-dashboard.html', 'partner dashboard export not yet provided'],
-  ['assets/starhub-dashboard.html', 'partner dashboard export not yet provided'],
-  ['assets/capio-mark.png', 'partner logo not yet provided'],
-  ['assets/jk-mark.png', 'partner logo not yet provided'],
-  ['assets/nanyang-mark.png', 'partner logo not yet provided'],
-  ['assets/starhub-mark.png', 'partner logo not yet provided'],
-]);
+const KNOWN_MISSING = new Map();
 
 let changed = 0;
 
@@ -82,6 +76,21 @@ for (const [src, dest] of ASSETS) {
   }
 }
 
+for (const dir of ASSET_DIRS) {
+  for (const name of readdirSync(r(dir))) {
+    const src = `${dir}/${name}`, dest = `deploy/${dir}/${name}`;
+    if (statSync(r(src)).isDirectory()) continue;
+    let prev = null; const next = readFileSync(r(src));
+    try { prev = readFileSync(r(dest)); } catch {}
+    if (prev == null || !prev.equals(next)) {
+      mkdirSync(dirname(r(dest)), { recursive: true });
+      copyFileSync(r(src), r(dest));
+      console.log(`  synced  ${dest}`);
+      changed++;
+    }
+  }
+}
+
 // --- Verify every local asset a synced page references actually shipped. ---
 // Covers CSS url() as well as src=/href=; the orb was referenced only from
 // url(), which is why an attribute-only check never caught it.
@@ -89,11 +98,20 @@ for (const [src, dest] of ASSETS) {
 // being read as a CSS url() reference.
 const REF_RE = /(?:src|href)\s*=\s*"([^"]+)"|(?<![\w.])url\(\s*['"]?([^'")]+)['"]?\s*\)/gi;
 // Component logic is not markup; scanning it only produces false positives.
-const stripScripts = (html) => html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+// Keep the opening tag so <script src="..."> is still seen as a reference;
+// only the body is dropped, since component logic yields false positives.
+const stripScripts = (html) => html.replace(/(<script\b[^>]*>)[\s\S]*?<\/script>/gi, '$1');
 const missing = new Map();
 const skipped = [];
 
-for (const [, dest] of PAGES) {
+// The partner dashboards are standalone documents loaded into an iframe, so
+// their own references resolve relative to themselves and need checking too.
+const SCAN = [
+  ...PAGES.map(([, dest]) => dest),
+  ...readdirSync(r('deploy/assets')).filter(n => n.endsWith('.html')).map(n => `deploy/assets/${n}`),
+];
+
+for (const dest of SCAN) {
   const html = stripScripts(readFileSync(r(dest), 'utf8'));
   for (const m of html.matchAll(REF_RE)) {
     const ref = (m[1] ?? m[2] ?? '').trim();
@@ -114,7 +132,7 @@ for (const [, dest] of PAGES) {
 // under the directories we actually ship so those are checked too.
 const LOCAL_PATH_RE = /['"]((?:assets|fonts|uploads)\/[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*)(?:[?#][^'"]*)?['"]/g;
 
-for (const [, dest] of PAGES) {
+for (const dest of SCAN) {
   const html = readFileSync(r(dest), 'utf8');
   for (const m of html.matchAll(LOCAL_PATH_RE)) {
     const rel = posix.normalize(m[1]);
