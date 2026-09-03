@@ -20,6 +20,9 @@
   @keyframes cx-spin { to { transform: rotate(360deg); } }
   @keyframes swIn { from { opacity:0; transform:translateY(7px); } to { opacity:1; transform:none; } }
   @keyframes cx-pulse { 0%,100% { opacity:.4; transform:scale(1);} 50% { opacity:1; transform:scale(1.25);} }
+  @keyframes cx-skel { 0%,100% { opacity:.45; } 50% { opacity:1; } }
+  .cx-skel { animation: cx-skel 1.2s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .cx-skel { animation: none; opacity:.6; } }
   @keyframes pdBreathe { from { transform:scale(1); } to { transform:scale(1.045); } }
   @keyframes pdIdleRing { 0% { transform:scale(.92); opacity:0; } 18% { opacity:.5; } 100% { transform:scale(1.34); opacity:0; } }
   @media (prefers-reduced-motion: reduce) { [data-anim="orb"] { animation:none !important; } }
@@ -973,10 +976,10 @@
                   <div style="display:flex;align-items:center;height:34px;background:#f4f4f8;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;border-bottom:1px solid #ececf2;">
                     <span style="box-sizing:border-box;flex:0 0 40px;"></span>
                     <span style="box-sizing:border-box;flex:0 0 220px;padding:0 10px;">ACCOUNT</span>
-                    <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;">TOP SIGNAL</span>
+                    <span title="Researched buying signals on the account, from the partner's own dashboard" style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;">SIGNALS</span>
                     <span style="box-sizing:border-box;flex:0 0 92px;padding:0 10px;">ICP FIT</span>
-                    <span title="Priority tier, derived from ICP fit and signals" style="box-sizing:border-box;flex:0 0 56px;padding:0 10px;">TIER</span>
-                    <span style="box-sizing:border-box;flex:0 0 140px;padding:0 10px;">SEGMENT</span>
+                    <span title="Priority tier from the partner's own rules" style="box-sizing:border-box;flex:0 0 56px;padding:0 10px;">TIER</span>
+                    <span title="Third-party intent score" style="box-sizing:border-box;flex:0 0 68px;padding:0 10px;text-align:right;">INTENT</span>
                   </div>
                   <sc-for list="{{ ptRowsA }}" as="r" hint-placeholder-count="8">
                     <div onClick="{{ r.toggle }}" style="display:flex;align-items:center;height:48px;border-bottom:1px solid #f0f0f4;cursor:pointer;background:{{ r.rowBg }};" style-hover="background:#fbfbfd">
@@ -988,18 +991,40 @@
                         <span style="width:24px;height:24px;border-radius:6px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ r.logoSty16 }}"></span></span>
                         <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span><span style="font:400 9.5px 'JetBrains Mono';color:#908d9c;">{{ r.domain }}</span></span>
                       </span>
-                      <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;display:flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.sigColor }};flex:0 0 auto;"></span><span style="font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.signal }}</span></span>
+                      <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;display:flex;align-items:center;gap:8px;overflow:hidden;">
+                        <sc-if value="{{ r.hasTicks }}" hint-placeholder-val="{{ true }}">
+                          <span style="display:inline-flex;gap:2px;flex:0 1 auto;overflow:hidden;"><sc-for list="{{ r.sigTicks }}" as="tk" hint-placeholder-count="0"><span title="{{ tk.tip }}" style="width:8px;height:15px;border-radius:2px;background:{{ tk.bg }};flex:0 0 auto;cursor:help;"></span></sc-for></span>
+                          <span style="font:500 10px 'JetBrains Mono';color:#908d9c;flex:0 0 auto;">{{ r.sigN }}</span>
+                        </sc-if>
+                      </span>
                       <span style="box-sizing:border-box;flex:0 0 92px;padding:0 10px;"><span style="font:500 12px 'JetBrains Mono';color:#2d2b2b;">{{ r.fit }}</span><span style="display:block;width:52px;height:4px;border-radius:2px;background:#eaeaf0;margin-top:4px;overflow:hidden;"><span style="display:block;height:100%;width:{{ r.fitW }};background:{{ r.fitC }};"></span></span></span>
                       <span style="box-sizing:border-box;flex:0 0 56px;padding:0 10px;"><span style="font:600 9.5px 'JetBrains Mono';color:{{ r.tierC }};background:{{ r.tierBg }};border-radius:5px;padding:2px 7px;">{{ r.tier }}</span></span>
-                      <span style="box-sizing:border-box;flex:0 0 140px;padding:0 10px;"><span style="font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:{{ r.segC }};background:{{ r.segB }};border-radius:6px;padding:3px 9px;white-space:nowrap;">{{ r.seg }}</span></span>
+                      <span style="box-sizing:border-box;flex:0 0 68px;padding:0 10px;text-align:right;font:600 12px 'JetBrains Mono';color:{{ r.intentC }};">{{ r.intent }}</span>
                     </div>
                   </sc-for>
                 </sc-if>
                 <sc-if value="{{ ptNoRows }}" hint-placeholder-val="">
-                  <div style="padding:44px 20px;text-align:center;">
-                    <div style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin-bottom:4px;">Queue clear</div>
-                    <div style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">Every account matching these filters has an owner.</div>
-                  </div>
+                  <sc-if value="{{ ptQSyncing }}" hint-placeholder-val="{{ true }}">
+                    <div style="padding:10px 0 14px;">
+                      <sc-for list="{{ ptSkelRows }}" as="sk" hint-placeholder-count="3">
+                        <div class="cx-skel" style="display:flex;align-items:center;gap:10px;height:48px;padding:0 16px 0 50px;border-bottom:1px solid #f4f4f7;animation-delay:{{ sk.dly }};">
+                          <span style="width:24px;height:24px;border-radius:6px;background:#ececf2;flex:0 0 auto;"></span>
+                          <span style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:0;">
+                            <span style="display:block;width:{{ sk.w1 }};height:9px;border-radius:4px;background:#ececf2;"></span>
+                            <span style="display:block;width:{{ sk.w2 }};height:7px;border-radius:4px;background:#f0f0f5;"></span>
+                          </span>
+                          <span style="display:inline-flex;gap:2px;flex:0 0 auto;"><span style="width:8px;height:15px;border-radius:2px;background:#ececf2;"></span><span style="width:8px;height:15px;border-radius:2px;background:#f0f0f5;"></span><span style="width:8px;height:15px;border-radius:2px;background:#ececf2;"></span><span style="width:8px;height:15px;border-radius:2px;background:#f0f0f5;"></span></span>
+                          <span style="width:34px;height:16px;border-radius:5px;background:#ececf2;flex:0 0 auto;"></span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ ptQClear }}" hint-placeholder-val="">
+                    <div style="padding:44px 20px;text-align:center;">
+                      <div style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin-bottom:4px;">Queue clear</div>
+                      <div style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">Every account matching these filters has an owner.</div>
+                    </div>
+                  </sc-if>
                 </sc-if>
               </div>
 
@@ -1011,7 +1036,6 @@
                     <div onClick="{{ p.pick }}" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:{{ p.bg }};box-shadow:{{ p.ring }};cursor:pointer;">
                       <span style="width:28px;height:28px;border-radius:8px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ p.logoSty18 }}"></span></span>
                       <span style="flex:1;min-width:0;display:flex;flex-direction:column;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.name }}</span><span style="font:400 10px 'JetBrains Mono';color:#908d9c;">{{ p.meta }}</span></span>
-                      <span style="flex:0 0 auto;text-align:right;"><span style="font:500 9.5px 'JetBrains Mono';color:#63606e;">{{ p.cap }}</span><span style="display:block;width:54px;height:5px;border-radius:3px;background:#eaeaf0;margin-top:3px;overflow:hidden;"><span style="display:block;height:100%;width:{{ p.capW }};background:{{ p.capC }};"></span></span></span>
                     </div>
                   </sc-for>
                 </div>
@@ -1028,43 +1052,55 @@
               <div style="display:flex;align-items:baseline;gap:10px;padding:15px 18px;border-bottom:1px solid #f0f0f4;">
                 <span style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Partners</span>
                 <span style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">Ops on the left, live portfolio intelligence on the right. Click a partner for the full picture</span>
+                <span style="flex:1;"></span>
+                <span style="position:relative;">
+                  <button onClick="{{ ptColsFlip }}" title="Add columns" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="border-color:#b7d4c3;color:#1f5a3a"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Columns</button>
+                  <sc-if value="{{ ptColsOpen }}" hint-placeholder-val="">
+                    <span onClick="{{ ptColsClose }}" style="position:fixed;inset:0;z-index:59;display:block;"></span>
+                    <span style="position:absolute;top:34px;right:0;z-index:60;width:264px;background:#fff;border:1px solid #ececf2;border-radius:13px;box-shadow:0 6px 16px -6px rgba(24,23,30,.12), 0 24px 60px -18px rgba(24,23,30,.28);overflow:hidden;display:block;">
+                      <span style="display:block;font:600 8.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;padding:11px 14px 5px;">Live columns · from partner feeds</span>
+                      <sc-for list="{{ ptColsItems }}" as="ci" hint-placeholder-count="4">
+                        <button onClick="{{ ci.flip }}" style="display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;border:none;background:transparent;cursor:pointer;padding:9px 14px;" style-hover="background:#f9f8fb">
+                          <span style="width:15px;height:15px;border-radius:4px;background:{{ ci.boxBg }};border:1.5px solid {{ ci.boxBd }};flex:0 0 auto;display:flex;align-items:center;justify-content:center;margin-top:1px;"><sc-if value="{{ ci.on }}" hint-placeholder-val=""><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></sc-if></span>
+                          <span style="min-width:0;"><span style="display:block;font:600 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ ci.l }}</span><span style="display:block;font:400 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:1px;">{{ ci.sub }}</span></span>
+                        </button>
+                      </sc-for>
+                    </span>
+                  </sc-if>
+                </span>
               </div>
               <div style="overflow-x:auto;">
-                <div style="min-width:1000px;">
+                <div style="min-width:820px;">
                   <div style="display:flex;align-items:center;height:34px;background:#f4f4f8;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;border-bottom:1px solid #ececf2;">
-                    <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 16px;">PARTNER</span>
+                    <span style="box-sizing:border-box;flex:1;min-width:210px;padding:0 16px;">PARTNER</span>
                     <span style="box-sizing:border-box;flex:0 0 84px;padding:0 8px;">STATUS</span>
-                    <span style="box-sizing:border-box;flex:0 0 100px;padding:0 8px;text-align:right;">PORTFOLIO</span>
-                    <span style="box-sizing:border-box;flex:0 0 136px;padding:0 10px;">TIER MIX</span>
-                    <span title="P0 accounts minus what this partner is already working or has won" style="box-sizing:border-box;flex:0 0 64px;padding:0 8px;text-align:right;">P0 OPEN</span>
-                    <span title="Contacts with a verified work email" style="box-sizing:border-box;flex:0 0 74px;padding:0 8px;text-align:right;">EMAILS</span>
-                    <span style="box-sizing:border-box;flex:0 0 76px;padding:0 8px;text-align:right;">PIPELINE</span>
-                    <span style="box-sizing:border-box;flex:0 0 62px;padding:0 8px;text-align:right;">STALLED</span>
-                    <span style="box-sizing:border-box;flex:0 0 92px;padding:0 8px;text-align:right;">LOAD</span>
+                    <span style="box-sizing:border-box;flex:0 0 110px;padding:0 8px;text-align:right;">PORTFOLIO</span>
+                    <span style="box-sizing:border-box;flex:0 0 210px;padding:0 10px;">TIER MIX</span>
+                    <span title="P0 accounts in the portfolio, by the partner's own rules" style="box-sizing:border-box;flex:0 0 72px;padding:0 8px;text-align:right;">P0 ACCTS</span>
+                    <sc-for list="{{ ptXHead }}" as="xh" hint-placeholder-count="0"><span title="{{ xh.tip }}" style="box-sizing:border-box;flex:0 0 {{ xh.w }};padding:0 8px;text-align:right;">{{ xh.l }}</span></sc-for>
+                    <span style="box-sizing:border-box;flex:0 0 84px;padding:0 8px;text-align:right;">PIPELINE</span>
                     <span style="box-sizing:border-box;flex:0 0 12px;"></span>
                   </div>
                   <sc-for list="{{ ptRowsB }}" as="p" hint-placeholder-count="5">
                     <div onClick="{{ p.open }}" style="display:flex;align-items:center;height:56px;border-bottom:1px solid #f0f0f4;cursor:pointer;" style-hover="background:#fbfbfd;box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
-                      <span style="box-sizing:border-box;flex:1;min-width:0;padding:0 16px;display:flex;align-items:center;gap:10px;">
+                      <span style="box-sizing:border-box;flex:1;min-width:210px;padding:0 16px;display:flex;align-items:center;gap:10px;">
                         <span style="width:28px;height:28px;border-radius:8px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ p.logoSty18 }}"></span></span>
                         <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.name }}</span><span style="font:400 10px 'JetBrains Mono';color:#908d9c;">{{ p.region }}</span></span>
                       </span>
                       <span style="box-sizing:border-box;flex:0 0 84px;padding:0 8px;display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ p.dotC }};flex:0 0 auto;"></span><span style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:{{ p.statusC }};white-space:nowrap;">{{ p.statusL }}</span></span>
-                      <span style="box-sizing:border-box;flex:0 0 100px;padding:0 8px;text-align:right;"><span style="font:600 12px 'JetBrains Mono';color:#2d2b2b;">{{ p.pfAcc }}</span><span style="display:block;font:400 9.5px 'JetBrains Mono';color:#908d9c;">{{ p.pfCon }}</span></span>
-                      <span style="box-sizing:border-box;flex:0 0 136px;padding:0 10px;">
+                      <span style="box-sizing:border-box;flex:0 0 110px;padding:0 8px;text-align:right;"><span style="font:600 12px 'JetBrains Mono';color:#2d2b2b;">{{ p.pfAcc }}</span><span style="display:block;font:400 9.5px 'JetBrains Mono';color:#908d9c;">{{ p.pfCon }}</span></span>
+                      <span style="box-sizing:border-box;flex:0 0 210px;padding:0 10px;">
                         <sc-if value="{{ p.hasLive }}" hint-placeholder-val="">
-                          <span style="display:flex;width:116px;height:7px;border-radius:4px;background:#eaeaf0;overflow:hidden;"><sc-for list="{{ p.tierSegs }}" as="ts" hint-placeholder-count="0"><span title="{{ ts.tip }}" style="display:block;height:100%;width:{{ ts.w }};background:{{ ts.c }};"></span></sc-for></span>
+                          <span style="display:flex;width:188px;height:7px;border-radius:4px;background:#eaeaf0;overflow:hidden;"><sc-for list="{{ p.tierSegs }}" as="ts" hint-placeholder-count="0"><span title="{{ ts.tip }}" style="display:block;height:100%;width:{{ ts.w }};background:{{ ts.c }};"></span></sc-for></span>
                           <span style="display:block;font:400 9px 'JetBrains Mono';color:#908d9c;margin-top:4px;">{{ p.tierLbl }}</span>
                         </sc-if>
                         <sc-if value="{{ p.noLive }}" hint-placeholder-val="{{ true }}">
-                          <span style="display:block;width:116px;height:7px;border-radius:4px;background:#eaeaf0;"></span>
+                          <span style="display:block;width:188px;height:7px;border-radius:4px;background:#eaeaf0;"></span>
                         </sc-if>
                       </span>
-                      <span style="box-sizing:border-box;flex:0 0 64px;padding:0 8px;text-align:right;font:600 12px 'JetBrains Mono';color:{{ p.p0C }};">{{ p.p0open }}</span>
-                      <span style="box-sizing:border-box;flex:0 0 74px;padding:0 8px;text-align:right;font:500 12px 'JetBrains Mono';color:#2d2b2b;">{{ p.covPct }}</span>
-                      <span style="box-sizing:border-box;flex:0 0 76px;padding:0 8px;text-align:right;font:600 12px 'JetBrains Mono';color:#2d2b2b;">{{ p.pipe }}</span>
-                      <span style="box-sizing:border-box;flex:0 0 62px;padding:0 8px;text-align:right;font:600 12px 'JetBrains Mono';color:{{ p.stC }};">{{ p.stalled }}</span>
-                      <span style="box-sizing:border-box;flex:0 0 92px;padding:0 8px;display:flex;align-items:center;justify-content:flex-end;gap:6px;"><span style="font:500 10px 'JetBrains Mono';color:#63606e;">{{ p.load }}</span><span style="width:40px;height:5px;border-radius:3px;background:#eaeaf0;overflow:hidden;flex:0 0 auto;"><span style="display:block;height:100%;width:{{ p.loadW }};background:{{ p.loadC }};"></span></span></span>
+                      <span style="box-sizing:border-box;flex:0 0 72px;padding:0 8px;text-align:right;font:600 12px 'JetBrains Mono';color:#1f5a3a;">{{ p.p0n }}</span>
+                      <sc-for list="{{ p.xCells }}" as="xc" hint-placeholder-count="0"><span style="box-sizing:border-box;flex:0 0 {{ xc.w }};padding:0 8px;text-align:right;font:500 12px 'JetBrains Mono';color:#2d2b2b;">{{ xc.v }}</span></sc-for>
+                      <span style="box-sizing:border-box;flex:0 0 84px;padding:0 8px;text-align:right;font:600 12px 'JetBrains Mono';color:#2d2b2b;">{{ p.pipe }}</span>
                       <span style="box-sizing:border-box;flex:0 0 12px;"></span>
                     </div>
                   </sc-for>
@@ -13706,15 +13742,39 @@ class Component extends DCLogic {
   }
   partnerVals(allRows) {
     const S = this.state;
+    if (!this._ptStatsFn) { window.addEventListener('message', this._ptStatsFn = (e) => { const d = e.data;
+      if (d && d.type === 'sprouts-partner-stats' && d.partner) this.setState(s => ({ ptLive: { ...(s.ptLive || {}), [d.partner]: d } })); }); }
     const partners = this.ptBase();
     const byId = {}; partners.forEach(p => { byId[p.id] = p; });
     const A = S.ptAssigned || {}, ST = S.ptStalled || {};
     const rows = (allRows || []).filter(r => !r.isPartner && !(S.wspDeleted || {})[r.name]);
     const nameSet = {}; rows.forEach(r => { nameSet[r.name] = true; });
+    // Real accounts sampled live from each partner dashboard's sheet feed
+    const QSIG = { ncs:['Third-party intent spike','Security & compliance event','New funding raised','AI initiative announced'], cap:['Windows 10 EOS exposure','Device fleet aging','Office expansion signal','Refresh budget signal'], jk:['Workplace refresh signal','SG hiring surge','New office fit-out','IT headcount growth'], sh:['Managed ICT interest','Network refresh due','SG expansion move','Security review under way'], ny:['Return-to-office move','Open SG role','Procurement trigger','Grant funding received'] };
+    const QSEG = { ncs:['Gov & Enterprise','#205e9e','#e3eef9'], cap:['Device refresh','#8f5f15','#f8f0dd'], jk:['SMB workplace','#1f5a3a','#e2efe7'], sh:['Enterprise ICT','#4f3fae','#eceafc'], ny:['SG SMB','#205e9e','#e3eef9'] };
+    const _qh = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); };
+    let qCount = 0;
+    partners.forEach(p => { const lv = (S.ptLive || {})[p.id]; const smp = lv && lv.sample;
+      if (!smp) return;
+      const sigLabels = (lv && lv.signals) || [];
+      smp.slice(0, 10).forEach(e => { if (!e || !e.n || nameSet[e.n] || e.t === 'Unranked') return;
+        const hh = _qh(e.n); const sg = QSEG[p.id] || QSEG.ny; const sigs = QSIG[p.id] || QSIG.ny;
+        const realTier = ['P0','P1','P2','P3','Unranked'].includes(e.t) ? e.t : null;
+        const fit = realTier ? ({ P0: 92, P1: 84, P2: 76, P3: 70, Unranked: 64 }[realTier] + (hh % 4)) : 68 + (hh % 29);
+        rows.push({ isPtq: true, name: e.n, domain: (e.d || '').split('/')[0], realTier, initials: (e.n.match(/\b[A-Za-z]/g) || ['?']).slice(0, 2).join('').toUpperCase(),
+          logoBg: '#eeeef4', logoFg: '#63606e', logoSty16: this._imgSty('https://www.google.com/s2/favicons?domain=' + (e.d || '').split('/')[0] + '&sz=64', 16, 3),
+          signal: sigs[hh % sigs.length], sigColor: ['#2f7050','#2c6fbb','#6553cc','#8f5f15'][hh % 4],
+          sigTicks: (e.s || []).map((v, ix) => ({ bg: v ? '#2f7050' : '#e4e4ec', tip: sigLabels[ix] || ('Signal ' + (ix + 1)) })),
+          sigN: (e.s || []).reduce((a2, v) => a2 + (v ? 1 : 0), 0) + '/' + (e.s || []).length,
+          intent: String(e.is || 0),
+          fit, fitColor: fit >= 85 ? '#2f7050' : fit >= 75 ? '#d4a017' : '#a8a5b2',
+          seg: sg[0], segC: sg[1], segB: sg[2] });
+        nameSet[e.n] = true; qCount++; });
+    });
     const assignedNames = Object.keys(A).filter(n => nameSet[n]);
     const liveOf = (pid) => assignedNames.filter(n => A[n] === pid);
     const stOf = (pid) => Object.keys(ST).filter(n => nameSet[n] && A[n] === pid);
-    const unassigned = rows.filter(r => !A[r.name]);
+    const unassigned = rows.filter(r => r.isPtq && !A[r.name]);
     const minFit = S.ptMinFit || 0, q = (S.ptQ || '').toLowerCase();
     const shown = unassigned.filter(r => r.fit >= minFit && (!q || r.name.toLowerCase().indexOf(q) >= 0));
     const sel = (S.ptSel || []).filter(n => unassigned.some(r => r.name === n));
@@ -13780,6 +13840,8 @@ class Component extends DCLogic {
           ptEmbedNewTab: () => window.open(dp && dp.dash, '_blank') }; })(),
       ptShownN: String(shown.length), ptSelN: String(sel.length),
       ptHasRows: shown.length > 0, ptNoRows: shown.length === 0,
+      ptQSyncing: qCount === 0, ptQClear: qCount > 0,
+      ptSkelRows: [0, 1, 2].map(i => ({ dly: (i * 0.14) + 's', w1: [150, 120, 168][i] + 'px', w2: [96, 118, 84][i] + 'px' })),
       ptQV: S.ptQ || '', onPtQ: (ev) => this.setState({ ptQ: ev.target.value }),
       ptFits: [{ v: 0, l: 'Any fit' }, { v: 75, l: '75+' }, { v: 85, l: '85+' }].map(f => ({
         l: f.l, bg: minFit === f.v ? '#e2efe7' : '#fbfbfd', col: minFit === f.v ? '#1f5a3a' : '#63606e', bd: minFit === f.v ? '#b7d4c3' : '#e6e5ec',
@@ -13789,16 +13851,19 @@ class Component extends DCLogic {
       ptRowsA: shown.map(r => { const on = sel.includes(r.name); return {
         name: r.name, domain: r.domain, initials: r.initials, logoBg: r.logoBg, logoFg: r.logoFg, logoSty16: r.logoSty16,
         signal: r.signal, sigColor: r.sigColor, fit: String(r.fit), fitC: r.fitColor, fitW: r.fit + '%',
-        tier: r.fit >= 90 ? 'P0' : r.fit >= 80 ? 'P1' : r.fit >= 70 ? 'P2' : 'P3',
-        tierBg: r.fit >= 90 ? '#123524' : r.fit >= 80 ? '#1f5a3a' : r.fit >= 70 ? '#2f7050' : '#9dbfae',
-        tierC: r.fit >= 70 ? '#ffffff' : '#10281c',
+        sigTicks: r.sigTicks || [], sigN: r.sigN || '', hasTicks: !!(r.sigTicks && r.sigTicks.length),
+        intent: r.intent || '0', intentC: r.intent && r.intent !== '0' ? '#4f3fae' : '#b4b2bd',
+        tier: r.realTier || (r.fit >= 90 ? 'P0' : r.fit >= 80 ? 'P1' : r.fit >= 70 ? 'P2' : 'P3'),
+        tierBg: { P0:'#123524', P1:'#1f5a3a', P2:'#2f7050', P3:'#9dbfae', Unranked:'#c9c8d4' }[r.realTier || (r.fit >= 90 ? 'P0' : r.fit >= 80 ? 'P1' : r.fit >= 70 ? 'P2' : 'P3')],
+        tierC: ['P3','Unranked'].includes(r.realTier || (r.fit >= 90 ? 'P0' : r.fit >= 80 ? 'P1' : r.fit >= 70 ? 'P2' : 'P3')) ? '#10281c' : '#ffffff',
         seg: r.seg, segC: r.segC, segB: r.segB,
         on, off: !on, rowBg: on ? '#f1f7f3' : 'transparent',
         toggle: () => this.setState(s => { const cur = new Set(s.ptSel || []); if (cur.has(r.name)) { cur.delete(r.name); } else { cur.add(r.name); } return { ptSel: [...cur] }; }),
       }; }),
       ptOpts: partners.map(p => { const live = liveOf(p.id).length; const load = p.working + live; const pct = Math.min(100, Math.round(load / p.cap * 100)); const on = chosen === p.id; return {
         name: p.name, initials: initialsOf(p.name), logoSty18: this._imgSty(p.logo || ('https://www.google.com/s2/favicons?domain=' + (p.domain || ((p.email || 'x@example.com').split('@')[1])) + '&sz=64'), 18, 3),
-        meta: p.region + (p.accept != null ? ' \u00b7 ' + p.accept + '% accept' : ' \u00b7 new'),
+        meta: (() => { const lv = (S.ptLive || {})[p.id] || PT_SEED[p.id];
+          return lv ? lv.accounts.toLocaleString('en-US') + ' accounts \u00b7 ' + (lv.tiers.P0 || 0) + ' P0' + (p.accept != null ? ' \u00b7 ' + p.accept + '%' : '') : p.region + (p.accept != null ? ' \u00b7 ' + p.accept + '% accept' : ' \u00b7 new'); })(),
         cap: load + '/' + p.cap, capW: pct + '%', capC: capColor(pct),
         bg: on ? '#f1f7f3' : '#fff', ring: on ? 'inset 0 0 0 1.5px #2f7050' : 'inset 0 0 0 1px #ececf2',
         pick: () => this.setState({ ptChosen: on ? null : p.id }),
@@ -13819,6 +13884,31 @@ class Component extends DCLogic {
         this.setState({ ptAssigned: next, ptSel: [] });
         this.toast(shown.length + ' accounts distributed by remaining capacity.');
       },
+      ...(() => {
+        const PT_XCOLS = [
+          { k: 'contacts', l: 'CONTACTS', pick: 'Contacts', sub: 'Named contacts in the portfolio', w: '88px' },
+          { k: 'p1', l: 'P1 ACCTS', pick: 'P1 accounts', sub: 'Second-tier accounts, by the partner\u2019s rules', w: '72px' },
+          { k: 'em', l: 'EMAILS', pick: 'Verified emails %', sub: 'Contacts with a verified work email', w: '70px' },
+          { k: 'unr', l: 'UNRANKED', pick: 'Unranked %', sub: 'Share of the portfolio with no signal found yet', w: '84px' },
+        ];
+        const on = S.ptCols || {};
+        const active = PT_XCOLS.filter(c => on[c.k]);
+        const xVal = (p, k) => { const lv = (S.ptLive || {})[p.id] || PT_SEED[p.id]; if (!lv) return '\u2014';
+          if (k === 'contacts') return lv.contacts ? lv.contacts.toLocaleString('en-US') : '\u2014';
+          if (k === 'p1') return (lv.tiers.P1 || 0).toLocaleString('en-US');
+          if (k === 'em') return lv.contCov && lv.contCov.rows ? Math.round(100 * (lv.contCov.email || 0) / lv.contCov.rows) + '%' : '\u2014';
+          if (k === 'unr') { const t = lv.tiers; const tot = ['P0','P1','P2','P3','Unranked'].reduce((a, x) => a + (t[x] || 0), 0) || 1; return Math.round(100 * (t.Unranked || 0) / tot) + '%'; }
+          return '\u2014'; };
+        return {
+          ptXHead: active.map(c => ({ l: c.l, w: c.w, tip: c.sub })),
+          ptXVal: xVal,
+          ptXActive: active,
+          ptColsOpen: !!S.ptColsOpen,
+          ptColsFlip: () => this.setState(s => ({ ptColsOpen: !s.ptColsOpen })),
+          ptColsClose: () => this.setState({ ptColsOpen: false }),
+          ptColsItems: PT_XCOLS.map(c => ({ l: c.pick, sub: c.sub, on: !!on[c.k], boxBg: on[c.k] ? '#2f7050' : '#fff', boxBd: on[c.k] ? '#2f7050' : '#c9c8d4',
+            flip: () => this.setState(s => ({ ptCols: { ...(s.ptCols || {}), [c.k]: !(s.ptCols || {})[c.k] } })) })),
+        }; })(),
       ptRowsB: partners.map(p => {
         const live = liveOf(p.id).length, stn = stOf(p.id).length;
         const working = p.working + live, load = working;
@@ -13841,6 +13931,16 @@ class Component extends DCLogic {
           tierLbl: lv && tTot ? 'P0 ' + (lv.tiers.P0 || 0) + ' \u00b7 P1 ' + (lv.tiers.P1 || 0) : '',
           p0open: p0open == null ? '\u2014' : String(p0open),
           p0C: p0open > 0 ? '#8f5f15' : '#908d9c',
+          p0n: lv ? (lv.tiers.P0 || 0).toLocaleString('en-US') : '\u2014',
+          xCells: (() => { const on2 = S.ptCols || {}; const defs = [['contacts','88px'],['p1','72px'],['em','70px'],['unr','84px']];
+            return defs.filter(d2 => on2[d2[0]]).map(d2 => { const k = d2[0]; const lv2 = lvReal || PT_SEED[p.id];
+              let v = '\u2014';
+              if (lv2) { const t = lv2.tiers || {};
+                if (k === 'contacts') v = lv2.contacts ? lv2.contacts.toLocaleString('en-US') : '\u2014';
+                else if (k === 'p1') v = (t.P1 || 0).toLocaleString('en-US');
+                else if (k === 'em') v = lv2.contCov && lv2.contCov.rows ? Math.round(100 * (lv2.contCov.email || 0) / lv2.contCov.rows) + '%' : '\u2014';
+                else if (k === 'unr') { const tot = ['P0','P1','P2','P3','Unranked'].reduce((a2, x) => a2 + (t[x] || 0), 0) || 1; v = Math.round(100 * (t.Unranked || 0) / tot) + '%'; } }
+              return { v, w: d2[1] }; }); })(),
           covPct: lv && lv.contCov && lv.contCov.rows ? Math.round(100 * (lv.contCov.email || 0) / lv.contCov.rows) + '%' : '\u2014',
           syncT: lvReal ? new Date(lvReal.at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '',
           synced: !!lvReal, seeded: !lvReal && !!lv && !!p.dashEmbed,
@@ -14051,7 +14151,7 @@ class Component extends DCLogic {
   };
 
   componentDidMount() { this._applyNavWidth(); this._lastView = this.state.view; try { if (localStorage.getItem('sproutsDarkV8') === '1') this.setState({ dmOn: true }); } catch (e) {}
-    window.addEventListener('message', this._ptStatsFn = (e) => { const d = e.data;
+    if (!this._ptStatsFn) window.addEventListener('message', this._ptStatsFn = (e) => { const d = e.data;
       if (d && d.type === 'sprouts-partner-stats' && d.partner) this.setState(s => ({ ptLive: { ...(s.ptLive || {}), [d.partner]: d } })); }); }
   componentWillUnmount() { if (this._ptStatsFn) window.removeEventListener('message', this._ptStatsFn); }
   componentDidUpdate(pp, ps) { this._applyNavWidth(); this._applyPaneShift(); const p = ps || {};
