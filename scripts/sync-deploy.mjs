@@ -38,7 +38,17 @@ const ASSETS = [
 // image or a webfont is invisible in the markup and silently degrades the live
 // page -- exactly how the Savant orb and the Pliant typeface went unnoticed
 // across several deploys.
-const KNOWN_MISSING = new Map();
+const KNOWN_MISSING = new Map([
+  ['assets/capio-dashboard.html', 'partner dashboard export not yet provided'],
+  ['assets/jk-dashboard.html', 'partner dashboard export not yet provided'],
+  ['assets/nanyang-dashboard.html', 'partner dashboard export not yet provided'],
+  ['assets/ncs-dashboard.html', 'partner dashboard export not yet provided'],
+  ['assets/starhub-dashboard.html', 'partner dashboard export not yet provided'],
+  ['assets/capio-mark.png', 'partner logo not yet provided'],
+  ['assets/jk-mark.png', 'partner logo not yet provided'],
+  ['assets/nanyang-mark.png', 'partner logo not yet provided'],
+  ['assets/starhub-mark.png', 'partner logo not yet provided'],
+]);
 
 let changed = 0;
 
@@ -92,6 +102,22 @@ for (const [, dest] of PAGES) {
     if (!ref || /^(https?:|data:|mailto:|tel:|#|\/\/)/i.test(ref)) continue;
     if (ref.includes('{{') || ref.startsWith('/')) { skipped.push(ref); continue; }
     const rel = posix.normalize(ref.replace(/^\.\//, ''));
+    if (existsSync(join(dirname(r(dest)), rel))) continue;
+    if (!missing.has(rel)) missing.set(rel, new Set());
+    missing.get(rel).add(dest);
+  }
+}
+
+// Attribute scanning alone cannot see a path that is assembled in script and
+// bound through a template placeholder -- src="{{ ptEmbedUrl }}" hides an
+// 'assets/...' string that lives in component logic. Sweep quoted literals
+// under the directories we actually ship so those are checked too.
+const LOCAL_PATH_RE = /['"]((?:assets|fonts|uploads)\/[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*)(?:[?#][^'"]*)?['"]/g;
+
+for (const [, dest] of PAGES) {
+  const html = readFileSync(r(dest), 'utf8');
+  for (const m of html.matchAll(LOCAL_PATH_RE)) {
+    const rel = posix.normalize(m[1]);
     if (existsSync(join(dirname(r(dest)), rel))) continue;
     if (!missing.has(rel)) missing.set(rel, new Set());
     missing.get(rel).add(dest);
