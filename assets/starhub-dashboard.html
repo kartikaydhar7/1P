@@ -469,9 +469,10 @@ const SNAPSHOT_AT = 'awaiting first sync';
         mix[t] = (mix[t] || 0) + 1;
       }
       var con = (typeof CON !== 'undefined' && CON) ? CON.length : 0;
+      var smp = []; var rk = []; for (var j = 0; j < acc.length; j++){ var aj = acc[j]; if (!aj.n || !aj.d || String(aj.n).length >= 38) continue; var tv = aj.pri, tn = (dict[tv] !== undefined) ? dict[tv] : tv; if (!tn || tn === 'Unranked' || tn === 'Not in portfolio') continue; var sc = 0, sa = aj.s || []; for (var q = 0; q < sa.length; q++) if (sa[q]) sc++; rk.push({ a: aj, t: tn, w: sc * 10 + (aj.is || 0) }); } rk.sort(function(x, y){ return y.w - x.w; }); for (var k = 0; k < rk.length && smp.length < 12; k++) smp.push({ n: rk[k].a.n, d: rk[k].a.d, t: rk[k].t, s: rk[k].a.s || [], is: rk[k].a.is || 0 });
       var cov = (typeof DATA !== 'undefined' && DATA && DATA.summary && DATA.summary.contCov) || null;
-      var msg = { type: 'sprouts-partner-stats', partner: 'sh', accounts: acc.length, contacts: con, tiers: mix, contCov: cov, at: Date.now() };
-      var key = JSON.stringify([msg.accounts, msg.contacts, msg.tiers, cov && cov.email]);
+      var msg = { type: 'sprouts-partner-stats', partner: 'sh', accounts: acc.length, contacts: con, tiers: mix, contCov: cov, sample: smp, signals: (typeof DATA !== 'undefined' && DATA && DATA.summary && DATA.summary.signals) || [], at: Date.now() };
+      var key = JSON.stringify([msg.accounts, msg.contacts, msg.tiers, cov && cov.email, Math.floor(Date.now() / 15000)]);
       if (key === last) return;
       last = key;
       window.parent.postMessage(msg, '*');

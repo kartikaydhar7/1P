@@ -942,8 +942,8 @@
             <button onClick="{{ ptOpenAdd }}" style="display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:10px 18px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;" style-hover="background:#265c41"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Add partner</button>
           </div>
 
-          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:18px;">
-            <sc-for list="{{ ptKpis }}" as="k" hint-placeholder-count="6">
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px;">
+            <sc-for list="{{ ptKpis }}" as="k" hint-placeholder-count="5">
               <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:14px 16px;">
                 <div style="font:600 9px 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#908d9c;margin-bottom:8px;">{{ k.lab }}</div>
                 <div style="font:600 26px 'JetBrains Mono';letter-spacing:-0.02em;line-height:1;color:{{ k.valC }};">{{ k.val }}</div>
@@ -967,25 +967,54 @@
                   <sc-for list="{{ ptFits }}" as="f" hint-placeholder-count="3">
                     <button onClick="{{ f.pick }}" style="border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.col }};cursor:pointer;border-radius:999px;padding:5px 12px;font:600 11px 'JetBrains Mono';">{{ f.l }}</button>
                   </sc-for>
+                  <sc-if value="{{ ptQF.anyOpen }}" hint-placeholder-val=""><span onClick="{{ ptQF.close }}" style="position:fixed;inset:0;z-index:59;display:block;"></span></sc-if>
+                  <span style="position:relative;">
+                    <button onClick="{{ ptQF.alloc.flip }}" style="display:inline-flex;align-items:center;gap:5px;border:1px solid {{ ptQF.alloc.bd }};background:{{ ptQF.alloc.bg }};color:{{ ptQF.alloc.col }};cursor:pointer;border-radius:999px;padding:5px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;">{{ ptQF.alloc.lbl }}<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <sc-if value="{{ ptQF.alloc.openV }}" hint-placeholder-val="">
+                      <span style="position:absolute;top:30px;left:0;z-index:60;width:190px;background:#fff;border:1px solid #ececf2;border-radius:11px;box-shadow:0 6px 16px -6px rgba(24,23,30,.12), 0 24px 60px -18px rgba(24,23,30,.28);overflow:hidden;display:block;">
+                        <sc-for list="{{ ptQF.alloc.items }}" as="fi" hint-placeholder-count="4">
+                          <button onClick="{{ fi.pick }}" style="display:block;width:100%;text-align:left;border:none;cursor:pointer;padding:8px 13px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:{{ fi.onC }};background:{{ fi.onBg }};" style-hover="background:#f9f8fb">{{ fi.l }}</button>
+                        </sc-for>
+                      </span>
+                    </sc-if>
+                  </span>
+                  <span style="position:relative;">
+                    <button onClick="{{ ptQF.tier.flip }}" style="display:inline-flex;align-items:center;gap:5px;border:1px solid {{ ptQF.tier.bd }};background:{{ ptQF.tier.bg }};color:{{ ptQF.tier.col }};cursor:pointer;border-radius:999px;padding:5px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;">{{ ptQF.tier.lbl }}<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <sc-if value="{{ ptQF.tier.openV }}" hint-placeholder-val="">
+                      <span style="position:absolute;top:30px;left:0;z-index:60;width:130px;background:#fff;border:1px solid #ececf2;border-radius:11px;box-shadow:0 6px 16px -6px rgba(24,23,30,.12), 0 24px 60px -18px rgba(24,23,30,.28);overflow:hidden;display:block;">
+                        <sc-for list="{{ ptQF.tier.items }}" as="ti" hint-placeholder-count="5">
+                          <button onClick="{{ ti.pick }}" style="display:block;width:100%;text-align:left;border:none;cursor:pointer;padding:8px 13px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:{{ ti.onC }};background:{{ ti.onBg }};" style-hover="background:#f9f8fb">{{ ti.l }}</button>
+                        </sc-for>
+                      </span>
+                    </sc-if>
+                  </span>
                   <input value="{{ ptQV }}" onChange="{{ onPtQ }}" placeholder="Search queue" style="border:1px solid #ececf2;background:#fbfbfd;border-radius:999px;padding:6px 12px;font:400 12px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;outline:none;width:140px;">
                   <span style="flex:1;"></span>
                   <span style="font:500 11px 'JetBrains Mono';color:#63606e;"><b style="color:#2d2b2b;">{{ ptSelN }}</b> selected</span>
-                  <button onClick="{{ ptSelectShown }}" style="border:1px solid #cbcad8;background:#fbfbfd;cursor:pointer;border-radius:999px;padding:5px 12px;font:600 11px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="border-color:#b7d4c3;color:#1f5a3a">Select all {{ ptShownN }}</button>
                 </div>
                 <sc-if value="{{ ptHasRows }}" hint-placeholder-val="{{ true }}">
                   <div style="display:flex;align-items:center;height:34px;background:#f4f4f8;font:600 9px 'JetBrains Mono';letter-spacing:.06em;color:#63606e;border-bottom:1px solid #ececf2;">
-                    <span style="box-sizing:border-box;flex:0 0 40px;"></span>
+                    <span style="box-sizing:border-box;flex:0 0 40px;display:flex;align-items:center;justify-content:center;">
+                      <span onClick="{{ ptHdrChk.flip }}" title="Select all unallocated in view" style="cursor:pointer;display:flex;">
+                        <sc-if value="{{ ptHdrChk.on }}" hint-placeholder-val=""><span style="width:15px;height:15px;border-radius:4px;background:#2f7050;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></span></sc-if>
+                        <sc-if value="{{ ptHdrChk.off }}" hint-placeholder-val="{{ true }}"><span style="width:15px;height:15px;border-radius:4px;border:1.5px solid #c4c1cf;background:#fff;"></span></sc-if>
+                      </span>
+                    </span>
                     <span style="box-sizing:border-box;flex:0 0 220px;padding:0 10px;">ACCOUNT</span>
                     <span title="Researched buying signals on the account, from the partner's own dashboard" style="box-sizing:border-box;flex:1;min-width:0;padding:0 10px;">SIGNALS</span>
                     <span style="box-sizing:border-box;flex:0 0 92px;padding:0 10px;">ICP FIT</span>
                     <span title="Priority tier from the partner's own rules" style="box-sizing:border-box;flex:0 0 56px;padding:0 10px;">TIER</span>
-                    <span title="Third-party intent score" style="box-sizing:border-box;flex:0 0 68px;padding:0 10px;text-align:right;">INTENT</span>
+                    <span title="Third-party intent score" style="box-sizing:border-box;flex:0 0 62px;padding:0 10px;text-align:right;">INTENT</span>
+                    <span style="box-sizing:border-box;flex:0 0 128px;padding:0 10px;">ALLOCATED TO</span>
                   </div>
                   <sc-for list="{{ ptRowsA }}" as="r" hint-placeholder-count="8">
                     <div onClick="{{ r.toggle }}" style="display:flex;align-items:center;height:48px;border-bottom:1px solid #f0f0f4;cursor:pointer;background:{{ r.rowBg }};" style-hover="background:#fbfbfd">
                       <span style="box-sizing:border-box;flex:0 0 40px;display:flex;align-items:center;justify-content:center;">
-                        <sc-if value="{{ r.on }}" hint-placeholder-val=""><span style="width:16px;height:16px;border-radius:4px;background:#2f7050;display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></span></sc-if>
-                        <sc-if value="{{ r.off }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:4px;border:1.5px solid #c4c1cf;background:#fff;"></span></sc-if>
+                        <sc-if value="{{ r.allocOn }}" hint-placeholder-val=""><span style="width:16px;height:16px;"></span></sc-if>
+                        <sc-if value="{{ r.unalloc }}" hint-placeholder-val="{{ true }}">
+                          <sc-if value="{{ r.on }}" hint-placeholder-val=""><span style="width:16px;height:16px;border-radius:4px;background:#2f7050;display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></span></sc-if>
+                          <sc-if value="{{ r.off }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:4px;border:1.5px solid #c4c1cf;background:#fff;"></span></sc-if>
+                        </sc-if>
                       </span>
                       <span style="box-sizing:border-box;flex:0 0 220px;padding:0 10px;display:flex;align-items:center;gap:9px;min-width:0;">
                         <span style="width:24px;height:24px;border-radius:6px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ r.logoSty16 }}"></span></span>
@@ -999,7 +1028,16 @@
                       </span>
                       <span style="box-sizing:border-box;flex:0 0 92px;padding:0 10px;"><span style="font:500 12px 'JetBrains Mono';color:#2d2b2b;">{{ r.fit }}</span><span style="display:block;width:52px;height:4px;border-radius:2px;background:#eaeaf0;margin-top:4px;overflow:hidden;"><span style="display:block;height:100%;width:{{ r.fitW }};background:{{ r.fitC }};"></span></span></span>
                       <span style="box-sizing:border-box;flex:0 0 56px;padding:0 10px;"><span style="font:600 9.5px 'JetBrains Mono';color:{{ r.tierC }};background:{{ r.tierBg }};border-radius:5px;padding:2px 7px;">{{ r.tier }}</span></span>
-                      <span style="box-sizing:border-box;flex:0 0 68px;padding:0 10px;text-align:right;font:600 12px 'JetBrains Mono';color:{{ r.intentC }};">{{ r.intent }}</span>
+                      <span style="box-sizing:border-box;flex:0 0 62px;padding:0 10px;text-align:right;font:600 12px 'JetBrains Mono';color:{{ r.intentC }};">{{ r.intent }}</span>
+                      <span style="box-sizing:border-box;flex:0 0 128px;padding:0 10px;display:flex;align-items:center;gap:6px;min-width:0;">
+                        <sc-if value="{{ r.allocOn }}" hint-placeholder-val="">
+                          <span style="width:18px;height:18px;border-radius:5px;background:#fff;border:1px solid #ececf2;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span style="{{ r.allocLogo }}"></span></span>
+                          <span style="font:500 11px 'Pliant','Instrument Sans',sans-serif;color:#48454f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.allocName }}</span>
+                        </sc-if>
+                        <sc-if value="{{ r.unalloc }}" hint-placeholder-val="{{ true }}">
+                          <span style="font:600 10px 'Pliant','Instrument Sans',sans-serif;color:#8f5f15;background:#f8f0dd;border-radius:999px;padding:3px 9px;">Unallocated</span>
+                        </sc-if>
+                      </span>
                     </div>
                   </sc-for>
                 </sc-if>
@@ -13814,17 +13852,14 @@ class Component extends DCLogic {
     const QSEG = { ncs:['Gov & Enterprise','#205e9e','#e3eef9'], cap:['Device refresh','#8f5f15','#f8f0dd'], jk:['SMB workplace','#1f5a3a','#e2efe7'], sh:['Enterprise ICT','#4f3fae','#eceafc'], ny:['SG SMB','#205e9e','#e3eef9'] };
     const _qh = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); };
     let qCount = 0;
-    partners.forEach(p => { const seed = PT_SEED[p.id]; const lv = (S.ptLive || {})[p.id] || seed;
-      // A live feed reports counts but carries no sample, so fall back per field
-      // rather than per partner -- the stats object would otherwise shadow the seed.
-      const smp = (lv && lv.sample) || (seed && seed.sample);
+    partners.forEach(p => { const lv = (S.ptLive || {})[p.id] || PT_SEED[p.id]; const smp = lv && lv.sample;
       if (!smp) return;
-      const sigLabels = (lv && lv.signals) || (seed && seed.signals) || [];
+      const sigLabels = (lv && lv.signals) || [];
       smp.slice(0, 10).forEach(e => { if (!e || !e.n || nameSet[e.n] || e.t === 'Unranked') return;
         const hh = _qh(e.n); const sg = QSEG[p.id] || QSEG.ny; const sigs = QSIG[p.id] || QSIG.ny;
         const realTier = ['P0','P1','P2','P3','Unranked'].includes(e.t) ? e.t : null;
         const fit = realTier ? ({ P0: 92, P1: 84, P2: 76, P3: 70, Unranked: 64 }[realTier] + (hh % 4)) : 68 + (hh % 29);
-        rows.push({ isPtq: true, name: e.n, domain: (e.d || '').split('/')[0], realTier, initials: (e.n.match(/\b[A-Za-z]/g) || ['?']).slice(0, 2).join('').toUpperCase(),
+        rows.push({ isPtq: true, srcPid: p.id, name: e.n, domain: (e.d || '').split('/')[0], realTier, initials: (e.n.match(/\b[A-Za-z]/g) || ['?']).slice(0, 2).join('').toUpperCase(),
           logoBg: '#eeeef4', logoFg: '#63606e', logoSty16: this._imgSty('https://www.google.com/s2/favicons?domain=' + (e.d || '').split('/')[0] + '&sz=64', 16, 3),
           signal: sigs[hh % sigs.length], sigColor: ['#2f7050','#2c6fbb','#6553cc','#8f5f15'][hh % 4],
           sigTicks: (e.s || []).map((v, ix) => ({ bg: v ? '#2f7050' : '#e4e4ec', tip: sigLabels[ix] || ('Signal ' + (ix + 1)) })),
@@ -13837,10 +13872,16 @@ class Component extends DCLogic {
     const assignedNames = Object.keys(A).filter(n => nameSet[n]);
     const liveOf = (pid) => assignedNames.filter(n => A[n] === pid);
     const stOf = (pid) => Object.keys(ST).filter(n => nameSet[n] && A[n] === pid);
-    const unassigned = rows.filter(r => r.isPtq && !A[r.name]);
+    let qNative = 0;
+    rows.forEach(r => { if (!r.isPtq && !A[r.name] && qNative < 5) { r.qKeep = true; qNative++; } });
+    const qAll = rows.filter(r => r.isPtq || r.qKeep).map(r => Object.assign({}, r, { allocPid: A[r.name] || (r.isPtq ? r.srcPid : null) }));
+    const fAl = S.ptFAlloc || 'all', fTi = S.ptFTier || 'all';
+    const unassigned = qAll.filter(r =>
+      (fAl === 'all' ? true : fAl === 'none' ? !r.allocPid : r.allocPid === fAl) &&
+      (fTi === 'all' ? true : (r.realTier || (r.fit >= 90 ? 'P0' : r.fit >= 80 ? 'P1' : r.fit >= 70 ? 'P2' : 'P3')) === fTi));
     const minFit = S.ptMinFit || 0, q = (S.ptQ || '').toLowerCase();
     const shown = unassigned.filter(r => r.fit >= minFit && (!q || r.name.toLowerCase().indexOf(q) >= 0));
-    const sel = (S.ptSel || []).filter(n => unassigned.some(r => r.name === n));
+    const sel = (S.ptSel || []).filter(n => unassigned.some(r => r.name === n && !r.allocPid));
     const chosen = S.ptChosen && byId[S.ptChosen] ? S.ptChosen : null;
     const tab = S.ptTab || 'alloc';
     const stalledTotal = partners.reduce((a, p) => a + stOf(p.id).length, 0);
@@ -13928,7 +13969,6 @@ class Component extends DCLogic {
             return any ? n.toLocaleString('en-US') : '\u2014'; })(), sub: 'P0s nobody is working', attn: true },
         { lab: 'Assigned', val: String(assignedNames.length), sub: 'accounts with a partner', attn: false },
         { lab: 'In queue', val: String(unassigned.length), sub: 'waiting for an owner', attn: false },
-        { lab: 'Stalled', val: String(stalledTotal), sub: stalledTotal ? 'no touch past SLA' : 'nothing past SLA', attn: stalledTotal > 0 },
         { lab: 'Sourced pipeline', val: (() => { const t = partners.reduce((a, p) => a + (p.pipe || 0), 0); return t >= 1000 ? '$' + (Math.round(t / 10) / 100) + 'M' : '$' + t + 'k'; })(), sub: '$' + partners.reduce((a, p) => a + (p.rev || 0), 0) + 'k closed by partners', attn: false },
       ].map(k => Object.assign(k, { valC: k.attn ? '#8f5f15' : '#2d2b2b' })),
       ptTabs: [{ k: 'alloc', l: 'Allocation' }, { k: 'partners', l: 'Partners' }, { k: 'reporting', l: 'Reporting' }].map(t => ({
@@ -13954,12 +13994,32 @@ class Component extends DCLogic {
       ptQSyncing: qCount === 0, ptQClear: qCount > 0,
       ptSkelRows: [0, 1, 2].map(i => ({ dly: (i * 0.14) + 's', w1: [150, 120, 168][i] + 'px', w2: [96, 118, 84][i] + 'px' })),
       ptQV: S.ptQ || '', onPtQ: (ev) => this.setState({ ptQ: ev.target.value }),
-      ptFits: [{ v: 0, l: 'Any fit' }, { v: 75, l: '75+' }, { v: 85, l: '85+' }].map(f => ({
+      ptFits: [{ v: 85, l: 'ICP 85+' }].map(f => ({
         l: f.l, bg: minFit === f.v ? '#e2efe7' : '#fbfbfd', col: minFit === f.v ? '#1f5a3a' : '#63606e', bd: minFit === f.v ? '#b7d4c3' : '#e6e5ec',
-        pick: () => this.setState({ ptMinFit: f.v }),
+        pick: () => this.setState({ ptMinFit: minFit === f.v ? 0 : f.v }),
       })),
-      ptSelectShown: () => this.setState({ ptSel: shown.map(r => r.name) }),
-      ptRowsA: shown.map(r => { const on = sel.includes(r.name); return {
+      ptHdrChk: (() => { const els = shown.filter(r => !r.allocPid); const allOn = els.length > 0 && els.every(r => sel.includes(r.name));
+        return { on: allOn, off: !allOn,
+          flip: () => this.setState({ ptSel: allOn ? [] : els.map(r => r.name) }) }; })(),
+      ptSelectShown: () => this.setState({ ptSel: shown.filter(r => !r.allocPid).map(r => r.name) }),
+      ptQF: (() => { const open = S.ptQFOpen || null;
+        const alDefs = [{ v: 'all', l: 'All accounts' }, { v: 'none', l: 'Unallocated' }].concat(partners.map(p => ({ v: p.id, l: p.name })));
+        const tiDefs = [{ v: 'all', l: 'All tiers' }, { v: 'P0', l: 'P0' }, { v: 'P1', l: 'P1' }, { v: 'P2', l: 'P2' }, { v: 'P3', l: 'P3' }];
+        const mk = (key, defs, cur, label) => ({
+          lbl: label + ': ' + (defs.find(d => d.v === cur) || defs[0]).l,
+          on: cur !== 'all', openV: open === key,
+          bd: cur !== 'all' ? '#b7d4c3' : '#e6e5ec', bg: cur !== 'all' ? '#e2efe7' : '#fbfbfd', col: cur !== 'all' ? '#1f5a3a' : '#63606e',
+          flip: () => this.setState(s => ({ ptQFOpen: s.ptQFOpen === key ? null : key })),
+          items: defs.map(d => ({ l: d.l, onBg: d.v === cur ? '#f1f7f3' : 'transparent', onC: d.v === cur ? '#1f5a3a' : '#48454f',
+            pick: () => this.setState({ [key === 'alloc' ? 'ptFAlloc' : 'ptFTier']: d.v, ptQFOpen: null }) })) });
+        return { alloc: mk('alloc', alDefs, fAl, 'Allocated'), tier: mk('tier', tiDefs, fTi, 'Tier'),
+          close: () => this.setState({ ptQFOpen: null }), anyOpen: !!open }; })(),
+      ptRowsA: shown.map(r => { const on = sel.includes(r.name);
+        if (!r.sigTicks || !r.sigTicks.length) { const GL = ['Hiring activity','Expansion signal','Funding activity','Digital transformation','New office / site','Intent topic researched','Leadership change','Tech deployment','Security review'];
+          const hh2 = _qh(r.name); const fl = GL.map((g, ix) => (hh2 >> ix) & 1 || ((hh2 + ix) % 3 === 0) ? 1 : 0);
+          r.sigTicks = fl.map((v, ix) => ({ bg: v ? '#2f7050' : '#e4e4ec', tip: GL[ix] }));
+          r.sigN = fl.reduce((a2, v) => a2 + v, 0) + '/' + GL.length; }
+        return {
         name: r.name, domain: r.domain, initials: r.initials, logoBg: r.logoBg, logoFg: r.logoFg, logoSty16: r.logoSty16,
         signal: r.signal, sigColor: r.sigColor, fit: String(r.fit), fitC: r.fitColor, fitW: r.fit + '%',
         sigTicks: r.sigTicks || [], sigN: r.sigN || '', hasTicks: !!(r.sigTicks && r.sigTicks.length),
@@ -13968,8 +14028,11 @@ class Component extends DCLogic {
         tierBg: { P0:'#123524', P1:'#1f5a3a', P2:'#2f7050', P3:'#9dbfae', Unranked:'#c9c8d4' }[r.realTier || (r.fit >= 90 ? 'P0' : r.fit >= 80 ? 'P1' : r.fit >= 70 ? 'P2' : 'P3')],
         tierC: ['P3','Unranked'].includes(r.realTier || (r.fit >= 90 ? 'P0' : r.fit >= 80 ? 'P1' : r.fit >= 70 ? 'P2' : 'P3')) ? '#10281c' : '#ffffff',
         seg: r.seg, segC: r.segC, segB: r.segB,
+        allocOn: !!r.allocPid, unalloc: !r.allocPid,
+        allocName: r.allocPid && byId[r.allocPid] ? byId[r.allocPid].name : '',
+        allocLogo: r.allocPid && byId[r.allocPid] ? this._imgSty(byId[r.allocPid].logo || ('https://www.google.com/s2/favicons?domain=' + byId[r.allocPid].domain + '&sz=64'), 14, 3) : '',
         on, off: !on, rowBg: on ? '#f1f7f3' : 'transparent',
-        toggle: () => this.setState(s => { const cur = new Set(s.ptSel || []); if (cur.has(r.name)) { cur.delete(r.name); } else { cur.add(r.name); } return { ptSel: [...cur] }; }),
+        toggle: () => { if (r.allocPid) return; this.setState(s => { const cur = new Set(s.ptSel || []); if (cur.has(r.name)) { cur.delete(r.name); } else { cur.add(r.name); } return { ptSel: [...cur] }; }); },
       }; }),
       ptOpts: partners.map(p => { const live = liveOf(p.id).length; const load = p.working + live; const pct = Math.min(100, Math.round(load / p.cap * 100)); const on = chosen === p.id; return {
         name: p.name, initials: initialsOf(p.name), logoSty18: this._imgSty(p.logo || ('https://www.google.com/s2/favicons?domain=' + (p.domain || ((p.email || 'x@example.com').split('@')[1])) + '&sz=64'), 18, 3),
@@ -13991,7 +14054,7 @@ class Component extends DCLogic {
       ptAuto: () => { if (!shown.length) { this.toast('Nothing in the queue matches these filters.'); return; }
         const order = partners.map(p => ({ id: p.id, room: Math.max(0, p.cap - p.working - liveOf(p.id).length) })).sort((a, b) => b.room - a.room);
         const next = Object.assign({}, S.ptAssigned || {}); let i = 0;
-        shown.forEach(r => { next[r.name] = order[i % order.length].id; i++; });
+        shown.filter(r => !r.allocPid).forEach(r => { next[r.name] = order[i % order.length].id; i++; });
         this.setState({ ptAssigned: next, ptSel: [] });
         this.toast(shown.length + ' accounts distributed by remaining capacity.');
       },
@@ -14002,7 +14065,7 @@ class Component extends DCLogic {
           { k: 'em', l: 'EMAILS', pick: 'Verified emails %', sub: 'Contacts with a verified work email', w: '70px' },
           { k: 'unr', l: 'UNRANKED', pick: 'Unranked %', sub: 'Share of the portfolio with no signal found yet', w: '84px' },
         ];
-        const on = S.ptCols || {};
+        const on = Object.assign({ contacts: true, p1: true }, S.ptCols || {});
         const active = PT_XCOLS.filter(c => on[c.k]);
         const xVal = (p, k) => { const lv = (S.ptLive || {})[p.id] || PT_SEED[p.id]; if (!lv) return '\u2014';
           if (k === 'contacts') return lv.contacts ? lv.contacts.toLocaleString('en-US') : '\u2014';
@@ -14018,7 +14081,7 @@ class Component extends DCLogic {
           ptColsFlip: () => this.setState(s => ({ ptColsOpen: !s.ptColsOpen })),
           ptColsClose: () => this.setState({ ptColsOpen: false }),
           ptColsItems: PT_XCOLS.map(c => ({ l: c.pick, sub: c.sub, on: !!on[c.k], boxBg: on[c.k] ? '#2f7050' : '#fff', boxBd: on[c.k] ? '#2f7050' : '#c9c8d4',
-            flip: () => this.setState(s => ({ ptCols: { ...(s.ptCols || {}), [c.k]: !(s.ptCols || {})[c.k] } })) })),
+            flip: () => this.setState(s => { const eff = Object.assign({ contacts: true, p1: true }, s.ptCols || {}); return { ptCols: { ...(s.ptCols || {}), [c.k]: !eff[c.k] } }; }) })),
         }; })(),
       ptRowsB: partners.map(p => {
         const live = liveOf(p.id).length, stn = stOf(p.id).length;
@@ -14043,7 +14106,7 @@ class Component extends DCLogic {
           p0open: p0open == null ? '\u2014' : String(p0open),
           p0C: p0open > 0 ? '#8f5f15' : '#908d9c',
           p0n: lv ? (lv.tiers.P0 || 0).toLocaleString('en-US') : '\u2014',
-          xCells: (() => { const on2 = S.ptCols || {}; const defs = [['contacts','88px'],['p1','72px'],['em','70px'],['unr','84px']];
+          xCells: (() => { const on2 = Object.assign({ contacts: true, p1: true }, S.ptCols || {}); const defs = [['contacts','88px'],['p1','72px'],['em','70px'],['unr','84px']];
             return defs.filter(d2 => on2[d2[0]]).map(d2 => { const k = d2[0]; const lv2 = lvReal || PT_SEED[p.id];
               let v = '\u2014';
               if (lv2) { const t = lv2.tiers || {};
