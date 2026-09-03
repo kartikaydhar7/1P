@@ -13852,9 +13852,11 @@ class Component extends DCLogic {
     const QSEG = { ncs:['Gov & Enterprise','#205e9e','#e3eef9'], cap:['Device refresh','#8f5f15','#f8f0dd'], jk:['SMB workplace','#1f5a3a','#e2efe7'], sh:['Enterprise ICT','#4f3fae','#eceafc'], ny:['SG SMB','#205e9e','#e3eef9'] };
     const _qh = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); };
     let qCount = 0;
-    partners.forEach(p => { const lv = (S.ptLive || {})[p.id] || PT_SEED[p.id]; const smp = lv && lv.sample;
+    partners.forEach(p => { const lv = (S.ptLive || {})[p.id], seed = PT_SEED[p.id];
+      // per-field fallback: a live feed without samples (older dashboard build) must not shadow the seed
+      const smp = (lv && lv.sample && lv.sample.length ? lv.sample : null) || (seed && seed.sample);
       if (!smp) return;
-      const sigLabels = (lv && lv.signals) || [];
+      const sigLabels = (lv && lv.signals && lv.signals.length ? lv.signals : null) || (seed && seed.signals) || [];
       smp.slice(0, 10).forEach(e => { if (!e || !e.n || nameSet[e.n] || e.t === 'Unranked') return;
         const hh = _qh(e.n); const sg = QSEG[p.id] || QSEG.ny; const sigs = QSIG[p.id] || QSIG.ny;
         const realTier = ['P0','P1','P2','P3','Unranked'].includes(e.t) ? e.t : null;
@@ -13873,7 +13875,10 @@ class Component extends DCLogic {
     const liveOf = (pid) => assignedNames.filter(n => A[n] === pid);
     const stOf = (pid) => Object.keys(ST).filter(n => nameSet[n] && A[n] === pid);
     let qNative = 0;
-    rows.forEach(r => { if (!r.isPtq && !A[r.name] && qNative < 5) { r.qKeep = true; qNative++; } });
+    const qStick = S.ptQNames || [];
+    rows.forEach(r => { if (r.isPtq) return;
+      if (!A[r.name] && qNative < 5) { r.qKeep = true; qNative++; }
+      else if (qStick.includes(r.name)) { r.qKeep = true; } });
     const qAll = rows.filter(r => r.isPtq || r.qKeep).map(r => Object.assign({}, r, { allocPid: A[r.name] || (r.isPtq ? r.srcPid : null) }));
     const fAl = S.ptFAlloc || 'all', fTi = S.ptFTier || 'all';
     const unassigned = qAll.filter(r =>
@@ -14018,7 +14023,10 @@ class Component extends DCLogic {
         if (!r.sigTicks || !r.sigTicks.length) { const GL = ['Hiring activity','Expansion signal','Funding activity','Digital transformation','New office / site','Intent topic researched','Leadership change','Tech deployment','Security review'];
           const hh2 = _qh(r.name); const fl = GL.map((g, ix) => (hh2 >> ix) & 1 || ((hh2 + ix) % 3 === 0) ? 1 : 0);
           r.sigTicks = fl.map((v, ix) => ({ bg: v ? '#2f7050' : '#e4e4ec', tip: GL[ix] }));
-          r.sigN = fl.reduce((a2, v) => a2 + v, 0) + '/' + GL.length; }
+          const onN = fl.reduce((a2, v) => a2 + v, 0);
+          r.sigN = onN + '/' + GL.length;
+          r.realTier = onN >= 7 ? 'P0' : onN >= 5 ? 'P1' : onN >= 3 ? 'P2' : 'P3';
+          r.intent = String((hh2 % 3 === 0) ? 0 : ((hh2 >> 3) % 12) + 1); }
         return {
         name: r.name, domain: r.domain, initials: r.initials, logoBg: r.logoBg, logoFg: r.logoFg, logoSty16: r.logoSty16,
         signal: r.signal, sigColor: r.sigColor, fit: String(r.fit), fitC: r.fitColor, fitW: r.fit + '%',
@@ -14048,14 +14056,15 @@ class Component extends DCLogic {
       ptAssign: () => { if (!sel.length || !chosen) return;
         const next = Object.assign({}, S.ptAssigned || {});
         sel.forEach(n => { next[n] = chosen; });
-        this.setState({ ptAssigned: next, ptSel: [] });
+        this.setState(s => ({ ptAssigned: next, ptSel: [], ptQNames: [...new Set([...(s.ptQNames || []), ...sel])] }));
         this.toast(sel.length + (sel.length > 1 ? ' accounts' : ' account') + ' assigned to ' + byId[chosen].name + '. Source updated in Prospects.');
       },
       ptAuto: () => { if (!shown.length) { this.toast('Nothing in the queue matches these filters.'); return; }
         const order = partners.map(p => ({ id: p.id, room: Math.max(0, p.cap - p.working - liveOf(p.id).length) })).sort((a, b) => b.room - a.room);
         const next = Object.assign({}, S.ptAssigned || {}); let i = 0;
-        shown.filter(r => !r.allocPid).forEach(r => { next[r.name] = order[i % order.length].id; i++; });
-        this.setState({ ptAssigned: next, ptSel: [] });
+        const autoNames = shown.filter(r => !r.allocPid).map(r => r.name);
+        autoNames.forEach(n => { next[n] = order[i % order.length].id; i++; });
+        this.setState(s => ({ ptAssigned: next, ptSel: [], ptQNames: [...new Set([...(s.ptQNames || []), ...autoNames])] }));
         this.toast(shown.length + ' accounts distributed by remaining capacity.');
       },
       ...(() => {
