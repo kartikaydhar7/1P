@@ -13664,6 +13664,65 @@ class Component extends DCLogic {
       { id:'ncs', name:'NCS Group', region:'APAC', domain:'ncs.co', email:'alliances@ncs.co', tier:'Gold', cap:16, ttft:'2.8h', accept:91, working:5, won:4, pipe:420, rev:185, avgDeal:44, win:41, lastActive:'4h ago', logins30:33, certs:'5 of 6', qbr:'9 Sep', trend:[45,60,70,75,85,90], credU:760, credCap:1200, sheet:'', dash:'https://ncs-dashboard-sigma.vercel.app', dashName:'NCS Group Account Intelligence', dashEmbed:'assets/ncs-dashboard.html?embed=1&sheet=13xcXJoePdHR2KYPqncaW4NoySyL9AXYmeueEGIQE5eQ' },
     ].concat(this.state.ptAdded || []);
   }
+  // Baked from the dashboards' real feeds (2026-09-03); live postMessage feeds overwrite these
+  ptSeedData() {
+    return {
+      ncs: { accounts: 1674, contacts: 4132, tiers: { P0: 197, P1: 440, P2: 301, P3: 568, Unranked: 168 }, contCov: { rows: 4132, email: 3371 },
+        signals: ['AI & data initiatives','Security incident','Regulatory & compliance','Hiring in Singapore','New sites & locations','Business expansion','Government grant','Singapore funding','New investment'],
+        sample: [
+          { n: 'Allkin Singapore Ltd', d: 'allkin.org.sg', t: 'P1', s: [1,0,1,1,1,1,1,1,1], is: 0 },
+          { n: 'Info-tech Systems Ltd', d: 'info-tech.com.sg', t: 'P1', s: [1,0,1,1,1,1,1,1,1], is: 0 },
+          { n: 'Granite Asia', d: 'graniteasia.com', t: 'P1', s: [1,0,1,1,1,1,1,1,1], is: 0 },
+          { n: 'Hrnetgroup', d: 'hrnetgroup.com', t: 'P1', s: [1,0,1,1,1,1,1,1,1], is: 0 },
+          { n: 'Blackpanda Pte. Ltd', d: 'blackpanda.com', t: 'P1', s: [1,1,1,1,1,1,0,1,1], is: 0 },
+          { n: 'Smrt Trains', d: 'smrt.com.sg', t: 'P0', s: [1,1,1,1,1,1,1,0,0], is: 3 },
+          { n: 'Singapore Armed Forces', d: 'mindef.gov.sg', t: 'P0', s: [1,0,1,1,1,1,1,0,1], is: 2 },
+          { n: 'Olam', d: 'olamgroup.com', t: 'P0', s: [1,1,1,1,1,1,0,0,1], is: 2 } ] },
+      sh: { accounts: 3404, contacts: 8575, tiers: { P0: 137, P1: 1285, P2: 968, P3: 620, Unranked: 394 }, contCov: { rows: 8575, email: 7311 },
+        signals: ['Device Refresh (SG)','Endpoint (SG)','IT Support (SG)','Workplace Transform (SG)','Geo Expansion (SG)','AI Initiatives (SG)','Workforce Expansion (SG)','Device Refresh','Endpoint Management','IT Support / Service Desk','Digital Workplace','IT Leadership Hiring','Geographic Expansion','Funding & Acquisitions'],
+        sample: [
+          { n: 'Alphaeus Pte. Ltd', d: 'alphaeus.com.sg', t: 'P1', s: [1,1,1,1,1,1,1,1,1,1,0,0,1,0], is: 0 },
+          { n: 'Y3 Technologies', d: 'y3technologies.com', t: 'P0', s: [0,1,1,1,1,1,1,0,1,1,1,0,1,1], is: 0 },
+          { n: 'Cooley Llp', d: 'cooley.com', t: 'P1', s: [0,1,1,1,1,0,1,0,1,1,1,0,1,1], is: 9 },
+          { n: 'Applied Materials South East Asia', d: 'appliedmaterials.com', t: 'P1', s: [0,1,0,1,1,1,1,0,1,1,1,0,1,1], is: 8 },
+          { n: 'Delivery Hero', d: 'deliveryhero.com', t: 'P2', s: [0,1,1,0,0,1,1,0,1,1,1,1,1,1], is: 2 },
+          { n: 'Websparks Pte Ltd', d: 'websparks.sg', t: 'P2', s: [1,1,1,1,1,1,1,0,0,1,1,0,1,0], is: 0 },
+          { n: 'Ricoh Asia Pacific', d: 'ricoh-ap.com', t: 'P1', s: [0,0,1,1,1,1,1,0,1,1,1,0,1,1], is: 0 },
+          { n: 'Rapsys Technologies Pte Ltd', d: 'rapsystechnologies.com', t: 'P1', s: [1,1,1,1,1,1,0,0,0,1,1,1,1,0], is: 0 } ] },
+      jk: { accounts: 5221, contacts: 8818, tiers: { P0: 106, P1: 705, P2: 795, P3: 965, Unranked: 2650 }, contCov: { rows: 8818 },
+        signals: ['Singapore Hiring Activity','Singapore Expansion Activity','Projects & Initiatives','Digital Transformation','Singapore Expansion Plans','Funding Activity','Government Funding','Office Reopening','Return To Office'],
+        sample: [
+          { n: 'Innowave Tech Pte Ltd', d: 'innowave.com.sg', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Universal Vapor Jet Corporation', d: 'uvjc.com', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Google Cloud Asia Pacific', d: 'cloud.google.com', t: 'P0', s: [1,1,1,1,1,1,0,0,1], is: 0 },
+          { n: 'Pyxis', d: 'thepyxis.co', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Singdata', d: 'singdata.com', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'AliciaBots', d: 'aliciabots.com', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'ELGO AI', d: 'elgo.app', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'GOVT VCCP', d: 'vccp.com', t: 'P0', s: [1,1,1,1,1,1,0,0,0], is: 7 } ] },
+      cap: { accounts: 241, contacts: 0, tiers: { P0: 42, P1: 42, P2: 74, P3: 66, Unranked: 17 }, contCov: null,
+        signals: ['AI presence in Singapore','AI adoption in Singapore','AI hiring in Singapore','Singapore AI initiatives','AI infrastructure investment','Copilot deployment','Singapore office activity','Singapore tech deployments','Singapore office status','Workplace technology programme','Office / hybrid policy','Automation initiatives','Digital transformation','Network upgrades','IT resilience programme','IT modernisation plans','Cloud adoption','Singapore IT investment','Security initiatives','Singapore regional presence','Singapore market activity','Singapore hiring trend','Funding impact','Government grant support','Workforce expansion'],
+        sample: [
+          { n: 'Micron Semiconductor Asia', d: 'micron.com', t: 'P0', s: [1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,0], is: 11 },
+          { n: 'MANULIFE (SINGAPORE) PTE. LTD.', d: 'manulife.com.sg', t: 'P0', s: [1,1,1,1,0,1,1,1,0,1,0,1,1,0,1,1,1,0,1,1,1,1,1,1,0], is: 6 },
+          { n: 'Keppel Infrastructure', d: 'keppel.com', t: 'P0', s: [1,1,1,1,1,0,1,1,0,1,0,1,1,0,1,1,1,1,0,1,1,1,1,0,1], is: 3 },
+          { n: 'Henkel Singapore Manufacturing', d: 'henkel.com', t: 'P0', s: [1,1,1,1,0,0,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,0,0,0,1], is: 8 },
+          { n: 'ST Aerospace Engines', d: 'stengg.com', t: 'P0', s: [1,1,1,1,1,0,1,1,0,0,0,1,1,0,1,1,1,1,1,1,1,1,0,0,0], is: 13 },
+          { n: 'Applied Materials Singapore', d: 'appliedmaterials.com', t: 'P0', s: [0,1,1,1,1,0,1,1,1,1,0,1,1,1,0,0,1,1,0,1,1,1,0,1,0], is: 11 },
+          { n: 'GlobalFoundries Singapore', d: 'gf.com', t: 'P0', s: [1,1,1,1,1,0,1,1,0,1,0,1,1,1,0,1,0,0,0,1,1,1,1,1,0], is: 9 },
+          { n: 'Rolls-Royce Singapore', d: 'rolls-royce.com', t: 'P0', s: [1,1,0,1,1,0,1,1,0,1,1,1,1,1,1,0,1,0,0,1,1,0,0,0,1], is: 10 } ] },
+      ny: { accounts: 5354, contacts: 7435, tiers: { P0: 58, P1: 566, P2: 878, P3: 917, Unranked: 2935 }, contCov: { rows: 7435 },
+        signals: ['Singapore Hiring Activity','Projects & Initiatives','Singapore Expansion Plans','Digital Transformation','Funding Activity','Government Funding','Office Reopening','Return To Office'],
+        sample: [
+          { n: 'Qai Ventures', d: 'justanalytics.com', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Speqtral', d: 'skyfy.com.sg', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Pints Ai', d: 'morgenrot.net', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Accredify', d: 'efa-group.net', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Maivenpoint', d: 'maivenpoint.com', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Koollogix', d: 'hawksburn.com', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Green Cop Pte Ltd', d: 'greencop.sg', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 } ] },
+    };
+  }
   dashVals() {
     const S = this.state;
     const readLS = (k) => { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } };
@@ -13744,6 +13803,7 @@ class Component extends DCLogic {
     const S = this.state;
     if (!this._ptStatsFn) { window.addEventListener('message', this._ptStatsFn = (e) => { const d = e.data;
       if (d && d.type === 'sprouts-partner-stats' && d.partner) this.setState(s => ({ ptLive: { ...(s.ptLive || {}), [d.partner]: d } })); }); }
+    const PT_SEED = this._ptSeedCache || (this._ptSeedCache = this.ptSeedData());
     const partners = this.ptBase();
     const byId = {}; partners.forEach(p => { byId[p.id] = p; });
     const A = S.ptAssigned || {}, ST = S.ptStalled || {};
@@ -13754,9 +13814,12 @@ class Component extends DCLogic {
     const QSEG = { ncs:['Gov & Enterprise','#205e9e','#e3eef9'], cap:['Device refresh','#8f5f15','#f8f0dd'], jk:['SMB workplace','#1f5a3a','#e2efe7'], sh:['Enterprise ICT','#4f3fae','#eceafc'], ny:['SG SMB','#205e9e','#e3eef9'] };
     const _qh = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); };
     let qCount = 0;
-    partners.forEach(p => { const lv = (S.ptLive || {})[p.id]; const smp = lv && lv.sample;
+    partners.forEach(p => { const seed = PT_SEED[p.id]; const lv = (S.ptLive || {})[p.id] || seed;
+      // A live feed reports counts but carries no sample, so fall back per field
+      // rather than per partner -- the stats object would otherwise shadow the seed.
+      const smp = (lv && lv.sample) || (seed && seed.sample);
       if (!smp) return;
-      const sigLabels = (lv && lv.signals) || [];
+      const sigLabels = (lv && lv.signals) || (seed && seed.signals) || [];
       smp.slice(0, 10).forEach(e => { if (!e || !e.n || nameSet[e.n] || e.t === 'Unranked') return;
         const hh = _qh(e.n); const sg = QSEG[p.id] || QSEG.ny; const sigs = QSIG[p.id] || QSIG.ny;
         const realTier = ['P0','P1','P2','P3','Unranked'].includes(e.t) ? e.t : null;
@@ -13787,13 +13850,61 @@ class Component extends DCLogic {
     const capColor = (pct) => pct >= 95 ? '#a2413a' : pct >= 80 ? '#b5791b' : '#2f7050';
     const draft = S.ptDraft || {};
     const initialsOf = (n) => n.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
-    // Baked snapshot of each partner dashboard's last-known numbers; live postMessage feeds overwrite these
-    const PT_SEED = {
-      ncs: { accounts: 1674, contacts: 4132, tiers: { P0: 197, P1: 440, P2: 301, P3: 568, Unranked: 168 }, contCov: { rows: 4132, email: 3306 } },
-      sh:  { accounts: 3400, contacts: 8600, tiers: { P0: 260, P1: 610, P2: 840, P3: 1090, Unranked: 600 }, contCov: { rows: 8600, email: 6880 } },
-      jk:  { accounts: 980, contacts: 2450, tiers: { P0: 74, P1: 212, P2: 301, P3: 288, Unranked: 105 }, contCov: { rows: 2450, email: 1985 } },
-      cap: { accounts: 1240, contacts: 0, tiers: { P0: 118, P1: 296, P2: 342, P3: 371, Unranked: 113 }, contCov: null },
-      ny:  { accounts: 5354, contacts: 7435, tiers: { P0: 58, P1: 566, P2: 878, P3: 917, Unranked: 2935 }, contCov: null },
+    void {
+      ncs: { accounts: 1674, contacts: 4132, tiers: { P0: 197, P1: 440, P2: 301, P3: 568, Unranked: 168 }, contCov: { rows: 4132, email: 3371 },
+        signals: ['AI & data initiatives','Security incident','Regulatory & compliance','Hiring in Singapore','New sites & locations','Business expansion','Government grant','Singapore funding','New investment'],
+        sample: [
+          { n: 'Allkin Singapore Ltd', d: 'allkin.org.sg', t: 'P1', s: [1,0,1,1,1,1,1,1,1], is: 0 },
+          { n: 'Info-tech Systems Ltd', d: 'info-tech.com.sg', t: 'P1', s: [1,0,1,1,1,1,1,1,1], is: 0 },
+          { n: 'Granite Asia', d: 'graniteasia.com', t: 'P1', s: [1,0,1,1,1,1,1,1,1], is: 0 },
+          { n: 'Hrnetgroup', d: 'hrnetgroup.com', t: 'P1', s: [1,0,1,1,1,1,1,1,1], is: 0 },
+          { n: 'Blackpanda Pte. Ltd', d: 'blackpanda.com', t: 'P1', s: [1,1,1,1,1,1,0,1,1], is: 0 },
+          { n: 'Smrt Trains', d: 'smrt.com.sg', t: 'P0', s: [1,1,1,1,1,1,1,0,0], is: 3 },
+          { n: 'Singapore Armed Forces', d: 'mindef.gov.sg', t: 'P0', s: [1,0,1,1,1,1,1,0,1], is: 2 },
+          { n: 'Olam', d: 'olamgroup.com', t: 'P0', s: [1,1,1,1,1,1,0,0,1], is: 2 } ] },
+      sh: { accounts: 3404, contacts: 8575, tiers: { P0: 137, P1: 1285, P2: 968, P3: 620, Unranked: 394 }, contCov: { rows: 8575, email: 7311 },
+        signals: ['Device Refresh (SG)','Endpoint (SG)','IT Support (SG)','Workplace Transform (SG)','Geo Expansion (SG)','AI Initiatives (SG)','Workforce Expansion (SG)','Device Refresh','Endpoint Management','IT Support / Service Desk','Digital Workplace','IT Leadership Hiring','Geographic Expansion','Funding & Acquisitions'],
+        sample: [
+          { n: 'Alphaeus Pte. Ltd', d: 'alphaeus.com.sg', t: 'P1', s: [1,1,1,1,1,1,1,1,1,1,0,0,1,0], is: 0 },
+          { n: 'Y3 Technologies', d: 'y3technologies.com', t: 'P0', s: [0,1,1,1,1,1,1,0,1,1,1,0,1,1], is: 0 },
+          { n: 'Cooley Llp', d: 'cooley.com', t: 'P1', s: [0,1,1,1,1,0,1,0,1,1,1,0,1,1], is: 9 },
+          { n: 'Applied Materials South East Asia', d: 'appliedmaterials.com', t: 'P1', s: [0,1,0,1,1,1,1,0,1,1,1,0,1,1], is: 8 },
+          { n: 'Delivery Hero', d: 'deliveryhero.com', t: 'P2', s: [0,1,1,0,0,1,1,0,1,1,1,1,1,1], is: 2 },
+          { n: 'Websparks Pte Ltd', d: 'websparks.sg', t: 'P2', s: [1,1,1,1,1,1,1,0,0,1,1,0,1,0], is: 0 },
+          { n: 'Ricoh Asia Pacific', d: 'ricoh-ap.com', t: 'P1', s: [0,0,1,1,1,1,1,0,1,1,1,0,1,1], is: 0 },
+          { n: 'Rapsys Technologies Pte Ltd', d: 'rapsystechnologies.com', t: 'P1', s: [1,1,1,1,1,1,0,0,0,1,1,1,1,0], is: 0 } ] },
+      jk: { accounts: 5221, contacts: 8818, tiers: { P0: 106, P1: 705, P2: 795, P3: 965, Unranked: 2650 }, contCov: { rows: 8818 },
+        signals: ['Singapore Hiring Activity','Singapore Expansion Activity','Projects & Initiatives','Digital Transformation','Singapore Expansion Plans','Funding Activity','Government Funding','Office Reopening','Return To Office'],
+        sample: [
+          { n: 'Innowave Tech Pte Ltd', d: 'innowave.com.sg', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Universal Vapor Jet Corporation', d: 'uvjc.com', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Google Cloud Asia Pacific', d: 'cloud.google.com', t: 'P0', s: [1,1,1,1,1,1,0,0,1], is: 0 },
+          { n: 'Pyxis', d: 'thepyxis.co', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Singdata', d: 'singdata.com', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'AliciaBots', d: 'aliciabots.com', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'ELGO AI', d: 'elgo.app', t: 'P1', s: [1,1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'GOVT VCCP', d: 'vccp.com', t: 'P0', s: [1,1,1,1,1,1,0,0,0], is: 7 } ] },
+      cap: { accounts: 241, contacts: 0, tiers: { P0: 42, P1: 42, P2: 74, P3: 66, Unranked: 17 }, contCov: null,
+        signals: ['AI presence in Singapore','AI adoption in Singapore','AI hiring in Singapore','Singapore AI initiatives','AI infrastructure investment','Copilot deployment','Singapore office activity','Singapore tech deployments','Singapore office status','Workplace technology programme','Office / hybrid policy','Automation initiatives','Digital transformation','Network upgrades','IT resilience programme','IT modernisation plans','Cloud adoption','Singapore IT investment','Security initiatives','Singapore regional presence','Singapore market activity','Singapore hiring trend','Funding impact','Government grant support','Workforce expansion'],
+        sample: [
+          { n: 'Micron Semiconductor Asia', d: 'micron.com', t: 'P0', s: [1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,0], is: 11 },
+          { n: 'MANULIFE (SINGAPORE) PTE. LTD.', d: 'manulife.com.sg', t: 'P0', s: [1,1,1,1,0,1,1,1,0,1,0,1,1,0,1,1,1,0,1,1,1,1,1,1,0], is: 6 },
+          { n: 'Keppel Infrastructure', d: 'keppel.com', t: 'P0', s: [1,1,1,1,1,0,1,1,0,1,0,1,1,0,1,1,1,1,0,1,1,1,1,0,1], is: 3 },
+          { n: 'Henkel Singapore Manufacturing', d: 'henkel.com', t: 'P0', s: [1,1,1,1,0,0,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,0,0,0,1], is: 8 },
+          { n: 'ST Aerospace Engines', d: 'stengg.com', t: 'P0', s: [1,1,1,1,1,0,1,1,0,0,0,1,1,0,1,1,1,1,1,1,1,1,0,0,0], is: 13 },
+          { n: 'Applied Materials Singapore', d: 'appliedmaterials.com', t: 'P0', s: [0,1,1,1,1,0,1,1,1,1,0,1,1,1,0,0,1,1,0,1,1,1,0,1,0], is: 11 },
+          { n: 'GlobalFoundries Singapore', d: 'gf.com', t: 'P0', s: [1,1,1,1,1,0,1,1,0,1,0,1,1,1,0,1,0,0,0,1,1,1,1,1,0], is: 9 },
+          { n: 'Rolls-Royce Singapore', d: 'rolls-royce.com', t: 'P0', s: [1,1,0,1,1,0,1,1,0,1,1,1,1,1,1,0,1,0,0,1,1,0,0,0,1], is: 10 } ] },
+      ny: { accounts: 5354, contacts: 7435, tiers: { P0: 58, P1: 566, P2: 878, P3: 917, Unranked: 2935 }, contCov: { rows: 7435 },
+        signals: ['Singapore Hiring Activity','Projects & Initiatives','Singapore Expansion Plans','Digital Transformation','Funding Activity','Government Funding','Office Reopening','Return To Office'],
+        sample: [
+          { n: 'Qai Ventures', d: 'justanalytics.com', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Speqtral', d: 'skyfy.com.sg', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Pints Ai', d: 'morgenrot.net', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Accredify', d: 'efa-group.net', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Maivenpoint', d: 'maivenpoint.com', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Koollogix', d: 'hawksburn.com', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 },
+          { n: 'Green Cop Pte Ltd', d: 'greencop.sg', t: 'P1', s: [1,1,1,1,1,1,0,0], is: 0 } ] },
     };
     const REP_CAT = [
       { k: 'ptRepWConv', l: 'Conversion', d: 'Assigned to working to won' },
