@@ -1064,8 +1064,10 @@
                 </span>
                 <span style="flex:1;"></span>
                 <span style="text-align:right;flex:0 0 auto;"><span style="font:500 10px 'JetBrains Mono';color:#63606e;">Load {{ ptD.load }}</span><span style="display:block;width:90px;height:5px;border-radius:3px;background:#eaeaf0;margin-top:4px;overflow:hidden;"><span style="display:block;height:100%;width:{{ ptD.loadW }};background:{{ ptD.loadC }};"></span></span></span>
-                <sc-if value="{{ ptD.hasDash }}" hint-placeholder-val="">
+                <sc-if value="{{ ptD.hasSheet }}" hint-placeholder-val="">
                   <button onClick="{{ ptD.openSheet }}" title="Source data · Google Sheet" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:9px;padding:8px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;flex:0 0 auto;" style-hover="border-color:#b7d4c3;color:#1f5a3a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg>Sheet</button>
+                </sc-if>
+                <sc-if value="{{ ptD.hasDash }}" hint-placeholder-val="">
                   <button onClick="{{ ptD.openDash }}" title="{{ ptD.dashName }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ececf2;background:#fbfbfd;cursor:pointer;border-radius:9px;padding:8px 13px;font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;flex:0 0 auto;" style-hover="border-color:#b7d4c3;color:#1f5a3a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z"></path></svg>Intelligence</button>
                 </sc-if>
                 <button onClick="{{ ptDAssignGo }}" style="border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:8px 16px;font:600 12px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;" style-hover="background:#265c41">Assign accounts</button>
@@ -12331,7 +12333,16 @@
     <sc-if value="{{ isSettings }}" hint-placeholder-val="">
       <div style="max-width:1040px;margin:0 auto;padding:28px 34px 80px;">
         <div style="font:600 11px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#2f7050;margin-bottom:6px;">Account</div>
-        <h1 style="font:600 28px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#2d2b2b;margin:0 0 16px;">Settings</h1>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:0 0 16px;">
+          <h1 style="font:600 28px 'Pliant','Instrument Sans',sans-serif;letter-spacing:-0.03em;color:#2d2b2b;margin:0;">Settings</h1>
+          <div style="display:flex;align-items:center;gap:9px;">
+            <span style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;">Preview as</span>
+            <div style="display:flex;align-items:center;gap:3px;border:1px solid #ececf2;border-radius:9px;padding:3px;background:#fbfbfd;">
+              <button onClick="{{ setRoleAdminTgl.go }}" style="border:none;cursor:pointer;border-radius:7px;padding:6px 14px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:{{ setRoleAdminTgl.col }};background:{{ setRoleAdminTgl.bg }};box-shadow:{{ setRoleAdminTgl.ring }};" style-hover="background:rgba(47,112,80,.06)">Admin</button>
+              <button onClick="{{ setRoleMemberTgl.go }}" style="border:none;cursor:pointer;border-radius:7px;padding:6px 14px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:{{ setRoleMemberTgl.col }};background:{{ setRoleMemberTgl.bg }};box-shadow:{{ setRoleMemberTgl.ring }};" style-hover="background:rgba(47,112,80,.06)">Member</button>
+            </div>
+          </div>
+        </div>
         <!-- Search settings -->
         <div style="position:relative;margin-bottom:22px;">
           <div style="display:flex;align-items:center;gap:8px;border:1px solid #ececf2;background:#fff;border-radius:10px;padding:9px 14px;">
@@ -12369,10 +12380,15 @@
           </span>
           <div style="flex:1;min-width:0;">
             <div style="font:600 9.5px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:#1f5a3a;margin-bottom:5px;">Savant · your workspace</div>
-            <p style="font:400 13.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#35323c;margin:0 0 11px;max-width:640px;">Everything's running clean. Your <b style="color:#2d2b2b;">Enterprise</b> plan is active and six systems are syncing. You've used <b style="color:#2d2b2b;">48.2K of 80K</b> credits this month, about 60%. On pace to run tight before renewal. Worth a look at your plan before you hit the ceiling.</p>
-            <button onClick="{{ goSetBilling }}" style="display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:8px 15px;font:600 12px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#265c41">Manage plan
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </button>
+            <sc-if value="{{ setIsAdmin }}" hint-placeholder-val="{{ true }}">
+              <p style="font:400 13.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#35323c;margin:0 0 11px;max-width:640px;">Everything's running clean. Your <b style="color:#2d2b2b;">Enterprise</b> plan is active and six systems are syncing. You've used <b style="color:#2d2b2b;">48.2K of 80K</b> credits this month, about 60%. On pace to run tight before renewal. Worth a look at your plan before you hit the ceiling.</p>
+              <button onClick="{{ goSetBilling }}" style="display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:8px 15px;font:600 12px 'Pliant','Instrument Sans',sans-serif;" style-hover="background:#265c41">Manage plan
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </sc-if>
+            <sc-if value="{{ setIsMember }}" hint-placeholder-val="">
+              <p style="font:400 13.5px/1.55 'Pliant','Instrument Sans',sans-serif;color:#35323c;margin:0;max-width:640px;">You're set up. Your profile, notification preferences, and connected email are all healthy. Plan, billing, and workspace security are managed by your admins. Ask me if something needs changing.</p>
+            </sc-if>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:188px 1fr;gap:22px;align-items:start;">
@@ -12398,8 +12414,8 @@
                 <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:22px 24px;">
                   <!-- Header -->
                   <div style="display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid #ececf2;">
-                    <span style="width:48px;height:48px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;color:#fff;display:flex;align-items:center;justify-content:center;font:600 20px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">S</span>
-                    <div style="flex:1;font:600 16px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Sprouts Admin</div>
+                    <span style="width:48px;height:48px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;color:#fff;display:flex;align-items:center;justify-content:center;font:600 20px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ setUserInitial }}</span>
+                    <div style="flex:1;display:flex;align-items:center;gap:9px;"><span style="font:600 16px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ setUserName }}</span><span style="font:600 9.5px 'Pliant','Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ setUserRoleC }};background:{{ setUserRoleB }};border-radius:5px;padding:4px 9px;">{{ setUserRoleLabel }}</span></div>
                     <button onClick="{{ sEditProfile }}" style="display:flex;align-items:center;gap:6px;border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="border-color:#b7d4c3">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
                       Edit profile
@@ -12411,7 +12427,7 @@
                     <div style="display:flex;align-items:baseline;padding:9px 0;">
                       <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#2f7050;">Primary Email ID</div>
                       <div style="flex:1;display:flex;align-items:center;gap:6px;font:400 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">
-                        abmadmin@sprouts.ai
+                        {{ setUserEmail }}
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#908d9c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;flex:0 0 auto;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg>
                       </div>
                     </div>
@@ -12431,7 +12447,7 @@
                     <!-- Role -->
                     <div style="display:flex;align-items:baseline;padding:9px 0;">
                       <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#2f7050;">Role</div>
-                      <div style="flex:1;font:400 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">-</div>
+                      <div style="flex:1;font:400 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ setUserRoleLabel }}</div>
                     </div>
                   </div>
                 </div>
@@ -12444,10 +12460,18 @@
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M7 17c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path><path d="M15 7c0-1.7-1.3-3-3-3S9 5.3 9 7s1.3 3 3 3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg>
                     </span>
                     <div style="flex:1;font:600 16px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Sprouts</div>
-                    <button onClick="{{ sEditAccount }}" style="display:flex;align-items:center;gap:6px;border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="border-color:#b7d4c3">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                      Edit account
-                    </button>
+                    <sc-if value="{{ setIsAdmin }}" hint-placeholder-val="{{ true }}">
+                      <button onClick="{{ sEditAccount }}" style="display:flex;align-items:center;gap:6px;border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="border-color:#b7d4c3">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                        Edit account
+                      </button>
+                    </sc-if>
+                    <sc-if value="{{ setIsMember }}" hint-placeholder-val="">
+                      <span style="display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 14px;background:#f0f0f5;font:500 12px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
+                        Managed by admins
+                      </span>
+                    </sc-if>
                   </div>
                   <!-- Fields -->
                   <div style="display:flex;flex-direction:column;padding-top:14px;">
@@ -12467,7 +12491,8 @@
                       <div style="flex:1;font:400 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">-</div>
                     </div>
                   </div>
-                  <!-- Billing Information sub-section -->
+                  <!-- Billing Information sub-section · admin only -->
+                  <sc-if value="{{ setIsAdmin }}" hint-placeholder-val="{{ true }}">
                   <div style="margin-top:16px;">
                     <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
                       <div style="font:600 14px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Billing information</div>
@@ -12506,15 +12531,27 @@
                       </div>
                     </div>
                   </div>
+                  </sc-if>
                 </div>
 
                 <!-- Security Card -->
                 <div style="border:none;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:22px 24px;">
-                  <div style="font:600 15px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin-bottom:16px;">Security</div>
+                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <span style="font:600 15px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Security</span>
+                    <sc-if value="{{ setIsMember }}" hint-placeholder-val="">
+                      <span style="display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 10px;background:#f0f0f5;font:500 10.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
+                        Managed by admins
+                      </span>
+                    </sc-if>
+                  </div>
                   <sc-for list="{{ orgToggles }}" as="t" hint-placeholder-count="3">
                     <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0f4;">
                       <div style="flex:1;"><div style="font:500 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ t.label }}</div><div style="font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#63606e;margin-top:1px;">{{ t.sub }}</div></div>
-                      <span onClick="{{ t.onToggle }}" style="width:38px;height:22px;border-radius:22px;background:{{ t.trackBg }};position:relative;flex:0 0 auto;cursor:pointer;"><span style="position:absolute;top:2px;left:{{ t.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);"></span></span>
+                      <sc-if value="{{ t.locked }}" hint-placeholder-val="">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#908d9c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
+                      </sc-if>
+                      <span onClick="{{ t.onToggle }}" style="width:38px;height:22px;border-radius:22px;background:{{ t.trackBg }};position:relative;flex:0 0 auto;cursor:{{ t.trackCursor }};"><span style="position:absolute;top:2px;left:{{ t.knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);"></span></span>
                     </div>
                   </sc-for>
                 </div>
@@ -12525,7 +12562,9 @@
               <!-- Header -->
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
                 <span style="font:600 15px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Team Members</span>
-                <button style="border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant','Instrument Sans',sans-serif;" onClick="{{ sInvite }}" style-hover="background:#265c41">+ Invite</button>
+                <sc-if value="{{ setIsAdmin }}" hint-placeholder-val="{{ true }}">
+                  <button style="border:none;cursor:pointer;background:#2f7050;color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant','Instrument Sans',sans-serif;" onClick="{{ sInvite }}" style-hover="background:#265c41">+ Invite</button>
+                </sc-if>
               </div>
               <!-- Search + Filters row -->
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
@@ -12564,14 +12603,16 @@
                       <span style="width:110px;font:400 11px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ m.lastAccess }}</span>
                       <!-- 3-dot menu -->
                       <span style="width:40px;display:flex;justify-content:flex-end;position:relative;">
-                        <button onClick="{{ m.toggleMenu }}" style="border:none;background:transparent;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;border-radius:6px;color:#63606e;" style-hover="background:#f0f0f5;color:#2d2b2b">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
-                        </button>
+                        <sc-if value="{{ setIsAdmin }}" hint-placeholder-val="{{ true }}">
+                          <button onClick="{{ m.toggleMenu }}" style="border:none;background:transparent;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;border-radius:6px;color:#63606e;" style-hover="background:#f0f0f5;color:#2d2b2b">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
+                          </button>
+                        </sc-if>
                         <sc-if value="{{ m.menuOpen }}" hint-placeholder-val="">
                           <div style="position:absolute;top:100%;right:0;margin-top:4px;background:#fff;border:1px solid #ececf2;border-radius:9px;box-shadow:0 6px 20px rgba(24,23,30,.12);z-index:30;overflow:hidden;min-width:140px;">
-                            <button onClick="{{ m.closeMenu }}" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;border:none;background:transparent;cursor:pointer;text-align:left;border-bottom:1px solid #f0f0f4;" style-hover="background:#f9f8fb">
+                            <button onClick="{{ m.openEdit }}" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;border:none;background:transparent;cursor:pointer;text-align:left;border-bottom:1px solid #f0f0f4;" style-hover="background:#f9f8fb">
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#63606e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                              <span style="font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Edit</span>
+                              <span style="font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Edit role &amp; access</span>
                             </button>
                             <button onClick="{{ m.closeMenu }}" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;border:none;background:transparent;cursor:pointer;text-align:left;" style-hover="background:#f9f8fb">
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2f7050" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
@@ -12587,6 +12628,46 @@
                   <div style="padding:32px;text-align:center;font:400 13px 'Pliant','Instrument Sans',sans-serif;color:#908d9c;">No team members found</div>
                 </sc-if>
               </div>
+              <!-- Member edit drawer -->
+              <sc-if value="{{ teamEditOpen }}" hint-placeholder-val="">
+                <div onClick="{{ teamEditClose }}" style="position:fixed;inset:0;background:rgba(24,23,30,.32);z-index:80;"></div>
+                <div style="position:fixed;top:0;right:0;bottom:0;width:430px;background:#fff;z-index:81;box-shadow:-16px 0 48px -20px rgba(24,23,30,.4);display:flex;flex-direction:column;">
+                  <div style="display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid #ececf2;flex:0 0 auto;">
+                    <span style="width:40px;height:40px;border-radius:50%;background:{{ edM.bg }};color:{{ edM.fg }};display:flex;align-items:center;justify-content:center;font:600 13px 'Pliant','Instrument Sans',sans-serif;flex:0 0 auto;">{{ edM.initials }}</span>
+                    <div style="flex:1;min-width:0;">
+                      <div style="font:600 15px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">{{ edM.name }}</div>
+                      <div style="font:400 11.5px 'Pliant','Instrument Sans',sans-serif;color:#63606e;">{{ edM.email }}</div>
+                    </div>
+                    <button onClick="{{ teamEditClose }}" style="border:none;background:transparent;cursor:pointer;padding:6px;border-radius:8px;color:#63606e;display:flex;" style-hover="background:#f0f0f5;color:#2d2b2b"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                  </div>
+                  <div style="flex:1;overflow-y:auto;padding:18px 20px;">
+                    <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:9px;">Role</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;">
+                      <button onClick="{{ edRoleAdmin.pick }}" style="text-align:left;border:none;cursor:pointer;border-radius:12px;padding:13px 14px;background:{{ edRoleAdmin.bg }};box-shadow:{{ edRoleAdmin.ring }};">
+                        <span style="display:flex;align-items:center;gap:7px;margin-bottom:5px;"><span style="width:14px;height:14px;border-radius:50%;border:{{ edRoleAdmin.dotBorder }};background:{{ edRoleAdmin.dotBg }};box-shadow:{{ edRoleAdmin.dotShadow }};flex:0 0 auto;"></span><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Admin</span></span>
+                        <span style="display:block;font:400 11px/1.5 'Pliant','Instrument Sans',sans-serif;color:#63606e;">Full access: billing, security, team, and every data tool.</span>
+                      </button>
+                      <button onClick="{{ edRoleMember.pick }}" style="text-align:left;border:none;cursor:pointer;border-radius:12px;padding:13px 14px;background:{{ edRoleMember.bg }};box-shadow:{{ edRoleMember.ring }};">
+                        <span style="display:flex;align-items:center;gap:7px;margin-bottom:5px;"><span style="width:14px;height:14px;border-radius:50%;border:{{ edRoleMember.dotBorder }};background:{{ edRoleMember.dotBg }};box-shadow:{{ edRoleMember.dotShadow }};flex:0 0 auto;"></span><span style="font:600 13px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;">Member</span></span>
+                        <span style="display:block;font:400 11px/1.5 'Pliant','Instrument Sans',sans-serif;color:#63606e;">Runs the GTM work. No billing, security, or team controls.</span>
+                      </button>
+                    </div>
+                    <div style="font:600 8.5px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase;color:#908d9c;margin-bottom:11px;">What this role can do</div>
+                    <sc-for list="{{ edCats }}" as="c" hint-placeholder-count="5">
+                      <div style="margin-bottom:15px;">
+                        <div style="font:600 11.5px 'Pliant','Instrument Sans',sans-serif;color:#2d2b2b;margin-bottom:5px;">{{ c.cat }}</div>
+                        <sc-for list="{{ c.items }}" as="p" hint-placeholder-count="2">
+                          <div style="display:flex;align-items:center;gap:8px;padding:4px 0;">{{ p.grantIcon }}<span style="font:400 12.5px 'Pliant','Instrument Sans',sans-serif;color:{{ p.col }};">{{ p.dn }}</span></div>
+                        </sc-for>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:flex-end;gap:9px;padding:14px 20px;border-top:1px solid #ececf2;flex:0 0 auto;">
+                    <button onClick="{{ teamEditClose }}" style="border:none;background:#eeeef4;cursor:pointer;border-radius:999px;padding:9px 16px;font:500 12.5px 'Pliant','Instrument Sans',sans-serif;color:#48454f;" style-hover="background:#e4e4ec">Cancel</button>
+                    <button onClick="{{ teamEditSave }}" style="border:none;background:#2f7050;cursor:pointer;border-radius:999px;padding:9px 18px;font:600 12.5px 'Pliant','Instrument Sans',sans-serif;color:#fff;" style-hover="background:#265c41">Save role</button>
+                  </div>
+                </div>
+              </sc-if>
             </sc-if>
             <!-- NOTIFICATIONS -->
             <sc-if value="{{ setIsNotifications }}" hint-placeholder-val="">
@@ -13449,6 +13530,7 @@ class Component extends DCLogic {
       { id:'jk', name:'JK Technology', region:'APAC', domain:'jktech.com', email:'sales@jktech.com', tier:'Silver', cap:12, ttft:'5.1h', accept:88, working:4, won:3, pipe:310, rev:140, avgDeal:38, win:43, lastActive:'Yesterday', logins30:26, certs:'3 of 5', qbr:'26 Sep', trend:[40,50,45,60,55,60], credU:540, credCap:900, sheet:'https://docs.google.com/spreadsheets/d/1PdhDA5K2N1ZZDh5hnpMF8A3C5VLi9R5XprpJBB69TfA/edit', dash:'https://jk-dashboard-zeta.vercel.app', dashName:'JK Technology Account Intelligence' },
       { id:'sh', name:'StarHub', region:'APAC', domain:'starhub.com', email:'gtm@starhub.com', tier:'Silver', cap:10, ttft:'6.7h', accept:79, working:2, won:1, pipe:120, rev:45, avgDeal:26, win:33, lastActive:'3d ago', logins30:12, certs:'1 of 3', qbr:'19 Sep', trend:[15,20,25,20,25,15], credU:300, credCap:500, sheet:'https://docs.google.com/spreadsheets/d/1Zj6giFp1XPILuewS_n_hy_YlpgdFipAdISN0GtWB67g/edit', dash:'https://star-hub-dashboard.vercel.app', dashName:'StarHub Account Intelligence' },
       { id:'ny', name:'Nanyang Technologies', region:'APAC', domain:'nanyang.tech', email:'team@nanyang.tech', tier:'Registered', cap:10, ttft:'9.6h', accept:71, working:3, won:1, pipe:150, rev:60, avgDeal:30, win:25, lastActive:'6d ago', logins30:7, certs:'1 of 4', qbr:'Overdue', trend:[30,25,35,20,25,15], credU:610, credCap:700, sheet:'https://docs.google.com/spreadsheets/d/1TtZr3L_sDqU16oIBiJXWi6fhMHRVVZ9py-CjKU8ap9k/edit', dash:'https://nanyang-one.vercel.app', dashName:'Nanyang Tech Account Intelligence' },
+      { id:'ncs', name:'NCS Group', region:'APAC', domain:'ncs.co', email:'alliances@ncs.co', tier:'Gold', cap:16, ttft:'2.8h', accept:91, working:5, won:4, pipe:420, rev:185, avgDeal:44, win:41, lastActive:'4h ago', logins30:33, certs:'5 of 6', qbr:'9 Sep', trend:[45,60,70,75,85,90], credU:760, credCap:1200, sheet:'', dash:'https://ncs-dashboard-sigma.vercel.app', dashName:'NCS Group Account Intelligence' },
     ].concat(this.state.ptAdded || []);
   }
   dashVals() {
@@ -13699,7 +13781,7 @@ class Component extends DCLogic {
           committees: String(cov.cm),
           cred: credPct + '%', credW: Math.min(100, credPct) + '%',
           credSub: p.credU.toLocaleString('en-US') + ' of ' + p.credCap.toLocaleString('en-US') + ' this cycle',
-          hasDash: !!p.dash, dashName: p.dashName || (p.name + ' Account Intelligence'),
+          hasDash: !!p.dash, hasSheet: !!p.sheet, dashName: p.dashName || (p.name + ' Account Intelligence'),
           openDash: () => window.open(p.dash, '_blank'),
           openSheet: () => window.open(p.sheet, '_blank'),
           canReclaim: stn > 0, reclaimLbl: 'Reclaim ' + stn + ' stalled',
@@ -18149,7 +18231,14 @@ class Component extends DCLogic {
       {k:'Timezone',v:'UTC'}, {k:'Language',v:'en'},
     ];
     const CTab = this.state.connTab || 'overview';
-    const STab = this.state.setTab || 'profile';
+    const setRole = this.state.setRole || 'admin';
+    const setIsAdmin = setRole === 'admin', setIsMember = !setIsAdmin;
+    const SET_ADMIN_TABS = ['roles','fields','exclusions','enrichment','billing'];
+    const _stab0 = this.state.setTab || 'profile';
+    const STab = _stab0==='roles' ? 'team' : ((setIsMember && SET_ADMIN_TABS.includes(_stab0)) ? 'profile' : _stab0);
+    const roleTgl = (on) => ({ col: on?'#2d2b2b':'#63606e', bg: on?'#e2efe7':'transparent', ring: on?'inset 0 0 0 1px rgba(47,112,80,.3)':'none' });
+    const setRoleAdminTgl = { ...roleTgl(setIsAdmin), go: () => this.setState({ setRole:'admin' }) };
+    const setRoleMemberTgl = { ...roleTgl(setIsMember), go: () => this.setState({ setRole:'member' }) };
     // Settings search
     const settingsSearchIndex = [
       { label:'Primary Email ID', desc:'User profile', tab:'profile' },
@@ -18171,8 +18260,7 @@ class Component extends DCLogic {
       { label:'Two-Factor Authentication', desc:'Security', tab:'profile' },
       { label:'Team Members', desc:'Team management', tab:'team' },
       { label:'Invite Member', desc:'Team management', tab:'team' },
-      { label:'Roles & Permissions', desc:'Access control', tab:'roles' },
-      { label:'Create Role', desc:'Access control', tab:'roles' },
+      { label:'Change Member Role', desc:'Team management', tab:'team' },
       { label:'Auto-Enrich New Accounts', desc:'Notifications', tab:'notifications' },
       { label:'Daily Signal Digest', desc:'Notifications', tab:'notifications' },
       { label:'Slack Notifications', desc:'Notifications', tab:'notifications' },
@@ -18188,15 +18276,18 @@ class Component extends DCLogic {
       { label:'API Keys', desc:'Developer', tab:'apikeys' }, { label:'Create key', desc:'Developer', tab:'apikeys' }, { label:'Revoke key', desc:'Developer', tab:'apikeys' },
     ];
     const _setSearch = (this.state.setSearch || '').toLowerCase();
-    const setSearchResults = _setSearch.length > 0 ? settingsSearchIndex.filter(s => s.label.toLowerCase().includes(_setSearch) || s.desc.toLowerCase().includes(_setSearch)).slice(0, 8) : [];
+    const setSearchResults = _setSearch.length > 0 ? settingsSearchIndex.filter(s => (setIsAdmin || !SET_ADMIN_TABS.includes(s.tab)) && (s.label.toLowerCase().includes(_setSearch) || s.desc.toLowerCase().includes(_setSearch))).slice(0, 8) : [];
     const setSearchOpen = _setSearch.length > 0 && this.state.setSearchFocused;
     setSearchResults.forEach(r => { r.go = () => this.setState({ setTab: r.tab, setSearch: '', setSearchFocused: false }); });
     const setItem = (key,l) => ({ key, l, on: STab===key, col: STab===key?'#2d2b2b':'#63606e', bg: STab===key?'#e2efe7':'transparent', ring: STab===key?'inset 0 0 0 1px rgba(47,112,80,.3)':'none', go: () => this.setState({ setTab:key }) });
-    const setGroups = [
-      { g:'Workspace', items:[ setItem('profile','Account & Security'), setItem('team','Team Members'), setItem('roles','Roles & Permissions'), setItem('notifications','Notifications') ] },
+    const setGroups = setIsAdmin ? [
+      { g:'Workspace', items:[ setItem('profile','Account & Security'), setItem('team','Team Members'), setItem('notifications','Notifications') ] },
       { g:'Data', items:[ setItem('fields','Custom Fields'), setItem('exclusions','Exclusion List'), setItem('enrichment','Enrichment') ] },
       { g:'Developer', items:[ setItem('apikeys','API Keys') ] },
       { g:'Plan', items:[ setItem('billing','Billing & Credits') ] },
+    ] : [
+      { g:'Workspace', items:[ setItem('profile','Account & Security'), setItem('team','Team Members'), setItem('notifications','Notifications') ] },
+      { g:'Developer', items:[ setItem('apikeys','API Keys') ] },
     ];
     // Organization
     const orgFields = [
@@ -18208,7 +18299,7 @@ class Component extends DCLogic {
       { label:'Salesforce sandbox mode', sub:'Point syncs at the sandbox instance', on:false },
       { label:'Single sign-on (SSO)', sub:'SAML enforced for all members', on:true },
       { label:'Two-factor authentication', sub:'Require 2FA on every login', on:true },
-    ].map((t,i) => { const key='org'+i; const eff=(key in (this.state.setTgl||{}))?this.state.setTgl[key]:t.on; return { ...t, on:eff, trackBg: eff?'#2f7050':'#cbcad8', knobLeft: eff?'18px':'2px', onToggle: ()=>this.setState(s=>({ setTgl:{...(s.setTgl||{}),[key]:!eff} })) }; });
+    ].map((t,i) => { const key='org'+i; const eff=(key in (this.state.setTgl||{}))?this.state.setTgl[key]:t.on; const locked = setIsMember; return { ...t, on:eff, locked, trackBg: eff?(locked?'#9dbfae':'#2f7050'):(locked?'#dcdbe4':'#cbcad8'), trackCursor: locked?'default':'pointer', knobLeft: eff?'18px':'2px', onToggle: ()=> locked ? this.toast('Workspace security is managed by your admins.') : this.setState(s=>({ setTgl:{...(s.setTgl||{}),[key]:!eff} })) }; });
     // Roles & Permissions (real RBAC model)
     const SCOPES = [ {l:'Platform', on:false}, {l:'Tenant', on:false}, {l:'Workspace', on:true} ].map(s => ({ ...s, col: s.on?'#2d2b2b':'#63606e', bg: s.on?'#fbfbfd':'transparent', ring: s.on?'0 1px 2px rgba(30,27,23,.08)':'none' }));
     const ALLCATS = [
@@ -18216,7 +18307,7 @@ class Component extends DCLogic {
       { cat:'Lists & Segments', items:[['Add to list','canAddToList'],['View others\u2019 lists','canViewOtherPeopleList']] },
       { cat:'Enrichment', items:[['Use enrichment','canUseEnrichment'],['Bulk enrich','canBulkEnrich']] },
       { cat:'Agents & Workflows', items:[['Set up agents','canSetupAgents'],['Run workflows','canRunWorkflows']] },
-      { cat:'Settings', items:[['Manage exclusions','canManageExclusions'],['Manage billing','canManageBilling'],['Manage roles','canManageRoles']] },
+      { cat:'Settings', items:[['Manage exclusions','canManageExclusions'],['Manage billing','canManageBilling'],['Manage team','canManageRoles']] },
     ];
     const TOTAL_PERMS = ALLCATS.reduce((s,c)=>s+c.items.length,0);
     const roleGrants = {
@@ -18301,16 +18392,16 @@ class Component extends DCLogic {
     ];
     const TROLE = { Owner:{c:'#1f5a3a',b:'#e2efe7'}, Admin:{c:'#265c41',b:'#e2efe7'}, Member:{c:'#205e9e',b:'#e3eef9'}, Viewer:{c:'#63606e',b:'#eaeaf0'} };
     const allTeamMembers = [
-      { name:'Dhar K.', email:'kartikay.dhar@sprouts.ai', role:'Owner', status:'Active', initials:'DK', bg:'#2f7050', fg:'#fff', lastAccess:'2 min ago' },
+      { name:'Dhar K.', email:'kartikay.dhar@sprouts.ai', role:'Admin', status:'Active', initials:'DK', bg:'#2f7050', fg:'#fff', lastAccess:'2 min ago' },
       { name:'Marcus Lee', email:'marcus@sprouts.ai', role:'Admin', status:'Active', initials:'ML', bg:'#ede9fe', fg:'#5b21b6', lastAccess:'1h ago' },
       { name:'Anita Rao', email:'anita@sprouts.ai', role:'Member', status:'Active', initials:'AR', bg:'#dcebe2', fg:'#3d3766', lastAccess:'3h ago' },
       { name:'Sara Klein', email:'sara@sprouts.ai', role:'Member', status:'Active', initials:'SK', bg:'#fef3c7', fg:'#92400e', lastAccess:'Yesterday' },
-      { name:'Devin Park', email:'devin@sprouts.ai', role:'Viewer', status:'Invited', initials:'DP', bg:'#f6e3e8', fg:'#7e3f55', lastAccess:'Never' },
+      { name:'Devin Park', email:'devin@sprouts.ai', role:'Member', status:'Invited', initials:'DP', bg:'#f6e3e8', fg:'#7e3f55', lastAccess:'Never' },
       { name:'Jordan Wu', email:'jordan@sprouts.ai', role:'Member', status:'Deactivated', initials:'JW', bg:'#e2e2ea', fg:'#63606e', lastAccess:'2 weeks ago' },
-    ].map((m,i) => ({ ...m, _i:i, roleC:TROLE[m.role].c, roleB:TROLE[m.role].b, active: m.status==='Active', invited: m.status==='Invited', deactivated: m.status==='Deactivated',
+    ].map((m,i) => { const role = (this.state.teamRoles||{})[m.email] || m.role; return { ...m, role, _i:i, roleC:TROLE[role].c, roleB:TROLE[role].b, active: m.status==='Active', invited: m.status==='Invited', deactivated: m.status==='Deactivated',
       statusCol: m.status==='Active'?'#123524': m.status==='Invited'?'#8f5f15':'#63606e',
       statusDotBg: m.status==='Active'?'#2c6fbb': m.status==='Invited'?'#d4a017':'#908d9c',
-    }));
+    }; });
     // Team filter & search
     const _teamFilter = this.state.teamFilter || 'all';
     const _teamSearch = (this.state.teamSearch || '').toLowerCase();
@@ -18330,8 +18421,20 @@ class Component extends DCLogic {
       m.menuOpen = _teamMenuOpen === m._i;
       m.toggleMenu = () => this.setState({ teamMenuOpen: _teamMenuOpen === m._i ? null : m._i });
       m.closeMenu = () => this.setState({ teamMenuOpen: null });
+      m.openEdit = () => this.setState({ teamEdit: m._i, teamEditRole: null, teamMenuOpen: null });
     });
     const teamMembers = teamFiltered;
+    // Member edit drawer: role + what it grants
+    const _edI = this.state.teamEdit;
+    const teamEditOpen = _edI != null;
+    const edM = teamEditOpen ? (allTeamMembers.find(m => m._i === _edI) || null) : null;
+    const edRole = this.state.teamEditRole || (edM ? edM.role : 'Member');
+    const MEMBER_GRANTS = ['canViewAccountsContacts','canEditAccountsContacts','canAddToList','canViewOtherPeopleList','canUseEnrichment','canBulkEnrich','canSetupAgents','canRunWorkflows'];
+    const edRoleCard = (r) => { const on = edRole===r; return { on, bg: on?'#eef5f1':'#f7f7fa', ring: on?'inset 0 0 0 1.5px #2f7050':'inset 0 0 0 1px #e2e2ea', dotBg: on?'#2f7050':'#fff', dotShadow: on?'inset 0 0 0 3px #fff':'none', dotBorder: on?'1px solid #2f7050':'1px solid #c9c8d4', pick: () => this.setState({ teamEditRole: r }) }; };
+    const edRoleAdmin = edRoleCard('Admin'), edRoleMember = edRoleCard('Member');
+    const edCats = ALLCATS.map(c => ({ cat: c.cat, items: c.items.map(([dn,nm]) => { const granted = edRole==='Admin' || MEMBER_GRANTS.includes(nm); return { dn, grantIcon: grantIcon(granted), col: granted?'#2d2b2b':'#908d9c' }; }) }));
+    const teamEditClose = () => this.setState({ teamEdit: null, teamEditRole: null });
+    const teamEditSave = () => { if (!edM) return; const nm = edM.name, em = edM.email, r = edRole; this.setState(s => ({ teamRoles: { ...(s.teamRoles||{}), [em]: r }, teamEdit: null, teamEditRole: null })); this.toast(nm + ' is now ' + (r==='Admin' ? 'an Admin' : 'a Member') + '.'); };
     const _dpRev = this.state.dpKeyRev || {};
     const apiKeys = [
       { name:'Production', prefix:'sk-sprt-live-••4f2a', created:'Jan 12, 2026', last:'2m ago', scope:'Read + Write' },
@@ -21869,6 +21972,13 @@ class Component extends DCLogic {
       cfHasResults, cfNoResults,
       cfCatAll, cfCatAccount, cfCatContact,
       setIsProfile: STab==='profile', setIsTeam: STab==='team', setIsNotifications: STab==='notifications', setIsBilling: STab==='billing',
+      setIsAdmin, setIsMember, setRoleAdminTgl, setRoleMemberTgl,
+      setUserName: setIsAdmin ? 'Sprouts Admin' : 'Ashwini Singh',
+      setUserEmail: setIsAdmin ? 'abmadmin@sprouts.ai' : 'ashwini.singh@sprouts.ai',
+      setUserInitial: setIsAdmin ? 'S' : 'A',
+      setUserRoleLabel: setIsAdmin ? 'Admin' : 'Member',
+      setUserRoleC: setIsAdmin ? '#1f5a3a' : '#205e9e', setUserRoleB: setIsAdmin ? '#e2efe7' : '#e3eef9',
+      teamEditOpen, edM, edRoleAdmin, edRoleMember, edCats, teamEditClose, teamEditSave,
       setIsApiKeys: STab==='apikeys',
       setIsOrg: STab==='organization', setIsRoles: STab==='roles', setIsFields: STab==='fields', setIsExclusions: STab==='exclusions', setIsEnrichment: STab==='enrichment',
       prospectViews,
