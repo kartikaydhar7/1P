@@ -28,8 +28,10 @@ const ASSETS = [
   ['uploads/sprouts.ai-logo.png', 'deploy/uploads/sprouts.ai-logo.png'],
   // The @font-face is still named 'Pliant' but now sources Manrope, so Manrope
   // is what ships -- with its own OFL notice, which the licence requires.
-  ['fonts/Manrope-VariableFont_wght.ttf', 'deploy/fonts/Manrope-VariableFont_wght.ttf'],
-  ['fonts/Manrope-OFL.txt', 'deploy/fonts/Manrope-OFL.txt'],
+  // The export now loads the face from uploads/Manrope, so that is where it
+  // ships -- with its OFL notice alongside, as the licence requires.
+  ['uploads/Manrope/Manrope-VariableFont_wght.ttf', 'deploy/uploads/Manrope/Manrope-VariableFont_wght.ttf'],
+  ['uploads/Manrope/OFL.txt', 'deploy/uploads/Manrope/OFL.txt'],
 ];
 
 // assets/ is mirrored wholesale -- the partner dashboards pull in their own
