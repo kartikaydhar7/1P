@@ -44,6 +44,22 @@
   @keyframes pnIn { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:none; } }
   @keyframes svRailIn { from { opacity:0; transform:translateX(-7px); } to { opacity:1; transform:none; } }
   .sv-railin { animation: svRailIn .26s cubic-bezier(0.23,1,0.32,1) both; }
+  @keyframes svSpineIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+  @keyframes svSpineOut { from { opacity:1; transform:none; } to { opacity:0; transform:translateY(-8px); } }
+  @keyframes svSpineFade { from { opacity:0; } to { opacity:1; } }
+  @keyframes svLiveDot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.4; transform:scale(.8); } }
+  @keyframes svThrob { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
+  @keyframes svHaloHot { 0%,100% { opacity:.55; transform:scale(1.05); } 50% { opacity:1; transform:scale(1.45); } }
+  .sv-orbbtn[data-listen="true"] { animation: svThrob 1.1s ease-in-out infinite !important; }
+  .sv-orbbtn[data-listen="true"] .sv-halo { animation: svHaloHot 1.1s ease-in-out infinite !important; background:radial-gradient(circle, rgba(162,65,58,.55) 0%, rgba(162,65,58,0) 70%) !important; }
+  @keyframes svWave { 0%,100% { transform:scaleX(.18); } 50% { transform:scaleX(1); } }
+  .sv-wave { animation: svWave 0.9s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .sv-orbbtn[data-listen="true"], .sv-orbbtn[data-listen="true"] .sv-halo { animation:none !important; } .sv-wave { animation:none !important; transform:scaleX(.6) !important; } }
+  .sv-spine { transition: background-color .15s ease, transform .12s cubic-bezier(0.23,1,0.32,1); }
+  .sv-spine:active { transform:scale(.97); }
+  .sv-spine .sv-spine-txt { transition: color .15s ease; }
+  @media (hover: hover) and (pointer: fine) { .sv-spine:hover { background:#e6e6ee !important; } }
+  @media (prefers-reduced-motion: reduce) { .sv-spine-in { animation: svSpineFade .2s ease both !important; } .sv-live-dot { animation:none !important; } .sv-spine:active { transform:none; } .sv-flyout { transition: opacity .2s ease !important; transform: none !important; } }
   @keyframes svOrbSpin { to { transform: rotate(360deg); } }
   @keyframes svHalo { 0%,100% { opacity:.3; transform:scale(1); } 50% { opacity:.7; transform:scale(1.22); } }
   .sv-orbspin { animation: svOrbSpin 14s linear infinite; }
@@ -66,7 +82,7 @@
   aside.nav-col .navbrand { display:none !important; }
   aside.nav-col { cursor:pointer; }
   aside.nav-col .navlogo-row { justify-content:center; padding:8px 0 14px !important; }
-  aside.nav-col nav > div { height:1px !important; min-height:1px !important; flex:0 0 1px !important; padding:0 !important; margin:6px 12px 5px !important; background:rgba(255,255,255,.1); color:transparent !important; font-size:0 !important; line-height:0 !important; overflow:hidden; }
+  aside.nav-col nav > div { height:auto !important; min-height:0 !important; flex:0 0 auto !important; padding:9px 0 3px !important; margin:0 !important; background:transparent; color:#b8b5c9 !important; font:600 6.2px 'Pliant Mono' !important; letter-spacing:.02em !important; text-align:center; white-space:nowrap; overflow:hidden; }
   aside.nav-col nav button, aside.nav-col nav a { justify-content:center !important; gap:0 !important; padding:6px 0 !important; }
   aside.nav-col nav button svg, aside.nav-col nav a svg { width:16px !important; height:16px !important; }
   aside.nav-col nav { gap:2px !important; scrollbar-width:none !important; }
@@ -78,12 +94,13 @@
   aside.nav-col .navfooter-badge { min-width:0 !important; width:9px !important; height:9px !important; padding:0 !important; font-size:0 !important; right:-2px !important; top:-2px !important; box-shadow:0 0 0 2px #2d2b2b !important; }
   aside.nav-col .navavatar { justify-content:center !important; }
   aside.nav-col .navavatar > span { display:none !important; }
-  aside.nav-col nav a[title^="Sprouts MCP"] { margin-top:auto !important; }
+  aside.nav-col nav > div:last-of-type { margin-top:auto !important; }
   aside.nav-col .navavatar-chevron { display:none !important; }
   aside.nav-col .navfooter-divider { margin:4px 8px !important; }
   /* Dark mode: full-spectrum inversion on the shell; nav + media counter-inverted back */
   .dm-on { filter: invert(0.93) hue-rotate(180deg) contrast(1.05) brightness(1.08); background:#f2f2f5 !important; text-shadow: 0 0 .3px currentColor; }
   .dm-on > aside, .dm-on img, .dm-on iframe, .dm-on [data-noinvert] { filter: invert(1) hue-rotate(180deg); }
+  .dm-on > aside { position:relative; z-index:172; }
   /* dm-only structure + legibility compensation (colors authored pre-inversion) */
   .dm-on [style*="0 12px 44px"], .dm-on [style*="0 16px 56px"], .dm-on [style*="0 26px 60px"], .dm-on [style*="14px 0 40px"], .dm-on .dash-tile:not([title^="Add a widget"]) { outline:1px solid rgba(45,43,43,.30); outline-offset:-1px; }
   .dm-on .cx-scroll:not(aside *)::-webkit-scrollbar-thumb { background:#cfcdd8; border:3px solid transparent; background-clip:padding-box; }
@@ -195,8 +212,10 @@
       </button>
       <!-- Notifications -->
       <button onClick="{{ goNotifications }}" class="navfooter-btn" title="Notifications" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ notifBellBg }};box-shadow:{{ notifBellRing }};position:relative;" style-hover="background:rgba(47,112,80,.06)">
-        <span class="navfooter-icon" style="display:flex;color:{{ notifBellCol }};position:relative;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"></path></svg><span class="navfooter-badge" style="position:absolute;top:-4px;right:-6px;min-width:16px;height:16px;border-radius:8px;background:#2f7050;color:#12111a;font:600 9px 'Pliant',sans-serif;display:flex;align-items:center;justify-content:center;padding:0 4px;">7</span></span>
+        <span class="navfooter-icon" style="display:flex;color:{{ notifBellCol }};position:relative;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"></path></svg><span class="navfooter-badge" style="position:absolute;top:-1px;right:-1px;width:7px;height:7px;border-radius:50%;background:#4fae7c;box-shadow:0 0 0 2px #1d1c22;"></span></span>
         <span style="font:500 13.5px 'Pliant',sans-serif;color:#dbdae0;">Notifications</span>
+        <span style="flex:1;"></span>
+        <span style="font:600 10px 'Pliant Mono';color:#9fd0b4;background:rgba(79,174,124,.16);border-radius:6px;padding:2px 7px;">7</span>
       </button>
       <!-- Settings -->
       <button onClick="{{ goSettings }}" class="navfooter-btn" title="Settings" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:none;cursor:pointer;border-radius:11px;width:100%;text-align:left;background:{{ nav.settings.bg }};box-shadow:{{ nav.settings.ring }};" style-hover="background:rgba(47,112,80,.06)">
@@ -218,19 +237,11 @@
         </button>
         <!-- User dropdown -->
         <sc-if value="{{ userMenuOpen }}" hint-placeholder-val="">
-          <div style="position:absolute;left:4px;bottom:calc(100% + 6px);width:224px;background:#fff;border:1px solid #ececf2;border-radius:12px;box-shadow:0 8px 24px -6px rgba(30,27,23,.15);z-index:30;overflow:hidden;">
-            <!-- Theme row -->
-            <div style="padding:12px 14px;border-bottom:1px solid #f0f0f4;">
-              <div style="font:600 8.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:#908d9c;margin-bottom:8px;">Theme</div>
-              <div style="display:flex;gap:4px;border:1px solid #ececf2;background:#fbfbfd;border-radius:9px;padding:3px;">
-                <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border-radius:7px;padding:5px;background:#e2efe7;box-shadow:inset 0 0 0 1px rgba(47,112,80,.3);cursor:pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2f7050" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"></path></svg></div>
-                <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border-radius:7px;padding:5px;cursor:pointer;color:#63606e;" style-hover="background:rgba(47,112,80,.06)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A8 8 0 1111 3a6 6 0 0010 9.8z"></path></svg></div>
-              </div>
-            </div>
-            <!-- Menu items -->
-            <button onClick="{{ goProfile }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border:none;background:transparent;cursor:pointer;text-align:left;border-bottom:1px solid #f0f0f4;" style-hover="background:rgba(47,112,80,.06)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#63606e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1.5a3.5 3.5 0 00-3.5-3.5h-5A3.5 3.5 0 004 17.5V19"></path><circle cx="10" cy="8" r="3.5"></circle></svg>
-              <span style="font:500 13px 'Pliant',sans-serif;color:#2d2b2b;">Manage Profile</span>
+          <div onClick="{{ closeUserMenu }}" style="position:fixed;inset:0;z-index:169;"></div>
+          <div style="position:fixed;left:8px;bottom:14px;width:224px;background:#fff;border:1px solid #ececf2;border-radius:12px;box-shadow:0 8px 24px -6px rgba(30,27,23,.15);z-index:170;overflow:hidden;">
+            <button onClick="{{ goProfile }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border:none;background:transparent;cursor:pointer;text-align:left;border-bottom:1px solid #f0f0f4;box-sizing:border-box;" style-hover="background:rgba(47,112,80,.06)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#63606e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span style="font:500 13px 'Pliant',sans-serif;color:#2d2b2b;">Manage profile</span>
             </button>
             <a href="Onboarding Journey.dc.html" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border:none;background:transparent;cursor:pointer;text-align:left;border-bottom:1px solid #f0f0f4;box-sizing:border-box;" style-hover="background:rgba(47,112,80,.06)">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f5a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12a7 7 0 1 1 2.05 4.95"></path><polyline points="5 8 5 12 9 12"></polyline></svg>
@@ -4306,14 +4317,14 @@
     <!-- Savant Dock -->
     <sc-if value="{{ pdDockV }}" hint-placeholder-val="{{ true }}">
     <div class="sv-railin" style="position:fixed;top:0;left:{{ pnLeft }};bottom:0;width:56px;z-index:150;background:#fbfbfd;border-right:1px solid #e7e7ed;box-shadow:14px 0 40px -30px rgba(25,24,32,.22);display:flex;flex-direction:column;align-items:center;padding:12px 0 14px;gap:10px;transition:left .18s ease;">
-      <button onClick="{{ togglePd }}" title="Open Savant · {{ pdKeyLabel }}" class="sv-railin" style="animation-delay:.04s;position:relative;width:36px;height:36px;flex:0 0 auto;border:none;background:transparent;border-radius:50%;cursor:pointer;padding:0;transition:transform .14s ease;" style-hover="transform:scale(1.06)" style-active="transform:scale(.96)">
+      <button onClick="{{ togglePd }}" title="Open Savant · {{ pdKeyLabel }}" class="sv-railin sv-orbbtn" data-listen="{{ pdOrbLive }}" style="animation-delay:.04s;position:relative;width:36px;height:36px;flex:0 0 auto;border:none;background:transparent;border-radius:50%;cursor:pointer;padding:0;transition:transform .14s ease;" style-hover="transform:scale(1.06)" style-active="transform:scale(.96)">
         <span class="sv-halo" style="position:absolute;inset:-7px;border-radius:50%;background:radial-gradient(circle, rgba(141,126,230,.5) 0%, rgba(141,126,230,0) 68%);pointer-events:none;"></span>
         <span class="sv-orbspin" style="position:absolute;inset:0;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;box-shadow:0 8px 20px -10px rgba(25,24,32,.45);"></span>
       </button>
-      <button onClick="{{ togglePd }}" title="Expand Savant" class="sv-railin" style="animation-delay:.08s;width:28px;height:28px;flex:0 0 auto;border:none;background:transparent;color:#908d9c;cursor:pointer;border-radius:7px;display:flex;align-items:center;justify-content:center;" style-hover="background:#f0f0f5;color:#2d2b2b"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 6l6 6-6 6"></path><path d="M13 6l6 6-6 6"></path></svg></button>
-      <span style="flex:1;"></span>
-      <button onClick="{{ pdVoiceToggle }}" title="Tap to talk" class="sv-railin" style="animation-delay:.12s;width:34px;height:34px;flex:0 0 auto;border:1px solid #ececf2;background:#fbfbfd;color:#48454f;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;" style-hover="border-color:#b7d4c3;color:#1f5a3a"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"></path><path d="M19 10v1a7 7 0 01-14 0v-1"></path><path d="M12 18v4"></path></svg></button>
-      <button onClick="{{ pdGoApprovals }}" title="4 approvals waiting on you" class="sv-railin" style="animation-delay:.15s;width:34px;height:34px;flex:0 0 auto;border:none;background:#dcebe2;color:#123524;cursor:pointer;border-radius:50%;font:600 12px 'Pliant Mono';display:flex;align-items:center;justify-content:center;" style-hover="background:#cfe3d7">4</button>
+      <button onClick="{{ togglePd }}" title="Expand Savant" class="sv-railin" style="animation-delay:.08s;position:relative;width:28px;height:28px;flex:0 0 auto;border:none;background:transparent;color:#908d9c;cursor:pointer;border-radius:7px;display:flex;align-items:center;justify-content:center;" style-hover="background:#f0f0f5;color:#2d2b2b"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 6l6 6-6 6"></path><path d="M13 6l6 6-6 6"></path></svg><sc-if value="{{ pdUnreadV }}" hint-placeholder-val=""><span title="Reply waiting" style="position:absolute;top:3px;right:3px;width:6px;height:6px;border-radius:50%;background:#2f7050;box-shadow:0 0 0 2px #fbfbfd;"></span></sc-if></button>
+      {{ pdSpine.node }}
+      <span style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%;">{{ pdWave }}</span>
+      <button onClick="{{ pdVoiceToggle }}" title="{{ pdVoiceTitle }}" class="sv-railin" style="animation-delay:.12s;width:34px;height:34px;flex:0 0 auto;border:1px solid #ececf2;background:{{ pdRailMicBg }};color:{{ pdRailMicCol }};cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background-color .18s ease,color .18s ease;" style-hover="border-color:#b7d4c3"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"></path><path d="M19 10v1a7 7 0 01-14 0v-1"></path><path d="M12 18v4"></path></svg></button>
     </div>
     </sc-if>
 
@@ -14628,10 +14639,16 @@ class Component extends DCLogic {
   componentWillUnmount() { if (this._pdKey) document.removeEventListener('keydown', this._pdKey);
     if (this._pdSpDown) document.removeEventListener('keydown', this._pdSpDown);
     if (this._pdSpUp) document.removeEventListener('keyup', this._pdSpUp); clearInterval(this._pvI); }
+  _pdWave(mode) { if (!mode) return null; const h = React.createElement;
+    const N = 18, bars = [], col = mode === 'listen' ? '#2f7050' : mode === 'speak' ? '#2d2b2b' : '#b5b2c2';
+    const tempo = mode === 'listen' ? 0.62 : mode === 'speak' ? 0.9 : 1.6, spread = mode === 'think' ? 0.3 : 1;
+    for (let i = 0; i < N; i++) { const c = Math.abs(i - (N - 1) / 2) / ((N - 1) / 2); const amp = (1 - c * .7) * spread;
+      bars.push(h('span', { key: i, className: 'sv-wave', style: { display: 'block', width: Math.max(4, Math.round(26 * amp)) + 'px', height: '2px', borderRadius: '1px', background: col, opacity: (.45 + .55 * amp).toFixed(2), transformOrigin: 'center', transition: 'background-color .3s ease, width .3s ease', animationDuration: (tempo + ((i * 7) % 5) * 0.11).toFixed(2) + 's', animationDelay: '-' + ((i * 13) % 9) * 0.1 + 's' } })); }
+    return h('span', { key: 'wave', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', animation: 'svRailFade .2s ease both' } }, bars); }
   _voiceStart(mode) { if (this.state.pdVoice) return; clearInterval(this._pvI);
     this._pvWords = 'Which accounts heated up this week and why?'.split(' ');
     this._pvMode = mode || 'tap'; this._pvT0 = Date.now(); this._pvN = 0;
-    this.setState({ pdVoice: true, pdVoiceTxt: '', pdBig: true, pdOpen: false, pdTab: 'chat' });
+    this.setState({ pdVoice: true, pdVoiceTxt: '', pdOpen: false, pdTab: 'chat' });
     this._pvI = setInterval(() => { if (this._pvN < this._pvWords.length) { this._pvN++;
         this.setState({ pdVoiceTxt: this._pvWords.slice(0, this._pvN).join(' ') });
         if (this._pvN === this._pvWords.length && this._pvMode === 'tap') setTimeout(() => this._voiceStop(true), 420);
@@ -14640,7 +14657,12 @@ class Component extends DCLogic {
     const heard = complete ? this._pvWords.join(' ') : (this.state.pdVoiceTxt || '');
     this.setState({ pdVoice: false, pdVoiceTxt: '' });
     if (!complete && Date.now() - (this._pvT0 || 0) < 700) { this.toast('Didn\u2019t catch that. Hold Space and speak, or tap the mic.'); return; }
-    this.pdBigSend(heard || this._pvWords.join(' ')); }
+    const stayRail = !this.state.pdBig;
+    this.pdBigSend(heard || this._pvWords.join(' '));
+    if (stayRail) { clearTimeout(this._pvSpk); clearTimeout(this._pvSpk2);
+      this._pvSpk = setTimeout(() => { const last = (this.state.pdMsgs || []).slice(-1)[0] || {}; const len = (last.text || '').length || 140;
+        this.setState({ pdSpeak: true, pdUnread: true });
+        this._pvSpk2 = setTimeout(() => this.setState({ pdSpeak: false }), Math.min(7000, 1200 + len * 32)); }, 1600); } }
   // single source of truth for the brief sentence AND the hero action
   attnItem() {
     const self = this;
@@ -15038,7 +15060,47 @@ class Component extends DCLogic {
           : (v === 'discover' || v === 'segments' || v === 'campaigns')
             ? { l: '\u2726 Co-drive: build a fintech play', go: () => this.startCoDrive() }
             : null;
+        const pdSpine = (() => {
+          const run = (q) => () => { this.setState({ pdBig: true, pdOpen: false, pdTab: 'chat' }); setTimeout(() => send(q), 260); };
+          const tab = S.tab;
+          if (v === 'workspace' && tab === 'contacts') return { kicker: 'Next', text: '6 contacts with no email yet', cta: 'Enrich them', tip: 'Enrich the six contacts missing an email', go: run('Enrich the contacts on this page that have no email') };
+          if (v === 'workspace') return { kicker: 'Next', text: '3 High-engagement accounts have no owner', cta: 'Suggest assignees', tip: 'Assign the three unowned High-engagement accounts', go: run('Which High-engagement accounts have no owner? Suggest assignees.') };
+          if (v === 'partners') return { kicker: 'Next', text: '11 hot accounts waiting in the allocation queue', cta: 'Open the queue', tip: 'Open the allocation queue', go: () => this.setState({ view: 'partners', ptTab: 'alloc', ptDetail: null }) };
+          if (v === 'campaigns') return { kicker: 'Waiting', text: '4 approvals on your desk', cta: 'Review them', tip: 'Review the four pending approvals', go: () => this.setState({ view: 'campaigns', seqSel: null }) };
+          if (v === 'segments') return { kicker: 'Idea', text: 'Closed-lost accounts are turning active again', cta: 'Build the segment', tip: 'Build a re-engagement segment', go: run('Create a segment: re-engage closed-lost accounts turning active again') };
+          if (v === 'discover') return { kicker: 'Idea', text: 'Lookalikes of your last 5 wins', cta: 'Run the search', tip: 'Search for accounts that look like recent wins', go: run('Find accounts that look like my last five closed-won deals') };
+          if (v === 'sources' || v === 'visitors') return { kicker: 'Live', text: '9 accounts spiked this week', cta: 'Show me why', tip: 'See which accounts spiked', go: run('Which accounts spiked this week and why?') };
+          if (v === 'live' || v === 'workflow') return { kicker: 'Running', text: 'Pricing-intent play \u00b7 step 3 of 5', cta: 'Open workflow', tip: 'Open the running workflow', go: () => this.setState({ view: 'live', wfKey: 'pricing' }) };
+          return { kicker: 'Today', text: '2 replies overnight, 1 meeting booked', cta: 'Walk me through', tip: 'Walk through what changed overnight', go: run('Walk me through my day') };
+        })();
+        if (!this._SpineC) this._SpineC = function SpineC(p) {
+          const h = React.createElement;
+          const [hov, setHov] = React.useState(false);
+          const tm = React.useRef(null);
+          const enter = () => { clearTimeout(tm.current); setHov(true); };
+          const leave = () => { clearTimeout(tm.current); tm.current = setTimeout(() => setHov(false), 220); };
+          React.useEffect(() => () => clearTimeout(tm.current), []);
+          const open = hov, live = p.kicker === 'Live' || p.kicker === 'Running';
+          const num = (p.text.match(/^\d+/) || [])[0];
+          const EO = 'cubic-bezier(0.23,1,0.32,1)';
+          return h('button', { onClick: p.go, title: p.tip, onMouseEnter: enter, onMouseLeave: leave, onFocus: enter, onBlur: leave, className: 'sv-railin sv-spine',
+              style: { animationDelay: '.1s', position: 'relative', flex: '0 0 auto', width: '36px', margin: '2px 0 0', border: 'none', background: '#f0f0f5', cursor: 'pointer', padding: '8px 0 9px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '10px' } },
+            h('span', { className: 'sv-spine-in', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', animation: 'svSpineIn .22s ' + EO + ' both' } },
+              h('span', { style: { font: "600 6.5px 'Pliant Mono'", letterSpacing: '.1em', textTransform: 'uppercase', color: '#63606e', whiteSpace: 'nowrap' } }, p.kicker),
+              num ? h('span', { style: { font: "600 17px 'Pliant Mono'", letterSpacing: '-0.02em', lineHeight: 1, color: '#2d2b2b' } }, num)
+                  : h('span', { style: { font: "600 14px 'Pliant',sans-serif", lineHeight: 1, color: '#1f5a3a' } }, '\u2726'),
+              live ? h('span', { className: 'sv-live-dot', style: { width: '5px', height: '5px', borderRadius: '50%', background: '#1f5a3a', animation: 'svLiveDot 1.6s ease-in-out infinite' } }) : null),
+            h('span', { className: 'sv-flyout', 'aria-hidden': !open, onMouseEnter: enter, onMouseLeave: leave,
+                style: { position: 'absolute', left: '36px', top: '-8px', paddingLeft: '10px', paddingTop: '8px', paddingBottom: '8px', width: '236px', transform: open ? 'none' : 'translateX(-6px)', opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none',
+                  transition: 'opacity .18s ' + EO + ', transform .18s ' + EO, display: 'flex', zIndex: 5 } },
+              h('span', { style: { background: '#fff', border: '1px solid #e7e7ed', borderRadius: '12px', boxShadow: '0 2px 6px rgba(24,23,30,.05), 0 18px 44px -18px rgba(24,23,30,.28)', padding: '11px 13px 12px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '5px', textAlign: 'left', width: '100%' } },
+              h('span', { style: { font: "600 8.5px 'Pliant Mono'", letterSpacing: '.12em', textTransform: 'uppercase', color: '#1f5a3a' } }, '\u2726 Savant \u00b7 ' + p.kicker),
+              h('span', { style: { font: "500 13px/1.4 'Pliant',sans-serif", color: '#2d2b2b' } }, p.text),
+              h('span', { style: { font: "600 11.5px 'Pliant',sans-serif", color: '#1f5a3a', marginTop: '2px' } }, p.cta + ' \u2192'))));
+        };
+        pdSpine.node = React.createElement(this._SpineC, { key: pdSpine.kicker + '|' + pdSpine.text, ...pdSpine });
         return {
+          pdSpine,
           pdOpenV: !!S.pdOpen,
           pdDockV: !S.pdBig,
           pdProfileV: !!S.pdProfile,
@@ -15054,7 +15116,7 @@ class Component extends DCLogic {
           pnLeft: S.navCollapsed ? '83px' : '215px', dockLeft: S.navCollapsed ? '101px' : '233px',
           pnWideTitle: S.pnWide ? 'Narrow the pane' : 'Widen the pane',
           pnWideFlip: () => this.setState(s => ({ pnWide: !s.pnWide })),
-          togglePd: () => this.setState(s => ({ pdBig: !s.pdBig, pdOpen: false, pdTab: s.pdTab || 'chat' })),
+          togglePd: () => this.setState(s => ({ pdBig: !s.pdBig, pdOpen: false, pdTab: s.pdTab || 'chat', pdUnread: false })),
           pdLabel: 'Talk to Savant',
           pdKeyLabel: (typeof navigator !== 'undefined' && /mac/i.test(navigator.platform || '')) ? '\u2318K' : 'Ctrl+K',
           pdQ: S.pdQ || '', setPdQ: (e) => this.setState({ pdQ: e.target.value }),
@@ -15157,6 +15219,9 @@ class Component extends DCLogic {
           pdBigActions: (LEAD ? [{ l: LEAD.l, dly: '0.04s', go: LEAD.go }] : []).concat(QA.slice(0, LEAD ? 2 : 3).map((l, qi) => ({ l, dly: (0.085 + qi * 0.045).toFixed(3) + 's', go: () => this.pdBigSend(l) }))),
           pdBigQ: S.pdBigQ || '', setPdBigQ: (e) => this.setState({ pdBigQ: e.target.value }),
           pdVoiceOn: !!S.pdVoice, pdVoiceOff: !S.pdVoice,
+          pdWave: this._pdWave(S.pdVoice ? 'listen' : S.pdSpeak ? 'speak' : S.pdTyping ? 'think' : null),
+          pdOrbLive: !!(S.pdVoice || S.pdSpeak), pdUnreadV: !!S.pdUnread && !S.pdBig,
+          pdRailMicBg: S.pdVoice ? '#2d2b2b' : '#fbfbfd', pdRailMicCol: S.pdVoice ? '#9fd0b4' : '#48454f',
           pdVoiceTitle: S.pdVoice ? 'Finish and send' : 'Tap to talk',
           pdVoiceBg: S.pdVoice ? '#2d2b2b' : '#2f7050', pdVoiceCol: S.pdVoice ? '#9fd0b4' : '#fff',
           pdOrbCap: S.pdVoice ? 'Listening\u2026' : 'What are we working on?',
@@ -20430,7 +20495,8 @@ class Component extends DCLogic {
       toggleNav: () => this.setState(s => ({ navCollapsed: !s.navCollapsed })),
       navBgClick: (e) => { if (e.target && e.target.closest && e.target.closest('button,a,input')) return; this.setState(s => ({ navCollapsed: !s.navCollapsed })); },
       userMenuOpen: !!this.state.userMenuOpen,
-      toggleUserMenu: () => this.setState(s => ({ userMenuOpen: !s.userMenuOpen })),
+      toggleUserMenu: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState(s => ({ userMenuOpen: !s.userMenuOpen })); },
+      closeUserMenu: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ userMenuOpen: false }); },
       goNotifications: () => this.setState(s => ({ notifDrawerOpen: !s.notifDrawerOpen })),
       asideRef: (el) => { this._asideEl = el; this._applyNavWidth(); },
       shellRef: (el) => { this._shellEl = el; this._applyPaneShift(); },
