@@ -46,7 +46,7 @@ result.
 
 | Source (repo root) | Becomes |
 |---|---|
-| `Sprouts Canopy v9.dc.html` | `index.html` |
+| `Sprouts Canopy v12 Blue.dc.html` | `index.html` |
 | `Onboarding Journey.dc.html` | `onboarding.html` |
 | `support.js` | `support.js` |
 | `uploads/sprouts.ai-logo.png` | `uploads/sprouts.ai-logo.png` |
