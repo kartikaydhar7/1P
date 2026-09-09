@@ -21,6 +21,9 @@ const PAGES = [
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
   ['Onboarding Journey.dc.html', 'deploy/onboarding.html',
     ['href="Sprouts Agent-First v8.dc.html"', 'href="/"']],
+  // A second variant of the app, served alongside it at /healthcare.
+  ['Sprouts Canopy v12 Healthcare.dc.html', 'deploy/healthcare.html',
+    ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
 ];
 
 const ASSETS = [

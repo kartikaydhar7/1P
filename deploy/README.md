@@ -8,6 +8,7 @@ Static HTML prototype. No build step, no environment variables.
 |---|---|---|
 | `/` | `index.html` | The current app: Mission Control, Discover, Prospect, Segments, Opportunities, Website Visitors, Agents & Workflows, Personalization Engine, Connections, Settings. |
 | `/onboarding` | `onboarding.html` | Standalone onboarding flow. |
+| `/healthcare` | `healthcare.html` | The healthcare variant of the app, served alongside the default. |
 
 `/app` redirects to `/`.
 
@@ -48,6 +49,7 @@ result.
 |---|---|
 | `Sprouts Canopy v12 Blue.dc.html` | `index.html` |
 | `Onboarding Journey.dc.html` | `onboarding.html` |
+| `Sprouts Canopy v12 Healthcare.dc.html` | `healthcare.html` |
 | `support.js` | `support.js` |
 | `uploads/sprouts.ai-logo.png` | `uploads/sprouts.ai-logo.png` |
 
