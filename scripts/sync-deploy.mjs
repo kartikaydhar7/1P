@@ -17,8 +17,8 @@ const r = (...p) => join(repoRoot, ...p);
 
 // [source, destination, [linkFrom, linkTo]]
 const PAGES = [
-  // v11 is the default build; /v11 redirects here so older links still work.
-  ['Sprouts Canopy v11 Green Savant Left.dc.html', 'deploy/index.html',
+  // Sprouts 1P V1 is the default build.
+  ['Sprouts 1P V1.dc.html', 'deploy/index.html',
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
   ['Onboarding Journey.dc.html', 'deploy/onboarding.html',
     ['href="Sprouts Agent-First v8.dc.html"', 'href="/"']],
@@ -26,6 +26,8 @@ const PAGES = [
   ['Sprouts Healthcare V1.dc.html', 'deploy/healthcare.html',
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
   ['Sprouts Canopy v12 Blue.dc.html', 'deploy/v12.html',
+    ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
+  ['Sprouts Canopy v11 Green Savant Left.dc.html', 'deploy/v11.html',
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
 ];
 

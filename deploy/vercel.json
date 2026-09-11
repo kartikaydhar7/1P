@@ -3,7 +3,6 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/app", "destination": "/", "permanent": false },
-    { "source": "/v11", "destination": "/", "permanent": false }
+    { "source": "/app", "destination": "/", "permanent": false }
   ]
 }

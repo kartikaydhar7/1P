@@ -6,12 +6,13 @@ Static HTML prototype. No build step, no environment variables.
 
 | URL | File | What it is |
 |---|---|---|
-| `/` | `index.html` | The default app: Canopy v11 green, opening on sign-in. |
+| `/` | `index.html` | The default app: Sprouts 1P V1. |
 | `/healthcare` | `healthcare.html` | The healthcare variant. |
-| `/v12` | `v12.html` | The Canopy v12 blue variant, previously the default. |
+| `/v11` | `v11.html` | Canopy v11 green, which opens on sign-in. |
+| `/v12` | `v12.html` | Canopy v12 blue. |
 | `/onboarding` | `onboarding.html` | Standalone onboarding flow. |
 
-`/app` and `/v11` both redirect to `/`.
+`/app` redirects to `/`.
 
 Neither page is self-contained: both load `./support.js` at runtime, and the
 app renders the logo from `uploads/`. Keep those alongside the HTML.
@@ -48,10 +49,11 @@ result.
 
 | Source (repo root) | Becomes |
 |---|---|
-| `Sprouts Canopy v11 Green Savant Left.dc.html` | `index.html` |
+| `Sprouts 1P V1.dc.html` | `index.html` |
 | `Onboarding Journey.dc.html` | `onboarding.html` |
 | `Sprouts Healthcare V1.dc.html` | `healthcare.html` |
 | `Sprouts Canopy v12 Blue.dc.html` | `v12.html` |
+| `Sprouts Canopy v11 Green Savant Left.dc.html` | `v11.html` |
 | `support.js` | `support.js` |
 | `uploads/sprouts.ai-logo.png` | `uploads/sprouts.ai-logo.png` |
 
