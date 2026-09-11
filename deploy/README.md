@@ -50,7 +50,7 @@ result.
 |---|---|
 | `Sprouts Canopy v11 Green Savant Left.dc.html` | `index.html` |
 | `Onboarding Journey.dc.html` | `onboarding.html` |
-| `Sprouts Canopy v12 Healthcare.dc.html` | `healthcare.html` |
+| `Sprouts Healthcare V1.dc.html` | `healthcare.html` |
 | `Sprouts Canopy v12 Blue.dc.html` | `v12.html` |
 | `support.js` | `support.js` |
 | `uploads/sprouts.ai-logo.png` | `uploads/sprouts.ai-logo.png` |

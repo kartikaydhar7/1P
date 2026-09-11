@@ -23,7 +23,7 @@ const PAGES = [
   ['Onboarding Journey.dc.html', 'deploy/onboarding.html',
     ['href="Sprouts Agent-First v8.dc.html"', 'href="/"']],
   // Further variants of the app, each served on its own route.
-  ['Sprouts Canopy v12 Healthcare.dc.html', 'deploy/healthcare.html',
+  ['Sprouts Healthcare V1.dc.html', 'deploy/healthcare.html',
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
   ['Sprouts Canopy v12 Blue.dc.html', 'deploy/v12.html',
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
