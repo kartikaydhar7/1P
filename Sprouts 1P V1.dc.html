@@ -22822,7 +22822,7 @@ class Component extends DCLogic {
           wvPageFltOn: !!F.page, wvPageFlt: F.page || '', wvPageFltClear: () => this.setState(s => ({ wvF: { ...(s.wvF || {}), page: null } })),
           wvFltAny: !!(F.prod || F.topic || F.ind || F.ctry || F.page || q),
           wvFltClear: () => this.setState({ wvF: {}, wvSearch: '', wvFOpen: null }),
-          ...(() => { const CV = S3.wvCols || {}; const CDEF = { loc: true, stat: false, src: false, utmS: false, utmM: false, utmC: false, autom: false, ind: false, dur: false, isp: false, emp: false, rev: false, first: false };
+          ...(() => { const CV = S3.wvCols || {}; const CDEF = { loc: true, ind: true, dur: true, utmS: true, utmM: true, utmC: true, isp: true, stat: false, src: false, autom: false, emp: false, rev: false, first: false };
             const con = (k) => (k in CV ? !!CV[k] : CDEF[k]);
             return {
             wvColsOpen: !!S3.wvColsOpen, wvColsFlip: () => this.setState(s => ({ wvColsOpen: !s.wvColsOpen })),
