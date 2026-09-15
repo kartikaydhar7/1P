@@ -8318,7 +8318,7 @@
               <!-- Drawer body -->
               <div class="cx-scroll" style="flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 22px;">
 
-                <!-- OVERVIEW -->
+          <!-- OVERVIEW -->
                 <sc-if value="{{ ctDrIsOverview }}" hint-placeholder-val="{{ true }}">
 
                   <!-- Partner insights -->
@@ -9042,9 +9042,88 @@
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;padding-right:118px;">
             <span style="display:inline-flex;align-items:center;gap:10px;"><h1 style="font:600 22px 'Pliant',sans-serif;letter-spacing:-0.02em;color:var(--text);margin:0;">Website visits</h1></span>
             <span style="flex:1;"></span>
-            <button onClick="{{ wvRulesFlip }}" title="Traffic and qualification rules" style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:9px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"></path></svg>Rules</button>
-            <div style="position:relative;">
-              <button onClick="{{ wvAutoFlip }}" title="{{ wvAutoTip }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid {{ wvAutoBd }};background:{{ wvAutoBg }};cursor:pointer;border-radius:9px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;color:{{ wvAutoC }};white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:{{ wvAutoDot }};"></span>Auto-add to segment</button>
+
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
+            <span style="font:600 8.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-right:4px;">Domain</span>
+            <sc-for list="{{ wvDomChips }}" as="dc" hint-placeholder-count="3">
+              <button onClick="{{ dc.pick }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid {{ dc.bd }};background:{{ dc.bg }};cursor:pointer;border-radius:999px;padding:5px 11px;font:500 11.5px 'Pliant',sans-serif;color:{{ dc.col }};white-space:nowrap;"><sc-if value="{{ dc.hasDot }}" hint-placeholder-val=""><span style="width:6px;height:6px;border-radius:50%;background:{{ dc.dot }};"></span></sc-if>{{ dc.l }}<span style="font:500 10px 'Pliant Mono';color:var(--text-muted);">{{ dc.n }}</span></button>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:20px;">
+            <sc-for list="{{ wvTabs }}" as="t" hint-placeholder-count="8">
+              <button onClick="{{ t.set }}" style="border:none;background:transparent;cursor:pointer;padding:9px 13px;font:{{ t.f }};color:{{ t.c }};border-bottom:2px solid {{ t.b }};margin-bottom:-1px;white-space:nowrap;">{{ t.l }}</button>
+            </sc-for>
+          </div>
+
+          <!-- SETUP -->
+          <sc-if value="{{ wvIsSetup }}" hint-placeholder-val="">
+            <div style="max-width:940px;">
+              <div style="display:flex;align-items:baseline;gap:9px;margin:0 2px 10px;">
+                <span style="font:600 9px 'Pliant Mono';letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);">Configuration</span>
+                <span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">Set once, then work out of Automations and Visitors.</span>
+              </div>
+              <div style="border:1px solid var(--border);background:var(--surface);border-radius:14px;box-shadow:0 4px 16px -12px rgba(24,23,30,.5);">
+                <div style="display:flex;align-items:flex-start;gap:14px;padding:15px 18px;">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;">
+                    <span style="font:600 13px 'Pliant',sans-serif;color:var(--text);">Tracked sites</span>
+                    <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-muted);">One snippet per domain. Each reports separately; subdomains roll up.</span>
+                  </span>
+                  <span style="position:relative;display:inline-flex;align-items:center;flex:0 0 auto;">
+<button onClick="{{ wvSitesFlip }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:9px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"></path></svg>Manage sites</button>
+              <sc-if value="{{ wvSitesOpen }}" hint-placeholder-val="">
+                <div style="position:absolute;top:38px;right:0;z-index:70;width:360px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 6px rgba(24,23,30,.05), 0 14px 44px -12px rgba(24,23,30,.16);padding:13px 15px;">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font:600 9px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Tracked domains</span><span style="flex:1;"></span><span style="font:400 10.5px 'Pliant',sans-serif;color:var(--text-muted);">{{ wvSitesOnN }} of {{ wvSitesN }} tracking</span></div>
+                  <div style="display:flex;flex-direction:column;">
+                    <sc-for list="{{ wvSites }}" as="st" hint-placeholder-count="3">
+                      <div style="border-top:1px solid var(--border-soft);padding:9px 0;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                          <span title="{{ st.statusTip }}" style="width:7px;height:7px;border-radius:50%;background:{{ st.dot }};flex:0 0 auto;"></span>
+                          <span onClick="{{ st.focus }}" title="Show only this domain" style="font:500 12.5px 'Pliant Mono';color:var(--text);cursor:pointer;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" style-hover="color:var(--accent-hover)">{{ st.domain }}</span>
+                          <span style="font:400 10px 'Pliant Mono';color:var(--text-muted);flex:0 0 auto;">{{ st.stat }}</span>
+                          <button onClick="{{ st.toggle }}" title="{{ st.toggleTip }}" style="border:none;background:transparent;cursor:pointer;padding:0;flex:0 0 auto;"><span style="display:block;width:30px;height:18px;border-radius:18px;background:{{ st.track }};position:relative;transition:background-color .16s ease;"><span style="position:absolute;top:2px;left:{{ st.knob }};width:14px;height:14px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:left .16s cubic-bezier(0.23,1,0.32,1);"></span></span></button>
+                          <button onClick="{{ st.expand }}" title="Snippet" style="border:none;background:transparent;cursor:pointer;padding:2px;color:var(--text-muted);display:flex;flex:0 0 auto;" style-hover="color:var(--text)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform:{{ st.chev }};transition:transform .16s ease;"><path d="M6 9l6 6 6-6"></path></svg></button>
+                        </div>
+                        <sc-if value="{{ st.open }}" hint-placeholder-val="">
+                          <div style="margin:8px 0 0 15px;display:flex;flex-direction:column;gap:7px;">
+                            <div style="border:1px solid var(--border-soft);background:var(--surface-soft);border-radius:8px;padding:8px 10px;font:400 10.5px/1.6 'Pliant Mono';color:var(--text-2);word-break:break-all;">{{ st.snippet }}</div>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                              <button onClick="{{ st.copy }}" style="border:none;background:var(--accent);color:#fff;cursor:pointer;border-radius:8px;padding:6px 12px;font:600 11px 'Pliant',sans-serif;" style-hover="background:var(--accent-hover)">Copy snippet</button>
+                              <button onClick="{{ st.verify }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);cursor:pointer;border-radius:8px;padding:6px 11px;font:600 11px 'Pliant',sans-serif;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ st.verifyL }}</button>
+                              <span style="flex:1;"></span>
+                              <button onClick="{{ st.remove }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant',sans-serif;color:var(--negative);" style-hover="text-decoration:underline">Remove</button>
+                            </div>
+                            <span style="font:400 10px 'Pliant',sans-serif;color:var(--text-faint);">Paste before the closing &lt;/head&gt; on every page of {{ st.domain }}. One snippet per domain; subdomains roll up.</span>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:6px;margin-top:10px;border-top:1px solid var(--border-soft);padding-top:10px;">
+                    <input value="{{ wvSiteQ }}" onChange="{{ setWvSiteQ }}" onKeyDown="{{ wvSiteKey }}" placeholder="Add a domain · e.g. docs.sprouts.ai" style="flex:1;min-width:0;border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:7px 10px;font:400 12px 'Pliant Mono';color:var(--text);outline:none;"></input>
+                    <button onClick="{{ wvSiteAdd }}" style="border:none;background:var(--accent);color:#fff;cursor:pointer;border-radius:8px;padding:7px 12px;font:600 11px 'Pliant',sans-serif;white-space:nowrap;" style-hover="background:var(--accent-hover)">Add</button>
+                  </div>
+                  <div style="font:400 10.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);margin-top:8px;">Each domain gets its own snippet and reports separately. Turning tracking off keeps history and stops new events.</div>
+                </div>
+              </sc-if>
+                  </span>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:14px;padding:15px 18px;border-top:1px solid var(--border-soft);">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;">
+                    <span style="font:600 13px 'Pliant',sans-serif;color:var(--text);">Qualification rules</span>
+                    <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-muted);">What counts as a qualified account, and which traffic never scores.</span>
+                  </span>
+                  <span style="position:relative;display:inline-flex;align-items:center;flex:0 0 auto;">
+<button onClick="{{ wvRulesFlip }}" title="Traffic and qualification rules" style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:9px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"></path></svg>Rules</button>
+                  </span>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:14px;padding:15px 18px;border-top:1px solid var(--border-soft);">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;">
+                    <span style="font:600 13px 'Pliant',sans-serif;color:var(--text);">Auto-add to segment</span>
+                    <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-muted);">Where qualified accounts land without anyone touching them.</span>
+                  </span>
+                  <span style="position:relative;display:inline-flex;align-items:center;flex:0 0 auto;">
+<button onClick="{{ wvAutoFlip }}" title="{{ wvAutoTip }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid {{ wvAutoBd }};background:{{ wvAutoBg }};cursor:pointer;border-radius:9px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;color:{{ wvAutoC }};white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:{{ wvAutoDot }};"></span>Auto-add to segment</button>
               <sc-if value="{{ wvAutoOpen }}" hint-placeholder-val="">
                 <div style="position:absolute;top:38px;right:0;z-index:70;width:360px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 6px rgba(24,23,30,.05), 0 14px 44px -12px rgba(24,23,30,.16);padding:14px 16px;">
                   <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
@@ -9089,9 +9168,15 @@
                   <div style="font:400 10.5px/1.5 'Pliant',sans-serif;color:var(--text-faint);margin-top:9px;">The When picker starts with your qualification rules, then single filters. <button onClick="{{ wvRulesEdit }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 10.5px 'Pliant',sans-serif;color:var(--accent-hover);">Edit rule sets →</button></div>
                 </div>
               </sc-if>
-            </div>
-            <div style="position:relative;">
-              <button onClick="{{ wvExclFlip }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:9px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h16M7 12h10M10 19h4"></path></svg>Exclusions</button>
+                  </span>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:14px;padding:15px 18px;border-top:1px solid var(--border-soft);">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;">
+                    <span style="font:600 13px 'Pliant',sans-serif;color:var(--text);">Exclusions</span>
+                    <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-muted);">Accounts, countries, industries and ISPs that stay counted but never scored.</span>
+                  </span>
+                  <span style="position:relative;display:inline-flex;align-items:center;flex:0 0 auto;">
+<button onClick="{{ wvExclFlip }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:9px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h16M7 12h10M10 19h4"></path></svg>Exclusions</button>
               <sc-if value="{{ wvExclOpen }}" hint-placeholder-val="">
                 <div style="position:absolute;top:38px;right:0;z-index:70;width:300px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 6px rgba(24,23,30,.05), 0 14px 44px -12px rgba(24,23,30,.16);padding:13px 15px;">
                   <div style="font:600 9px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:9px;">Excluded from signals</div>
@@ -9108,57 +9193,36 @@
                   <div style="font:400 10.5px/1.5 'Pliant',sans-serif;color:var(--text-faint);margin-top:10px;">Excluded traffic is still counted as traffic. It never feeds intent, scoring or auto-add. Page-level exclusions live on the Pages tab.</div>
                 </div>
               </sc-if>
-            </div>
-            <div style="position:relative;">
-              <button onClick="{{ wvSitesFlip }}" style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:9px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"></path></svg>Manage sites</button>
-              <sc-if value="{{ wvSitesOpen }}" hint-placeholder-val="">
-                <div style="position:absolute;top:38px;right:0;z-index:70;width:360px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 6px rgba(24,23,30,.05), 0 14px 44px -12px rgba(24,23,30,.16);padding:13px 15px;">
-                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font:600 9px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Tracked domains</span><span style="flex:1;"></span><span style="font:400 10.5px 'Pliant',sans-serif;color:var(--text-muted);">{{ wvSitesOnN }} of {{ wvSitesN }} tracking</span></div>
-                  <div style="display:flex;flex-direction:column;">
-                    <sc-for list="{{ wvSites }}" as="st" hint-placeholder-count="3">
-                      <div style="border-top:1px solid var(--border-soft);padding:9px 0;">
-                        <div style="display:flex;align-items:center;gap:8px;">
-                          <span title="{{ st.statusTip }}" style="width:7px;height:7px;border-radius:50%;background:{{ st.dot }};flex:0 0 auto;"></span>
-                          <span onClick="{{ st.focus }}" title="Show only this domain" style="font:500 12.5px 'Pliant Mono';color:var(--text);cursor:pointer;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" style-hover="color:var(--accent-hover)">{{ st.domain }}</span>
-                          <span style="font:400 10px 'Pliant Mono';color:var(--text-muted);flex:0 0 auto;">{{ st.stat }}</span>
-                          <button onClick="{{ st.toggle }}" title="{{ st.toggleTip }}" style="border:none;background:transparent;cursor:pointer;padding:0;flex:0 0 auto;"><span style="display:block;width:30px;height:18px;border-radius:18px;background:{{ st.track }};position:relative;transition:background-color .16s ease;"><span style="position:absolute;top:2px;left:{{ st.knob }};width:14px;height:14px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:left .16s cubic-bezier(0.23,1,0.32,1);"></span></span></button>
-                          <button onClick="{{ st.expand }}" title="Snippet" style="border:none;background:transparent;cursor:pointer;padding:2px;color:var(--text-muted);display:flex;flex:0 0 auto;" style-hover="color:var(--text)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform:{{ st.chev }};transition:transform .16s ease;"><path d="M6 9l6 6 6-6"></path></svg></button>
-                        </div>
-                        <sc-if value="{{ st.open }}" hint-placeholder-val="">
-                          <div style="margin:8px 0 0 15px;display:flex;flex-direction:column;gap:7px;">
-                            <div style="border:1px solid var(--border-soft);background:var(--surface-soft);border-radius:8px;padding:8px 10px;font:400 10.5px/1.6 'Pliant Mono';color:var(--text-2);word-break:break-all;">{{ st.snippet }}</div>
-                            <div style="display:flex;align-items:center;gap:8px;">
-                              <button onClick="{{ st.copy }}" style="border:none;background:var(--accent);color:#fff;cursor:pointer;border-radius:8px;padding:6px 12px;font:600 11px 'Pliant',sans-serif;" style-hover="background:var(--accent-hover)">Copy snippet</button>
-                              <button onClick="{{ st.verify }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);cursor:pointer;border-radius:8px;padding:6px 11px;font:600 11px 'Pliant',sans-serif;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ st.verifyL }}</button>
-                              <span style="flex:1;"></span>
-                              <button onClick="{{ st.remove }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant',sans-serif;color:var(--negative);" style-hover="text-decoration:underline">Remove</button>
-                            </div>
-                            <span style="font:400 10px 'Pliant',sans-serif;color:var(--text-faint);">Paste before the closing &lt;/head&gt; on every page of {{ st.domain }}. One snippet per domain; subdomains roll up.</span>
-                          </div>
-                        </sc-if>
-                      </div>
-                    </sc-for>
-                  </div>
-                  <div style="display:flex;align-items:center;gap:6px;margin-top:10px;border-top:1px solid var(--border-soft);padding-top:10px;">
-                    <input value="{{ wvSiteQ }}" onChange="{{ setWvSiteQ }}" onKeyDown="{{ wvSiteKey }}" placeholder="Add a domain · e.g. docs.sprouts.ai" style="flex:1;min-width:0;border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:7px 10px;font:400 12px 'Pliant Mono';color:var(--text);outline:none;"></input>
-                    <button onClick="{{ wvSiteAdd }}" style="border:none;background:var(--accent);color:#fff;cursor:pointer;border-radius:8px;padding:7px 12px;font:600 11px 'Pliant',sans-serif;white-space:nowrap;" style-hover="background:var(--accent-hover)">Add</button>
-                  </div>
-                  <div style="font:400 10.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);margin-top:8px;">Each domain gets its own snippet and reports separately. Turning tracking off keeps history and stops new events.</div>
+                  </span>
                 </div>
-              </sc-if>
+                <div style="display:flex;align-items:flex-start;gap:14px;padding:15px 18px;border-top:1px solid var(--border-soft);">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;">
+                    <span style="font:600 13px 'Pliant',sans-serif;color:var(--text);">Page classification</span>
+                    <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-muted);">Which pages map to Discover, Evaluate and Decide, and which are excluded from signals.</span>
+                  </span>
+                  <span style="position:relative;display:inline-flex;align-items:center;flex:0 0 auto;">
+                    <button onClick="{{ wvGoPages }}" style="border:1px solid var(--border-strong);background:transparent;cursor:pointer;border-radius:8px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Open Pages</button>
+                  </span>
+                </div>
+              </div>
+
+              <div style="display:flex;align-items:baseline;gap:9px;margin:18px 2px 10px;">
+                <span style="font:600 9px 'Pliant Mono';letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);">Data health</span>
+                <span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">How complete the tracking is right now.</span>
+              </div>
+              <div style="border:1px solid var(--border);background:var(--surface);border-radius:14px;box-shadow:0 4px 16px -12px rgba(24,23,30,.5);padding:6px 18px 10px;">
+                <sc-for list="{{ wvOvHealth }}" as="h" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:baseline;gap:12px;padding:10px 0;border-top:1px solid var(--border-soft);">
+                    <span style="display:flex;flex-direction:column;min-width:0;flex:1;">
+                      <span style="font:500 12px 'Pliant',sans-serif;color:var(--text-2);">{{ h.l }}</span>
+                      <span style="font:400 10.5px/1.45 'Pliant',sans-serif;color:var(--text-muted);">{{ h.s }}</span>
+                    </span>
+                    <span style="font:600 15px 'Pliant Mono';color:{{ h.c }};flex:0 0 auto;">{{ h.v }}</span>
+                  </div>
+                </sc-for>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
-            <span style="font:600 8.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-right:4px;">Domain</span>
-            <sc-for list="{{ wvDomChips }}" as="dc" hint-placeholder-count="3">
-              <button onClick="{{ dc.pick }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid {{ dc.bd }};background:{{ dc.bg }};cursor:pointer;border-radius:999px;padding:5px 11px;font:500 11.5px 'Pliant',sans-serif;color:{{ dc.col }};white-space:nowrap;"><sc-if value="{{ dc.hasDot }}" hint-placeholder-val=""><span style="width:6px;height:6px;border-radius:50%;background:{{ dc.dot }};"></span></sc-if>{{ dc.l }}<span style="font:500 10px 'Pliant Mono';color:var(--text-muted);">{{ dc.n }}</span></button>
-            </sc-for>
-          </div>
-          <div style="display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:20px;">
-            <sc-for list="{{ wvTabs }}" as="t" hint-placeholder-count="8">
-              <button onClick="{{ t.set }}" style="border:none;background:transparent;cursor:pointer;padding:9px 13px;font:{{ t.f }};color:{{ t.c }};border-bottom:2px solid {{ t.b }};margin-bottom:-1px;white-space:nowrap;">{{ t.l }}</button>
-            </sc-for>
-          </div>
+          </sc-if>
 
           <!-- OVERVIEW -->
           <sc-if value="{{ wvIsOverview }}" hint-placeholder-val="{{ true }}">
@@ -9260,6 +9324,97 @@
             </div>
           </sc-if>
 
+          <!-- AUTOMATIONS -->
+          <sc-if value="{{ wvIsAutos }}" hint-placeholder-val="">
+            <div style="max-width:1080px;">
+              <div style="border:1px solid var(--border);background:var(--surface);border-radius:14px;box-shadow:0 4px 16px -12px rgba(24,23,30,.5);padding:16px 18px;margin-bottom:14px;">
+                <div style="font:600 9px 'Pliant Mono';letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Describe what should happen</div>
+                <div onInput="{{ setWvAutoQ }}">
+                  <textarea data-wvauto="1" rows="2" placeholder="Visited pricing and testimonials, 3+ sessions in 7 days, from the US → source 2 contacts and add them to a sequence" style="display:block;width:100%;box-sizing:border-box;resize:none;border:1px solid var(--border);background:var(--surface-2);border-radius:10px;padding:11px 13px;font:400 13px/1.55 'Pliant',sans-serif;color:var(--text);outline:none;"></textarea>
+                </div>
+                <sc-if value="{{ wvAutoNoQ }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
+                    <sc-for list="{{ wvAutoEx }}" as="ex" hint-placeholder-count="3">
+                      <button onClick="{{ ex.pick }}" style="text-align:left;border:1px solid var(--border);background:var(--surface-2);cursor:pointer;border-radius:999px;padding:6px 12px;font:400 11.5px 'Pliant',sans-serif;color:var(--text-2);" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ ex.l }}</button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ wvAutoHasQ }}" hint-placeholder-val="">
+                  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-soft);">
+                    <span style="font:600 8px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);flex:0 0 auto;">When</span>
+                    <span style="font:500 11px 'Pliant',sans-serif;color:var(--accent-hover);background:var(--accent-soft);border-radius:8px;padding:4px 10px;">{{ wvAutoChips.trig }}</span>
+                    <span style="font:600 8px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);flex:0 0 auto;">And</span>
+                    <sc-for list="{{ wvAutoChips.fits }}" as="f" hint-placeholder-count="2"><span style="font:500 11px 'Pliant',sans-serif;color:var(--text-2);background:var(--surface-soft);border-radius:8px;padding:4px 10px;">{{ f.l }}</span></sc-for>
+                    <span style="font:600 8px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);flex:0 0 auto;">Then</span>
+                    <sc-for list="{{ wvAutoChips.acts }}" as="a" hint-placeholder-count="2"><span style="font:500 11px 'Pliant',sans-serif;color:var(--warning);background:var(--warning-soft);border-radius:8px;padding:4px 10px;">{{ a.l }}</span></sc-for>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:11px;">
+                    <span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);flex:1;min-width:200px;"><b style="color:var(--text);">{{ wvAutoChips.est }} accounts</b> would have matched in the last 7 days · {{ wvAutoChips.spend }}</span>
+                    <button onClick="{{ wvAutoCreate }}" style="border:none;background:var(--accent);color:#fff;cursor:pointer;border-radius:9px;padding:9px 16px;font:600 12px 'Pliant',sans-serif;white-space:nowrap;" style-hover="background:var(--accent-hover)">Activate</button>
+                  </div>
+                </sc-if>
+              </div>
+
+              <sc-if value="{{ wvAutoAnyLive }}" hint-placeholder-val="">
+                <div style="display:flex;align-items:baseline;gap:9px;margin:0 2px 9px;">
+                  <span style="font:600 9px 'Pliant Mono';letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);">Live · {{ wvAutoLiveN }}</span>
+                  <span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">{{ wvAutoSpend }} credits a week at current volume</span>
+                  <span style="flex:1;"></span>
+                  <button onClick="{{ wvAutoGoAgents }}" style="border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant',sans-serif;color:var(--accent-hover);" style-hover="color:var(--accent-deep)">Open in Agents →</button>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+                  <sc-for list="{{ wvAutoLive }}" as="a" hint-placeholder-count="2">
+                    <div style="border:1px solid var(--accent-border);background:var(--surface);border-radius:13px;box-shadow:0 4px 16px -12px rgba(24,23,30,.5);padding:14px 16px;">
+                      <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
+                        <span style="width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto;"></span>
+                        <span style="font:600 13.5px 'Pliant',sans-serif;color:var(--text);">{{ a.n }}</span>
+                        <span style="flex:1;"></span>
+                        <span style="font:400 10.5px 'Pliant Mono';color:var(--text-muted);">cap {{ a.capL }} cr/wk</span>
+                        <button onClick="{{ a.dry }}" title="Load this into the composer" style="border:1px solid var(--border-strong);background:transparent;cursor:pointer;border-radius:7px;padding:5px 11px;font:600 10.5px 'Pliant',sans-serif;color:var(--text-2);" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Edit</button>
+                        <button onClick="{{ a.flip }}" style="border:1px solid var(--border-strong);background:transparent;cursor:pointer;border-radius:7px;padding:5px 11px;font:600 10.5px 'Pliant',sans-serif;color:var(--text-2);" style-hover="border-color:var(--negative);color:var(--negative)">Pause</button>
+                      </div>
+                      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:10px;">
+                        <span style="font:500 10.5px 'Pliant',sans-serif;color:var(--accent-hover);background:var(--accent-soft);border-radius:7px;padding:3px 9px;">{{ a.trig }}</span>
+                        <span style="font:500 10.5px 'Pliant',sans-serif;color:var(--text-2);background:var(--surface-soft);border-radius:7px;padding:3px 9px;">{{ a.filt }}</span>
+                        <span style="font:500 10.5px 'Pliant',sans-serif;color:var(--warning);background:var(--warning-soft);border-radius:7px;padding:3px 9px;">{{ a.act }}</span>
+                      </div>
+                      <div style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;border-top:1px solid var(--border-soft);padding-top:9px;">
+                        <span style="display:flex;align-items:baseline;gap:6px;"><span style="font:600 14px 'Pliant Mono';color:var(--text);">{{ a.matched }}</span><span style="font:400 10.5px 'Pliant',sans-serif;color:var(--text-muted);">matched</span></span>
+                        <span style="display:flex;align-items:baseline;gap:6px;"><span style="font:600 14px 'Pliant Mono';color:var(--text);">{{ a.sourced }}</span><span style="font:400 10.5px 'Pliant',sans-serif;color:var(--text-muted);">sourced</span></span>
+                        <span style="display:flex;align-items:baseline;gap:6px;"><span style="font:600 14px 'Pliant Mono';color:var(--text);">{{ a.enrolled }}</span><span style="font:400 10.5px 'Pliant',sans-serif;color:var(--text-muted);">enrolled</span></span>
+                        <span style="flex:1;"></span>
+                        <span style="font:400 10.5px 'Pliant',sans-serif;color:var(--text-muted);">this week</span>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <div style="display:flex;align-items:baseline;gap:9px;margin:0 2px 9px;">
+                <span style="font:600 9px 'Pliant Mono';letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);">Ready to activate</span>
+                <span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">Built from your pages, topics and scoring. Edit any of them into the composer before switching it on.</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;">
+                <sc-for list="{{ wvAutoTpls }}" as="t" hint-placeholder-count="6">
+                  <div style="border:1px solid var(--border);background:var(--surface);border-radius:13px;box-shadow:0 4px 16px -12px rgba(24,23,30,.5);padding:14px 16px;display:flex;flex-direction:column;gap:9px;">
+                    <span style="font:600 13.5px 'Pliant',sans-serif;color:var(--text);">{{ t.n }}</span>
+                    <span style="font:400 11.5px/1.55 'Pliant',sans-serif;color:var(--text-secondary);">{{ t.d }}</span>
+                    <span style="display:flex;flex-direction:column;gap:5px;">
+                      <span style="display:flex;align-items:baseline;gap:7px;"><span style="font:600 8px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);width:30px;flex:0 0 auto;">When</span><span style="font:500 11px 'Pliant',sans-serif;color:var(--text-2);">{{ t.trig }}</span></span>
+                      <span style="display:flex;align-items:baseline;gap:7px;"><span style="font:600 8px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);width:30px;flex:0 0 auto;">And</span><span style="font:500 11px 'Pliant',sans-serif;color:var(--text-2);">{{ t.filt }}</span></span>
+                      <span style="display:flex;align-items:baseline;gap:7px;"><span style="font:600 8px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);width:30px;flex:0 0 auto;">Then</span><span style="font:500 11px 'Pliant',sans-serif;color:var(--accent-hover);">{{ t.act }}</span></span>
+                    </span>
+                    <span style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;border-top:1px solid var(--border-soft);padding-top:10px;margin-top:auto;">
+                      <span style="font:400 11px 'Pliant',sans-serif;color:var(--text-muted);flex:1;min-width:120px;">{{ t.est }} matched last week · {{ t.spend }}</span>
+                      <button onClick="{{ t.dry }}" title="Load this into the composer and change it before activating" style="border:1px solid var(--border-strong);background:transparent;cursor:pointer;border-radius:8px;padding:6px 11px;font:600 11px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Edit</button>
+                      <button onClick="{{ t.flip }}" style="border:none;background:var(--accent);color:#fff;cursor:pointer;border-radius:8px;padding:7px 13px;font:600 11px 'Pliant',sans-serif;white-space:nowrap;" style-hover="background:var(--accent-hover)">Activate</button>
+                    </span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
           <!-- VISITORS -->
           <sc-if value="{{ wvIsVisitors }}" hint-placeholder-val="">
             <div style="display:flex;flex-wrap:wrap;gap:0 28px;row-gap:8px;padding:2px 2px 16px;">
@@ -9312,10 +9467,10 @@
               </div>
               <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
                 <div class="cx-scroll" style="overflow-x:auto;overflow-y:hidden;">
-                <div style="min-width:856px;">
+                <div style="min-width:{{ wvTableMin }};">
                 <div style="display:flex;align-items:center;background:var(--surface-soft);border-bottom:1px solid var(--border);padding:9px 16px;font:600 9px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);">
                   <span onClick="{{ wvSelPage }}" title="Select this page" style="flex:0 0 30px;display:flex;align-items:center;"><span style="width:15px;height:15px;border-radius:4px;border:1.5px solid {{ wvPageAllBd }};background:{{ wvPageAllBg }};display:inline-flex;align-items:center;justify-content:center;cursor:pointer;"><sc-if value="{{ wvPageAllOn }}" hint-placeholder-val=""><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"></path></svg></sc-if></span></span>
-                  <span onClick="{{ wvSortCols.name.pick }}" style="flex:0 0 200px;cursor:pointer;color:{{ wvSortCols.name.col }};">Account {{ wvSortCols.name.arrow }}</span><sc-if value="{{ wvColInd }}" hint-placeholder-val=""><span style="flex:0 0 150px;">Industry</span></sc-if><span onClick="{{ wvSortCols.score.pick }}" style="flex:0 0 46px;cursor:pointer;color:{{ wvSortCols.score.col }};">Score {{ wvSortCols.score.arrow }}</span><span onClick="{{ wvSortCols.sess.pick }}" title="Visits grouped on a 30-minute inactivity window" style="flex:0 0 64px;cursor:pointer;color:{{ wvSortCols.sess.col }};">Sessions {{ wvSortCols.sess.arrow }}</span><sc-if value="{{ wvColDur }}" hint-placeholder-val=""><span onClick="{{ wvSortCols.dur.pick }}" style="flex:0 0 78px;cursor:pointer;color:{{ wvSortCols.dur.col }};">Avg session {{ wvSortCols.dur.arrow }}</span></sc-if><span onClick="{{ wvSortCols.pages.pick }}" style="flex:0 0 44px;cursor:pointer;color:{{ wvSortCols.pages.col }};">Pages {{ wvSortCols.pages.arrow }}</span><span style="flex:1;min-width:190px;">Products</span><sc-if value="{{ wvColLoc }}" hint-placeholder-val="{{ true }}"><span style="flex:0 0 132px;">Locations</span></sc-if><sc-if value="{{ wvColFirst }}" hint-placeholder-val=""><span onClick="{{ wvSortCols.first.pick }}" style="flex:0 0 78px;cursor:pointer;color:{{ wvSortCols.first.col }};">First seen {{ wvSortCols.first.arrow }}</span></sc-if><sc-if value="{{ wvColIsp }}" hint-placeholder-val=""><span style="flex:0 0 118px;">ISP provider</span></sc-if><sc-if value="{{ wvColEmp }}" hint-placeholder-val=""><span style="flex:0 0 78px;">Employees</span></sc-if><sc-if value="{{ wvColRev }}" hint-placeholder-val=""><span style="flex:0 0 76px;">Revenue</span></sc-if><span onClick="{{ wvSortCols.last.pick }}" style="flex:0 0 92px;cursor:pointer;color:{{ wvSortCols.last.col }};">Last visit {{ wvSortCols.last.arrow }}</span><span style="flex:0 0 26px;"></span>
+                  <span onClick="{{ wvSortCols.name.pick }}" style="flex:0 0 200px;cursor:pointer;color:{{ wvSortCols.name.col }};">Account {{ wvSortCols.name.arrow }}</span><sc-if value="{{ wvColInd }}" hint-placeholder-val=""><span style="flex:0 0 150px;">Industry</span></sc-if><span onClick="{{ wvSortCols.score.pick }}" style="flex:0 0 46px;cursor:pointer;color:{{ wvSortCols.score.col }};">Score {{ wvSortCols.score.arrow }}</span><span onClick="{{ wvSortCols.sess.pick }}" title="Visits grouped on a 30-minute inactivity window" style="flex:0 0 64px;cursor:pointer;color:{{ wvSortCols.sess.col }};">Sessions {{ wvSortCols.sess.arrow }}</span><sc-if value="{{ wvColDur }}" hint-placeholder-val=""><span onClick="{{ wvSortCols.dur.pick }}" style="flex:0 0 78px;cursor:pointer;color:{{ wvSortCols.dur.col }};">Avg session {{ wvSortCols.dur.arrow }}</span></sc-if><span onClick="{{ wvSortCols.pages.pick }}" style="flex:0 0 44px;cursor:pointer;color:{{ wvSortCols.pages.col }};">Pages {{ wvSortCols.pages.arrow }}</span><span style="flex:1;min-width:190px;">Products</span><sc-if value="{{ wvColLoc }}" hint-placeholder-val="{{ true }}"><span style="flex:0 0 132px;">Locations</span></sc-if><sc-if value="{{ wvColStat }}" hint-placeholder-val=""><span style="flex:0 0 96px;">Status</span></sc-if><sc-if value="{{ wvColFirst }}" hint-placeholder-val=""><span onClick="{{ wvSortCols.first.pick }}" style="flex:0 0 78px;cursor:pointer;color:{{ wvSortCols.first.col }};">First seen {{ wvSortCols.first.arrow }}</span></sc-if><sc-if value="{{ wvColSrc }}" hint-placeholder-val=""><span style="flex:0 0 108px;">Source</span></sc-if><sc-if value="{{ wvColUtmS }}" hint-placeholder-val=""><span style="flex:0 0 92px;">UTM source</span></sc-if><sc-if value="{{ wvColUtmM }}" hint-placeholder-val=""><span style="flex:0 0 96px;">UTM medium</span></sc-if><sc-if value="{{ wvColUtmC }}" hint-placeholder-val=""><span style="flex:0 0 120px;">UTM campaign</span></sc-if><sc-if value="{{ wvColAutom }}" hint-placeholder-val=""><span style="flex:0 0 170px;">Automation</span></sc-if><sc-if value="{{ wvColIsp }}" hint-placeholder-val=""><span style="flex:0 0 118px;">ISP provider</span></sc-if><sc-if value="{{ wvColEmp }}" hint-placeholder-val=""><span style="flex:0 0 78px;">Employees</span></sc-if><sc-if value="{{ wvColRev }}" hint-placeholder-val=""><span style="flex:0 0 76px;">Revenue</span></sc-if><span onClick="{{ wvSortCols.last.pick }}" style="flex:0 0 92px;cursor:pointer;color:{{ wvSortCols.last.col }};">Last visit {{ wvSortCols.last.arrow }}</span><span style="flex:0 0 26px;"></span>
                 </div>
                 <sc-for list="{{ wvAccRows }}" as="a" hint-placeholder-count="10">
                   <div onClick="{{ a.open }}" title="Open account detail" style="display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border-soft);cursor:pointer;background:{{ a.rowBg }};" style-hover="background:var(--surface);box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
@@ -9333,7 +9488,13 @@
                       <sc-if value="{{ a.hasProdMore }}" hint-placeholder-val=""><span title="{{ a.prodAll }}" style="font:600 9.5px 'Pliant Mono';color:var(--accent-hover);background:var(--accent-soft);border-radius:5px;padding:2px 6px;flex:0 0 auto;">{{ a.prodMore }}</span></sc-if>
                     </span>
                     <sc-if value="{{ wvColLoc }}" hint-placeholder-val="{{ true }}"><span title="{{ a.locTip }}" style="flex:0 0 132px;display:flex;align-items:baseline;gap:5px;min-width:0;padding-right:8px;box-sizing:border-box;"><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ a.locMain }}</span><sc-if value="{{ a.hasLocMore }}" hint-placeholder-val=""><span style="font:600 9.5px 'Pliant Mono';color:var(--accent-hover);background:var(--accent-soft);border-radius:5px;padding:1px 5px;flex:0 0 auto;">{{ a.locMore }}</span></sc-if></span></sc-if>
+                    <sc-if value="{{ wvColStat }}" hint-placeholder-val=""><span style="flex:0 0 96px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.04em;color:{{ a.statC }};background:{{ a.statB }};border-radius:6px;padding:3px 8px;white-space:nowrap;">{{ a.stat }}</span></span></sc-if>
                     <sc-if value="{{ wvColFirst }}" hint-placeholder-val=""><span style="flex:0 0 78px;font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">{{ a.first }}</span></sc-if>
+                    <sc-if value="{{ wvColSrc }}" hint-placeholder-val=""><span style="flex:0 0 108px;font:400 11.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;box-sizing:border-box;">{{ a.src }}</span></sc-if>
+                    <sc-if value="{{ wvColUtmS }}" hint-placeholder-val=""><span style="flex:0 0 92px;font:400 11px 'Pliant Mono';color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;box-sizing:border-box;">{{ a.utmS }}</span></sc-if>
+                    <sc-if value="{{ wvColUtmM }}" hint-placeholder-val=""><span style="flex:0 0 96px;font:400 11px 'Pliant Mono';color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;box-sizing:border-box;">{{ a.utmM }}</span></sc-if>
+                    <sc-if value="{{ wvColUtmC }}" hint-placeholder-val=""><span style="flex:0 0 120px;font:400 11px 'Pliant Mono';color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;box-sizing:border-box;">{{ a.utmC }}</span></sc-if>
+                    <sc-if value="{{ wvColAutom }}" hint-placeholder-val=""><span style="flex:0 0 170px;padding-right:8px;box-sizing:border-box;min-width:0;"><sc-if value="{{ a.hasAutom }}" hint-placeholder-val="{{ true }}"><span title="Matched this automation" style="display:inline-flex;align-items:center;gap:5px;font:500 10.5px 'Pliant',sans-serif;color:var(--accent-hover);background:var(--accent-soft);border-radius:7px;padding:3px 8px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex:0 0 auto;"></span>{{ a.autom }}</span></sc-if><sc-if value="{{ a.noAutom }}" hint-placeholder-val=""><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-faint);">—</span></sc-if></span></sc-if>
                     <sc-if value="{{ wvColIsp }}" hint-placeholder-val=""><span style="flex:0 0 118px;font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;box-sizing:border-box;">{{ a.isp }}</span></sc-if>
                     <sc-if value="{{ wvColEmp }}" hint-placeholder-val=""><span style="flex:0 0 78px;font:500 11.5px 'Pliant Mono';color:var(--text-2);">{{ a.emp }}</span></sc-if>
                     <sc-if value="{{ wvColRev }}" hint-placeholder-val=""><span style="flex:0 0 76px;font:500 11.5px 'Pliant Mono';color:var(--text-2);">{{ a.rev }}</span></sc-if>
@@ -15083,6 +15244,8 @@ class Component extends DCLogic {
     }, i === 0 ? 260 : 80); };
     tick(0); }
   stopMapScan(){ clearTimeout(this._scanT); }
+  _wvPrompt(t){ this.setState({ wvAutoQ: t });
+    try { const el = document.querySelector('textarea[data-wvauto]'); if (el) { el.value = t; el.focus(); el.scrollIntoViewIfNeeded ? null : null; } } catch (e) {} }
   openImport(mode){ clearTimeout(this._scanT);
     this.setState({ impOpen:true, impMode:mode||'account', impStep:0, impFile:null, impMap:null, impDone:null, impUnmappedOnly:false, impScan:0, impScanDone:false,
     impEmail:false, impPhone:false, impPerAcct:1, impDup:null, impOwner:null, impOwnerExist:null, impIcp:null, impList:null,
@@ -22292,6 +22455,22 @@ class Component extends DCLogic {
               prodAll: prods.map(x => x.p + (x.t.length ? ' (' + x.t.map(tc).join(', ') + ')' : '')).join(' \u00b7 '),
               locMain: locs[0] || '\u2014', locMore: locs.length > 1 ? '+' + (locs.length - 1) : '', hasLocMore: locs.length > 1, locTip: locs.join(' · '),
               first: firstN > 120 ? '4 mo ago' : firstN > 60 ? '2 mo ago' : firstN + 'd ago', firstN: firstN,
+              ...(() => { const SRCS = [
+                  { s: 'Organic search', us: 'google', um: 'organic', uc: '\u2014' },
+                  { s: 'Direct', us: '\u2014', um: '\u2014', uc: '\u2014' },
+                  { s: 'LinkedIn', us: 'linkedin', um: 'paid_social', uc: 'abm_q3_intent' },
+                  { s: 'Google Ads', us: 'google', um: 'cpc', uc: 'brand_us' },
+                  { s: 'Referral', us: 'g2', um: 'referral', uc: 'g2_category' },
+                  { s: 'Email', us: 'newsletter', um: 'email', uc: 'oct_digest' } ];
+                const mix = ((h2 ^ (h2 >>> 5) ^ ((a[1] || '').length * 31) ^ ((a[1] || 'x').charCodeAt(0) * 7)) >>> 0);
+                const SS = SRCS[mix % SRCS.length];
+                const ST = [['Qualified', 'var(--accent-hover)', 'var(--accent-soft)'], ['Unreviewed', 'var(--warning)', 'var(--warning-soft)'], ['Already in CRM', 'var(--text-2)', 'var(--border-soft)'], ['Disqualified', 'var(--text-secondary)', 'var(--surface-soft)']];
+                const sm = (h2 >>> 3) % 10; const sti = sm < 3 ? 0 : sm < 7 ? 1 : sm < 9 ? 2 : 3;
+                const AUT = ['Pricing intent \u2192 outreach', 'Repeat researcher \u2192 notify rep', 'Comparison page \u2192 battlecard', null, null];
+                const au = AUT[(mix >>> 4) % AUT.length];
+                return { src: SS.s, utmS: SS.us, utmM: SS.um, utmC: SS.uc,
+                  stat: ST[sti][0], statC: ST[sti][1], statB: ST[sti][2],
+                  autom: au || '\u2014', hasAutom: !!au, noAutom: !au }; })(),
               qxOpen: S3.wvQxOpen === a[0],
               qxFlip: (e) => { if (e && e.stopPropagation) e.stopPropagation(); const r = e && e.currentTarget ? e.currentTarget.getBoundingClientRect() : { bottom: 0, right: 0 };
                 let z = 1; try { let el = e && e.currentTarget; while (el && el !== document.documentElement) { const zz = parseFloat(getComputedStyle(el).zoom); if (zz && zz !== 1) z *= zz; el = el.parentElement; } } catch (e2) {}
@@ -22399,10 +22578,88 @@ class Component extends DCLogic {
               { l: 'Hidden by exclusions', v: String(Math.max(0, exN) + sug), s: (Math.max(0, exN)) + ' traffic rules, ' + sug + ' pages \u00b7 counted, never scored', c: 'var(--text-2)', go: () => this.setState({ wvExclOpen: true }), goL: 'Manage \u2192' }],
             wvOvGoList: () => this.setState({ wvTab: 'visitors' }),
             wvOvSessTot: sessTot.toLocaleString('en-US'), wvOvSessNew: Math.round(sessTot * .62).toLocaleString('en-US'), wvOvSessRet: Math.round(sessTot * .38).toLocaleString('en-US') }; })(),
-          wvTabs: [['overview','Overview'],['visitors','Visitors'],['webpages','Pages'],['topics','Topics'],['products','Products']].map(t => ({
+          ...(() => {
+            const ON = this.state.wvAutoOn || {};
+            const made = this.state.wvAutoMade || [];
+            const cap = (k) => (this.state.wvAutoCap || {})[k] || 500;
+            const TPL = [
+              { k: 'pricing', n: 'Pricing intent \u2192 outreach', d: 'The strongest single signal on the site. Two pricing views inside a week, from a target-profile account.',
+                trig: 'Visits /pricing', filt: '2+ sessions in 7 days \u00b7 ICP fit \u2265 70', act: 'Source 2 contacts \u2192 Pricing-intent sequence', est: 23, spend: 138 },
+              { k: 'compare', n: 'Comparison page \u2192 battlecard', d: 'Someone reading a competitor comparison is mid-evaluation. This gets the battlecard out the same day.',
+                trig: 'Visits a /compare or /vs page', filt: 'Any identified account', act: 'Source 1 contact \u2192 Competitive sequence', est: 11, spend: 33 },
+              { k: 'repeat', n: 'Repeat researcher \u2192 notify rep', d: 'No sourcing, no spend. Tells the owner an account keeps coming back.',
+                trig: '3+ sessions in 7 days', filt: 'Already in CRM', act: 'Notify the account owner in Slack', est: 17, spend: 0 },
+              { k: 'decide', n: 'Reached a Decide page \u2192 alert', d: 'Down-funnel movement on accounts nobody has touched yet.',
+                trig: 'Views a Decide-stage page', filt: 'ICP fit \u2265 80 \u00b7 no owner', act: 'Source 3 contacts \u2192 add to Prospects \u2192 notify', est: 8, spend: 72 },
+              { k: 'enrich', n: 'High-fit anonymous \u2192 enrich', d: 'Resolves the company behind unidentified sessions before deciding anything.',
+                trig: 'Any session, unresolved', filt: 'ISP traffic excluded', act: 'Run identification, then qualify', est: 64, spend: 64 },
+              { k: 'docs', n: 'Docs + integrations \u2192 nurture', d: 'Technical evaluation, not a buying signal yet. Warms them without a rep touch.',
+                trig: 'Visits /docs or /integrations', filt: '2+ pages, no pricing view', act: 'Add to Technical-evaluator nurture', est: 31, spend: 0 } ];
+            const mkRow = (t, live) => ({ k: t.k, n: t.n, d: t.d, trig: t.trig, filt: t.filt, act: t.act,
+              est: String(t.est), spend: t.spend ? t.spend + ' cr / wk' : 'No credits',
+              matched: String(Math.round(t.est * 0.8)), sourced: String(Math.round(t.est * 0.62)), enrolled: String(Math.round(t.est * 0.48)),
+              live: live, capL: String(cap(t.k)),
+              flip: () => { const now = !ON[t.k];
+                this.setState(s => ({ wvAutoOn: { ...(s.wvAutoOn || {}), [t.k]: now },
+                  agNew: now ? (s.agNew || []).concat([{ key: 'wv' + t.k, title: t.n, status: 'Live', trigger: t.trig, auto: 'Auto', runs: '0', last: 'just now', outcome: 'Watching' }])
+                              : (s.agNew || []).filter(a => a.key !== 'wv' + t.k) }));
+                this.toast(now ? '\u201c' + t.n + '\u201d is live. It appears in Agents and is capped at ' + cap(t.k) + ' credits a week.' : '\u201c' + t.n + '\u201d paused. Nothing fires until you turn it back on.'); },
+              dry: () => this._wvPrompt(t.trig + ', ' + t.filt.toLowerCase() + ' \u2192 ' + t.act.toLowerCase()),
+              openAgent: () => this.setState({ view: 'playbooks' }) });
+            const tplRows = TPL.filter(t => !ON[t.k]).map(t => mkRow(t, false));
+            const liveRows = TPL.filter(t => ON[t.k]).map(t => mkRow(t, true)).concat(made.filter(m => ON[m.k] !== false).map(m => ({ ...m, live: true,
+              flip: () => { this.setState(s => ({ wvAutoMade: (s.wvAutoMade || []).filter(x => x.k !== m.k), agNew: (s.agNew || []).filter(a => a.key !== 'wv' + m.k) })); this.toast('\u201c' + m.n + '\u201d removed.'); },
+              dry: () => this._wvPrompt(m.trig + ', ' + String(m.filt).toLowerCase() + ' \u2192 ' + String(m.act).toLowerCase()),
+              openAgent: () => this.setState({ view: 'playbooks' }) })));
+            const q = this.state.wvAutoQ || '';
+            const has = (re) => re.test(q);
+            const chips = q.trim() ? (() => {
+              const trig = has(/pricing/i) ? 'Visits /pricing' : has(/compare|competitor|vs\b/i) ? 'Visits a comparison page' : has(/docs|integration|api/i) ? 'Visits /docs or /integrations' : has(/testimonial|case stud/i) ? 'Visits testimonials or case studies' : 'Any tracked page';
+              const sm = q.match(/(\d+)\+?\s*(?:or more\s*)?sessions?/i); const dm = q.match(/(\d+)\s*days?/i);
+              const fits = [];
+              if (sm) fits.push(sm[1] + '+ sessions' + (dm ? ' in ' + dm[1] + ' days' : ''));
+              if (has(/\bus\b|united states|america/i)) fits.push('Country = United States');
+              if (has(/uk|united kingdom|europe|emea/i)) fits.push('Region = Europe');
+              if (has(/icp|target profile|high fit/i)) fits.push('ICP fit \u2265 70');
+              if (has(/crm|existing|customer/i)) fits.push('Already in CRM');
+              if (!fits.length) fits.push('Any identified account');
+              const acts = [];
+              const cm = q.match(/(\d+)\s*contacts?/i);
+              if (has(/source|contact|people/i)) acts.push('Source ' + (cm ? cm[1] : '2') + ' contact' + ((cm ? cm[1] : '2') === '1' ? '' : 's'));
+              if (has(/sequence|campaign|outreach|enrol|enroll/i)) acts.push('Add to a sequence');
+              if (has(/notify|alert|slack|tell/i)) acts.push('Notify the account owner');
+              if (has(/segment|list/i)) acts.push('Add to a segment');
+              if (has(/crm|salesforce|hubspot/i)) acts.push('Push to CRM');
+              if (!acts.length) acts.push('Add to Prospects');
+              const est = 6 + (q.length % 29);
+              return { trig, fits: fits.map(l => ({ l })), acts: acts.map(l => ({ l })), est: String(est),
+                spend: acts.some(a => /Source/.test(a)) ? String(est * 3) + ' cr' : 'No credits' }; })() : null;
+            return {
+              wvAutoQ: q,
+              setWvAutoQ: (e) => { if (e && e.target && e.target.tagName === 'TEXTAREA') this.setState({ wvAutoQ: e.target.value }); },
+              wvAutoHasQ: !!chips, wvAutoNoQ: !chips,
+              wvAutoChips: chips || { trig: '', fits: [], acts: [], est: '0', spend: '' },
+              wvAutoEx: [
+                'Visited pricing and testimonials, 3+ sessions in 7 days, from the US \u2192 source 2 contacts and add to a sequence',
+                'Any account already in our CRM that comes back to pricing \u2192 notify the owner',
+                'Reads the docs twice but never pricing \u2192 add to the technical nurture segment' ].map(l => ({ l,
+                  pick: () => this._wvPrompt(l) })),
+              wvAutoCreate: () => { if (!chips) { this.toast('Describe the automation first.'); return; }
+                const k = 'c' + Date.now() % 100000;
+                const nm = q.length > 46 ? q.slice(0, 44).trim() + '\u2026' : q;
+                const row = { k, n: nm, d: 'Created from your prompt.', trig: chips.trig, filt: chips.fits.map(f => f.l).join(' \u00b7 '), act: chips.acts.map(a => a.l).join(' \u2192 '),
+                  est: chips.est, spend: chips.spend, matched: '0', sourced: '0', enrolled: '0', capL: '500' };
+                this.setState(s => ({ wvAutoMade: (s.wvAutoMade || []).concat([row]), wvAutoQ: '',
+                  agNew: (s.agNew || []).concat([{ key: 'wv' + k, title: nm, status: 'Live', trigger: chips.trig, auto: 'Auto', runs: '0', last: 'just now', outcome: 'Watching' }]) }));
+                this.toast('Automation live and saved to Agents. Capped at 500 credits a week.'); },
+              wvAutoTpls: tplRows, wvAutoLive: liveRows,
+              wvAutoLiveN: String(liveRows.length), wvAutoAnyLive: liveRows.length > 0, wvAutoNoneLive: liveRows.length === 0,
+              wvAutoSpend: liveRows.reduce((a, r) => a + (parseInt(r.spend, 10) || 0), 0).toLocaleString('en-US'),
+              wvAutoGoAgents: () => this.setState({ view: 'playbooks' }) }; })(),
+          wvTabs: [['overview','Overview'],['automations','Automations'],['visitors','Visitors'],['webpages','Pages'],['topics','Topics'],['products','Products'],['setup','Setup']].map(t => ({
             l: t[1], set: () => this.setState({ wvTab: t[0] }),
             f: tab === t[0] ? "600 12.5px 'Pliant',sans-serif" : "500 12.5px 'Pliant',sans-serif", c: tab === t[0] ? 'var(--accent-hover)' : 'var(--text-secondary)', b: tab === t[0] ? 'var(--accent)' : 'transparent' })),
-          wvIsOverview: tab === 'overview', wvIsVisitors: tab === 'visitors', wvIsIntel: tab === 'intelligence', wvIsWebpages: tab === 'webpages', wvIsTopics: tab === 'topics', wvIsProducts: tab === 'products',
+          wvIsOverview: tab === 'overview', wvIsAutos: tab === 'automations', wvIsSetup: tab === 'setup', wvGoPages: () => this.setState({ wvTab: 'webpages' }), wvIsVisitors: tab === 'visitors', wvIsIntel: tab === 'intelligence', wvIsWebpages: tab === 'webpages', wvIsTopics: tab === 'topics', wvIsProducts: tab === 'products',
           wvPgIsFunnel: (S3.wvPgView || 'funnel') === 'funnel', wvPgIsAll: S3.wvPgView === 'all',
           wvPgFunnel: () => this.setState({ wvPgView: 'funnel' }), wvPgAll: () => this.setState({ wvPgView: 'all' }),
           wvPgFunBg: (S3.wvPgView || 'funnel') === 'funnel' ? 'var(--accent-soft)' : 'var(--surface)', wvPgFunC: (S3.wvPgView || 'funnel') === 'funnel' ? 'var(--accent-hover)' : 'var(--text-secondary)',
@@ -22565,13 +22822,15 @@ class Component extends DCLogic {
           wvPageFltOn: !!F.page, wvPageFlt: F.page || '', wvPageFltClear: () => this.setState(s => ({ wvF: { ...(s.wvF || {}), page: null } })),
           wvFltAny: !!(F.prod || F.topic || F.ind || F.ctry || F.page || q),
           wvFltClear: () => this.setState({ wvF: {}, wvSearch: '', wvFOpen: null }),
-          ...(() => { const CV = S3.wvCols || {}; const CDEF = { loc: true, ind: false, dur: false, isp: false, emp: false, rev: false, first: false };
+          ...(() => { const CV = S3.wvCols || {}; const CDEF = { loc: true, stat: false, src: false, utmS: false, utmM: false, utmC: false, autom: false, ind: false, dur: false, isp: false, emp: false, rev: false, first: false };
             const con = (k) => (k in CV ? !!CV[k] : CDEF[k]);
             return {
             wvColsOpen: !!S3.wvColsOpen, wvColsFlip: () => this.setState(s => ({ wvColsOpen: !s.wvColsOpen })),
-            wvColRows: [['ind', 'Industry'], ['dur', 'Avg session'], ['loc', 'Locations'], ['first', 'First seen'], ['isp', 'ISP provider'], ['emp', 'Employees'], ['rev', 'Revenue']].map(c => { const on = con(c[0]); return { l: c[1], on, notOn: !on,
+            wvColRows: [['stat', 'Status'], ['ind', 'Industry'], ['dur', 'Avg session'], ['loc', 'Locations'], ['first', 'First seen'], ['src', 'Source'], ['utmS', 'UTM source'], ['utmM', 'UTM medium'], ['utmC', 'UTM campaign'], ['autom', 'Automation'], ['isp', 'ISP provider'], ['emp', 'Employees'], ['rev', 'Revenue']].map(c => { const on = con(c[0]); return { l: c[1], on, notOn: !on,
               flip: () => this.setState(s => { const cur = s.wvCols || {}; const now = (c[0] in cur ? !!cur[c[0]] : CDEF[c[0]]); return { wvCols: { ...cur, [c[0]]: !now } }; }) }; }),
-            wvColInd: con('ind'), wvColIsp: con('isp'), wvColEmp: con('emp'), wvColRev: con('rev'), wvColLoc: con('loc'), wvColDur: con('dur'), wvColFirst: con('first') }; })(),
+            wvColInd: con('ind'), wvColIsp: con('isp'), wvColEmp: con('emp'), wvColRev: con('rev'), wvColLoc: con('loc'), wvColDur: con('dur'), wvColFirst: con('first'),
+            wvColStat: con('stat'), wvColSrc: con('src'), wvColUtmS: con('utmS'), wvColUtmM: con('utmM'), wvColUtmC: con('utmC'), wvColAutom: con('autom'),
+            wvTableMin: (826 + (con('stat') ? 96 : 0) + (con('ind') ? 150 : 0) + (con('dur') ? 78 : 0) + (con('first') ? 78 : 0) + (con('src') ? 108 : 0) + (con('utmS') ? 92 : 0) + (con('utmM') ? 96 : 0) + (con('utmC') ? 120 : 0) + (con('autom') ? 170 : 0) + (con('isp') ? 118 : 0) + (con('emp') ? 78 : 0) + (con('rev') ? 76 : 0) - (con('loc') ? 0 : 132)) + 'px' }; })(),
           ...(() => { const raw = ACC.find(x => x[0] === S3.wvAcctSel); if (!raw) return { wvAcctOpen: false };
             const segT = RS[S3.wvQSeg || 0]; const qv = (S3.wvQual || {})[raw[0]] || null;
             return { wvAcctOpen: true, wvAcctClose: () => this.setState({ wvAcctSel: null }),
