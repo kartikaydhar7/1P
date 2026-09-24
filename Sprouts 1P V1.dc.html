@@ -644,14 +644,10 @@
           <span style="font:400 10.5px 'Pliant Mono';color:var(--text-muted);flex:0 0 auto;">saved just now</span>
           <sc-if value="{{ wbIsCampaign }}" hint-placeholder-val=""><span style="font:600 9px 'Pliant Mono';letter-spacing:.08em;text-transform:uppercase;color:{{ cpStC }};background:{{ cpStB }};border-radius:6px;padding:3px 8px;flex:0 0 auto;">{{ cpStL }}</span><span style="flex:1 1 12px;"></span><span style="display:inline-flex;background:var(--surface-soft);border-radius:10px;padding:3px;gap:2px;flex:0 0 auto;flex-wrap:wrap;"><sc-for list="{{ cpTabs }}" as="ct" hint-placeholder-count="5"><button onClick="{{ ct.go }}" title="{{ ct.tip }}" style="border:none;cursor:pointer;border-radius:8px;padding:6px 12px;font:{{ ct.font }};color:{{ ct.col }};background:{{ ct.bg }};box-shadow:{{ ct.sh }};white-space:nowrap;opacity:{{ ct.op }};">{{ ct.l }}</button></sc-for></span></sc-if>
           <span style="flex:1 1 12px;"></span>
-          <sc-if value="{{ wbNotCampaign }}" hint-placeholder-val="{{ true }}"><span title="Model tier for this agent" style="display:inline-flex;background:var(--surface-soft);border-radius:8px;padding:2px;gap:2px;flex:0 0 auto;margin-right:6px;">
-            <button onClick="{{ wbModelSmartGo }}" style="border:none;cursor:pointer;border-radius:6px;padding:5px 10px;font:500 11.5px 'Pliant',sans-serif;color:{{ wbMSCol }};background:{{ wbMSBg }};">Smart</button>
-            <button onClick="{{ wbModelFastGo }}" style="border:none;cursor:pointer;border-radius:6px;padding:5px 10px;font:500 11.5px 'Pliant',sans-serif;color:{{ wbMFCol }};background:{{ wbMFBg }};">Fast</button>
-          </span>
-          <span title="{{ wbCostLine }}" style="font:500 10.5px 'Pliant Mono';color:var(--text-secondary);white-space:nowrap;flex:0 0 auto;margin-right:6px;">{{ wbCostRun }} · {{ wbCostWk }}</span></sc-if>
           <span title="{{ wbViewTip }}" style="display:inline-flex;background:var(--surface-soft);border-radius:8px;padding:2px;gap:2px;flex:0 0 auto;margin-right:6px;">
             <button onClick="{{ wbViewCanvas }}" style="border:none;cursor:pointer;border-radius:6px;padding:5px 11px;font:{{ wbVCFont }};color:{{ wbVCCol }};background:{{ wbVCBg }};display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="6" rx="1.5"></rect><rect x="14" y="15" width="7" height="6" rx="1.5"></rect><path d="M6.5 9v4a2 2 0 002 2h5.5"></path></svg>Canvas</button>
             <button onClick="{{ wbViewText }}" style="border:none;cursor:pointer;border-radius:6px;padding:5px 11px;font:{{ wbVTFont }};color:{{ wbVTCol }};background:{{ wbVTBg }};display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h12M4 18h8"></path></svg>Text</button>
+            <sc-if value="{{ wbNotCampaign }}" hint-placeholder-val="{{ true }}"><button onClick="{{ wbViewRuns }}" style="border:none;cursor:pointer;border-radius:6px;padding:5px 11px;font:{{ wbVRFont }};color:{{ wbVRCol }};background:{{ wbVRBg }};display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Runs<span style="font:500 10px 'Pliant Mono';color:var(--text-muted);">{{ wbRunN }}</span></button></sc-if>
           </span>
           <sc-if value="{{ wbIsCampaign }}" hint-placeholder-val=""><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-muted);white-space:nowrap;flex:0 0 auto;margin-right:4px;">{{ wbCampSteps }}</span></sc-if>
           <sc-if value="{{ wbNotCampaign }}" hint-placeholder-val="{{ true }}"><button onClick="{{ wbTestRun }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--accent-border);background:var(--surface);cursor:pointer;border-radius:999px;padding:7px 14px;font:600 12px 'Pliant',sans-serif;color:var(--accent-hover);flex:0 0 auto;" style-hover="background:var(--accent-soft)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"></path></svg>Test run</button></sc-if>
@@ -802,11 +798,6 @@
                       </div>
                       <div style="padding:0 13px 9px;font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">{{ n.sub }}</div>
                       <sc-if value="{{ wbIsCampaign }}" hint-placeholder-val=""><div style="display:flex;align-items:center;gap:7px;padding:8px 13px;border-top:1px solid var(--border-soft);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2"></path></svg><span style="font:500 10.5px 'Pliant Mono';color:var(--text-secondary);">{{ n.waitL }}</span><span style="margin-left:auto;font:500 10.5px 'Pliant Mono';color:var(--text-muted);">{{ n.statL }}</span></div></sc-if>
-                      <sc-if value="{{ wbNotCampaign }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:7px;padding:8px 13px;border-top:1px solid var(--border-soft);">
-                        <span style="font:400 10.5px 'Pliant',sans-serif;color:var(--text-muted);">Assignee</span>
-                        <span style="display:inline-flex;align-items:center;gap:5px;background:{{ n.aBg }};color:{{ n.aCol }};border-radius:6px;padding:3px 8px;font:600 10.5px 'Pliant',sans-serif;"><sc-if value="{{ n.isSavant }}" hint-placeholder-val=""><span style="width:9px;height:9px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;"></span></sc-if>{{ n.assignee }}</span>
-                        <sc-if value="{{ n.prep }}" hint-placeholder-val=""><span style="margin-left:auto;font:600 9px 'Pliant Mono';letter-spacing:.06em;text-transform:uppercase;color:var(--accent-hover);">✦ prepared</span></sc-if>
-                      </div></sc-if>
                     </div>
                     <div style="position:relative;display:flex;flex-direction:column;align-items:center;">
                       <span style="width:2px;height:16px;background:linear-gradient(180deg, var(--border) 0%, var(--border-strong) 100%);border-radius:2px;"></span>
@@ -835,6 +826,42 @@
                   <span style="font:600 9px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-top:6px;">End</span>
                 </div>
               </sc-if>
+            </div>
+            </sc-if>
+            <sc-if value="{{ wbIsRuns }}" hint-placeholder-val="">
+            <div class="cx-scroll" style="position:absolute;inset:0;overflow:auto;background:var(--canvas);">
+              <div style="max-width:1080px;margin:0 auto;padding:26px 32px 80px;display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;"><span style="font:600 16px 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Runs</span><span style="font:400 12.5px 'Pliant',sans-serif;color:var(--text-muted);">{{ wbRunSub }}</span></div>
+                <sc-if value="{{ wbRunsEmpty }}" hint-placeholder-val="">
+                  <div style="border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:28px 24px;font:400 13px/1.55 'Pliant',sans-serif;color:var(--text-secondary);">No runs yet. Each run shows up here once the agent is on, with what every step did.</div>
+                </sc-if>
+                <sc-if value="{{ wbRunsAny }}" hint-placeholder-val="{{ true }}">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;align-items:start;">
+                  <div style="border:1px solid var(--border);background:var(--surface);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px -12px rgba(24,23,30,.18);">
+                    <sc-for list="{{ wbRunList }}" as="r" hint-placeholder-count="4">
+                      <button onClick="{{ r.pick }}" style="display:flex;flex-direction:column;gap:4px;width:100%;text-align:left;border:none;border-bottom:1px solid var(--border-soft);background:{{ r.bg }};cursor:pointer;padding:12px 14px;" style-hover="background:var(--surface-soft)">
+                        <span style="display:flex;align-items:center;gap:8px;min-width:0;"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.dotC }};flex:0 0 auto;"></span><span style="flex:1;min-width:0;font:500 13px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.title }}</span><span style="font:600 9.5px 'Pliant',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ r.statusC }};background:{{ r.statusB }};border-radius:5px;padding:3px 7px;flex:0 0 auto;">{{ r.status }}</span></span>
+                        <span style="display:flex;gap:10px;flex-wrap:wrap;padding-left:15px;font:400 11px 'Pliant Mono';color:var(--text-muted);"><span>{{ r.timestamp }}</span><span>{{ r.duration }}</span><span>{{ r.recordsProcessed }} records</span></span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <div style="border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:16px 18px;box-shadow:0 4px 16px -12px rgba(24,23,30,.18);display:flex;flex-direction:column;gap:12px;">
+                    <div style="display:flex;flex-direction:column;gap:4px;"><span style="font:600 15px/1.3 'Pliant',sans-serif;color:var(--text);">{{ wbRunSel.title }}</span><span style="font:400 11.5px 'Pliant Mono';color:var(--text-muted);">{{ wbRunSel.timestamp }} · {{ wbRunSel.duration }} · {{ wbRunSel.trigger }}</span></div>
+                    <div style="display:flex;flex-direction:column;">
+                      <sc-for list="{{ wbRunSteps }}" as="es" hint-placeholder-count="4">
+                        <div style="display:flex;gap:11px;padding:10px 0;border-top:1px solid var(--border-soft);">
+                          <span style="width:22px;height:22px;border-radius:50%;background:{{ es.b }};color:{{ es.c }};font:600 10.5px 'Pliant Mono';display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{{ es.num }}</span>
+                          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;">
+                            <span style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;min-width:0;"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);min-width:0;">{{ es.name }}</span><span style="font:400 11px 'Pliant Mono';color:var(--text-muted);">{{ es.dur }}</span><span style="flex:1 1 0;"></span><sc-if value="{{ es.onCanvas }}" hint-placeholder-val=""><button onClick="{{ es.show }}" style="flex:0 0 auto;border:none;background:transparent;cursor:pointer;padding:0;font:600 11px 'Pliant',sans-serif;color:var(--accent-hover);white-space:nowrap;" style-hover="text-decoration:underline">Show on canvas</button></sc-if></span>
+                            <span style="font:400 12px/1.5 'Pliant',sans-serif;color:{{ es.txt }};text-wrap:pretty;">{{ es.detail }}</span>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+                </sc-if>
+              </div>
             </div>
             </sc-if>
             <sc-if value="{{ wbIsText }}" hint-placeholder-val="">
@@ -871,11 +898,11 @@
               </div>
             </div>
             </sc-if>
-            <div style="position:absolute;right:14px;bottom:12px;display:flex;align-items:center;gap:2px;background:var(--surface);border-radius:10px;box-shadow:0 10px 26px -12px var(--border-strong);padding:3px;">
+            <sc-if value="{{ wbNotRuns }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;right:14px;bottom:12px;display:flex;align-items:center;gap:2px;background:var(--surface);border-radius:10px;box-shadow:0 10px 26px -12px var(--border-strong);padding:3px;">
               <button onClick="{{ wbZoomOut }}" title="Zoom out" style="width:26px;height:26px;border:none;background:transparent;cursor:pointer;border-radius:7px;color:var(--text-2);font:600 14px 'Pliant',sans-serif;" style-hover="background:var(--surface-soft)">−</button>
               <span style="font:500 10.5px 'Pliant Mono';color:var(--text-secondary);min-width:38px;text-align:center;">{{ wbZoomPct }}</span>
               <button onClick="{{ wbZoomIn }}" title="Zoom in" style="width:26px;height:26px;border:none;background:transparent;cursor:pointer;border-radius:7px;color:var(--text-2);font:600 14px 'Pliant',sans-serif;" style-hover="background:var(--surface-soft)">＋</button>
-            </div>
+            </div></sc-if>
           </div>
 
           <!-- right: step settings -->
@@ -932,15 +959,6 @@
                   </sc-if>
                   <sc-if value="{{ wbNotCampaign }}" hint-placeholder-val="{{ true }}">
                   <div><div style="font:600 11.5px 'Pliant',sans-serif;color:var(--text);margin-bottom:6px;">What this step does</div><textarea value="{{ wbSelNode.sub }}" onChange="{{ wbOnDesc }}" rows="3" style="box-sizing:border-box;width:100%;border:1px solid var(--border);border-radius:10px;padding:9px 11px;font:400 12px/1.55 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;resize:vertical;"></textarea></div>
-                  <div><div style="font:600 11.5px 'Pliant',sans-serif;color:var(--text);margin-bottom:7px;">Who runs it</div>
-                    <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                      <sc-for list="{{ wbAssigneeChips }}" as="ac"><button onClick="{{ ac.pick }}" style="border:none;background:{{ ac.bg }};color:{{ ac.col }};box-shadow:{{ ac.ring }};cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11px 'Pliant',sans-serif;">{{ ac.a }}</button></sc-for>
-                    </div>
-                  </div>
-                  <div style="display:flex;align-items:flex-start;gap:10px;background:var(--surface-soft);border-radius:12px;padding:12px 13px;">
-                    <div style="flex:1;min-width:0;"><div style="font:600 12px 'Pliant',sans-serif;color:var(--text);">{{ agentName }} prepares this step</div><div style="font:400 11px/1.5 'Pliant',sans-serif;color:var(--text-secondary);margin-top:2px;">Drafts and fields are filled before the assignee sees it.</div></div>
-                    <button onClick="{{ wbPrepToggle }}" style="border:none;background:transparent;cursor:pointer;padding:0;flex:0 0 auto;margin-top:2px;"><span style="display:block;width:38px;height:22px;border-radius:22px;background:{{ wbPrepTrack }};position:relative;"><span style="position:absolute;top:2px;left:{{ wbPrepKnob }};width:18px;height:18px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s;"></span></span></button>
-                  </div>
                   </sc-if>
                 </div>
                 <sc-if value="{{ wbSelIsMsg }}" hint-placeholder-val="">
@@ -17726,8 +17744,8 @@ class Component extends DCLogic {
           ids = ids.filter((v, i, a) => a.indexOf(v) === i && !AD[v]); if (!ids.length) return 'Nothing matching is waiting.'; const d = { ...AD }; ids.forEach(i => { d[i] = 'ok'; }); self.setState({ pdApprDone: d, pdTab: 'review', pdOpen: false }); return 'Approved ' + ids.length + ' item' + (ids.length === 1 ? '' : 's') + '. They send in the next window. Review tab is open.'; } },
       { name: 'create_segment', description: 'Start a new segment in the builder from a plain-English rule.', input_schema: { type: 'object', properties: { rule: { type: 'string' } }, required: ['rule'] },
         run: async ({ rule }) => { self.setState({ view: 'segments', segCreateOpen: true, segSel: null, segCMode: 'dynamic', segCModeSet: true, segCEntity: 'contacts', goalText: rule, pdOpen: false }); return 'Opened the segment builder with the rule \u201c' + rule + '\u201d. Kartikay reviews and saves it there.'; } },
-      { name: 'build_agent', description: 'Open the agent builder. Give a template key to start from one, or none for a blank text view.', input_schema: { type: 'object', properties: { template: { type: 'string', enum: ['pricing', 'committee', 'visitors', 'closedlost', 'blank'] } }, required: ['template'] },
-        run: async ({ template }) => { if (template === 'blank') { self.setState({ view: 'workflow', wbView: 'text', wbTextDirty: false, wbTextStatus: null, wbNodes: [], wbSel: null, wbIns: null, wbPub: false, wbMode: 'manual', wbTitle: 'Untitled agent', wbCampaign: false, pdOpen: false }); return 'Opened a blank agent in the text view.'; } self.runGoal(template); return 'Opened the ' + template + ' template in the agent builder.'; } },
+      { name: 'build_agent', description: 'Open the agent builder. Give a template key to start from one, or none for a blank canvas.', input_schema: { type: 'object', properties: { template: { type: 'string', enum: ['pricing', 'committee', 'visitors', 'closedlost', 'blank'] } }, required: ['template'] },
+        run: async ({ template }) => { if (template === 'blank') { self.setState({ view: 'workflow', wbView: 'canvas', wbTextDirty: false, wbTextStatus: null, wbNodes: [], wbSel: null, wbIns: null, wbPub: false, wbMode: 'manual', wbTitle: 'Untitled agent', wbCampaign: false, pdOpen: false }); return 'Opened a blank agent in the text view.'; } self.runGoal(template); return 'Opened the ' + template + ' template in the agent builder.'; } },
       { name: 'create_skill', description: 'Start the guided skill-creation flow.', input_schema: { type: 'object', properties: {} },
         run: async () => { setTimeout(() => self._skillWizardStart(), 50); return 'Started the skill questions.'; } },
       { name: 'dashboard', description: 'Change the dashboard: add, hide or reset a tile.', input_schema: { type: 'object', properties: { instruction: { type: 'string' } }, required: ['instruction'] },
@@ -18012,6 +18030,32 @@ class Component extends DCLogic {
       const st0 = (s.stats || [])[0]; out.push({ id: 'lv' + key + i, key: k, name: s.title || 'Step', sub: '', assignee: 'Savant', wait: !out.length ? 'Same day' : gap <= 0 ? 'Same day' : gap === 1 ? '1 day' : gap >= 5 ? '5 days' : gap + ' days', liveStat: st0 ? (st0.l + ' ' + st0.v + (s.hasReply ? ' \u00b7 ' + s.replyPct + ' replied' : '')) : '' }); });
     return out;
   }
+  _runsRaw(title) { const T = (d) => title || d; return [
+      { id:'run-001', wf:'pricing', title:'18 pricing-intent accounts added to campaign', status:'Success', timestamp:'Jun 29, 2026 \u00b7 10:56am', duration:'42s', stepsRan:4, recordsProcessed:312, trigger:'Account changed \u00b7 website visit', agent:T('Pricing-intent \u2192 outreach'),
+        execSteps:[{name:'Account criteria',status:'success',dur:'9s',detail:'31 accounts visited /pricing. 18 kept: ICP fit \u2265 80 with an active signal, not in CRM.',records:18},{name:'Find contacts',status:'success',dur:'12s',detail:'2 per account: economic buyer and champion. 36 found, 7 more from saved contacts.',records:43},{name:'Enrich contact',status:'success',dur:'11s',detail:'Verified email for 38 of 43, phone for 29.',records:43},{name:'Add to campaign',status:'success',dur:'10s',detail:'38 added to Pricing-intent fast follow. 5 skipped: no verified email.',records:38}],
+        output:{accountsKept:18,contactsFound:43,verifiedEmails:38,addedToCampaign:38} },
+      { id:'run-002', wf:'committee', title:'12 contacts found across 3 top opportunities', status:'Success', timestamp:'Jun 29, 2026 \u00b7 9:48am', duration:'1m 18s', stepsRan:4, recordsProcessed:60, trigger:'Account changed \u00b7 added to list', agent:T('Top-opportunity contacts'),
+        execSteps:[{name:'Look up',status:'success',dur:'21s',detail:'Headcount by department and recent hires for 3 accounts.',records:3},{name:'Find contacts',status:'success',dur:'34s',detail:'Up to 5 per account: buyer, champion, finance, IT, procurement. 12 found.',records:12},{name:'Enrich contact',status:'success',dur:'15s',detail:'Verified email for 11 of 12, phone for 8.',records:12},{name:'Post to Slack',status:'success',dur:'2s',detail:'Posted the 12 names to #deal-desk with account owners tagged.',records:1}],
+        output:{accounts:3,contactsFound:12,verifiedEmails:11,slackPosts:1} },
+      { id:'run-003', wf:'visitors', title:'Held. Campaign daily cap reached (120)', status:'Warning', timestamp:'Jun 29, 2026 \u00b7 8:00am', duration:'6s', stepsRan:2, recordsProcessed:23, trigger:'Schedule \u00b7 daily 8:00am', agent:T('Weekly visitor accounts'),
+        execSteps:[{name:'Account criteria',status:'success',dur:'2s',detail:'23 accounts matched since the last run.',records:23},{name:'Add to campaign',status:'warning',dur:'4s',detail:'The campaign already started 120 contacts today. 23 held and added tomorrow at 8:00am.',records:0}],
+        output:{held:23,reason:'Campaign daily cap (120)',resumeAt:'Tomorrow 8:00am'} },
+      { id:'run-004', wf:'pricing', title:'41 pricing-intent accounts added to campaign', status:'Success', timestamp:'Jun 28, 2026 \u00b7 3:22pm', duration:'2m 4s', stepsRan:4, recordsProcessed:156, trigger:'Account changed \u00b7 website visit', agent:T('Pricing-intent \u2192 outreach'),
+        execSteps:[{name:'Account criteria',status:'success',dur:'18s',detail:'53 accounts visited /pricing. 41 kept. 12 already in pipeline.',records:41},{name:'Find contacts',status:'success',dur:'40s',detail:'98 contacts across 41 accounts.',records:98},{name:'Enrich contact',status:'success',dur:'22s',detail:'Verified email for 91 of 98.',records:98},{name:'Add to campaign',status:'success',dur:'26s',detail:'91 added to Pricing-intent fast follow.',records:91}],
+        output:{accountsKept:41,contactsFound:98,verifiedEmails:91,addedToCampaign:91} },
+      { id:'run-005', wf:'events', title:'Saved 64 contacts from the events sheet', status:'Success', timestamp:'Jun 28, 2026 \u00b7 2:15pm', duration:'18s', stepsRan:3, recordsProcessed:64, trigger:'Google Sheet row added', agent:T('Event attendees \u2192 Prospects'),
+        execSteps:[{name:'Save contact',status:'success',dur:'8s',detail:'64 rows mapped and saved to Prospects. 9 existing contacts refreshed.',records:64},{name:'Add to list',status:'success',dur:'3s',detail:'Added to the list \u201cSaaStr 2026 attendees\u201d.',records:64},{name:'Assign owner',status:'success',dur:'7s',detail:'Round-robin across 4 SDRs: 16 each.',records:64}],
+        output:{saved:64,refreshed:9,list:'SaaStr 2026 attendees',owners:4} },
+      { id:'run-006', wf:'visitors', title:'Enriched 23 new contacts from visitor accounts', status:'Success', timestamp:'Jun 28, 2026 \u00b7 11:30am', duration:'34s', stepsRan:3, recordsProcessed:23, trigger:'Contact added \u00b7 visitor account revealed', agent:T('Weekly visitor accounts'),
+        execSteps:[{name:'Contact criteria',status:'success',dur:'2s',detail:'23 of 31 new contacts are Manager or above in RevOps, Sales or Finance.',records:23},{name:'Enrich contact',status:'success',dur:'26s',detail:'Verified email for 21 of 23, phone for 16.',records:23},{name:'Add to list',status:'success',dur:'6s',detail:'Added to \u201cVisitor accounts \u00b7 this week\u201d.',records:23}],
+        output:{kept:23,verifiedEmails:21,phones:16} },
+      { id:'run-007', wf:'events', title:'Failed. HTTP request timed out', status:'Error', timestamp:'Jun 28, 2026 \u00b7 9:00am', duration:'31s', stepsRan:2, recordsProcessed:0, trigger:'Webhook', agent:T('Event attendees \u2192 Prospects'),
+        execSteps:[{name:'Look up',status:'success',dur:'3s',detail:'Matched 42 attendee domains to accounts.',records:42},{name:'HTTP request',status:'error',dur:'28s',detail:'The event platform API returned 504 after 20s. Retried twice. The 42 records wait for the next run.',records:0}],
+        output:{error:'HTTP 504 from event platform',retries:2,waiting:42} },
+      { id:'run-008', wf:'closedlost', title:'Discovered 25 ICP accounts and saved them', status:'Success', timestamp:'Jun 27, 2026 \u00b7 8:00am', duration:'56s', stepsRan:3, recordsProcessed:89, trigger:'Schedule \u00b7 daily 8:00am', agent:T('New ICP accounts'),
+        execSteps:[{name:'Discover accounts',status:'success',dur:'24s',detail:'89 accounts match the ICP \u201cMid-market fintech, US\u201d.',records:89},{name:'Account criteria',status:'success',dur:'14s',detail:'25 kept: 200\u20132,000 employees, not in CRM, no open opportunity.',records:25},{name:'Save account',status:'success',dur:'18s',detail:'25 saved to Prospects in the list \u201cNew ICP \u00b7 June\u201d.',records:25}],
+        output:{discovered:89,kept:25,saved:25} },
+    ]; }
   _openCampFlow(key, name, status, listKey) {
     const NM = { pricing: 'Pricing-intent \u00b7 fast follow', winback: 'Closed-lost win-back', committee: 'Buying committee \u00b7 multi-thread', event: 'Event follow-up' };
     const saved = (this.state.cpFlows || {})[key]; const isNew = String(key).indexOf('custom-') === 0;
@@ -18153,7 +18197,7 @@ class Component extends DCLogic {
       pricing:{ title:'Pricing-intent accounts \u2192 outreach', steps:[
         step(1,'Capture','Website Visitors','Visitors who viewed /pricing in the last 7 days, de-anonymized to account + contact.','lead'),
         step(2,'Qualify','Segments','Keep ICP fit \u2265 80 with an active buying-intent signal; dedupe against CRM.','intel'),
-        step(3,'Qualify','Buyer Committee','Resolve the economic buyer + champion from the org chart.','intel'),
+        step(3,'Qualify','Find contacts','Two contacts per account: the economic buyer and a champion, verified emails.','intel'),
         step(4,'Engage','Sequence','Multi-channel sequence. LinkedIn + email, 4 touches, personalized per signal.','shared'),
         step(5,'Automate',agentName,'Run daily at 8am, notify on reply, sync outcomes to CRM.','agent',true)],
         outcome:[{v:'128',l:'accounts captured'},{v:'41',l:'qualified \u00b7 ICP \u2265 80'},{v:'41',l:'entering outreach'}] },
@@ -18164,8 +18208,8 @@ class Component extends DCLogic {
         outcome:[{v:'312',l:'visitors identified'},{v:'64',l:'ICP-qualified'},{v:'52',l:'warm paths found'}] },
       committee:{ title:'Buyer committees for top opportunities', steps:[
         step(1,'Qualify','Opportunities','Top 25 open opportunities by value and stage.','shared'),
-        step(2,'Qualify','Org Chart','Map reporting lines and sub-team sizes for each account.','intel'),
-        step(3,'Qualify','Buyer Committee','Assemble the 5-role committee. Buyer, champion, blockers.','intel'),
+        step(2,'Qualify','Look up','Pull headcount by department and recent hires for each account.','intel'),
+        step(3,'Qualify','Find contacts','Up to five per account: buyer, champion, finance, IT, procurement.','intel'),
         step(4,'Engage','Sequence','Role-specific sequence for each committee member.','shared'),
         step(5,'Automate',agentName,'Re-run on every opportunity stage change.','agent',true)],
         outcome:[{v:'25',l:'opportunities'},{v:'118',l:'committee contacts'},{v:'25',l:'sequences live'}] },
@@ -18203,7 +18247,7 @@ class Component extends DCLogic {
         segment:['Segment filter','Qualify against a living segment','var(--accent-hover)','var(--accent-soft)','M12 2l9 5-9 5-9-5 9-5zM3 12l9 5 9-5M3 17l9 5 9-5'],
         discover:['Discover search','Pull matches from Global Search','var(--accent-hover)','var(--accent-soft)','M10.5 3.7a6.8 6.8 0 110 13.6 6.8 6.8 0 010-13.6zM15.6 15.6L21 21'],
         crm:['CRM import','Bring accounts in from Salesforce','var(--text-secondary)','var(--surface-soft)','M21 12a9 9 0 11-3-6.7M21 4v4h-4'],
-        enrich:['Enrich contacts','Verified emails and phones on every contact','var(--warning)','var(--warning-soft)','M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z'],
+        enrich:['Enrich contact','Email, phone or both \u00b7 re-enrich when already present','var(--warning)','var(--warning-soft)','M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z'],
         committee:['Buyer committee','Resolve roles from the org chart','var(--accent)','var(--accent-soft)','M16 19v-1.5a3.5 3.5 0 00-3.5-3.5h-5A3.5 3.5 0 004 17.5V19M10 4.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7zM20 19v-1.5a3.5 3.5 0 00-2.6-3.4'],
         deepintel:['Deep intelligence','Account brief plus a drafted first touch','var(--accent-hover)','var(--accent-soft)','M13 2L3 14h7l-1 8 10-12h-7l1-8z'],
         signal:['Signal check','Gate on a live buying signal','var(--warning)','var(--warning-soft)','M12 12h.01M8.5 8.5a5 5 0 000 7M15.5 8.5a5 5 0 010 7M5.6 5.6a9 9 0 000 12.8M18.4 5.6a9 9 0 010 12.8'],
@@ -18214,8 +18258,35 @@ class Component extends DCLogic {
         approval:['Approval','Human sign-off before anything sends','var(--negative)','var(--negative-soft)','M16 11l2 2 4-4M12 14a4 4 0 100-8 4 4 0 000 8zM4 21v-1a6 6 0 0110-4.5'],
         decision:['Decision','Branch on a condition','var(--warning)','var(--warning-soft)','M6 3v9a4 4 0 004 4h8M14 12l4 4-4 4'],
         prompt:['AI custom prompt','Savant runs your instruction on each record','var(--accent-hover)','var(--accent-soft)','M12 3l1.9 4.7L19 9l-4.1 3 1.2 5L12 15l-4.1 2 1.2-5L5 9l5.1-1.3z'],
-        notify:['Notify','Slack or email the owner','var(--text-secondary)','var(--surface-soft)','M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0'],
+        notify:['Post to Slack','Channel + message with record fields','var(--text-secondary)','var(--surface-soft)','M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0'],
       };
+      { const P = { search:'M10.5 3.7a6.8 6.8 0 110 13.6 6.8 6.8 0 010-13.6zM15.6 15.6L21 21', people:'M16 19v-1.5a3.5 3.5 0 00-3.5-3.5h-5A3.5 3.5 0 004 17.5V19M10 4.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7zM20 19v-1.5a3.5 3.5 0 00-2.6-3.4', save:'M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2zM17 21v-8H7v8M7 3v5h8', list:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01', user:'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8', filt:'M22 3H2l8 9.5V19l4 2v-8.5L22 3z', branch:'M6 3v9a4 4 0 004 4h8M14 12l4 4-4 4', loop:'M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3', merge:'M6 3v6a6 6 0 006 6h0a6 6 0 006-6V3M12 15v6', send:'M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', sheet:'M4 3h16v18H4zM4 9h16M4 15h16M10 3v18', http:'M4 17l6-6-6-6M12 19h8', key:'M21 2l-2 2m-7.6 7.6a5.5 5.5 0 11-7.8 7.8 5.5 5.5 0 017.8-7.8zM15.5 7.5l3 3L22 7l-3-3', note:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M8 13h8M8 17h5', spark:'M12 3l1.9 4.7L19 9l-4.1 3 1.2 5L12 15l-4.1 2 1.2-5L5 9l5.1-1.3z' };
+        const A = ['var(--accent)','var(--accent-soft)'], H = ['var(--accent-hover)','var(--accent-soft)'], W = ['var(--warning)','var(--warning-soft)'], N = ['var(--text-secondary)','var(--surface-soft)'];
+        Object.assign(I, {
+          discover:['Discover accounts','Accounts that match a saved ICP \u00b7 set how many',H[0],H[1],P.search],
+          source:['Find contacts','Per account \u00b7 persona, title, department, seniority, location',A[0],A[1],P.people],
+          lookup:['Look up','Pull firmographics, tech and career history for a domain or person',A[0],A[1],P.search],
+          saveacct:['Save account','Map fields and save to Prospects \u00b7 optional list',A[0],A[1],P.save],
+          savecon:['Save contact','Map fields and save to Prospects \u00b7 refresh if it exists',A[0],A[1],P.save],
+          addlist:['Add to list','Pick a list or create one',A[0],A[1],P.list],
+          owner:['Assign owner','One person, or round-robin across several',A[0],A[1],P.user],
+          acrit:['Account criteria','Keep accounts that match these filters',W[0],W[1],P.filt],
+          ccrit:['Contact criteria','Keep contacts that match these filters',W[0],W[1],P.filt],
+          decision:['If / else','Branch on any field from earlier steps',W[0],W[1],P.branch],
+          switchN:['Switch','Several paths on one field, plus a default',W[0],W[1],P.branch],
+          filter:['Filter','Records that fail the condition stop here',W[0],W[1],P.filt],
+          loop:['For each','Run the next steps once per item in a list',N[0],N[1],P.loop],
+          merge:['Merge','Join branches back into one path',N[0],N[1],P.merge],
+          wait:['Wait','Minutes, hours or days before the next step',N[0],N[1],'M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2'],
+          approval:['Approval','Approvers \u00b7 app, email or Slack \u00b7 timeout approves or rejects','var(--negative)','var(--negative-soft)','M16 11l2 2 4-4M12 14a4 4 0 100-8 4 4 0 000 8zM4 21v-1a6 6 0 0110-4.5'],
+          addcamp:['Add to campaign','Campaign \u00b7 verified emails only \u00b7 skip, move or ask if already in one',H[0],H[1],P.send],
+          genmsg:['Generate personalized message','Email, LinkedIn follow-ups or a call script \u00b7 sender, prompt, context',H[0],H[1],P.spark],
+          sheet:['Update Google Sheet','Write a row to a connected sheet',N[0],N[1],P.sheet],
+          http:['HTTP request','Call any API \u00b7 method, auth, headers, body, pagination',N[0],N[1],P.http],
+          prompt:['AI step','Plain-English instruction \u00b7 web search, context, output format, model',H[0],H[1],P.spark],
+          openai:['OpenAI \u00b7 your key','Your OpenAI credential, model and prompt',N[0],N[1],P.key],
+          anthropic:['Anthropic \u00b7 your key','Your Anthropic credential, model and prompt',N[0],N[1],P.key],
+          note:['Note','Markdown note on the canvas \u00b7 not a step',N[0],N[1],P.note] }); }
       const isCamp = !!this.state.wbCampaign;
       if (isCamp) Object.assign(I, {
         email:['Email','HTML email · subject, A/B variant, opens + clicks tracked','var(--accent-hover)','var(--accent-soft)','M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1zM3 7l9 6 9-6'],
@@ -18235,9 +18306,9 @@ class Component extends DCLogic {
         prompt:['Savant instruction','Run an instruction on each contact before the step','var(--accent-hover)','var(--accent-soft)','M12 3l1.9 4.7L19 9l-4.1 3 1.2 5L12 15l-4.1 2 1.2-5L5 9l5.1-1.3z'] });
       const GROUPS = isCamp
         ? [ ['Outreach',['email','connect','limsg','inmail','call','sms','whatsapp','task']], ['Branch',['condOpen','condClick','condAccept']], ['AI',['prompt']] ]
-        : [ ['Audience',['visitors','segment','discover','crm']], ['Intelligence',['enrich','committee','deepintel','signal']], ['Engage',['sequence','email','linkedin','wait']], ['Control & AI',['approval','decision','prompt','notify']] ];
-      const MODMAP = { 'Website Visitors':'visitors', 'Segments':'segment', 'Buyer Committee':'committee', 'Sequence':'sequence', 'Enrichment':'enrich', 'Deep Intelligence':'deepintel', 'Email step':'email', 'LinkedIn step':'linkedin', 'Wait':'wait', 'Approval':'approval', 'Decision':'decision', 'Notify':'notify' };
-      const nodes = this.state.wbNodes || (isCamp ? [] : wf.steps.map((st,i) => { const key = MODMAP[st.module]||'prompt'; return { id:'s'+i, key, name: MODMAP[st.module]?st.module:(st.module+' automation'), sub: st.summary, assignee: key==='approval'?'You':'Savant', prep: key==='sequence' }; }));
+        : [ ['Find',['discover','source','lookup']], ['Enrich & save',['enrich','saveacct','savecon','addlist','owner']], ['Route',['acrit','ccrit','decision','switchN','filter','loop','merge','wait','approval']], ['Campaign',['addcamp','genmsg']], ['Act',['notify','sheet','http']], ['AI',['prompt','openai','anthropic']], ['Canvas',['note']] ];
+      const MODMAP = { 'Website Visitors':'acrit', 'Segments':'acrit', 'Opportunities':'acrit', 'Buyer Committee':'source', 'Find contacts':'source', 'Look up':'lookup', 'Database Search':'lookup', 'Network Path Finder':'lookup', 'Add to campaign':'addcamp', 'Sequence':'addcamp', 'Email step':'addcamp', 'LinkedIn step':'addcamp', 'Enrichment':'enrich', 'Deep Intelligence':'prompt', 'Wait':'wait', 'Approval':'approval', 'Decision':'decision', 'Notify':'notify' };
+      const nodes = this.state.wbNodes || (isCamp ? [] : wf.steps.filter(st => MODMAP[st.module]).map((st,i) => { const key = MODMAP[st.module]; return { id:'s'+i, key, name: I[key][0], sub: st.summary, assignee: key==='approval'?'You':'Savant', prep: false }; }).filter((n,i,arr) => !(n.key === 'addcamp' && i > 0 && arr[i-1].key === 'addcamp')));
       const selId = this.state.wbSel;
       const selNode = selId && selId!=='trigger' ? nodes.find(n=>n.id===selId) : null;
       const q = (this.state.wbLibQ||'').toLowerCase();
@@ -18267,8 +18338,8 @@ class Component extends DCLogic {
       const selEn = selNode ? { ...selNode, c:(I[selNode.key]||I.prompt)[2], b:(I[selNode.key]||I.prompt)[3], p:(I[selNode.key]||I.prompt)[4] } : {};
       // ── text view · one grammar, same nodes ──
       const wfKeyNow = this.state.wfKey || 'pricing'; const viewPref = (this.state.wbViewPref || {})[wfKeyNow];
-      const view = this.state.wbView || viewPref || 'canvas'; const isText = view === 'text';
-      const serialize = (list) => list.map((n, i) => (i + 1) + '. ' + n.name + ' \u2014 ' + (n.sub || '') + '  @' + (n.assignee || 'Savant')).join('\n');
+      const view = (this.state.wbView === 'runs' && isCamp) ? 'canvas' : (this.state.wbView || 'canvas'); const isText = view === 'text'; const isRuns = view === 'runs';
+      const serialize = (list) => list.map((n, i) => (i + 1) + '. ' + n.name + ' \u2014 ' + (n.sub || '')).join('\n');
       const byName = {}; Object.keys(I).forEach(k => { byName[I[k][0].toLowerCase()] = k; }); Object.keys(MODMAP).forEach(nm => { if (I[MODMAP[nm]]) byName[nm.toLowerCase()] = MODMAP[nm]; }); nodes.forEach(n => { if (n.name && I[n.key]) byName[n.name.toLowerCase()] = n.key; });
       const parse = (txt) => { const out = []; const unknown = []; String(txt || '').split('\n').forEach((raw) => { const line = raw.trim(); if (!line) return;
           const mm = line.match(/^(?:\d+[.)]\s*)?(.+?)(?:\s+[\u2014\u2013-]+\s+(.*?))?(?:\s+@([A-Za-z][\w ]*?))?\s*$/); if (!mm) return;
@@ -18279,7 +18350,7 @@ class Component extends DCLogic {
         return { list: out, unknown }; };
       // ── the agent as a document: frontmatter, guards, steps, tools with their allow rung, skills ──
       const spec = (this.state.wbSpec || {})[wfKeyNow] || {};
-      const hasMsg = (list) => list.some(n => ['email', 'linkedin', 'sequence', 'inmail', 'connect', 'limsg', 'deepintel'].includes(n.key));
+      const hasMsg = (list) => list.some(n => ['email', 'linkedin', 'sequence', 'inmail', 'connect', 'limsg', 'genmsg'].includes(n.key));
       const GUARD_DEF = { pricing: ['The account is already in a running campaign.', 'The contact replied in the last 30 days.'], committee: ['The opportunity is closed or stalled for 60 days.'], visitors: ['The visit came from an existing customer domain.'], closedlost: ['The deal was lost on price less than 90 days ago.'] };
       const toolsFor = (list) => { const t = []; const has = (k) => list.some(n => n.key === k);
         if (has('visitors')) t.push(['Website Visitors \u00b7 read', 'always allow']); if (has('segment') || has('crm') || has('committee')) t.push(['Salesforce \u00b7 read', 'always allow']); if (has('crm')) t.push(['Salesforce \u00b7 write', 'ask each time']);
@@ -18330,7 +18401,15 @@ class Component extends DCLogic {
       const vc = vt(!isText), vtx = vt(isText);
       const st = this.state.wbTextStatus;
       return {
-        wbIsCanvas: !isText, wbIsText: isText, wbViewCanvas: () => { if (isText) applyText(); setView('canvas'); }, wbViewText: () => setView('text'),
+        wbIsCanvas: !isText && !isRuns, wbIsText: isText, wbIsRuns: isRuns, wbNotRuns: !isRuns, wbViewCanvas: () => { if (isText) applyText(); setView('canvas'); }, wbViewText: () => setView('text'), wbViewRuns: () => { if (isText) applyText(); setView('runs'); },
+        wbVRFont: vt(isRuns).f, wbVRCol: vt(isRuns).c, wbVRBg: vt(isRuns).b,
+        ...(() => { const ST = { Success:['var(--accent-hover)','var(--accent-soft)','var(--accent)'], Warning:['var(--warning)','var(--warning-soft)','var(--warning)'], Error:['var(--negative)','var(--negative-soft)','var(--negative)'] };
+          const all = self._runsRaw(this.state.wbTitle || wf.title); const mine = all.filter(r => r.wf === wfKeyNow); const list = pub || mine.length ? (mine.length ? mine : []) : [];
+          const selR = list.find(r => r.id === this.state.wbRunSel) || list[0] || null;
+          const ESC = { success:['var(--accent-hover)','var(--accent-soft)','var(--text-2)'], warning:['var(--warning)','var(--warning-soft)','var(--warning)'], error:['var(--negative)','var(--negative-soft)','var(--negative)'] };
+          return { wbRunN: String(list.length), wbRunsEmpty: list.length === 0, wbRunsAny: list.length > 0, wbRunSub: list.length ? list.length + ' recent runs \u00b7 newest first' : 'This agent hasn\u2019t run yet',
+            wbRunList: list.map(r => { const s = ST[r.status] || ST.Success; return { ...r, statusC: s[0], statusB: s[1], dotC: s[2], bg: selR && selR.id === r.id ? 'var(--accent-soft)' : 'var(--surface)', pick: () => self.setState({ wbRunSel: r.id }) }; }),
+            wbRunSel: selR || {}, wbRunSteps: selR ? selR.execSteps.map((es, k) => { const c = ESC[es.status] || ESC.success; const kOf = Object.keys(I).find(k => I[k][0].replace(/s$/, '') === es.name.replace(/s$/, '')); const nd = nodes.find(n => n.name === es.name) || (kOf ? nodes.find(n => n.key === kOf) : null); return { ...es, num: String(k + 1), c: c[0], b: c[1], txt: c[2], onCanvas: !!nd, show: () => self.setState({ wbView: 'canvas', wbSel: nd ? nd.id : null }) }; }) : [] }; })(),
         wbVCFont: vc.f, wbVCCol: vc.c, wbVCBg: vc.b, wbVTFont: vtx.f, wbVTCol: vtx.c, wbVTBg: vtx.b,
         wbViewTip: 'Same agent, two views \u00b7 canvas edits ' + (stats.canvasEdits || 0) + ' \u00b7 text edits ' + (stats.textEdits || 0) + ' \u00b7 switches ' + (stats.switches || 0),
         wbText: serializeSpec(nodes), wbTextRef: (el) => { self._wbTextEl = el; },
@@ -18379,7 +18458,7 @@ class Component extends DCLogic {
         wbPanelOn: !!selNode || selId==='trigger' || (isCamp && selId==='start'), wbSelOn: !!selNode, wbSelTrig: selId==='trigger', wbSelNode: selEn,
         wbSelTrigPick: () => self.setState({ wbSel: selId==='trigger'?null:'trigger', wbIns:null }),
         wbTrigLbl: trigLbl,
-        wbTrigOpts: ['Manual start','Daily \u00b7 8:00am','On segment entry'].map(o => ({ o, on:o===trigLbl, bg:o===trigLbl?'var(--accent-soft)':'#fff', col:o===trigLbl?'var(--accent-hover)':'var(--text-2)', ring:o===trigLbl?'inset 0 0 0 1.5px var(--accent)':'inset 0 0 0 1px var(--border)', pick: ()=>{ self.setState({ wbTrig:o }); self.toast('Trigger set: '+o+'.'); } })),
+        wbTrigOpts: ['Manual start','Schedule \u00b7 daily 8:00am','Webhook','Google Sheet row added','Account added','Account changed','Contact added','Contact changed','Campaign reply'].map(o => ({ o, on:o===trigLbl, bg:o===trigLbl?'var(--accent-soft)':'#fff', col:o===trigLbl?'var(--accent-hover)':'var(--text-2)', ring:o===trigLbl?'inset 0 0 0 1.5px var(--accent)':'inset 0 0 0 1px var(--border)', pick: ()=>{ self.setState({ wbTrig:o }); self.toast('Trigger set: '+o+'.'); } })),
         wbOnName: (e)=>upd({ name:e.target.value }), wbOnDesc: (e)=>upd({ sub:e.target.value }),
         wbAssigneeChips: ['Savant','You','SDR pod','Unassigned'].map(a => ({ a, on: selNode&&selNode.assignee===a, bg: selNode&&selNode.assignee===a?'var(--accent-soft)':'#fff', col: selNode&&selNode.assignee===a?'var(--accent-hover)':'var(--text-2)', ring: selNode&&selNode.assignee===a?'inset 0 0 0 1.5px var(--accent)':'inset 0 0 0 1px var(--border)', pick: ()=>upd({ assignee:a }) })),
         wbPrepOn: !!(selNode&&selNode.prep), wbPrepTrack: (selNode&&selNode.prep)?'var(--accent)':'var(--border-strong)', wbPrepKnob: (selNode&&selNode.prep)?'18px':'2px', wbPrepToggle: ()=>upd({ prep: !(selNode&&selNode.prep) }),
@@ -20363,32 +20442,7 @@ class Component extends DCLogic {
 
     // ── Full Activity Log ──
     const _actLogSel = this.state.activityLogSel;
-    const fullActivityLog = [
-      { id:'run-001', title:'Found 18 new pricing-intent accounts', status:'Success', timestamp:'Jun 29, 2026 · 10:56am', duration:'42s', stepsRan:5, recordsProcessed:312, trigger:'Visitor hits /pricing', agent: agentSelData?.title || 'Pricing-intent → outreach',
-        execSteps:[{name:'Detect pricing visitors',status:'success',dur:'3s',detail:'Scanned 1,204 sessions from last 15 min. Matched 47 to known domains.',records:47},{name:'De-anonymize accounts',status:'success',dur:'8s',detail:'Resolved 47 sessions → 31 unique accounts via reverse-IP lookup.',records:31},{name:'Score ICP fit',status:'success',dur:'12s',detail:'Scored 31 accounts. 18 passed ICP threshold (≥ 80). Top: Philips (92), Razorpay (90), HighRadius (88).',records:18},{name:'Enrich contacts',status:'success',dur:'11s',detail:'Found 43 contacts across 18 accounts. 38 with verified email, 29 with phone.',records:43},{name:'Launch outreach sequence',status:'success',dur:'8s',detail:'Enrolled 18 primary contacts into "Pricing-intent warm" sequence. 25 secondary contacts queued for Day 3.',records:18}],
-        output:{accountsFound:18,contactsEnriched:43,sequencesLaunched:18,crmSynced:true} },
-      { id:'run-002', title:'Resolved 12 buyer committees from org charts', status:'Success', timestamp:'Jun 29, 2026 · 9:48am', duration:'1m 18s', stepsRan:4, recordsProcessed:60, trigger:'Opportunity reaches Proposal', agent: agentSelData?.title || 'Buyer committees for top opportunities',
-        execSteps:[{name:'Detect stage change',status:'success',dur:'1s',detail:'3 opportunities moved to Proposal stage since last run.',records:3},{name:'Map org chart',status:'success',dur:'34s',detail:'Resolved organizational structure for 3 accounts from LinkedIn + web data.',records:3},{name:'Identify key roles',status:'success',dur:'28s',detail:'Mapped 12 committee members across 3 deals: 3 economic buyers, 3 champions, 4 decision makers, 2 blockers.',records:12},{name:'Enrich contacts',status:'success',dur:'15s',detail:'Found verified email for 11/12 contacts. Phone for 8/12. LinkedIn for 12/12.',records:12}],
-        output:{committeesFound:3,rolesResolved:12,contactsEnriched:11,crmSynced:true} },
-      { id:'run-003', title:'Paused. Daily send cap reached (120)', status:'Warning', timestamp:'Jun 29, 2026 · 7:12am', duration:'6s', stepsRan:2, recordsProcessed:0, trigger:'Daily 8:00am schedule', agent: agentSelData?.title || 'De-anonymize visitors',
-        execSteps:[{name:'Schedule trigger',status:'success',dur:'1s',detail:'Daily run initiated at 8:00am as scheduled.',records:0},{name:'Check guardrails',status:'warning',dur:'5s',detail:'Daily send cap already reached (120/120). 23 qualified contacts queued. Will resume tomorrow at 8:00am.',records:0}],
-        output:{paused:true,reason:'Daily send cap (120) reached',queued:23,resumeAt:'Tomorrow 8:00am'} },
-      { id:'run-004', title:'Launched outreach to 41 qualified accounts', status:'Success', timestamp:'Jun 28, 2026 · 3:22pm', duration:'2m 4s', stepsRan:5, recordsProcessed:156, trigger:'Visitor hits /pricing', agent: agentSelData?.title || 'Pricing-intent → outreach',
-        execSteps:[{name:'Detect pricing visitors',status:'success',dur:'4s',detail:'Scanned 2,847 sessions from last 6h. Matched 89 to known domains.',records:89},{name:'De-anonymize accounts',status:'success',dur:'14s',detail:'Resolved 89 sessions → 53 unique accounts. 12 already in pipeline.',records:53},{name:'Score ICP fit',status:'success',dur:'18s',detail:'Scored 53 accounts. 41 passed ICP threshold. Average fit: 84.',records:41},{name:'Enrich contacts',status:'success',dur:'22s',detail:'Found 98 contacts across 41 accounts. 91 with verified email.',records:98},{name:'Launch outreach sequence',status:'success',dur:'26s',detail:'Enrolled 41 primary contacts. 57 secondary queued for multi-thread follow-up on Day 3.',records:41}],
-        output:{accountsFound:41,contactsEnriched:98,sequencesLaunched:41,crmSynced:true} },
-      { id:'run-005', title:'Synced 64 activities to Salesforce', status:'Success', timestamp:'Jun 28, 2026 · 2:15pm', duration:'18s', stepsRan:3, recordsProcessed:64, trigger:'Activity sync · hourly', agent: agentSelData?.title || 'CRM Sync',
-        execSteps:[{name:'Collect pending activities',status:'success',dur:'3s',detail:'Found 64 unsynced activities: 28 emails sent, 19 opens, 12 replies, 5 meetings booked.',records:64},{name:'Map to CRM fields',status:'success',dur:'6s',detail:'Mapped activities to Salesforce Task and Activity objects. All fields resolved.',records:64},{name:'Push to Salesforce',status:'success',dur:'9s',detail:'Synced 64/64 activities successfully. 0 errors. Updated last-touch dates on 38 accounts.',records:64}],
-        output:{activitiesSynced:64,errors:0,accountsUpdated:38} },
-      { id:'run-006', title:'Enriched 23 new contacts from visitor accounts', status:'Success', timestamp:'Jun 28, 2026 · 11:30am', duration:'34s', stepsRan:4, recordsProcessed:23, trigger:'New accounts identified', agent: agentSelData?.title || 'Pricing-intent → outreach',
-        execSteps:[{name:'Identify new accounts',status:'success',dur:'2s',detail:'7 new accounts added from morning visitor scan.',records:7},{name:'Find contacts',status:'success',dur:'12s',detail:'Discovered 23 relevant contacts across 7 accounts using role + seniority filters.',records:23},{name:'Enrich contacts',status:'success',dur:'14s',detail:'Verified email for 21/23. Phone for 16/23. LinkedIn for 23/23.',records:23},{name:'Queue for outreach',status:'success',dur:'6s',detail:'Added 23 contacts to outreach queue. 7 primary, 16 secondary.',records:23}],
-        output:{contactsFound:23,emailVerified:21,phoneFound:16,queued:23} },
-      { id:'run-007', title:'Failed. Salesforce API timeout', status:'Error', timestamp:'Jun 28, 2026 · 9:00am', duration:'31s', stepsRan:3, recordsProcessed:0, trigger:'Activity sync · hourly', agent: agentSelData?.title || 'CRM Sync',
-        execSteps:[{name:'Collect pending activities',status:'success',dur:'3s',detail:'Found 42 unsynced activities.',records:42},{name:'Map to CRM fields',status:'success',dur:'5s',detail:'All fields resolved successfully.',records:42},{name:'Push to Salesforce',status:'error',dur:'23s',detail:'Salesforce API returned 504 Gateway Timeout after 20s. Retried 2x. Activities queued for next hourly sync.',records:0}],
-        output:{error:'Salesforce API timeout (504)',retries:2,queued:42,nextRetry:'10:00am'} },
-      { id:'run-008', title:'De-anonymized 89 website visitors', status:'Success', timestamp:'Jun 27, 2026 · 8:00am', duration:'56s', stepsRan:3, recordsProcessed:89, trigger:'Daily 8:00am schedule', agent: agentSelData?.title || 'De-anonymize visitors',
-        execSteps:[{name:'Scan visitor sessions',status:'success',dur:'8s',detail:'Processed 3,412 sessions from the last 24h.',records:3412},{name:'Resolve to accounts',status:'success',dur:'32s',detail:'Matched 312 sessions to 89 unique accounts via IP + fingerprint.',records:89},{name:'Qualify & surface',status:'success',dur:'16s',detail:'64 accounts passed ICP filter (fit ≥ 60). Added to qualified workspace. 25 flagged as high-priority (fit ≥ 85).',records:64}],
-        output:{sessionsScanned:3412,accountsResolved:89,qualified:64,highPriority:25} },
-    ].map((r,i) => {
+    const fullActivityLog = this._runsRaw(agentSelData?.title).map((r,i) => {
       const ST = {Success:{c:'var(--accent-deep)',b:'var(--accent-soft-2)',dot:'var(--accent)'},Warning:{c:'var(--warning)',b:'var(--warning-soft)',dot:'var(--warning)'},Error:{c:'var(--negative)',b:'var(--negative-soft)',dot:'var(--negative)'}};
       const s = ST[r.status] || ST.Success;
       return { ...r, statusC:s.c, statusB:s.b, dotC:s.dot, selected: _actLogSel===r.id, selBg: _actLogSel===r.id ? 'var(--accent-soft)' : 'var(--surface-2)',
@@ -23782,7 +23836,7 @@ class Component extends DCLogic {
       newWfMenuOpen: !!this.state.newWfMenuOpen,
       toggleNewWfMenu: () => this.setState(s => ({ newWfMenuOpen:!s.newWfMenuOpen })),
       closeNewWfMenu: () => this.setState({ newWfMenuOpen:false }),
-      openWfFromScratch: () => { this.setState(s => ({ view:'workflow', wbView:'text', wbTextDirty:false, wbTextStatus:null, newWfMenuOpen:false, agentTemplateLib:false, wbNodes:[], wbSel:null, wbIns:null, wbPub:false, wbMode:'manual', wbTitle:'Untitled workflow', wbChat:[], wbLibQ:'', wbTrig:'Manual start', wbLibOpen:true, pdBig:true, pdTab:'chat', pdOpen:false, assembling:false,
+      openWfFromScratch: () => { this.setState(s => ({ view:'workflow', wbView:'canvas', wbTextDirty:false, wbTextStatus:null, newWfMenuOpen:false, agentTemplateLib:false, wbNodes:[], wbSel:null, wbIns:null, wbPub:false, wbMode:'manual', wbTitle:'Untitled workflow', wbChat:[], wbLibQ:'', wbTrig:'Manual start', wbLibOpen:true, pdBig:true, pdTab:'chat', pdOpen:false, assembling:false,
         pdMsgs:(s.pdMsgs||[]).concat([{ who:'p', text:'Blank canvas. Describe the motion and I\u2019ll assemble it, or add steps from the library and ask me to refine as you go.' }]) })); },
       agentEditGo: () => { const k=this.state.agentSel; const t=(playbooks.find(p=>p.key===k)||{}).title; this.runGoal(WF[k]?k:'pricing'); if(!WF[k]&&t) this.setState({ wbTitle:t }); },
       agentRunNow: () => { const k=this.state.agentSel; this.setState({ view:'live', wfKey: WF[k]?k:'pricing' }); this.toast('Run started. This is the live view.'); },
