@@ -11,6 +11,7 @@ Static HTML prototype. No build step, no environment variables.
 | `/v11` | `v11.html` | Canopy v11 green, which opens on sign-in. |
 | `/v12` | `v12.html` | Canopy v12 blue. |
 | `/onboarding` | `onboarding.html` | Standalone onboarding flow. |
+| `/qms` | `qms.html` | Standalone QMS screen. |
 
 `/app` redirects to `/`.
 
@@ -54,6 +55,7 @@ result.
 | `Sprouts Healthcare V1.dc.html` | `healthcare.html` |
 | `Sprouts Canopy v12 Blue.dc.html` | `v12.html` |
 | `Sprouts Canopy v11 Green Savant Left.dc.html` | `v11.html` |
+| `QMS.dc.html` | `qms.html` |
 | `support.js` | `support.js` |
 | `uploads/sprouts.ai-logo.png` | `uploads/sprouts.ai-logo.png` |
 

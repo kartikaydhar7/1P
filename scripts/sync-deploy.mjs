@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const r = (...p) => join(repoRoot, ...p);
 
-// [source, destination, [linkFrom, linkTo]]
+// [source, destination, [linkFrom, linkTo] | null]
 const PAGES = [
   // Sprouts 1P V1 is the default build.
   ['Sprouts 1P V1.dc.html', 'deploy/index.html',
@@ -29,6 +29,8 @@ const PAGES = [
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
   ['Sprouts Canopy v11 Green Savant Left.dc.html', 'deploy/v11.html',
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
+  // QMS is standalone -- it links to none of the others, so it needs no rewrite.
+  ['QMS.dc.html', 'deploy/qms.html', null],
 ];
 
 const ASSETS = [
@@ -56,15 +58,19 @@ const KNOWN_MISSING = new Map();
 
 let changed = 0;
 
-for (const [src, dest, [from, to]] of PAGES) {
+for (const [src, dest, link] of PAGES) {
   const html = readFileSync(r(src), 'utf8');
-  const hits = html.split(from).length - 1;
-  // A silent miss here would ship a page whose link 404s, so refuse instead.
-  if (hits !== 1) {
-    throw new Error(`${src}: expected exactly 1 occurrence of ${from}, found ${hits}. ` +
-      `The cross-link changed shape -- update PAGES in scripts/sync-deploy.mjs.`);
+  let out = html;
+  if (link) {
+    const [from, to] = link;
+    const hits = html.split(from).length - 1;
+    // A silent miss here would ship a page whose link 404s, so refuse instead.
+    if (hits !== 1) {
+      throw new Error(`${src}: expected exactly 1 occurrence of ${from}, found ${hits}. ` +
+        `The cross-link changed shape -- update PAGES in scripts/sync-deploy.mjs.`);
+    }
+    out = html.split(from).join(to);
   }
-  const out = html.split(from).join(to);
   let prev = null;
   try { prev = readFileSync(r(dest), 'utf8'); } catch {}
   if (prev !== out) {

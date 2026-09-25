@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#F5F6F8;color:#0F1424;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2B5CFF;text-decoration:none}a:hover{color:#1E45D6}
+button{font-family:inherit}
+@keyframes qpulse{0%{opacity:.35}50%{opacity:1}100%{opacity:.35}}
+@keyframes qspin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 28px;background:#0B0F1C;color:#fff;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:28px;height:28px;border-radius:8px;background:#2B5CFF;display:grid;place-items:center;font-weight:800;font-size:14px">S</div>
+      <div style="line-height:1.15"><div style="font-weight:700;font-size:15px;letter-spacing:-.01em">Quote Management · pilot</div><div style="font-size:11.5px;color:#8B93A7">{{ tenantName }} · Sprouts data · Moxo workflow</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#C9CFDD"><span style="width:8px;height:8px;border-radius:50%;background:#3DDC84;animation:qpulse 2s infinite"></span>{{ liveLabel }}</div>
+      <button onClick="{{ simulate }}" style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:13px;cursor:pointer" style-hover="background:#1E45D6">
+        <sc-if value="{{ simRunning }}" hint-placeholder-val="{{ false }}"><span style="width:12px;height:12px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:qspin .8s linear infinite;display:inline-block"></span></sc-if>
+        <span>{{ simLabel }}</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- How it works · one line -->
+  <div style="display:flex;gap:6px;align-items:center;padding:8px 28px;background:#fff;border-bottom:1px solid #E6E8EE;overflow-x:auto;white-space:nowrap">
+    <sc-for list="{{ how }}" as="h" hint-placeholder-count="4">
+      <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:#374151;flex-shrink:0" title="{{ h.text }}"><span style="width:18px;height:18px;border-radius:5px;display:grid;place-items:center;font-weight:800;font-size:10px;color:#fff;background: {{ h.bg }}">{{ h.n }}</span><span style="font-weight:600">{{ h.title }}</span><span style="color:#C7CCD8;margin-left:4px">›</span></div>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#0B0F1C;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.25);z-index:50">{{ toastText }}</div></sc-if>
+
+  <main style="flex:1;padding:14px 28px 32px;display:flex;flex-direction:column;gap:12px;min-width:0">
+    <!-- Queue strip -->
+    <section style="min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px"><div style="font-size:12px;font-weight:700">Quote queue <span style="font-weight:500;color:#6B7280">· most likely to close first</span></div><div style="font-size:11px;color:#6B7280">click a quote to see the Sprouts view</div></div>
+      <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px">
+        <sc-for list="{{ queue }}" as="q" hint-placeholder-count="6">
+          <button onClick="{{ q.open }}" style="flex:0 0 190px;display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:center;padding:9px 10px;border-radius:10px;text-align:left;cursor:pointer;border:1px solid {{ q.border }};background: {{ q.rowBg }}" style-hover="background:#F7F8FB">
+            <div style="width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;background: {{ q.scoreBg }}">{{ q.scoreLabel }}</div>
+            <div style="min-width:0"><div style="font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ q.account }}</div><div style="font-size:10.5px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ q.value }} · {{ q.stageLabel }}</div><span style="display:inline-block;margin-top:3px;font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:999px;white-space:nowrap;background: {{ q.pillBg }};color: {{ q.pillFg }}">{{ q.pill }}</span></div>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- Quote header + stage rail -->
+    <section style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid #E6E8EE;border-radius:12px;padding:10px 14px">
+      <div style="width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;background: {{ d.scoreBg }}">{{ d.scoreLabel }}</div>
+      <div style="flex:1 1 220px;min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:17px;font-weight:700;letter-spacing:-.02em">{{ d.account }}</span><span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background: {{ d.pillBg }};color: {{ d.pillFg }}">{{ d.pill }}</span></div><div style="font-size:11.5px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="font-family:'JetBrains Mono',monospace">{{ d.id }}</span> · {{ d.lines }} · {{ d.value }} · {{ d.city }}, {{ d.country }} · {{ d.requester }}</div></div>
+      <div style="display:flex;gap:4px;flex:1 1 360px;min-width:0">
+        <sc-for list="{{ d.rail }}" as="r" hint-placeholder-count="5">
+          <div style="flex:1;min-width:64px;padding:6px 8px;border-radius:8px;border:1px solid {{ r.border }};background: {{ r.bg }}" title="{{ r.sub }}"><div style="display:flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;flex-shrink:0;background: {{ r.dot }}"></span><span style="font-size:10.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color: {{ r.fg }}">{{ r.label }}</span></div></div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:12px;min-width:0">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:12px;align-items:start">
+        <!-- Sprouts -->
+        <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#2B5CFF;font-weight:700">Sprouts · who is asking, and why it matters</div><div style="font-size:11px;color:#6B7280">{{ d.intelWhen }}</div></div>
+          <sc-if value="{{ d.intelPending }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#6B7280;display:flex;gap:8px;align-items:center"><span style="width:12px;height:12px;border:2px solid #C7CCD8;border-top-color:#2B5CFF;border-radius:50%;animation:qspin .8s linear infinite;display:inline-block"></span>Finding the company, checking buying signals, scoring…</div></sc-if>
+          <sc-if value="{{ d.intelReady }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:15px;font-weight:600;line-height:1.45;letter-spacing:-.01em;text-wrap:pretty">{{ d.summary }}</div>
+
+            <!-- Propensity + upsell -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:10px">
+              <div style="border:1px solid #EEF0F4;border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:center">
+                <div style="width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background: conic-gradient(#2B5CFF {{ d.propensityDeg }}deg, #EEF0F4 0deg)"><div style="width:56px;height:56px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center;line-height:1"><div><div style="font-size:17px;font-weight:800;letter-spacing:-.03em">{{ d.propensity }}%</div><div style="font-size:8.5px;color:#6B7280;text-transform:uppercase;letter-spacing:.05em">to close</div></div></div></div>
+                <div style="min-width:0"><div style="font-size:12.5px;font-weight:700">Likelihood to convert</div><div style="font-size:11.5px;color:#6B7280;line-height:1.45;margin-top:2px">{{ d.propensityWhy }}</div><div style="display:flex;flex-direction:column;gap:3px;margin-top:8px">
+                  <sc-for list="{{ d.scoreParts }}" as="sp" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:minmax(60px,0.9fr) minmax(40px,1fr) 22px;gap:6px;align-items:center;font-size:10.5px;color:#6B7280"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sp.l }}</span><span style="height:5px;background:#EEF0F4;border-radius:3px;overflow:hidden;display:block"><span style="display:block;height:100%;background:#2B5CFF;border-radius:3px;width: {{ sp.pct }}%"></span></span><span style="text-align:right;font-weight:700;color:#0F1424">{{ sp.v }}</span></div></sc-for>
+                </div></div>
+              </div>
+              <div style="border:1px solid #EEF0F4;border-radius:12px;padding:12px 14px;background:#F8FAFF;display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="font-size:12.5px;font-weight:700">Upsell opportunity</div><span style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 7px;border-radius:5px;background: {{ d.upsellBg }};color: {{ d.upsellFg }}">{{ d.upsellLevel }}</span></div>
+                <div style="font-size:18px;font-weight:800;letter-spacing:-.03em;color:#2B5CFF">{{ d.upsellValue }} <span style="font-size:11px;font-weight:600;color:#6B7280">extra potential</span></div>
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <sc-for list="{{ d.upsellItems }}" as="u" hint-placeholder-count="2"><div style="display:flex;justify-content:space-between;gap:8px;font-size:11.5px"><span style="color:#374151">{{ u.l }}</span><span style="font-weight:700;white-space:nowrap">{{ u.v }}</span></div></sc-for>
+                </div>
+                <div style="font-size:10.5px;color:#6B7280;line-height:1.4;margin-top:2px">{{ d.upsellWhy }}</div>
+              </div>
+            </div>
+
+            <!-- Company facts -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px">
+              <sc-for list="{{ d.facts }}" as="f" hint-placeholder-count="6"><div style="background:#F5F6F8;border-radius:8px;padding:8px 10px;min-width:0"><div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.l }}</div><div style="font-size:12.5px;font-weight:700;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.v }}</div><sc-if value="{{ f.hasTrend }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;font-weight:700;margin-top:1px;color: {{ f.trendFg }}">{{ f.trend }}</div></sc-if></div></sc-for>
+            </div>
+
+            <!-- Signals -->
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:12px;font-weight:700">Buying signals · {{ d.signalCount }}</div><div style="font-size:10.5px;color:#6B7280">from job posts, news, filings, tech stack</div></div>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+                <sc-for list="{{ d.signals }}" as="s" hint-placeholder-count="4">
+                  <div style="display:grid;grid-template-columns:auto minmax(120px,1fr) 64px;gap:10px;align-items:center;padding:8px 10px;border:1px solid #EEF0F4;border-radius:9px">
+                    <span style="font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:5px;background: {{ s.bg }};color: {{ s.fg }}">{{ s.verdict }}</span>
+                    <span style="font-size:12.5px;color:#374151;line-height:1.4;min-width:0"><b>{{ s.title }}</b> · {{ s.evidence }} <span style="color:#9CA3AF">· {{ s.source }}</span></span>
+                    <span><span style="display:block;height:6px;background:#EEF0F4;border-radius:3px;overflow:hidden"><span style="display:block;height:100%;border-radius:3px;background: {{ s.fg }};width: {{ s.strength }}%"></span></span><span style="display:block;font-size:9.5px;color:#6B7280;margin-top:2px;text-align:right">{{ s.strengthLabel }}</span></span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:11.5px;color:#6B7280;border-top:1px solid #EEF0F4;padding-top:8px"><span>Score {{ d.scoreLabel }} out of 100 · every claim has a source</span><span>{{ d.contactsLabel }}</span></div>
+          </sc-if>
+        </div>
+
+        <!-- Right column: Moxo + partner + activity -->
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+        <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7C3AED;font-weight:700">Moxo · who has the quote, and by when</div><div style="font-size:11px;color:#6B7280;font-family:'JetBrains Mono',monospace">{{ d.flowId }}</div></div>
+          <div style="display:flex;flex-direction:column">
+            <sc-for list="{{ d.steps }}" as="s" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:16px minmax(0,1fr) auto;gap:10px;align-items:start;padding:6px 0"><div style="width:12px;height:12px;border-radius:50%;margin-top:3px;border:2px solid {{ s.ring }};background: {{ s.fill }}"></div><div><div style="font-size:12.5px;font-weight:600;color: {{ s.fg }}">{{ s.name }}</div><div style="font-size:10.5px;color:#6B7280">{{ s.type }} · {{ s.owner }}</div></div><div style="font-size:10.5px;color:#6B7280;white-space:nowrap">{{ s.when }}</div></div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ d.needsRouting }}" hint-placeholder-val="{{ false }}">
+            <div style="border-top:1px solid #EEF0F4;padding-top:12px">
+              <div style="font-size:12px;color:#6B7280">Suggested partner</div>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:6px"><div style="width:34px;height:34px;border-radius:9px;background:#0B0F1C;color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px">{{ d.partnerIni }}</div><div><div style="font-size:14px;font-weight:700">{{ d.partner }}</div><div style="font-size:11.5px;color:#6B7280">{{ d.partnerWhy }}</div></div></div>
+              <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+                <button onClick="{{ d.route }}" style="flex:1;padding:9px 12px;border-radius:8px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:12.5px;cursor:pointer">Send to {{ d.partner }}</button>
+                <select onChange="{{ d.routeOther }}" value="" style="padding:9px 10px;border-radius:8px;border:1px solid #E6E8EE;font-size:12.5px;font-weight:700;background:#fff;color:#374151"><option value="">Choose another partner…</option><sc-for list="{{ d.others }}" as="o"><option value="{{ o }}">{{ o }}</option></sc-for></select>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ d.withPartner }}" hint-placeholder-val="{{ false }}">
+            <div style="border-top:1px solid #EEF0F4;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><div style="font-size:12px;color:#6B7280">Now with</div><div style="font-size:14px;font-weight:700">{{ d.partner }}</div></div><button onClick="{{ d.remind }}" style="padding:8px 12px;border-radius:8px;border:1px solid #E6E8EE;background:#fff;font-weight:700;font-size:12px;cursor:pointer;color:#374151">Send reminder</button></div>
+          </sc-if>
+          <sc-if value="{{ d.isClosed }}" hint-placeholder-val="{{ false }}">
+            <div style="border-top:1px solid #EEF0F4;padding-top:12px"><div style="font-size:12px;color:#6B7280">Outcome · saved to the CRM</div><div style="font-size:15px;font-weight:700;margin-top:2px;color: {{ d.outcomeFg }}">{{ d.outcomeLabel }}</div></div>
+          </sc-if>
+        </div>
+
+      <!-- Partner -->
+      <sc-if value="{{ d.showPartner }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#0B0F1C;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;color:#fff">
+          <div>
+            <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7">What the partner sees · on their phone</div>
+            <div style="font-size:12.5px;color:#B7BECF;margin-top:4px;line-height:1.45">One card: what the customer wants, why it matters, who to call. Accept or decline, no login. Moxo chases deadlines; every tap lands in your queue and the CRM.</div>
+          </div>
+          <div style="background:#F5F6F8;border-radius:18px;padding:12px;color:#0F1424;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;border-radius:6px;background:#7C3AED;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:800">M</div><div style="font-size:11.5px;color:#6B7280">{{ d.partner }} · {{ d.pDue }}</div></div>
+            <sc-if value="{{ d.pIsCard }}" hint-placeholder-val="{{ true }}">
+              <div style="background:#fff;border-radius:14px;padding:14px"><div style="font-size:16px;font-weight:700;letter-spacing:-.02em">{{ d.account }}</div><div style="font-size:11.5px;color:#6B7280">{{ d.lines }} · {{ d.value }}</div><div style="font-size:12.5px;line-height:1.45;margin-top:8px">{{ d.summary }}</div></div>
+              <div style="background:#fff;border-radius:14px;padding:12px 14px"><div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6B7280">Who to call</div><sc-for list="{{ d.contacts }}" as="c" hint-placeholder-count="2"><div style="display:flex;justify-content:space-between;font-size:12px;margin-top:5px;gap:8px"><span><b>{{ c.name }}</b> · {{ c.title }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B7280">{{ c.phone }}</span></div></sc-for></div>
+              <div style="display:flex;gap:8px"><button onClick="{{ d.pAccept }}" style="flex:1.4;padding:12px;border-radius:12px;border:0;background:#2B5CFF;color:#fff;font-weight:800;font-size:13px;cursor:pointer">Accept</button><button onClick="{{ d.pDecline }}" style="flex:1;padding:12px;border-radius:12px;border:1px solid #D9DCE3;background:#fff;font-weight:700;font-size:13px;cursor:pointer;color:#374151">Decline</button></div>
+            </sc-if>
+            <sc-if value="{{ d.pIsWork }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#fff;border-radius:14px;padding:14px"><div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6B7280">Next step</div><div style="font-size:14px;font-weight:700;margin-top:3px">Call {{ d.requesterFirst }} · due in 48 h</div><div style="font-size:12px;color:#374151;line-height:1.45;margin-top:6px">{{ d.draft }}</div></div>
+              <sc-if value="{{ d.pCanContact }}" hint-placeholder-val="{{ true }}"><button onClick="{{ d.pContacted }}" style="padding:12px;border-radius:12px;border:0;background:#2B5CFF;color:#fff;font-weight:800;font-size:13px;cursor:pointer">I have called the customer</button></sc-if>
+              <sc-if value="{{ d.pCanClose }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6B7280">How did it end?</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><sc-for list="{{ d.outcomes }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="padding:10px;border-radius:10px;border:1px solid #E6E8EE;background:#fff;font-size:12px;font-weight:700;cursor:pointer;text-align:left;color: {{ o.fg }}">{{ o.label }}</button></sc-for></div>
+              </sc-if>
+            </sc-if>
+            <sc-if value="{{ d.pIsDone }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:40px 10px;text-align:center"><div style="width:48px;height:48px;border-radius:50%;margin:0 auto;display:grid;place-items:center;color:#fff;font-size:22px;font-weight:800;background: {{ d.outcomeBg }}">✓</div><div style="font-size:16px;font-weight:700;margin-top:10px">{{ d.outcomeLabel }}</div><div style="font-size:12px;color:#6B7280;margin-top:4px;line-height:1.5">Saved to the CRM. The next quote like this one is ranked better.</div></div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- Activity -->
+      <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:14px 16px">
+        <div style="font-size:12.5px;font-weight:700">Activity</div>
+        <div style="display:flex;flex-direction:column;margin-top:6px">
+          <sc-for list="{{ d.timeline }}" as="t" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px;padding:5px 0;border-bottom:1px solid #F1F3F7;font-size:12px"><div style="font-size:10.5px;color:#6B7280;font-family:'JetBrains Mono',monospace;padding-top:2px">{{ t.t }}</div><div><span style="font-size:10.5px;font-weight:700;color: {{ t.fg }}">{{ t.actor }}</span> <span style="color:#374151;line-height:1.4">{{ t.text }}</span></div></div></sc-for>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tenantName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Acme Industrial&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const BLUE='#2B5CFF',INK='#0B0F1C',RED='#B91C1C',AMBER='#B45309',GREEN='#15803D',PURPLE='#7C3AED',GREY='#6B7280';
+const PARTNERS={bechtle:{name:'Northwind Partners',regions:['DE','AT','NL'],why:'Covers Germany · storage specialist · 78% capacity · wins 34% of storage quotes'},cc:{name:'Bluepeak Systems',regions:['UK'],why:'Covers UK · 64% capacity · strong on servers'},shi:{name:'Summit Tech',regions:['US'],why:'Covers US · 82% capacity · wins 26%'},ingram:{name:'Lotus Infotech',regions:['IN'],why:'Covers India · 71% capacity · fastest to call back (5 h)'},data3:{name:'Harbour IT',regions:['AU'],why:'Covers Australia · 60% capacity · cloud-services certified'}};
+const S=(title,verdict,evidence,strength,source)=>({title,verdict,evidence,strength:strength||70,source:source||'news'});const C=(name,title,phone)=>({name,title,phone});const T=(t,actor,text)=>({t,actor,text});
+function seed(){return[
+ {id:'Q-101',store:'Web store',city:'Frankfurt',country:'DE',account:'Voss Logistics',requester:'Lena Voss · Head of IT',lines:'Storage array ×2, drive packs ×16',value:'€412k',score:82,stage:'triage',partnerId:'bechtle',flowId:'Workflow #1021',dueInH:null,facts:[['Employees','4,200','+6% yr'],['Revenue','€820M','+9% yr'],['Industry','Logistics'],['IT team','310 people','+18% in 6 mo'],['Sites','14 · DE, NL, PL'],['Other open quotes','1 · network, Hamburg']],summary:'Voss is building out storage at this site: they are hiring storage engineers and moving to a new ERP system, so this quote is a real project, not a price check.',propensity:78,propensityWhy:'Strong, recent signals; a repeat customer; the request matches what they are hiring for.',scoreParts:[['Signals',23,25],['Product fit',18,20],['Engagement',15,20],['Budget capacity',12,15],['Timing',14,20]],upsell:{level:'High',value:'€180k',why:'Two arrays for one site; the Hamburg site is on the same refresh cycle and already has an open network quote.',items:[['Backup & recovery for the new arrays','€65k'],['Matching storage for Hamburg site','€90k'],['3-year support upgrade','€25k']]},signals:[S('Storage project under way','confirmed','Six storage engineer jobs posted in Frankfurt since July',92,'job posts'),S('New ERP system','confirmed','Announced for next year; needs new storage first',85,'annual report'),S('Current storage out of support','confirmed','Tech stack shows arrays past end of life',80,'tech stack'),S('Data-centre consolidation','partial','Hamburg lease ends 2027; move to Frankfurt implied',55,'local press'),S('IT budget increase','partial','CFO mentioned higher IT spend on the Q2 call',45,'earnings call')],contacts:[C('Lena Voss','Head of IT','+49 69 ••'),C('Tobias Renner','CIO','+49 69 ••')],timeline:[T('08:31','Storefront','Quote request received from the web store'),T('08:32','Sprouts','Matched the email domain to Voss Logistics · company profile added · 2 buying signals · score 82'),T('08:36','Moxo','Workflow started · Sprouts data attached to the quote'),T('08:36','Routing agent','Suggests Northwind Partners (86% match) · waiting for you to confirm')]},
+ {id:'Q-102',store:'Web store',city:'Cambridge',country:'UK',account:'Kestrel Biotech',requester:'Priya Nair · Platform Lead',lines:'Servers ×12',value:'£268k',score:76,stage:'assigned',partnerId:'cc',flowId:'Workflow #1020',dueInH:9,facts:[['Employees','860','+31% yr'],['Funding','£95M · Series C'],['Industry','Biotech'],['IT team','64 people','+40% in 12 mo'],['Sites','2 · Cambridge'],['Other open quotes','None']],summary:'Kestrel just raised funding for computing and is opening a second lab. The server order fits both, so this is likely to close.',propensity:71,propensityWhy:'Fresh funding and a new site; a new customer, so no history yet.',scoreParts:[['Signals',22,25],['Product fit',17,20],['Engagement',12,20],['Budget capacity',14,15],['Timing',11,20]],upsell:{level:'High',value:'£140k',why:'Twelve servers for a new lab usually need network, storage and support around them.',items:[['Network for the new lab','£45k'],['Shared storage for the cluster','£70k'],['Installation & support','£25k']]},signals:[S('Funding for computing','confirmed','£95M raised in June, earmarked for computing',95,'press release'),S('Second lab approved','confirmed','Planning approval includes a server room',82,'council record'),S('Hiring platform engineers','confirmed','9 platform and ML jobs open',78,'job posts'),S('Cloud costs rising','partial','Engineering blog on moving workloads in-house',50,'company blog')],contacts:[C('Priya Nair','Platform Lead','+44 1223 ••'),C('James Okafor','VP Engineering','+44 1223 ••')],timeline:[T('04:14','Web store','Quote request received'),T('04:17','Sprouts','Company matched · profile added · score 76'),T('04:40','Ops','Sent to Bluepeak Systems'),T('04:40','Moxo','Partner has 24 h to accept · link sent to the partner')]},
+ {id:'Q-103',store:'Partner store',city:'Coimbatore',country:'IN',account:'Nandi Textiles',requester:'Arun Selvan · IT Manager',lines:'Network switches ×14, Wi-Fi points ×60',value:'₹1.9 Cr',score:58,stage:'accepted',partnerId:'ingram',flowId:'Workflow #1019',dueInH:31,facts:[['Employees','2,300','+2% yr'],['Revenue','₹640 Cr','+4% yr'],['Industry','Textiles'],['IT team','28 people','+6% in 12 mo'],['Sites','3 · Tamil Nadu'],['Other open quotes','None']],summary:'Nandi is replacing the old network across two factories. A straightforward refresh with a clear budget.',propensity:58,propensityWhy:'Clear need and a public tender, but a price-driven buyer with several bidders.',scoreParts:[['Signals',16,25],['Product fit',15,20],['Engagement',9,20],['Budget capacity',10,15],['Timing',8,20]],upsell:{level:'Medium',value:'₹0.6 Cr',why:'A third factory is being built; the same network design would apply.',items:[['Network for the new Tiruppur factory','₹0.5 Cr'],['Wi-Fi management software','₹0.1 Cr']]},signals:[S('Old network being replaced','confirmed','Public tender mentions replacing switches at two factories',88,'tender notice'),S('New factory planned','partial','40-acre plot allotted; timing unknown',52,'state records'),S('Wi-Fi coverage complaints','partial','Reviews from staff mention poor Wi-Fi on the floor',40,'employer reviews')],contacts:[C('Arun Selvan','IT Manager','+91 422 ••'),C('Meenakshi Nandi','Managing Director','+91 98 ••')],timeline:[T('Thu 15:40','Web store','Quote request received'),T('Thu 15:44','Routing agent','Assigned automatically to Lotus Infotech (94% match)'),T('Thu 21:05','Lotus Infotech','Accepted the quote from the link'),T('Thu 21:05','Moxo','Partner has 48 h to contact the customer')]},
+ {id:'Q-104',store:'Web store',city:'Columbus, OH',country:'US',account:'Harborline Foods',requester:'Dana White · IT Admin',lines:'Servers ×4',value:'$48k',score:44,stage:'assigned',partnerId:'shi',flowId:'Workflow #1018',dueInH:-5,facts:[['Employees','1,100','flat'],['Revenue','$210M','+1% yr'],['Industry','Food processing'],['IT team','12 people','+2% in 12 mo'],['Sites','4 · Ohio, Indiana'],['Other open quotes','None']],summary:'A small but urgent order: Harborline’s old servers go out of support in January.',propensity:44,propensityWhy:'A real deadline, but a small order and a slow-moving buyer.',scoreParts:[['Signals',12,25],['Product fit',12,20],['Engagement',6,20],['Budget capacity',8,15],['Timing',6,20]],upsell:{level:'Low',value:'$18k',why:'Four servers is the whole estate; support is the only add-on.',items:[['3-year support','$12k'],['Backup software','$6k']]},signals:[S('Servers going out of support','confirmed','Vendor support ends January 2027',86,'tech stack'),S('Compliance audit due','partial','Food-safety audit cycle mentions IT controls',45,'industry filing'),S('New IT director','partial','Joined in August',38,'LinkedIn')],contacts:[C('Dana White','IT Admin','+1 614 ••')],timeline:[T('Wed 20:30','Web store','Quote request received'),T('Thu 09:10','Ops','Sent to Summit Tech'),T('Fri 03:10','Moxo','Reminder sent to Summit Tech'),T('Fri 09:10','Moxo','Deadline missed · escalated to the team lead')]},
+ {id:'Q-105',store:'Web store',city:'Perth',country:'AU',account:'Aurora Mining',requester:'Callum Reid · IT Manager',lines:'Private cloud service, servers ×8',value:'A$610k',score:71,stage:'contacted',partnerId:'data3',flowId:'Workflow #1016',dueInH:null,facts:[['Employees','3,400','+5% yr'],['Revenue','A$1.1B','+12% yr'],['Industry','Mining services'],['IT team','140 people','+11% in 6 mo'],['Sites','9 · WA, QLD'],['Other open quotes','1 · network, Kalgoorlie']],summary:'Aurora’s new CIO is putting computing at remote mine sites. A pay-as-you-go cloud service suits both the plan and the budget.',propensity:69,propensityWhy:'A new CIO with a mandate and a familiar product; large order, so a longer cycle.',scoreParts:[['Signals',20,25],['Product fit',15,20],['Engagement',14,20],['Budget capacity',10,15],['Timing',10,20]],upsell:{level:'High',value:'A$420k',why:'Nine sites; this quote covers one. The rollout plan is public.',items:[['Same setup for 3 more sites','A$360k'],['Remote monitoring service','A$60k']]},signals:[S('Computing at remote sites','confirmed','New CIO posted about it; 3 related jobs open',90,'LinkedIn'),S('New CIO','confirmed','Joined in May from a company using the same cloud service',84,'press'),S('Capital programme approved','confirmed','A$60M automation budget in the annual report',76,'annual report'),S('Network quote at another site','confirmed','Open quote for Kalgoorlie',70,'our data')],contacts:[C('Callum Reid','IT Manager','+61 8 ••'),C('Fiona Marsh','CIO','+61 4 ••')],timeline:[T('Tue 06:20','Web store','Quote request received'),T('Tue 06:31','Routing agent','Assigned automatically to Harbour IT'),T('Tue 11:02','Harbour IT','Accepted'),T('Wed 09:15','Harbour IT','Called the customer · proposal walkthrough Tuesday')]},
+ {id:'Q-106',store:'Web store',city:'Sydney',country:'AU',account:'Pacific Rail',requester:'Grace Liu · Head of Technology',lines:'Servers ×10',value:'A$184k',score:67,stage:'closed',outcome:'Won',partnerId:'data3',flowId:'Workflow #1012',dueInH:null,facts:[['Employees','5,600','+3% yr'],['Revenue','A$2.4B','+5% yr'],['Industry','Rail'],['IT team','220 people','+7% in 12 mo'],['Sites','6 · NSW'],['Other open quotes','None']],summary:'Servers for a funded signalling upgrade.',propensity:67,propensityWhy:'Government-funded programme with a fixed timeline.',scoreParts:[['Signals',18,25],['Product fit',16,20],['Engagement',12,20],['Budget capacity',10,15],['Timing',11,20]],upsell:{level:'Medium',value:'A$95k',why:'Signalling systems need redundancy and long support.',items:[['Second site for failover','A$70k'],['5-year support','A$25k']]},signals:[S('Signalling upgrade funded','confirmed','Listed in the state budget',85,'state budget'),S('Tender awarded','confirmed','Integrator contract signed in May',72,'tender portal'),S('Legacy systems ageing','partial','Audit report flags 12-year-old control servers',48,'audit report')],contacts:[C('Grace Liu','Head of Technology','+61 2 ••')],timeline:[T('12 Sep','Web store','Quote request received'),T('12 Sep','Harbour IT','Accepted'),T('15 Sep','Harbour IT','Called the customer'),T('23 Sep','Harbour IT','Outcome · Won · A$184k · updated in the CRM')]},
+];}
+const STAGE={intake:'Sprouts is looking it up',triage:'Pick a partner',assigned:'Waiting for partner to accept',accepted:'Partner to call customer',contacted:'Customer contacted',closed:'Closed'};
+const fmtH=h=>{h=Math.abs(h);if(h<1)return Math.round(h*60)+' min';if(h<48)return Math.round(h)+' h';return Math.round(h/24)+' d';};
+const scoreBg=s=>s==null?'#9CA3AF':s>=70?INK:s>=50?BLUE:'#7C8AA5';
+class Component extends DCLogic{
+  state={quotes:seed(),sel:'Q-101',toast:null,sim:null};
+  toast(t){clearTimeout(this._tt);this.setState({toast:t});this._tt=setTimeout(()=>this.setState({toast:null}),2600);}
+  upd(id,fn){this.setState(s=>({quotes:s.quotes.map(q=>q.id===id?fn({...q,timeline:[...q.timeline]}):q)}));}
+  pill(q){if(q.stage==='closed')return{pill:q.outcome,pillBg:q.outcome==='Won'?'#DCFCE7':'#F3F4F6',pillFg:q.outcome==='Won'?GREEN:GREY};if(q.stage==='intake')return{pill:'Running',pillBg:'#EEF2FF',pillFg:BLUE};if(q.stage==='triage')return{pill:'Needs you',pillBg:'#FEF3C7',pillFg:AMBER};if(q.stage==='contacted')return{pill:'On track',pillBg:'#DCFCE7',pillFg:GREEN};if(q.dueInH<0)return{pill:fmtH(q.dueInH)+' overdue',pillBg:'#FEE2E2',pillFg:RED};return{pill:'due in '+fmtH(q.dueInH),pillBg:q.dueInH<8?'#FEF3C7':'#DCFCE7',pillFg:q.dueInH<8?AMBER:GREEN};}
+  route(id,pid){this.upd(id,q=>{q.partnerId=pid;q.stage='assigned';q.dueInH=24;q.timeline.push(T('10:42','Ops','Sent to '+PARTNERS[pid].name),T('10:42','Moxo','Partner added to the workflow · 24 h to accept · link sent'));return q;});this.toast('Sent to '+PARTNERS[pid].name+'. Moxo will chase it.');}
+  remind(id){this.upd(id,q=>{q.timeline.push(T('10:42','Moxo','Reminder sent to '+PARTNERS[q.partnerId].name));return q;});this.toast('Reminder sent.');}
+  accept(id){this.upd(id,q=>{q.stage='accepted';q.dueInH=48;q.timeline.push(T('10:43',PARTNERS[q.partnerId].name,'Accepted the quote'),T('10:43','Moxo','Partner has 48 h to contact the customer'),T('10:43','Sprouts','Customer phone number found · first email drafted'));return q;});}
+  decline(id){const q=this.state.quotes.find(x=>x.id===id);const alt=Object.keys(PARTNERS).find(k=>k!==q.partnerId&&PARTNERS[k].regions.includes(q.country))||Object.keys(PARTNERS).find(k=>k!==q.partnerId);this.upd(id,x=>{x.stage='triage';x.dueInH=null;x.timeline.push(T('10:43',PARTNERS[x.partnerId].name,'Declined · no capacity this week'),T('10:43','Routing agent','Suggests '+PARTNERS[alt].name+' instead'));x.partnerId=alt;return x;});this.toast('Declined. Back in your queue with a new suggestion.');}
+  contacted(id){this.upd(id,q=>{q.stage='contacted';q.dueInH=null;q.timeline.push(T('10:45',PARTNERS[q.partnerId].name,'Called the customer · on time'));return q;});}
+  close(id,o){this.upd(id,q=>{q.stage='closed';q.outcome=o;q.timeline.push(T('10:46',PARTNERS[q.partnerId].name,'Outcome · '+o),T('10:46','Sprouts','Outcome saved to the CRM · used to rank the next quote better'));return q;});}
+  simulate(){if(this.state.sim)return;const id='Q-107';if(this.state.quotes.some(q=>q.id===id)){this.setState({sel:id});return;}
+    const nq={id,store:'Web store',city:'Rotterdam',country:'NL',account:'Orbital Freight',requester:'Daan de Vries · IT Manager',lines:'Storage array ×2, drive packs ×12',value:'€356k',score:null,stage:'intake',partnerId:'bechtle',flowId:'—',dueInH:null,facts:[['Employees','2,800','+4% yr'],['Revenue','€510M','+7% yr'],['Industry','Logistics'],['IT team','95 people','+14% in 6 mo'],['Sites','5 · NL, BE'],['Other open quotes','None']],summary:'Orbital’s current storage is out of support and they are automating their port terminal. This is a real replacement project.',propensity:74,propensityWhy:'Out-of-support equipment plus a funded automation project.',scoreParts:[['Signals',21,25],['Product fit',17,20],['Engagement',13,20],['Budget capacity',11,15],['Timing',12,20]],upsell:{level:'Medium',value:'€120k',why:'Terminal automation will need compute next to the new storage.',items:[['Servers for the control systems','€95k'],['Backup & recovery','€25k']]},signals:[S('Storage out of support','confirmed','A job post names the replacement project',88,'job posts'),S('Port automation project','confirmed','Contract announced in August',82,'press'),S('IT team growing','confirmed','+14% in six months',66,'LinkedIn'),S('Sustainability targets','partial','Energy-efficiency programme could favour newer hardware',40,'annual report')],contacts:[C('Daan de Vries','IT Manager','+31 10 ••'),C('Mireille Bakker','CIO','+31 10 ••')],timeline:[T('10:42','Storefront','Quote request received from the web store')]};
+    this.setState(s=>({quotes:[nq,...s.quotes],sel:id,sim:true}));
+    setTimeout(()=>this.upd(id,q=>{q.timeline.push(T('10:42','Sprouts','Matched the email domain to Orbital Freight'));return q;}),900);
+    setTimeout(()=>this.upd(id,q=>{q.score=74;q.timeline.push(T('10:43','Sprouts','Company profile added · 2 buying signals · score 74'));return q;}),2200);
+    setTimeout(()=>{this.upd(id,q=>{q.stage='triage';q.flowId='Workflow #1022';q.timeline.push(T('10:44','Moxo','Workflow started · Sprouts data attached'),T('10:44','Routing agent','Suggests Northwind Partners (88% match) · waiting for you'));return q;});this.setState({sim:null});},3400);}
+  renderVals(){const s=this.state;const q=s.quotes.find(x=>x.id===s.sel)||s.quotes[0];const p=PARTNERS[q.partnerId];
+    const queue=s.quotes.map(x=>({...x,...this.pill(x),scoreLabel:x.score==null?'—':String(x.score),scoreBg:scoreBg(x.score),stageLabel:STAGE[x.stage],partnerLabel:x.stage==='triage'?PARTNERS[x.partnerId].name+' suggested':x.stage==='intake'?'—':PARTNERS[x.partnerId].name,rowBg:x.id===q.id?'#EEF2FF':'#fff',border:x.id===q.id?'#2B5CFF':'#E6E8EE',open:()=>this.setState({sel:x.id})}));
+    const idx={intake:1,triage:2,assigned:3,accepted:3,contacted:3,closed:4}[q.stage];
+    const rail=[['Arrives','from the web store'],['Sprouts','company · signals · score'],['Moxo routes','to the right partner'],['Partner','accepts · calls'],['Outcome','saved · learned from']].map(([label,sub],i)=>({label,sub,dot:i<idx?GREEN:i===idx?BLUE:'#D1D5DB',border:i===idx?BLUE:'#E6E8EE',bg:i===idx?'#EEF2FF':'#fff',fg:i<=idx?'#0F1424':'#9CA3AF'}));
+    const stepDefs=[['Sprouts data ready','automatic','Sprouts',1],['Pick a partner','your decision','You',2],['Partner accepts','24 h to respond','Partner',3],['Partner calls the customer','48 h to respond','Partner',4],['Partner records the outcome','one tap','Partner',5]];
+    const si={intake:1,triage:2,assigned:3,accepted:4,contacted:5,closed:6}[q.stage];
+    const steps=stepDefs.map(([name,type,owner,at])=>({name,type,owner,ring:si>at?GREEN:si===at?PURPLE:'#D1D5DB',fill:si>at?GREEN:'#fff',fg:si>=at?'#0F1424':'#9CA3AF',when:si>at?'done':si===at?'active':''}));
+    const others=Object.keys(PARTNERS).filter(k=>k!==q.partnerId).map(k=>PARTNERS[k].name);
+    const oc=q.outcome;
+    const d={...q,...this.pill(q),scoreLabel:q.score==null?'—':String(q.score),scoreBg:scoreBg(q.score),intelPending:q.stage==='intake',intelReady:q.stage!=='intake',intelWhen:q.stage==='intake'?'looking it up…':'ready in 4 minutes',facts:q.facts.map(([l,v,t])=>({l,v,trend:t||'',hasTrend:!!t,trendFg:(t||'').startsWith('+')?GREEN:(t||'').startsWith('−')||(t||'').startsWith('-')?RED:GREY})),signals:q.signals.map(x=>({...x,bg:x.verdict==='confirmed'?'#DCFCE7':'#FEF3C7',fg:x.verdict==='confirmed'?GREEN:AMBER,strengthLabel:x.strength>=75?'strong':x.strength>=55?'solid':'weak'})),signalCount:q.signals.length+' found',propensity:q.propensity||0,propensityDeg:Math.round((q.propensity||0)*3.6),propensityWhy:q.propensityWhy||'',scoreParts:(q.scoreParts||[]).map(([l,v,m])=>({l,v,pct:Math.round(v/m*100)})),upsellLevel:q.upsell?q.upsell.level:'—',upsellBg:q.upsell&&q.upsell.level==='High'?'#DCFCE7':q.upsell&&q.upsell.level==='Medium'?'#FEF3C7':'#F3F4F6',upsellFg:q.upsell&&q.upsell.level==='High'?GREEN:q.upsell&&q.upsell.level==='Medium'?AMBER:GREY,upsellValue:q.upsell?q.upsell.value:'—',upsellWhy:q.upsell?q.upsell.why:'',upsellItems:q.upsell?q.upsell.items.map(([l,v])=>({l,v})):[],contactsLabel:q.contacts.length+' people to call · phones shown once accepted',steps,rail,
+      partner:p.name,partnerIni:p.name.split(/\s|#/).map(w=>w[0]).join('').slice(0,2).toUpperCase(),partnerWhy:p.why,others,needsRouting:q.stage==='triage',route:()=>this.route(q.id,q.partnerId),routeOther:e=>{const k=Object.keys(PARTNERS).find(k=>PARTNERS[k].name===e.target.value);if(k)this.route(q.id,k);},withPartner:['assigned','accepted','contacted'].includes(q.stage),remind:()=>this.remind(q.id),isClosed:q.stage==='closed',outcomeLabel:oc||'',outcomeFg:oc==='Won'?GREEN:GREY,outcomeBg:oc==='Won'?GREEN:INK,
+      showPartner:['assigned','accepted','contacted','closed'].includes(q.stage),pDue:q.stage==='assigned'?'please respond within '+fmtH(q.dueInH):q.stage==='accepted'?'call the customer within '+fmtH(q.dueInH):'',pIsCard:q.stage==='assigned',pIsWork:q.stage==='accepted'||q.stage==='contacted',pIsDone:q.stage==='closed',pCanContact:q.stage==='accepted',pCanClose:q.stage==='contacted',requesterFirst:q.requester.split(' ')[0],draft:'Suggested email (edit before sending): “Hi '+q.requester.split(' ')[0]+', thanks for your request for '+q.lines.split(',')[0].toLowerCase()+'. We noticed your '+q.signals[0].title.toLowerCase()+', so I have put together an option that fits. Could we talk for 20 minutes this week?”',
+      pAccept:()=>this.accept(q.id),pDecline:()=>this.decline(q.id),pContacted:()=>this.contacted(q.id),outcomes:[['Won',GREEN],['Lost · price',GREY],['Lost · no reply',GREY],['Lost · competitor',GREY]].map(([label,fg])=>({label,fg,pick:()=>this.close(q.id,label)})),
+      timeline:[...q.timeline].reverse().map(t=>({...t,fg:t.actor==='Sprouts'?BLUE:t.actor==='Moxo'?PURPLE:'#0F1424'}))};
+    const how=[{n:'1',bg:INK,title:'A quote request comes in',text:'From the web store or a partner. Usually thin: a name, an email, a few products.'},{n:'2',bg:BLUE,title:'Sprouts fills in the picture',text:'Which company, what is going on there, and a score for how likely it is to close. In minutes.'},{n:'3',bg:PURPLE,title:'Moxo moves it along',text:'Suggests the right partner, sets deadlines, sends reminders, escalates when it stalls.'},{n:'4',bg:GREEN,title:'Partner acts, everyone learns',text:'The partner accepts and calls from their phone. The result goes to the CRM and sharpens the next score.'}];
+    return{tenantName:this.props.tenantName??'Acme Industrial',liveLabel:s.quotes.filter(x=>x.stage==='triage').length+' need your decision · '+s.quotes.filter(x=>['assigned','accepted','contacted'].includes(x.stage)).length+' with partners',simulate:()=>this.simulate(),simRunning:!!s.sim,simLabel:s.sim?'Quote arriving…':s.quotes.some(x=>x.id==='Q-107')?'Show the new quote':'Show a new quote arriving',hasToast:!!s.toast,toastText:s.toast,how,queue,d};}
+}
+</script>
+</body>
+</html>
