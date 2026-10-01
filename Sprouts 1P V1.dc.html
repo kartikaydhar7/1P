@@ -4117,15 +4117,178 @@
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap;flex:0 0 auto;">
             <div><h1 style="font:600 28px 'Pliant',sans-serif;letter-spacing:-0.03em;color:var(--text);margin:0;">Dialer</h1><p style="font:400 13.5px 'Pliant',sans-serif;color:var(--text-secondary);margin:7px 0 0;">{{ dlSummary }}</p></div>
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span style="display:inline-flex;gap:2px;background:var(--surface-soft);border-radius:999px;padding:3px;"><sc-for list="{{ dlModes }}" as="md" hint-placeholder-count="3"><button onClick="{{ md.pick }}" style="border:none;cursor:pointer;border-radius:999px;padding:5px 11px;font:{{ md.font }};color:{{ md.col }};background:{{ md.bg }};white-space:nowrap;">{{ md.l }}</button></sc-for></span>
-              <span style="position:relative;display:inline-flex;"><button onClick="{{ dlSetFlip }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:9px;padding:7px 11px;font:600 11.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ dlSetL }}<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
-                <sc-if value="{{ dlSetOpen }}" hint-placeholder-val=""><div style="position:absolute;top:38px;right:0;z-index:60;width:300px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 6px rgba(24,23,30,.05), 0 22px 56px -18px rgba(24,23,30,.25);padding:12px;display:flex;flex-direction:column;gap:12px;">
-                  <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 11.5px 'Pliant',sans-serif;color:var(--text);">Caller ID</span><button onClick="{{ dlLocalFlip }}" title="Click to switch" style="border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:8px;padding:7px 11px;align-self:flex-start;font:600 10.5px 'Pliant Mono';color:var(--accent-hover);white-space:nowrap;" style-hover="border-color:var(--accent-border)">{{ dlNumber }}</button><span style="font:400 10.5px/1.4 'Pliant',sans-serif;color:var(--text-muted);">Click to switch. Local presence lifts answer rates; a fixed number is easier to call back.</span></div>
-                  <div style="display:flex;align-items:center;gap:10px;"><span style="flex:1;display:flex;flex-direction:column;gap:1px;"><span style="font:600 11.5px 'Pliant',sans-serif;color:var(--text);">Record calls</span><span style="font:400 10.5px/1.4 'Pliant',sans-serif;color:var(--text-muted);">{{ dlRecNote }}</span></span><span onClick="{{ dlRecFlip }}" style="width:34px;height:20px;border-radius:20px;background:{{ dlRecBg }};position:relative;cursor:pointer;flex:0 0 auto;transition:background .15s ease;"><span style="position:absolute;top:2px;left:{{ dlRecKnob }};width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .15s ease;"></span></span></div>
-                </div></sc-if>
-              </span>
             </div>
           </div>
           
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-6px 0 12px;flex:0 0 auto;">
+            <sc-for list="{{ dlRules }}" as="dr" hint-placeholder-count="4"><button onClick="{{ dr.go }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--surface-2);border-radius:999px;padding:4px 10px 4px 7px;font:500 11.5px 'Pliant',sans-serif;color:var(--text);cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)"><span style="width:7px;height:7px;border-radius:50%;background:{{ dr.c }};"></span>{{ dr.l }}</button></sc-for>
+          </div>
+          <sc-if value="{{ dlIsAgents }}" hint-placeholder-val="">
+          <div class="cx-scroll" style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(290px,.8fr);gap:16px;align-items:start;align-content:start;">
+            <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Call campaigns · {{ vaCampN }}</span><button onClick="{{ vaOpenWizard }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">+ Make a campaign</button></div>
+                <div style="display:flex;align-items:center;gap:12px;padding:0 16px;height:34px;background:var(--surface-soft);font:600 9px 'Pliant Mono';letter-spacing:.06em;color:var(--text-secondary);"><span style="flex:1;min-width:170px;">CAMPAIGN</span><span style="width:92px;">COUNTRY</span><span style="width:150px;">AGENT · NUMBER</span><span style="width:60px;text-align:right;">AUDIENCE</span><span style="width:170px;">RESULTS</span><span style="width:70px;">STATUS</span></div>
+                <sc-for list="{{ vaCamps }}" as="vc" hint-placeholder-count="3">
+                  <button onClick="{{ vc.open }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:none;border-top:1px solid var(--border-soft);background:{{ vc.bg }};padding:0 16px;min-height:56px;cursor:pointer;" style-hover="background:var(--surface-soft)">
+                    <span style="flex:1;min-width:170px;display:flex;flex-direction:column;gap:1px;padding:8px 0;"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ vc.name }}</span><span style="font:400 11px 'Pliant',sans-serif;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ vc.meta }}</span></span>
+                    <span style="width:92px;font:500 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">{{ vc.country }}</span>
+                    <span style="width:150px;display:flex;flex-direction:column;gap:1px;min-width:0;"><span style="font:500 12px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ vc.agent }}</span><span style="font:400 10.5px 'Pliant Mono';color:var(--text-muted);">{{ vc.num }}</span></span>
+                    <span style="width:60px;text-align:right;font:500 12px 'Pliant Mono';color:var(--text);">{{ vc.aud }}</span>
+                    <span style="width:170px;display:flex;flex-direction:column;gap:3px;"><span style="display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--surface-soft);"><span style="width:{{ vc.wPos }};background:var(--accent);"></span><span style="width:{{ vc.wRej }};background:var(--warning);"></span><span style="width:{{ vc.wVm }};background:var(--border-strong);"></span></span><span style="font:500 10px 'Pliant Mono';color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ vc.res }}</span></span>
+                    <span style="width:70px;"><span style="font:600 9.5px 'Pliant',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ vc.stC }};background:{{ vc.stB }};border-radius:5px;padding:4px 8px;">{{ vc.status }}</span></span>
+                  </button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ vaSelV }}" hint-placeholder-val="">
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;display:flex;flex-direction:column;gap:12px;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                  <div><span style="display:block;font:600 15px 'Pliant',sans-serif;color:var(--text);">{{ vaSelName }}</span><span style="display:block;font:400 12px 'Pliant',sans-serif;color:var(--text-secondary);margin-top:2px;">{{ vaSelLine }}</span></div>
+                  <div style="display:flex;gap:6px;"><button onClick="{{ vaToggleRun }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ vaRunL }}</button><button onClick="{{ vaExport }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Export results</button></div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;">
+                  <sc-for list="{{ vaSelKpis }}" as="vk" hint-placeholder-count="6"><div style="border:1px solid var(--border-soft);border-radius:10px;padding:9px 11px;"><span style="display:block;font:600 15px 'Pliant Mono';color:{{ vk.c }};">{{ vk.v }}</span><span style="display:block;font:600 8.5px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-top:3px;">{{ vk.l }}</span></div></sc-for>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
+                  <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Skipped before dialling</span><sc-for list="{{ vaSelSkips }}" as="sk" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:8px;font:400 12px 'Pliant',sans-serif;color:var(--text);"><span style="font:600 11.5px 'Pliant Mono';color:var(--text-secondary);width:34px;">{{ sk.n }}</span><span style="flex:1;">{{ sk.l }}</span></div></sc-for></div>
+                  <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Results so far</span><sc-for list="{{ vaSelResults }}" as="rs" hint-placeholder-count="5"><div style="display:flex;align-items:center;gap:8px;font:400 12px 'Pliant',sans-serif;color:var(--text);"><span style="width:8px;height:8px;border-radius:50%;background:{{ rs.c }};flex:0 0 auto;"></span><span style="flex:1;">{{ rs.l }}</span><span style="font:600 11.5px 'Pliant Mono';color:var(--text-secondary);">{{ rs.n }}</span></div></sc-for></div>
+                </div>
+                <sc-if value="{{ vaSelHasCalls }}" hint-placeholder-val="">
+                <div style="border-top:1px solid var(--border-soft);padding-top:10px;display:flex;flex-direction:column;gap:2px;">
+                  <span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Recent calls</span>
+                  <sc-for list="{{ vaSelCalls }}" as="cl" hint-placeholder-count="4">
+                    <div style="display:grid;grid-template-columns:56px minmax(0,1.1fr) minmax(0,1.5fr) 128px;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--border-soft);">
+                      <span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);">{{ cl.when }}</span>
+                      <span style="min-width:0;display:flex;flex-direction:column;gap:1px;"><span style="font:500 12px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ cl.who }}</span><span style="font:400 10.5px 'Pliant Mono';color:var(--text-muted);">{{ cl.num }}</span></span>
+                      <span style="font:400 11.5px/1.45 'Pliant',sans-serif;color:var(--text-secondary);">{{ cl.reason }}</span>
+                      <span style="display:flex;flex-direction:column;align-items:flex-start;gap:3px;"><span style="font:600 9.5px 'Pliant',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ cl.c }};background:{{ cl.b }};border-radius:5px;padding:3px 7px;">{{ cl.res }}</span><sc-if value="{{ cl.blocked }}" hint-placeholder-val=""><span style="font:500 9.5px 'Pliant Mono';color:var(--negative);">blocked · company-wide</span></sc-if></span>
+                    </div>
+                  </sc-for>
+                </div>
+                </sc-if>
+              </div>
+              </sc-if>
+              <sc-if value="{{ vaWizV }}" hint-placeholder-val="">
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><div style="display:flex;align-items:center;gap:7px;"><sc-for list="{{ vaWizDots }}" as="wd" hint-placeholder-count="5"><span style="width:8px;height:8px;border-radius:50%;background:{{ wd.c }};"></span></sc-for><span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);margin-left:4px;">{{ vaWizStepL }}</span></div><button onClick="{{ vaCloseWizard }}" style="border:none;background:transparent;cursor:pointer;color:var(--text-muted);font:500 12px 'Pliant',sans-serif;" style-hover="color:var(--text)">Close</button></div>
+                <div><span style="display:block;font:600 17px 'Pliant',sans-serif;color:var(--text);letter-spacing:-.015em;">{{ vaWizTitle }}</span><span style="display:block;font:400 12.5px 'Pliant',sans-serif;color:var(--text-secondary);margin-top:3px;">{{ vaWizStand }}</span></div>
+                <sc-if value="{{ vaWizIs1 }}" hint-placeholder-val="">
+                  <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div style="display:flex;flex-direction:column;gap:5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Campaign name</span><input value="{{ vaWizName }}" onChange="{{ onVaWizName }}" placeholder="October product outreach" style="width:100%;max-width:420px;box-sizing:border-box;border:1px solid var(--border);border-radius:9px;padding:9px 11px;font:400 13px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;" style-focus="border-color:var(--accent)" /></div>
+                    <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Campaign country · where the numbers are from</span>
+                      <sc-if value="{{ dncPaused }}" hint-placeholder-val=""><div style="display:flex;align-items:center;gap:12px;border:1px solid var(--warning);background:var(--warning-soft);border-radius:10px;padding:10px 14px;max-width:640px;"><span style="font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text);flex:1;">No countries are allowed for calling yet. Add the countries your team calls; this wizard keeps your input and you come straight back.</span><button onClick="{{ vaAllowFromWizard }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Allow countries</button></div></sc-if>
+                      <div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ vaWizCountries }}" as="wc" hint-placeholder-count="2"><button onClick="{{ wc.pick }}" style="border:1px solid {{ wc.bd }};background:{{ wc.bg }};color:{{ wc.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ wc.l }}</button></sc-for><button onClick="{{ vaAllowFromWizard }}" style="border:1px dashed var(--border-strong);background:transparent;color:var(--text-secondary);border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;" style-hover="border-color:var(--accent);color:var(--accent-hover)">+ Allow another</button></div>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ vaWizIs2 }}" hint-placeholder-val="">
+                  <div style="display:flex;flex-direction:column;gap:8px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Who gets called</span>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;"><sc-for list="{{ vaWizAud }}" as="wa" hint-placeholder-count="3"><button onClick="{{ wa.pick }}" style="text-align:left;border:1px solid {{ wa.bd }};background:{{ wa.bg }};border-radius:10px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px;" style-hover="border-color:var(--accent-border)"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);">{{ wa.l }}</span><span style="font:400 11.5px/1.45 'Pliant',sans-serif;color:var(--text-secondary);">{{ wa.d }}</span><span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);margin-top:3px;">{{ wa.n }}</span></button></sc-for></div>
+                    <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">Columns map automatically: phone, name, company, email. Numbers are normalised to + and country code before any check.</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ vaWizIs3 }}" hint-placeholder-val="">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+                    <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Voice agent</span><sc-for list="{{ vaWizAgents }}" as="wg" hint-placeholder-count="2"><button onClick="{{ wg.pick }}" style="text-align:left;border:1px solid {{ wg.bd }};background:{{ wg.bg }};border-radius:10px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px;" style-hover="border-color:var(--accent-border)"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);">{{ wg.l }}</span><span style="font:400 11.5px/1.45 'Pliant',sans-serif;color:var(--text-secondary);">{{ wg.d }}</span></button></sc-for><button onClick="{{ vaNewAgent }}" style="border:1px dashed var(--border-strong);background:transparent;color:var(--text-secondary);border-radius:10px;padding:9px 12px;font:500 12px 'Pliant',sans-serif;cursor:pointer;text-align:left;" style-hover="border-color:var(--accent);color:var(--accent-hover)">+ New agent · describe what it should achieve</button></div>
+                    <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Calling from</span><sc-for list="{{ vaWizNums }}" as="wn" hint-placeholder-count="2"><button onClick="{{ wn.pick }}" style="text-align:left;border:1px solid {{ wn.bd }};background:{{ wn.bg }};border-radius:10px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px;" style-hover="border-color:var(--accent-border)"><span style="font:600 12.5px 'Pliant Mono';color:var(--text);">{{ wn.l }}</span><span style="font:400 11.5px/1.45 'Pliant',sans-serif;color:{{ wn.dc }};">{{ wn.d }}</span></button></sc-for></div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ vaWizIs4 }}" hint-placeholder-val="">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+                    <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">When</span><div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ vaWizWhen }}" as="ww" hint-placeholder-count="3"><button onClick="{{ ww.pick }}" style="border:1px solid {{ ww.bd }};background:{{ ww.bg }};color:{{ ww.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ ww.l }}</button></sc-for></div><span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">{{ vaWizHoursNote }}</span></div>
+                    <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Pace and retries</span><div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ vaWizPace }}" as="wp" hint-placeholder-count="3"><button onClick="{{ wp.pick }}" style="border:1px solid {{ wp.bd }};background:{{ wp.bg }};color:{{ wp.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ wp.l }}</button></sc-for></div><span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">Voicemail and no answer retry once the next day. Rejected and Do not call again never retry.</span></div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ vaWizIs5 }}" hint-placeholder-val="">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+                    <div style="display:flex;flex-direction:column;gap:4px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Will be called</span><span style="font:600 26px 'Pliant Mono';color:var(--text);letter-spacing:-.02em;">{{ vaWizDial }}</span><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">of {{ vaWizTotal }} in the audience</span></div>
+                    <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Skipped, and why</span><sc-for list="{{ vaWizSkips }}" as="ws" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:8px;font:400 12px 'Pliant',sans-serif;color:var(--text);"><span style="font:600 11.5px 'Pliant Mono';color:var(--text-secondary);width:34px;">{{ ws.n }}</span><span style="flex:1;">{{ ws.l }}</span></div></sc-for></div>
+                    <div style="display:flex;flex-direction:column;gap:4px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Estimated cost</span><span style="font:600 26px 'Pliant Mono';color:var(--text);letter-spacing:-.02em;">{{ vaWizCost }}</span><span style="font:400 11.5px/1.45 'Pliant',sans-serif;color:var(--text-secondary);">{{ vaWizCostNote }}</span></div>
+                  </div>
+                  <div style="font:400 12px/1.55 'Pliant',sans-serif;color:var(--text-secondary);border-top:1px solid var(--border-soft);padding-top:10px;">{{ vaWizSummary }}</div>
+                </sc-if>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--border-soft);padding-top:12px;">
+                  <button onClick="{{ vaWizBack }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;visibility:{{ vaWizBackVis }};" style-hover="border-color:var(--accent-border)">Back</button>
+                  <span style="font:400 11.5px 'Pliant',sans-serif;color:{{ vaWizGateC }};">{{ vaWizGate }}</span>
+                  <button onClick="{{ vaWizNext }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;opacity:{{ vaWizNextOp }};" style-hover="background:var(--accent-hover)">{{ vaWizNextL }}</button>
+                </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{ vaAgV }}" hint-placeholder-val="">
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><div style="display:flex;align-items:center;gap:7px;"><sc-for list="{{ vaAgDots }}" as="ad" hint-placeholder-count="5"><span style="width:8px;height:8px;border-radius:50%;background:{{ ad.c }};"></span></sc-for><span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);margin-left:4px;">{{ vaAgStepL }}</span></div><button onClick="{{ vaAgClose }}" style="border:none;background:transparent;cursor:pointer;color:var(--text-muted);font:500 12px 'Pliant',sans-serif;" style-hover="color:var(--text)">Close</button></div>
+                <div><span style="display:block;font:600 17px 'Pliant',sans-serif;color:var(--text);letter-spacing:-.015em;">{{ vaAgTitle }}</span><span style="display:block;font:400 12.5px 'Pliant',sans-serif;color:var(--text-secondary);margin-top:3px;">{{ vaAgStand }}</span></div>
+                <sc-if value="{{ vaAgIs1 }}" hint-placeholder-val="">
+                  <textarea value="{{ vaAgPurpose }}" onChange="{{ onVaAgPurpose }}" rows="3" placeholder="An outbound agent that calls qualified leads and books a product consultation." style="width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:9px;padding:10px 12px;font:400 13px/1.5 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;resize:vertical;" style-focus="border-color:var(--accent)"></textarea>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ vaAgExamples }}" as="ae" hint-placeholder-count="2"><button onClick="{{ ae.pick }}" style="text-align:left;border:1px solid var(--border);background:var(--surface);border-radius:9px;padding:8px 11px;font:400 12px/1.45 'Pliant',sans-serif;color:var(--text-secondary);cursor:pointer;max-width:360px;" style-hover="border-color:var(--accent-border);color:var(--text)">{{ ae.l }}</button></sc-for></div>
+                </sc-if>
+                <sc-if value="{{ vaAgIs2 }}" hint-placeholder-val="">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><span style="font:500 11px 'Pliant Mono';color:var(--text-muted);">{{ vaAgGoalCount }}</span><button onClick="{{ vaAgGen }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Generate goals</button></div>
+                  <sc-for list="{{ vaAgGoals }}" as="ag" hint-placeholder-count="3"><div style="display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-top:1px solid var(--border-soft);"><span style="color:var(--accent);margin-top:2px;display:flex;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></span><span style="flex:1;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text);">{{ ag.t }}</span><button onClick="{{ ag.remove }}" style="border:none;background:transparent;cursor:pointer;color:var(--text-muted);display:flex;" style-hover="color:var(--negative)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></sc-for>
+                  <div style="display:flex;gap:6px;"><input value="{{ vaAgNewGoal }}" onChange="{{ onVaAgNewGoal }}" placeholder="Add your own goal" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font:400 12.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;" style-focus="border-color:var(--accent)" /><button onClick="{{ vaAgAddGoal }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)">Add</button></div>
+                  <div style="border:1px solid var(--accent-border);background:var(--accent-soft);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);">Outbound calls</span><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">Calls each person on the campaign list once, from your number. Inbound is not in this release.</span></div>
+                </sc-if>
+                <sc-if value="{{ vaAgIs3 }}" hint-placeholder-val="">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                      <div style="display:flex;align-items:flex-start;gap:10px;"><span style="width:34px;height:20px;border-radius:20px;background:var(--accent);position:relative;flex:0 0 auto;margin-top:2px;"><span style="position:absolute;top:3px;left:17px;width:14px;height:14px;border-radius:50%;background:#fff;"></span></span><span><span style="display:block;font:600 12.5px 'Pliant',sans-serif;color:var(--text);">Hang up the call</span><span style="display:block;font:400 11.5px/1.45 'Pliant',sans-serif;color:var(--text-secondary);">Ends the call politely once the conversation is over. The result is always saved first.</span></span></div>
+                      <div style="display:flex;flex-wrap:wrap;gap:5px;padding-left:44px;"><sc-for list="{{ vaAgHang }}" as="ah" hint-placeholder-count="4"><button onClick="{{ ah.pick }}" style="border:1px solid {{ ah.bd }};background:{{ ah.bg }};color:{{ ah.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ ah.l }}</button></sc-for></div>
+                      <div style="display:flex;align-items:flex-start;gap:10px;margin-top:4px;"><span style="width:34px;height:20px;border-radius:20px;background:var(--accent);position:relative;flex:0 0 auto;margin-top:2px;"><span style="position:absolute;top:3px;left:17px;width:14px;height:14px;border-radius:50%;background:#fff;"></span></span><span><span style="display:block;font:600 12.5px 'Pliant',sans-serif;color:var(--text);">Save the call result</span><span style="display:block;font:400 11.5px/1.45 'Pliant',sans-serif;color:var(--text-secondary);">Labels how each call went so you can track it in call history and reports. The person’s main reason for talking is always saved too.</span></span></div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                      <span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Chosen by the agent</span>
+                      <sc-for list="{{ vaAgResults }}" as="ar" hint-placeholder-count="3"><div style="display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-top:1px solid var(--border-soft);"><span style="width:8px;height:8px;border-radius:50%;background:{{ ar.c }};margin-top:5px;flex:0 0 auto;"></span><span style="flex:1;min-width:0;"><span style="display:block;font:600 12px 'Pliant',sans-serif;color:var(--text);">{{ ar.l }} <span style="font:500 10px 'Pliant Mono';color:var(--text-muted);">{{ ar.key }}</span></span><span style="display:block;font:400 11.5px/1.45 'Pliant',sans-serif;color:var(--text-secondary);">{{ ar.d }}</span><sc-if value="{{ ar.blocks }}" hint-placeholder-val=""><span style="display:inline-block;margin-top:3px;font:600 9.5px 'Pliant Mono';letter-spacing:.06em;text-transform:uppercase;color:var(--negative);">Blocks the number · company-wide</span></sc-if></span><button onClick="{{ ar.remove }}" style="border:none;background:transparent;cursor:pointer;color:var(--text-muted);display:flex;" style-hover="color:var(--negative)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></sc-for>
+                      <div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ vaAgPresets }}" as="ap" hint-placeholder-count="4"><button onClick="{{ ap.pick }}" style="border:1px dashed var(--border-strong);background:transparent;color:var(--text-secondary);border-radius:999px;padding:3px 9px;font:500 11px 'Pliant',sans-serif;cursor:pointer;" style-hover="border-color:var(--accent);color:var(--accent-hover)">+ {{ ap.l }}</button></sc-for></div>
+                      <span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-top:6px;">Detected automatically · always on</span>
+                      <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">Voicemail · IVR · Unreachable · Unresolved. Set by the phone system when no person was reached, or when nothing above fits.</span>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ vaAgIs4 }}" hint-placeholder-val="">
+                  <textarea value="{{ vaAgPrompt }}" onChange="{{ onVaAgPrompt }}" rows="6" placeholder="You are a concise, thoughtful outbound voice agent…" style="width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:9px;padding:10px 12px;font:400 12.5px/1.55 'Pliant Mono';color:var(--text);background:var(--surface);outline:none;resize:vertical;" style-focus="border-color:var(--accent)"></textarea>
+                  <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">Optional. Savant drafts one from the purpose and goals if you leave this empty. “Do not call again” handling and the opt-out line are added for every agent.</span>
+                </sc-if>
+                <sc-if value="{{ vaAgIs5 }}" hint-placeholder-val="">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+                    <div style="display:flex;flex-direction:column;gap:5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Agent name</span><input value="{{ vaAgName }}" onChange="{{ onVaAgName }}" placeholder="e.g. Ridge · outbound qualifier" style="width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:9px;padding:9px 11px;font:400 13px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;" style-focus="border-color:var(--accent)" /></div>
+                    <div style="display:flex;flex-direction:column;gap:5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Voice</span><div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ vaAgVoices }}" as="av" hint-placeholder-count="3"><button onClick="{{ av.pick }}" style="border:1px solid {{ av.bd }};background:{{ av.bg }};color:{{ av.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ av.l }}</button></sc-for></div><button onClick="{{ vaAgSample }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;align-self:flex-start;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">▶ Hear a sample</button></div>
+                    <div style="display:flex;flex-direction:column;gap:5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Language</span><div style="display:flex;gap:5px;"><sc-for list="{{ vaAgLangs }}" as="al" hint-placeholder-count="2"><button onClick="{{ al.pick }}" style="border:1px solid {{ al.bd }};background:{{ al.bg }};color:{{ al.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ al.l }}</button></sc-for></div></div>
+                    <div style="display:flex;flex-direction:column;gap:5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Knowledge, optional</span><div style="display:flex;gap:5px;flex-wrap:wrap;"><button onClick="{{ vaAgKbUrl }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)">Add from URL</button><button onClick="{{ vaAgKbFile }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)">Upload file</button></div><span style="font:400 11px/1.45 'Pliant',sans-serif;color:var(--text-muted);">PDF, TXT, Markdown or DOCX up to 20 MB · indexing costs 10 cr per file</span></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;border-top:1px solid var(--border-soft);padding-top:10px;flex-wrap:wrap;"><button onClick="{{ vaAgTestCall }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Test-call my phone</button><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">Hear the agent on your own number before it joins a campaign. 2 cr a minute.</span></div>
+                </sc-if>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--border-soft);padding-top:12px;">
+                  <button onClick="{{ vaAgBack }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;visibility:{{ vaAgBackVis }};" style-hover="border-color:var(--accent-border)">Back</button>
+                  <span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-muted);">{{ vaAgGate }}</span>
+                  <button onClick="{{ vaAgNext }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;opacity:{{ vaAgNextOp }};" style-hover="background:var(--accent-hover)">{{ vaAgNextL }}</button>
+                </div>
+              </div>
+              </sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px 8px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Voice agents · {{ vaAgentN }}</span><button onClick="{{ vaNewAgent }}" style="border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:8px;padding:5px 10px;font:600 10.5px 'Pliant',sans-serif;color:var(--accent-hover);white-space:nowrap;" style-hover="border-color:var(--accent-border)">+ New agent</button></div>
+                <sc-for list="{{ vaAgents }}" as="va" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:flex-start;gap:10px;padding:11px 16px;border-top:1px solid var(--border-soft);">
+                    <span style="width:30px;height:30px;border-radius:9px;background:var(--accent-soft);color:var(--accent-hover);display:flex;align-items:center;justify-content:center;font:700 11px 'Pliant Mono';flex:0 0 auto;">{{ va.ini }}</span>
+                    <span style="flex:1;min-width:0;"><span style="display:block;font:600 12.5px 'Pliant',sans-serif;color:var(--text);">{{ va.name }}</span><span style="display:block;font:400 11.5px/1.45 'Pliant',sans-serif;color:var(--text-secondary);">{{ va.purpose }}</span><span style="display:block;font:500 10.5px 'Pliant Mono';color:var(--text-muted);margin-top:3px;">{{ va.meta }}</span></span>
+                    <span style="font:600 9.5px 'Pliant',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ va.stC }};background:{{ va.stB }};border-radius:5px;padding:4px 8px;white-space:nowrap;">{{ va.status }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px 8px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Phone numbers · {{ vaNumN }}</span><button onClick="{{ vaGoNumbers }}" style="border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:8px;padding:5px 10px;font:600 10.5px 'Pliant',sans-serif;color:var(--accent-hover);white-space:nowrap;" style-hover="border-color:var(--accent-border)">Manage</button></div>
+                <sc-for list="{{ vaNums }}" as="vn" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-top:1px solid var(--border-soft);"><span style="width:7px;height:7px;border-radius:50%;background:{{ vn.c }};flex:0 0 auto;"></span><span style="flex:1;min-width:0;"><span style="display:block;font:600 12px 'Pliant Mono';color:var(--text);">{{ vn.num }}</span><span style="display:block;font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ vn.d }}</span></span><span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);">{{ vn.cost }}</span></div></sc-for>
+              </div>
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:12px 16px;display:flex;flex-direction:column;gap:5px;">
+                <span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Credits</span>
+                <span style="font:600 18px 'Pliant Mono';color:var(--text);">{{ vaCredits }}</span>
+                <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">Calls cost 2 cr a minute in the US, 6 in Singapore and 5 in Australia. Numbers bill monthly. Registry checks are free.</span>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+          <sc-if value="{{ dlIsManual }}" hint-placeholder-val="{{ true }}">
           <div style="flex:1;min-height:0;display:grid;grid-template-columns:{{ dlCols }};gap:16px;">
             <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:6px;display:flex;flex-direction:column;gap:2px;min-height:0;overflow-y:auto;overflow-x:hidden;">
               <div style="display:flex;align-items:center;padding:7px 9px 5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Queue</span><span style="flex:1;"></span><span style="font:500 10px 'Pliant Mono';color:var(--text-muted);">{{ dlQN }}</span></div>
@@ -4162,7 +4325,9 @@
                 <sc-for list="{{ dlTouches }}" as="lt" hint-placeholder-count="2"><div style="display:flex;flex-direction:column;gap:2px;padding:8px 0;border-top:1px solid var(--border-soft);"><span style="font:500 11px 'Pliant Mono';color:var(--text-muted);">{{ lt.k }}</span><span style="font:400 12px/1.45 'Pliant',sans-serif;color:var(--text-2);">{{ lt.v }}</span></div></sc-for>
               </div>
             </div></sc-if>
-          </div></div>
+          </div>
+          </sc-if>
+          </div>
     </sc-if>
     <!-- ===== CAMPAIGNS ===== -->
     <sc-if value="{{ isCampaigns }}" hint-placeholder-val="">
@@ -4217,7 +4382,9 @@
               <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border-soft);"><div style="padding:10px 16px;border-right:1px solid var(--border-soft);"><div style="font:600 8.5px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);">Bounce · 30d</div><div style="font:600 17px 'Pliant Mono';letter-spacing:-0.02em;color:{{ campBounceC }};margin-top:2px;">{{ campBounce }}</div><div style="font:400 10.5px 'Pliant',sans-serif;color:var(--text-muted);">{{ campBounceSub }}</div></div><div style="padding:10px 16px;"><div style="font:600 8.5px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);">Setup</div><div style="font:600 12px/1.35 'Pliant',sans-serif;color:{{ campAlignOkC }};margin-top:4px;">{{ campAlignOkL }}</div></div></div>
               <div style="border-top:1px solid var(--border-soft);padding:10px 16px 6px;font:600 8.5px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);">Mailboxes · daily limit</div>
               <sc-for list="{{ campCtlMbx }}" as="mb" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:6px 16px;align-items:center;"><span style="font:500 12px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ mb.addr }}</span><span style="font:600 9.5px 'Pliant',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ mb.stC }};">{{ mb.st }}</span><span style="height:5px;background:var(--surface-soft);border-radius:3px;overflow:hidden;"><span style="display:block;height:100%;width:{{ mb.w }};background:{{ mb.bar }};border-radius:3px;"></span></span><span style="font:400 10.5px 'Pliant Mono';color:var(--text-muted);white-space:nowrap;">{{ mb.left }}</span></div></sc-for>
-              <div style="border-top:1px solid var(--border-soft);padding:10px 16px 6px;margin-top:4px;font:600 8.5px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);">Domains</div>
+              <div style="border-top:1px solid var(--border-soft);padding:10px 16px 6px;margin-top:4px;font:600 8.5px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);">Calling</div>
+              <div style="display:flex;align-items:center;gap:8px;padding:0 16px 10px;"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;"><span style="font:500 12px 'Pliant',sans-serif;color:var(--text);">{{ dlTileStat }}</span><span style="font:400 11px 'Pliant',sans-serif;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ dlTileSub }}</span></span><button onClick="{{ goCalling }}" style="border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:8px;padding:5px 10px;font:600 10.5px 'Pliant',sans-serif;color:var(--accent-hover);white-space:nowrap;" style-hover="border-color:var(--accent-border)">Rules</button></div>
+              <div style="border-top:1px solid var(--border-soft);padding:10px 16px 6px;font:600 8.5px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);">Domains</div>
               <div style="display:flex;flex-direction:column;gap:4px;padding:0 16px 14px;"><sc-for list="{{ campCtlDoms }}" as="dm" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:8px;"><span style="flex:1;font:500 12px 'Pliant',sans-serif;color:var(--text);">{{ dm.dom }}</span><span style="font:600 9.5px 'Pliant Mono';color:{{ dm.c }};background:{{ dm.b }};border-radius:5px;padding:2px 7px;white-space:nowrap;">{{ dm.l }}</span></div></sc-for></div>
             </div>
           </div>
@@ -4307,6 +4474,165 @@
           <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;">
             <span style="display:inline-flex;gap:2px;background:var(--surface-soft);border-radius:999px;padding:3px;"><sc-for list="{{ campChTabs }}" as="ct" hint-placeholder-count="3"><button onClick="{{ ct.pick }}" style="border:none;cursor:pointer;border-radius:999px;padding:5px 12px;font:{{ ct.font }};color:{{ ct.col }};background:{{ ct.bg }};white-space:nowrap;">{{ ct.l }}</button></sc-for></span>
           </div>
+            <!-- PHONE NUMBERS -->
+            <sc-if value="{{ setIsNumbers }}" hint-placeholder-val="">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px;flex-wrap:wrap;">
+                <div><span style="display:block;font:600 15px 'Pliant',sans-serif;color:var(--text);">Phone numbers</span><span style="display:block;font:400 12px 'Pliant',sans-serif;color:var(--text-secondary);margin-top:2px;">{{ pnSummary }}</span></div>
+                <div style="display:flex;gap:6px;"><button onClick="{{ pnRefresh }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Refresh</button><button onClick="{{ pnOpenBuy }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">+ Buy a number</button></div>
+              </div>
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;margin-bottom:10px;">
+                <div style="overflow-x:auto;width:0;min-width:100%;"><div style="min-width:820px;">
+                  <div style="display:flex;align-items:center;gap:12px;padding:0 16px;height:36px;background:var(--surface-soft);font:600 9px 'Pliant Mono';letter-spacing:.06em;color:var(--text-secondary);"><span style="flex:1;min-width:170px;">NUMBER</span><span style="width:170px;">LOCATION</span><span style="width:190px;">VOICE AGENT</span><span style="width:110px;">SUPPORTS</span><span style="width:70px;">BOUGHT</span><span style="width:64px;text-align:right;">MONTHLY</span><span style="width:170px;"></span></div>
+                  <sc-for list="{{ pnRows }}" as="pn" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:54px;border-top:1px solid var(--border-soft);">
+                      <span style="flex:1;min-width:170px;font:600 12.5px 'Pliant Mono';color:var(--text);">{{ pn.num }}</span>
+                      <span style="width:170px;font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">{{ pn.loc }}</span>
+                      <span style="width:190px;display:flex;align-items:center;gap:6px;min-width:0;"><span style="width:7px;height:7px;border-radius:50%;background:{{ pn.agC }};flex:0 0 auto;"></span><span style="font:500 12px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ pn.agent }}</span></span>
+                      <span style="width:110px;font:500 10.5px 'Pliant Mono';color:var(--text-secondary);">{{ pn.caps }}</span>
+                      <span style="width:70px;font:500 10.5px 'Pliant Mono';color:var(--text-muted);">{{ pn.bought }}</span>
+                      <span style="width:64px;text-align:right;font:500 11.5px 'Pliant Mono';color:var(--text);">{{ pn.cost }}</span>
+                      <span style="width:170px;display:flex;justify-content:flex-end;gap:6px;"><button onClick="{{ pn.connect }}" style="border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:8px;padding:5px 10px;font:600 10.5px 'Pliant',sans-serif;color:var(--accent-hover);white-space:nowrap;" style-hover="border-color:var(--accent-border)">{{ pn.connectL }}</button><button onClick="{{ pn.release }}" style="border:none;background:transparent;cursor:pointer;padding:5px 6px;font:600 11px 'Pliant',sans-serif;color:var(--text-secondary);" style-hover="color:var(--negative)">Release</button></span>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ pnEmpty }}" hint-placeholder-val=""><div style="padding:24px 16px;font:400 12.5px 'Pliant',sans-serif;color:var(--text-secondary);">No phone numbers yet. Buy a number to start placing calls.</div></sc-if>
+                </div></div>
+              </div>
+              <p style="font:400 11.5px/1.55 'Pliant',sans-serif;color:var(--text-secondary);margin:0 0 22px;max-width:75ch;">Each number is paid from the Mint balance. Setup is charged once, then monthly, plus a per-minute rate while an agent is on a call. A number connects to one voice agent at a time; releasing it stops billing at month end.</p>
+              <sc-if value="{{ pnBuyOpen }}" hint-placeholder-val="">
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;max-width:980px;display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;"><div><span style="display:block;font:600 14px 'Pliant',sans-serif;color:var(--text);">Find a phone number</span><span style="display:block;font:400 12px 'Pliant',sans-serif;color:var(--text-secondary);margin-top:2px;">Pick the country, narrow by area or capability, then buy the exact number. The price shows before you confirm.</span></div><button onClick="{{ pnCloseBuy }}" style="border:none;background:transparent;cursor:pointer;color:var(--text-muted);font:500 12px 'Pliant',sans-serif;" style-hover="color:var(--text)">Close</button></div>
+                <div style="display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);gap:18px;">
+                  <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Country</span><div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ pnCountries }}" as="pk" hint-placeholder-count="4"><button onClick="{{ pk.pick }}" style="border:1px solid {{ pk.bd }};background:{{ pk.bg }};color:{{ pk.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;" style-hover="border-color:var(--accent-hover)">{{ pk.l }}</button></sc-for></div><span style="font:400 11px/1.45 'Pliant',sans-serif;color:{{ pnCountryNoteC }};">{{ pnCountryNote }}</span></div>
+                    <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Area code or digits</span><input value="{{ pnQuery }}" onChange="{{ onPnQuery }}" placeholder="415, or digits the number must contain" style="width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font:400 12.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;" style-focus="border-color:var(--accent)" /></div>
+                    <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Needs to support</span><div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ pnCaps }}" as="pcap" hint-placeholder-count="3"><button onClick="{{ pcap.pick }}" style="border:1px solid {{ pcap.bd }};background:{{ pcap.bg }};color:{{ pcap.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;" style-hover="border-color:var(--accent-hover)">{{ pcap.l }}</button></sc-for></div></div>
+                    <button onClick="{{ pnSearch }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;align-self:flex-start;" style-hover="background:var(--accent-hover)">Search numbers</button>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px;min-width:0;">
+                    <span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">{{ pnResultsLabel }}</span>
+                    <sc-for list="{{ pnResults }}" as="pr" hint-placeholder-count="4">
+                      <button onClick="{{ pr.pick }}" style="display:grid;grid-template-columns:150px minmax(0,1fr) 120px 100px;gap:10px;align-items:center;text-align:left;border:1px solid {{ pr.bd }};background:{{ pr.bg }};border-radius:9px;padding:9px 12px;cursor:pointer;" style-hover="border-color:var(--accent-border)">
+                        <span style="font:600 12.5px 'Pliant Mono';color:var(--text);">{{ pr.num }}</span>
+                        <span style="font:400 12px 'Pliant',sans-serif;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ pr.loc }}</span>
+                        <span style="font:500 10.5px 'Pliant Mono';color:var(--text-secondary);">{{ pr.caps }}</span>
+                        <span style="font:500 11px 'Pliant Mono';color:var(--text);text-align:right;">{{ pr.price }}</span>
+                      </button>
+                    </sc-for>
+                    <sc-if value="{{ pnPicked }}" hint-placeholder-val="">
+                    <div style="margin-top:6px;border-top:1px solid var(--border-soft);padding-top:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                      <span style="display:flex;flex-direction:column;gap:2px;min-width:0;"><span style="font:600 13px 'Pliant Mono';color:var(--text);">{{ pnPickNum }}</span><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">{{ pnPickLoc }}</span></span>
+                      <span style="display:flex;gap:16px;"><span style="display:flex;flex-direction:column;gap:1px;"><span style="font:600 13px 'Pliant Mono';color:var(--text);">{{ pnPickSetup }}</span><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Setup, once</span></span><span style="display:flex;flex-direction:column;gap:1px;"><span style="font:600 13px 'Pliant Mono';color:var(--text);">{{ pnPickMonthly }}</span><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Monthly</span></span><span style="display:flex;flex-direction:column;gap:1px;"><span style="font:600 13px 'Pliant Mono';color:var(--text);">{{ pnPickPerMin }}</span><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Per call minute</span></span></span>
+                      <span style="flex:1;"></span>
+                      <span style="font:400 11px 'Pliant',sans-serif;color:var(--text-muted);">Charged to the Mint balance · {{ pnBalance }}</span>
+                      <button onClick="{{ pnConfirmBuy }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Buy {{ pnPickNum }}</button>
+                    </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </div>
+              </sc-if>
+            </sc-if>
+            <!-- CALLING RULES -->
+            <sc-if value="{{ setIsCalling }}" hint-placeholder-val="">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px;flex-wrap:wrap;">
+                <div><span style="display:block;font:600 15px 'Pliant',sans-serif;color:var(--text);">Calling rules</span><span style="display:block;font:400 12px 'Pliant',sans-serif;color:var(--text-secondary);margin-top:2px;">{{ crSummary }}</span></div>
+              </div>
+              <sc-if value="{{ dncPaused }}" hint-placeholder-val="">
+              <div style="display:flex;align-items:center;gap:12px;border:1px solid var(--warning);background:var(--warning-soft);border-radius:12px;padding:10px 14px;margin-bottom:12px;max-width:980px;"><span style="font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text);flex:1;">Calls are paused. No countries are allowed yet, so every call is skipped.</span><button onClick="{{ dncOpenCountries }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Allow countries</button></div>
+              </sc-if>
+              <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;max-width:980px;">
+                <sc-for list="{{ crRows }}" as="cr" hint-placeholder-count="6">
+                  <div style="border-top:1px solid var(--border-soft);">
+                    <button onClick="{{ cr.toggle }}" style="display:grid;grid-template-columns:168px minmax(0,1fr) auto 18px;gap:14px;align-items:center;width:100%;text-align:left;border:none;background:{{ cr.bg }};padding:13px 16px;cursor:pointer;" style-hover="background:var(--surface-soft)">
+                      <span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);">{{ cr.l }}</span>
+                      <span style="font:400 12.5px 'Pliant',sans-serif;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ cr.v }}</span>
+                      <span style="font:600 9.5px 'Pliant',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ cr.stC }};background:{{ cr.stB }};border-radius:5px;padding:4px 8px;white-space:nowrap;">{{ cr.st }}</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform:{{ cr.chev }};transition:transform .15s ease-out;"><path d="M6 9l6 6 6-6"></path></svg>
+                    </button>
+                    <!-- Allowed countries -->
+                    <sc-if value="{{ cr.isCountries }}" hint-placeholder-val="">
+                    <div style="padding:2px 16px 16px 198px;display:flex;flex-direction:column;gap:10px;">
+                      <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">Calls only go to numbers in these countries; anything else is skipped. The list applies to the whole team, and only admins change it.</span>
+                      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+                        <sc-for list="{{ dncCountries }}" as="dc" hint-placeholder-count="2"><span style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--surface-2);border-radius:999px;padding:4px 6px 4px 10px;font:500 12px 'Pliant',sans-serif;color:var(--text);"><span>{{ dc.l }}</span><span style="font:500 10px 'Pliant Mono';color:{{ dc.regC }};">{{ dc.reg }}</span><button onClick="{{ dc.remove }}" title="Remove" style="border:none;background:transparent;cursor:pointer;color:var(--text-muted);display:flex;padding:1px;" style-hover="color:var(--negative)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span></sc-for>
+                        <button onClick="{{ dncOpenCountries }}" style="border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:8px;padding:5px 10px;font:600 10.5px 'Pliant',sans-serif;color:var(--accent-hover);white-space:nowrap;" style-hover="border-color:var(--accent-border)">+ Allow countries</button>
+                      </div>
+                      <sc-if value="{{ dncPickOpen }}" hint-placeholder-val="">
+                      <div style="border-top:1px solid var(--border-soft);padding-top:10px;display:flex;flex-direction:column;gap:8px;">
+                        <div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ dncPickList }}" as="dp" hint-placeholder-count="6"><button onClick="{{ dp.pick }}" style="border:1px solid {{ dp.bd }};background:{{ dp.bg }};color:{{ dp.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;" style-hover="border-color:var(--accent-hover)">{{ dp.l }}</button></sc-for></div>
+                        <div style="display:flex;gap:8px;"><button onClick="{{ dncAllow }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">{{ dncAllowLabel }}</button><button onClick="{{ dncClosePick }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)">Cancel</button></div>
+                      </div>
+                      </sc-if>
+                    </div>
+                    </sc-if>
+                    <!-- Registries -->
+                    <sc-if value="{{ cr.isRegistries }}" hint-placeholder-val="">
+                    <div style="padding:2px 16px 14px 198px;display:flex;flex-direction:column;gap:2px;">
+                      <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);margin-bottom:6px;">Checked before the first dial and again every 30 days. Checks cost nothing; a hit is skipped and logged.</span>
+                      <sc-for list="{{ dncRegistries }}" as="rg" hint-placeholder-count="3">
+                        <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--border-soft);"><span style="width:8px;height:8px;border-radius:50%;background:{{ rg.c }};flex:0 0 auto;"></span><span style="flex:1;min-width:0;"><span style="display:block;font:500 12.5px 'Pliant',sans-serif;color:var(--text);">{{ rg.l }}</span><span style="display:block;font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);">{{ rg.d }}</span></span><span style="font:500 10.5px 'Pliant Mono';color:{{ rg.c }};white-space:nowrap;">{{ rg.s }}</span></div>
+                      </sc-for>
+                    </div>
+                    </sc-if>
+                    <!-- Blocked contacts -->
+                    <sc-if value="{{ cr.isBlocks }}" hint-placeholder-val="">
+                    <div style="padding:2px 16px 14px 198px;display:flex;flex-direction:column;gap:10px;">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+                        <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">Company-wide blocks always apply; team and personal blocks follow each owner’s lists below. A call that ends with “Do not call again” blocks the number here on its own.</span>
+                        <span style="position:relative;display:inline-flex;">
+                          <button onClick="{{ dncAddFlip }}" style="border:1px solid var(--border);background:var(--surface);cursor:pointer;border-radius:8px;padding:5px 10px;font:600 10.5px 'Pliant',sans-serif;color:var(--accent-hover);white-space:nowrap;display:inline-flex;align-items:center;gap:5px;" style-hover="border-color:var(--accent-border)">+ Add <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+                          <sc-if value="{{ dncAddOpen }}" hint-placeholder-val=""><div style="position:absolute;top:32px;right:0;z-index:60;width:200px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;box-shadow:0 2px 6px rgba(24,23,30,.05), 0 16px 56px -12px rgba(24,23,30,.16);padding:5px;display:flex;flex-direction:column;"><sc-for list="{{ dncAddItems }}" as="ai" hint-placeholder-count="3"><button onClick="{{ ai.go }}" style="text-align:left;border:none;background:transparent;cursor:pointer;border-radius:6px;padding:7px 9px;font:500 12px 'Pliant',sans-serif;color:var(--text);" style-hover="background:rgba(var(--accent-rgb),.08)">{{ ai.l }}</button></sc-for></div></sc-if>
+                        </span>
+                      </div>
+                      <sc-if value="{{ dncBlockOpen }}" hint-placeholder-val="">
+                      <div style="padding:12px;border:1px solid var(--border-soft);border-radius:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;align-items:end;background:var(--surface-soft);">
+                        <div style="display:flex;flex-direction:column;gap:5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">What to block</span><div style="display:flex;gap:5px;flex-wrap:wrap;"><sc-for list="{{ dncBlockKinds }}" as="bk" hint-placeholder-count="2"><button onClick="{{ bk.pick }}" style="border:1px solid {{ bk.bd }};background:{{ bk.bg }};color:{{ bk.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ bk.l }}</button></sc-for></div></div>
+                        <div style="display:flex;flex-direction:column;gap:5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">{{ dncBlockFieldL }}</span><input value="{{ dncBlockVal }}" onChange="{{ onDncBlockVal }}" placeholder="{{ dncBlockPh }}" style="width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font:400 12.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;" style-focus="border-color:var(--accent)" /></div>
+                        <div style="display:flex;flex-direction:column;gap:5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Applies to</span><div style="display:flex;gap:5px;flex-wrap:wrap;"><sc-for list="{{ dncScopes }}" as="sc" hint-placeholder-count="3"><button onClick="{{ sc.pick }}" style="border:1px solid {{ sc.bd }};background:{{ sc.bg }};color:{{ sc.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ sc.l }}</button></sc-for></div></div>
+                        <div style="display:flex;flex-direction:column;gap:5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Note, optional</span><input value="{{ dncBlockNote }}" onChange="{{ onDncBlockNote }}" placeholder="Why shouldn’t the team contact them?" style="width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font:400 12.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;" style-focus="border-color:var(--accent)" /></div>
+                        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;grid-column:1/-1;"><button onClick="{{ dncSaveBlock }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">{{ dncSaveBlockL }}</button><button onClick="{{ dncCloseBlock }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)">Cancel</button><span style="font:400 11px 'Pliant',sans-serif;color:var(--text-muted);">{{ dncBlockPreview }}</span></div>
+                      </div>
+                      </sc-if>
+                      <div style="display:flex;flex-direction:column;">
+                        <sc-for list="{{ dncBlocks }}" as="bl" hint-placeholder-count="4">
+                          <div style="display:grid;grid-template-columns:minmax(0,1.4fr) 100px minmax(0,1.4fr) 56px 64px;gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--border-soft);">
+                            <span style="min-width:0;display:flex;flex-direction:column;gap:1px;"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ bl.who }}</span><span style="font:400 11px 'Pliant Mono';color:var(--text-muted);">{{ bl.id }} · {{ bl.type }}</span></span>
+                            <span style="font:500 10.5px 'Pliant Mono';color:{{ bl.listC }};">{{ bl.list }}</span>
+                            <span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ bl.note }}</span>
+                            <span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);">{{ bl.added }}</span>
+                            <span style="display:flex;justify-content:flex-end;"><button onClick="{{ bl.remove }}" style="border:none;background:transparent;cursor:pointer;padding:4px 6px;font:600 11px 'Pliant',sans-serif;color:var(--text-secondary);" style-hover="color:var(--negative)">Remove</button></span>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                    </sc-if>
+                    <!-- Lists that apply to you -->
+                    <sc-if value="{{ cr.isPrefs }}" hint-placeholder-val="">
+                    <div style="padding:2px 16px 14px 198px;display:flex;flex-direction:column;gap:2px;">
+                      <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);margin-bottom:6px;">Applies to campaigns you own, whether a rep or a voice agent dials.</span>
+                      <sc-for list="{{ dncPrefs }}" as="pf" hint-placeholder-count="3">
+                        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border-soft);"><span style="flex:1;min-width:0;"><span style="display:block;font:500 12.5px 'Pliant',sans-serif;color:var(--text);">{{ pf.l }}</span><span style="display:block;font:400 11px/1.4 'Pliant',sans-serif;color:var(--text-secondary);">{{ pf.d }}</span></span><span onClick="{{ pf.toggle }}" title="{{ pf.tip }}" style="width:34px;height:20px;border-radius:20px;background:{{ pf.bg }};cursor:{{ pf.cur }};position:relative;flex:0 0 auto;"><span style="position:absolute;top:3px;left:{{ pf.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s ease-out;"></span></span></div>
+                      </sc-for>
+                    </div>
+                    </sc-if>
+                    <!-- Calling hours -->
+                    <sc-if value="{{ cr.isHours }}" hint-placeholder-val="">
+                    <div style="padding:2px 16px 16px 198px;display:flex;flex-direction:column;gap:8px;">
+                      <span style="font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);">Admins set these hours in the contact’s own time zone; campaigns cannot widen them. Outside the window a call waits for the next one.</span>
+                      <div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ dncHours }}" as="hr" hint-placeholder-count="3"><button onClick="{{ hr.pick }}" style="border:1px solid {{ hr.bd }};background:{{ hr.bg }};color:{{ hr.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ hr.l }}</button></sc-for></div>
+                      <div style="display:flex;flex-wrap:wrap;gap:5px;"><sc-for list="{{ dncDays }}" as="dd" hint-placeholder-count="7"><button onClick="{{ dd.pick }}" style="border:1px solid {{ dd.bd }};background:{{ dd.bg }};color:{{ dd.col }};border-radius:7px;padding:4px 0;width:40px;font:500 11px 'Pliant Mono';cursor:pointer;">{{ dd.l }}</button></sc-for></div>
+                    </div>
+                    </sc-if>
+                    <!-- Audit -->
+                    <sc-if value="{{ cr.isAudit }}" hint-placeholder-val="">
+                    <div style="padding:2px 16px 12px 198px;display:flex;flex-direction:column;">
+                      <sc-for list="{{ dncAudit }}" as="au" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;padding:7px 0;border-top:1px solid var(--border-soft);"><span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);">{{ au.when }}</span><span style="font:400 12px/1.45 'Pliant',sans-serif;color:var(--text);">{{ au.t }}</span></div></sc-for>
+                    </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
             <!-- LINKEDIN SEATS -->
             <sc-if value="{{ setIsLinkedin }}" hint-placeholder-val="">
               <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px;flex-wrap:wrap;">
@@ -14269,26 +14595,21 @@
                   <div style="display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid var(--border);">
                     <span style="width:48px;height:48px;border-radius:50%;background:url('assets/savant-orb.png') center/cover no-repeat;color:#fff;display:flex;align-items:center;justify-content:center;font:600 20px 'Pliant',sans-serif;flex:0 0 auto;">{{ setUserInitial }}</span>
                     <div style="flex:1;display:flex;align-items:center;gap:9px;"><span style="font:600 16px 'Pliant',sans-serif;color:var(--text);">{{ setUserName }}</span><span style="font:600 9.5px 'Pliant',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:{{ setUserRoleC }};background:{{ setUserRoleB }};border-radius:5px;padding:4px 9px;">{{ setUserRoleLabel }}</span></div>
-                    <button onClick="{{ sEditProfile }}" style="display:flex;align-items:center;gap:6px;border:none;background:var(--surface-soft);cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant',sans-serif;color:var(--text-2);" style-hover="border-color:var(--accent-border)">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                      Edit profile
-                    </button>
+                    <sc-if value="{{ spNotEdit }}" hint-placeholder-val="{{ true }}"><button onClick="{{ sEditProfile }}" style="display:flex;align-items:center;gap:6px;border:none;background:var(--surface-soft);cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant',sans-serif;color:var(--text-2);" style-hover="background:var(--border-strong)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Edit profile</button></sc-if>
+                    <sc-if value="{{ spEdit }}" hint-placeholder-val=""><div style="display:flex;align-items:center;gap:8px;"><button onClick="{{ spCancel }}" style="border:none;background:var(--surface-soft);cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant',sans-serif;color:var(--text-2);" style-hover="background:var(--border-strong)">Cancel</button><button onClick="{{ spSave }}" style="border:none;background:var(--accent);cursor:pointer;border-radius:999px;padding:7px 16px;font:600 12px 'Pliant',sans-serif;color:#fff;" style-hover="background:var(--accent-hover)">Save</button></div></sc-if>
                   </div>
-                  <!-- Fields -->
-                  <div style="display:flex;flex-direction:column;padding-top:14px;">
-                    <!-- Primary Email ID -->
-                    <div style="display:flex;align-items:baseline;padding:9px 0;">
-                      <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">Primary Email ID</div>
-                      <div style="flex:1;display:flex;align-items:center;gap:6px;font:400 14px 'Pliant',sans-serif;color:var(--text);">
-                        {{ setUserEmail }}
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;flex:0 0 auto;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg>
+                  <div style="display:flex;flex-direction:column;padding-top:12px;">
+                    <sc-for list="{{ profRows }}" as="f" hint-placeholder-count="4">
+                      <div style="display:flex;align-items:center;padding:7px 0;min-height:38px;">
+                        <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">{{ f.l }}</div>
+                        <div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                          <sc-if value="{{ f.isView }}" hint-placeholder-val="{{ true }}"><span style="font:400 14px 'Pliant',sans-serif;color:{{ f.vCol }};">{{ f.v }}</span><sc-if value="{{ f.canCopy }}" hint-placeholder-val=""><button onClick="{{ f.copy }}" title="Copy" style="border:none;background:transparent;cursor:pointer;padding:2px;display:flex;color:var(--text-muted);" style-hover="color:var(--text)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg></button></sc-if></sc-if>
+                          <sc-if value="{{ f.isTxt }}" hint-placeholder-val=""><input value="{{ f.v }}" onChange="{{ f.set }}" style="box-sizing:border-box;width:100%;max-width:420px;border:1px solid var(--border);border-radius:9px;padding:7px 10px;font:400 13.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;" style-focus="border-color:var(--border-strong)"></sc-if>
+                          <sc-if value="{{ f.isSel }}" hint-placeholder-val=""><div style="position:relative;width:100%;max-width:300px;"><select value="{{ f.v }}" onChange="{{ f.set }}" style="appearance:none;-webkit-appearance:none;box-sizing:border-box;width:100%;border:1px solid var(--border);border-radius:9px;padding:7px 28px 7px 10px;font:400 13.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;cursor:pointer;"><sc-for list="{{ f.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;"><path d="M6 9l6 6 6-6"></path></svg></div></sc-if>
+                          <sc-if value="{{ f.isLocked }}" hint-placeholder-val=""><span style="font:400 14px 'Pliant',sans-serif;color:var(--text-secondary);">{{ f.v }}</span><span style="display:inline-flex;align-items:center;gap:5px;font:400 11px 'Pliant',sans-serif;color:var(--text-muted);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>{{ f.note }}</span></sc-if>
+                        </div>
                       </div>
-                    </div>
-                    <!-- Role -->
-                    <div style="display:flex;align-items:baseline;padding:9px 0;">
-                      <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">Role</div>
-                      <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--text);">{{ setUserRoleLabel }}</div>
-                    </div>
+                    </sc-for>
                   </div>
                 </div>
 
@@ -14299,12 +14620,10 @@
                     <span style="width:48px;height:48px;border-radius:12px;background:var(--text-secondary);color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M7 17c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path><path d="M15 7c0-1.7-1.3-3-3-3S9 5.3 9 7s1.3 3 3 3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg>
                     </span>
-                    <div style="flex:1;font:600 16px 'Pliant',sans-serif;color:var(--text);">Sprouts</div>
+                    <div style="flex:1;font:600 16px 'Pliant',sans-serif;color:var(--text);">{{ setWsName }}</div>
                     <sc-if value="{{ setIsAdmin }}" hint-placeholder-val="{{ true }}">
-                      <button onClick="{{ sEditAccount }}" style="display:flex;align-items:center;gap:6px;border:none;background:var(--surface-soft);cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant',sans-serif;color:var(--text-2);" style-hover="border-color:var(--accent-border)">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                        Edit account
-                      </button>
+                      <sc-if value="{{ saNotEdit }}" hint-placeholder-val="{{ true }}"><button onClick="{{ sEditAccount }}" style="display:flex;align-items:center;gap:6px;border:none;background:var(--surface-soft);cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant',sans-serif;color:var(--text-2);" style-hover="background:var(--border-strong)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>Edit account</button></sc-if>
+                    <sc-if value="{{ saEdit }}" hint-placeholder-val=""><div style="display:flex;align-items:center;gap:8px;"><button onClick="{{ saCancel }}" style="border:none;background:var(--surface-soft);cursor:pointer;border-radius:999px;padding:7px 14px;font:500 12px 'Pliant',sans-serif;color:var(--text-2);" style-hover="background:var(--border-strong)">Cancel</button><button onClick="{{ saSave }}" style="border:none;background:var(--accent);cursor:pointer;border-radius:999px;padding:7px 16px;font:600 12px 'Pliant',sans-serif;color:#fff;" style-hover="background:var(--accent-hover)">Save</button></div></sc-if>
                     </sc-if>
                     <sc-if value="{{ setIsMember }}" hint-placeholder-val="">
                       <span style="display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 14px;background:var(--surface-soft);font:500 12px 'Pliant',sans-serif;color:var(--text-secondary);">
@@ -14313,62 +14632,37 @@
                       </span>
                     </sc-if>
                   </div>
-                  <!-- Fields -->
-                  <div style="display:flex;flex-direction:column;padding-top:14px;">
-                    <!-- Domain -->
-                    <div style="display:flex;align-items:baseline;padding:9px 0;">
-                      <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">Domain</div>
-                      <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--accent);">sprouts.ai</div>
-                    </div>
-                    <!-- Phone -->
-                    <div style="display:flex;align-items:baseline;padding:9px 0;">
-                      <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">Phone</div>
-                      <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--text);">0958583423</div>
-                    </div>
-                    <!-- Time Zone -->
-                    <div style="display:flex;align-items:baseline;padding:9px 0;">
-                      <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">Time Zone</div>
-                      <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--text);">-</div>
-                    </div>
+                  <div style="display:flex;flex-direction:column;padding-top:12px;">
+                    <sc-for list="{{ acctRows }}" as="f" hint-placeholder-count="4">
+                      <div style="display:flex;align-items:center;padding:7px 0;min-height:38px;">
+                        <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">{{ f.l }}</div>
+                        <div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                          <sc-if value="{{ f.isView }}" hint-placeholder-val="{{ true }}"><span style="font:400 14px 'Pliant',sans-serif;color:{{ f.vCol }};">{{ f.v }}</span><sc-if value="{{ f.canCopy }}" hint-placeholder-val=""><button onClick="{{ f.copy }}" title="Copy" style="border:none;background:transparent;cursor:pointer;padding:2px;display:flex;color:var(--text-muted);" style-hover="color:var(--text)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg></button></sc-if></sc-if>
+                          <sc-if value="{{ f.isTxt }}" hint-placeholder-val=""><input value="{{ f.v }}" onChange="{{ f.set }}" style="box-sizing:border-box;width:100%;max-width:420px;border:1px solid var(--border);border-radius:9px;padding:7px 10px;font:400 13.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;" style-focus="border-color:var(--border-strong)"></sc-if>
+                          <sc-if value="{{ f.isSel }}" hint-placeholder-val=""><div style="position:relative;width:100%;max-width:300px;"><select value="{{ f.v }}" onChange="{{ f.set }}" style="appearance:none;-webkit-appearance:none;box-sizing:border-box;width:100%;border:1px solid var(--border);border-radius:9px;padding:7px 28px 7px 10px;font:400 13.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;cursor:pointer;"><sc-for list="{{ f.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;"><path d="M6 9l6 6 6-6"></path></svg></div></sc-if>
+                          <sc-if value="{{ f.isLocked }}" hint-placeholder-val=""><span style="font:400 14px 'Pliant',sans-serif;color:var(--text-secondary);">{{ f.v }}</span><span style="display:inline-flex;align-items:center;gap:5px;font:400 11px 'Pliant',sans-serif;color:var(--text-muted);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>{{ f.note }}</span></sc-if>
+                        </div>
+                      </div>
+                    </sc-for>
                   </div>
-                  <!-- Billing Information sub-section · admin only -->
                   <sc-if value="{{ setIsAdmin }}" hint-placeholder-val="{{ true }}">
-                  <div style="margin-top:16px;">
-                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+                  <div style="margin-top:14px;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
                       <div style="font:600 14px 'Pliant',sans-serif;color:var(--text);">Billing information</div>
                       <div style="flex:1;height:1px;background:var(--border);"></div>
                     </div>
                     <div style="display:flex;flex-direction:column;">
-                      <!-- Address -->
-                      <div style="display:flex;align-items:baseline;padding:9px 0;">
-                        <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">Address</div>
-                        <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--text);">#71, Subash Street, Sridevi Vaishnavi Nagar, Thirumullaivoyal, Avadi</div>
+                    <sc-for list="{{ billRows }}" as="f" hint-placeholder-count="6">
+                      <div style="display:flex;align-items:center;padding:7px 0;min-height:38px;">
+                        <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">{{ f.l }}</div>
+                        <div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                          <sc-if value="{{ f.isView }}" hint-placeholder-val="{{ true }}"><span style="font:400 14px 'Pliant',sans-serif;color:{{ f.vCol }};">{{ f.v }}</span><sc-if value="{{ f.canCopy }}" hint-placeholder-val=""><button onClick="{{ f.copy }}" title="Copy" style="border:none;background:transparent;cursor:pointer;padding:2px;display:flex;color:var(--text-muted);" style-hover="color:var(--text)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg></button></sc-if></sc-if>
+                          <sc-if value="{{ f.isTxt }}" hint-placeholder-val=""><input value="{{ f.v }}" onChange="{{ f.set }}" style="box-sizing:border-box;width:100%;max-width:420px;border:1px solid var(--border);border-radius:9px;padding:7px 10px;font:400 13.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;" style-focus="border-color:var(--border-strong)"></sc-if>
+                          <sc-if value="{{ f.isSel }}" hint-placeholder-val=""><div style="position:relative;width:100%;max-width:300px;"><select value="{{ f.v }}" onChange="{{ f.set }}" style="appearance:none;-webkit-appearance:none;box-sizing:border-box;width:100%;border:1px solid var(--border);border-radius:9px;padding:7px 28px 7px 10px;font:400 13.5px 'Pliant',sans-serif;color:var(--text);background:var(--surface);outline:none;cursor:pointer;"><sc-for list="{{ f.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;"><path d="M6 9l6 6 6-6"></path></svg></div></sc-if>
+                          <sc-if value="{{ f.isLocked }}" hint-placeholder-val=""><span style="font:400 14px 'Pliant',sans-serif;color:var(--text-secondary);">{{ f.v }}</span><span style="display:inline-flex;align-items:center;gap:5px;font:400 11px 'Pliant',sans-serif;color:var(--text-muted);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>{{ f.note }}</span></sc-if>
+                        </div>
                       </div>
-                      <!-- City -->
-                      <div style="display:flex;align-items:baseline;padding:9px 0;">
-                        <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">City</div>
-                        <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--text);">Tiruvallur</div>
-                      </div>
-                      <!-- State -->
-                      <div style="display:flex;align-items:baseline;padding:9px 0;">
-                        <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">State</div>
-                        <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--text);">Haryana</div>
-                      </div>
-                      <!-- Country -->
-                      <div style="display:flex;align-items:baseline;padding:9px 0;">
-                        <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">Country</div>
-                        <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--text);">India</div>
-                      </div>
-                      <!-- Pincode -->
-                      <div style="display:flex;align-items:baseline;padding:9px 0;">
-                        <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">Pincode</div>
-                        <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--text);">6001000</div>
-                      </div>
-                      <!-- Billing Currency -->
-                      <div style="display:flex;align-items:baseline;padding:9px 0;">
-                        <div style="width:200px;flex:0 0 200px;font:400 13px 'Pliant',sans-serif;color:var(--accent);">Billing Currency</div>
-                        <div style="flex:1;font:400 14px 'Pliant',sans-serif;color:var(--text);">-</div>
-                      </div>
+                    </sc-for>
                     </div>
                   </div>
                   </sc-if>
@@ -14627,7 +14921,6 @@
               <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;">
                 <div style="flex:1;min-width:0;">
                   <div style="font:600 16px 'Pliant',sans-serif;letter-spacing:-0.02em;color:var(--text);">API keys</div>
-                  <p style="font:400 12.5px/1.6 'Pliant',sans-serif;color:var(--text-secondary);margin:5px 0 0;max-width:62ch;">Server-side credentials for the Sprouts API. A key is shown once, at creation. Everyone with admin rights can see and revoke every key in the workspace.</p>
                 </div>
                 <button onClick="{{ akNew }}" style="display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;background:var(--accent);color:#fff;border-radius:999px;padding:9px 15px;font:600 12.5px 'Pliant',sans-serif;flex:0 0 auto;white-space:nowrap;" style-hover="background:var(--accent-hover)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Create key</button>
               </div>
@@ -14652,7 +14945,6 @@
                   </div>
                 </sc-for>
               </div>
-              <p style="font:400 11px 'Pliant',sans-serif;color:var(--text-muted);margin:11px 2px 0;">{{ akCount }} active. Revoking takes effect immediately; calls using that key start failing.</p>
             </sc-if>
 
             <!-- BILLING -->
@@ -14802,17 +15094,6 @@
             <!-- ENRICHMENT -->
             <sc-if value="{{ setIsEnrichment }}" hint-placeholder-val="">
               <div style="display:flex;flex-direction:column;gap:16px;">
-                <div>
-                  <div style="font:600 15px 'Pliant',sans-serif;color:var(--text);margin-bottom:11px;">Enrichment preferences</div>
-                  <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:6px 18px;">
-                    <sc-for list="{{ enrichToggles }}" as="t" hint-placeholder-count="4">
-                      <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border-soft);">
-                        <div style="flex:1;"><div style="font:500 13px 'Pliant',sans-serif;color:var(--text);">{{ t.label }}</div><div style="font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);margin-top:1px;">{{ t.sub }}</div></div>
-                        <span onClick="{{ t.onToggle }}" style="width:38px;height:22px;border-radius:22px;background:{{ t.trackBg }};position:relative;flex:0 0 auto;cursor:pointer;"><span style="position:absolute;top:2px;left:{{ t.knobLeft }};width:18px;height:18px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.25);"></span></span>
-                      </div>
-                    </sc-for>
-                  </div>
-                </div>
                 <!-- Email Waterfall -->
                 <div>
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
@@ -14974,7 +15255,7 @@
             </sc-if>
 
             <sc-if value="{{ akNotCreated }}" hint-placeholder-val="{{ true }}">
-              <p style="font:400 12px/1.55 'Pliant',sans-serif;color:var(--text-secondary);margin:0 0 15px;">Keys authenticate server-to-server calls. Never use one from a browser.</p>
+              <p style="font:400 12px/1.55 'Pliant',sans-serif;color:var(--text-secondary);margin:0 0 15px;">Calls from a browser expose the key; use it from your server.</p>
               <div style="font:600 9px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Name</div>
               <input value="{{ akName }}" onInput="{{ onAkName }}" placeholder="billing-service" style="display:block;width:100%;box-sizing:border-box;border:none;background:var(--surface-soft);border-radius:999px;padding:9px 11px;font:500 12.5px 'Pliant',sans-serif;color:var(--text);outline:none;" style-focus="border-color:var(--accent-border)" />
               <div style="font:400 10.5px 'Pliant',sans-serif;color:var(--text-muted);margin:5px 0 15px;">How you'll recognise this key later, usually the service that uses it.</div>
@@ -18704,7 +18985,105 @@ class Component extends DCLogic {
         return {
           campPgTable: t === 'table' || t === 'appr', campPgOverview: t === 'overview', cpO: mkT('overview'), cpGoOverview: () => this.setState({ campPgTab:'overview' }),
           campPgChannels: t === 'channels', cpC: mkT('channels'), cpGoChannels: () => this.setState({ campPgTab:'channels' }),
-          campChTabs: [['senders','Mailboxes & domains'],['linkedin','LinkedIn seats']].map(x => { const on = (this.state.campChTab || 'senders') === x[0]; return { l: x[1], pick: () => this.setState({ campChTab: x[0] }), font: on ? "600 12px 'Pliant',sans-serif" : "500 12px 'Pliant',sans-serif", col: on ? 'var(--text)' : 'var(--text-secondary)', bg: on ? 'var(--surface)' : 'transparent' }; }), campPgAwait: t === 'await', campPgResults: t === 'results', cpR: mkT('results'), cpGoResults: () => this.setState({ campPgTab:'results' }),
+      ...(() => {
+        const S2 = this.state;
+        const pill2 = (on) => ({ bd: on ? 'var(--accent)' : 'var(--border-strong)', bg: on ? 'var(--accent-soft)' : 'var(--surface)', col: on ? 'var(--accent-hover)' : 'var(--text-secondary)' });
+        const COUNTRIES = [['US', 'United States', 'FTC Do Not Call Registry'], ['SG', 'Singapore', 'PDPC Do Not Call Registry'], ['AU', 'Australia', 'ACMA Do Not Call Register'], ['GB', 'United Kingdom', 'TPS / CTPS'], ['IN', 'India', 'TRAI DND'], ['CA', 'Canada', 'CRTC National DNCL'], ['DE', 'Germany', null], ['AE', 'United Arab Emirates', null]];
+        const allowed = S2.dncAllowed || ['US', 'SG']; const pending = S2.dncPendingPick || [];
+        const blocks = S2.dncBlocks || [
+          { who: 'Lena Fischer · Freshworks', id: '+1 415 555 0183', type: 'Person', list: 'Company-wide', note: 'Asked not to be called again · call 14 Sep, Pricing-intent', added: '14 Sep' },
+          { who: 'acme-health.com', id: 'Whole company', type: 'Company', list: 'Company-wide', note: 'Active customer · account team owns the relationship', added: '2 Sep' },
+          { who: '+65 8123 4477', id: 'Phone number', type: 'Phone', list: 'Team', note: 'Opted out during the spring campaign', added: '28 Aug' },
+          { who: 'r.okafor@medstar.org', id: 'Email address', type: 'Email', list: 'Personal', note: 'Former colleague', added: '21 Aug' } ];
+        const prefs = S2.dncPrefs || { team: true, personal: false };
+        const hours = S2.dncHours || '9–18'; const days = S2.dncDays || ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+        const numbers = S2.pnNumbers || [
+          { num: '+1 (615) 555 0142', loc: 'Nashville, TN · United States', agent: 'Ridge · outbound qualifier', caps: 'Voice · SMS · MMS', bought: '12 Aug', cost: '15 cr', connected: true },
+          { num: '+1 (415) 555 0168', loc: 'San Francisco, CA · United States', agent: 'Rep dialer pool', caps: 'Voice · SMS', bought: '3 Sep', cost: '15 cr', connected: true },
+          { num: '+65 6011 2240', loc: 'Singapore', agent: '', caps: 'Voice', bought: '28 Sep', cost: '40 cr', connected: false } ];
+        const agentsAvail = ['Ridge · outbound qualifier', 'Collections · payment date', 'Rep dialer pool'];
+        const audit = S2.dncAudit || [
+          { when: 'Today 09:40', t: 'System blocked +1 415 555 0183 company-wide: call ended “Do not call again” (Pricing-intent, step 3).' },
+          { when: '28 Sep 14:02', t: 'Kartikay Dhar bought +65 6011 2240 (Singapore) · 40 cr setup, 40 cr a month.' },
+          { when: '12 Sep 11:15', t: 'Kartikay Dhar allowed Singapore · note: “Outbound team · 1,000 SG numbers, PDPC checked first.”' },
+          { when: '2 Sep 17:30', t: 'Priya Nair blocked acme-health.com company-wide.' } ];
+        const bk = S2.dncBlockKind || 'person'; const scope = S2.dncBlockScope || 'company'; const bv = S2.dncBlockVal || '';
+        const pickC = S2.pnCountry || 'US'; const caps = S2.pnCaps || { voice: true, sms: false, mms: false };
+        const PRICE = { US: [15, 15, 2], SG: [40, 40, 6], AU: [35, 35, 5], GB: [20, 20, 3], IN: [25, 25, 1], CA: [15, 15, 2] }; const price = PRICE[pickC] || [30, 30, 4];
+        const H2 = (s) => String(s).split('').reduce((a2, ch) => a2 + ch.charCodeAt(0), 0);
+        const results = S2.pnResults || []; const picked = S2.pnPicked; const fmt = (c) => c + ' cr';
+        const isAllowed = allowed.indexOf(pickC) !== -1; const cName = (code) => (COUNTRIES.find(c => c[0] === code) || [code, code])[1];
+        const goCalling = () => this.setState({ view: 'campaigns', campPgTab: 'channels', campChTab: 'calling' });
+        return {
+          dlTileSub: numbers.length + ' numbers · ' + allowed.length + ' allowed ' + (allowed.length === 1 ? 'country' : 'countries') + ' · ' + blocks.length + ' blocked',
+          dlTileStat: allowed.length ? 'Calling open' : 'Calls paused', dlTileC: allowed.length ? 'var(--accent-hover)' : 'var(--warning)', goCalling,
+          pnSummary: numbers.length + ' numbers · ' + numbers.filter(n => n.connected).length + ' connected · ' + new Set(numbers.map(n => n.loc.split(' · ').pop())).size + ' countries · ' + numbers.reduce((a2, n) => a2 + parseInt(n.cost, 10), 0) + ' cr a month',
+          pnRows: numbers.map((n, i) => ({ ...n, agent: n.agent || 'Not connected', agC: n.connected ? 'var(--accent)' : 'var(--border-strong)', connectL: n.connected ? 'Change agent' : 'Connect',
+            connect: () => { const nx = numbers.map((x, j) => j === i ? { ...x, connected: true, agent: agentsAvail[(agentsAvail.indexOf(x.agent) + 1) % agentsAvail.length] } : x); this.setState({ pnNumbers: nx }); this.toast(n.num + ' now connected to ' + nx[i].agent + '.'); },
+            release: () => { this.setState({ pnNumbers: numbers.filter((x, j) => j !== i) }); this.toast(n.num + ' released. Billing stops at the end of the month.'); } })),
+          pnEmpty: numbers.length === 0, pnRefresh: () => this.toast('Number list refreshed.'),
+          pnBuyOpen: !!S2.pnBuyOpen, pnOpenBuy: () => this.setState({ pnBuyOpen: true, pnPicked: null }), pnCloseBuy: () => this.setState({ pnBuyOpen: false, pnPicked: null }),
+          pnCountries: COUNTRIES.slice(0, 6).map(c => ({ l: c[1], ...pill2(pickC === c[0]), pick: () => this.setState({ pnCountry: c[0], pnResults: null, pnPicked: null }) })),
+          pnCountryNote: isAllowed ? 'Allowed for calling · ' + ((COUNTRIES.find(c => c[0] === pickC) || [])[2] || 'no national registry') + (((COUNTRIES.find(c => c[0] === pickC) || [])[2]) ? ' checked before each dial' : '') : 'Not yet allowed for calling. You can buy the number; calls stay paused until an admin allows the country.',
+          pnCountryNoteC: isAllowed ? 'var(--text-secondary)' : 'var(--warning)',
+          pnQuery: S2.pnQuery || '', onPnQuery: (e) => this.setState({ pnQuery: e.target.value }),
+          pnCaps: [['voice', 'Voice'], ['sms', 'SMS'], ['mms', 'MMS']].map(c => ({ l: c[1], ...pill2(!!caps[c[0]]), pick: () => this.setState({ pnCaps: { ...caps, [c[0]]: !caps[c[0]] } }) })),
+          pnSearch: () => { const q = (S2.pnQuery || '').replace(/\D/g, ''); const CITY = { US: ['Nashville, TN', 'Austin, TX', 'Denver, CO', 'Columbus, OH', 'Phoenix, AZ'], SG: ['Singapore', 'Singapore', 'Singapore', 'Singapore', 'Singapore'], AU: ['Sydney, NSW', 'Melbourne, VIC', 'Brisbane, QLD', 'Perth, WA', 'Adelaide, SA'], GB: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Bristol'], IN: ['Mumbai', 'Bengaluru', 'Delhi', 'Hyderabad', 'Pune'], CA: ['Toronto, ON', 'Vancouver, BC', 'Calgary, AB', 'Montréal, QC', 'Ottawa, ON'] }; const CC = { US: '+1', SG: '+65', AU: '+61', GB: '+44', IN: '+91', CA: '+1' };
+            const rows = [0, 1, 2, 3, 4].map(i => { const h = H2(pickC + q + i); const area = q.length >= 3 ? q.slice(0, 3) : String(200 + (h % 700)); const rest = String(1000 + ((h * 7) % 9000)); return { num: (CC[pickC] || '+1') + ' ' + area + ' 555 ' + rest.slice(0, 4), loc: (CITY[pickC] || CITY.US)[i] + ' · ' + cName(pickC), caps: ['Voice', (caps.sms || i % 2) ? 'SMS' : null, (caps.mms || i % 3 === 0) ? 'MMS' : null].filter(Boolean).join(' · '), price: fmt(price[1]) + ' /mo' }; });
+            this.setState({ pnResults: rows, pnPicked: null }); },
+          pnResultsLabel: results.length ? results.length + ' numbers available · prices include the carrier fee' : 'Available inventory · set filters, then search',
+          pnResults: results.map((r, i) => ({ ...r, bd: picked === i ? 'var(--accent)' : 'var(--border)', bg: picked === i ? 'var(--accent-soft)' : 'var(--surface)', pick: () => this.setState({ pnPicked: i }) })),
+          pnPicked: picked != null && !!results[picked],
+          pnPickNum: picked != null && results[picked] ? results[picked].num : '', pnPickLoc: picked != null && results[picked] ? results[picked].loc : '',
+          pnPickSetup: fmt(price[0]), pnPickMonthly: fmt(price[1]) + ' /mo', pnPickPerMin: price[2] + ' cr', pnBalance: '101,053 cr available',
+          pnConfirmBuy: () => { const r = results[picked]; if (!r) return; this.setState({ pnNumbers: numbers.concat([{ num: r.num, loc: r.loc, agent: '', caps: r.caps, bought: 'Today', cost: fmt(price[1]), connected: false }]), pnBuyOpen: false, pnPicked: null, pnResults: null, dncAudit: [{ when: 'Just now', t: 'You bought ' + r.num + ' · ' + fmt(price[0]) + ' setup, ' + fmt(price[1]) + ' a month.' }].concat(audit) }); this.toast('Bought ' + r.num + '. ' + fmt(price[0]) + ' charged; ' + fmt(price[1]) + ' a month from today. Connect it to an agent to start calling.'); },
+          crSummary: allowed.length ? allowed.map(cName).join(', ') + ' · ' + blocks.length + ' blocked · ' + hours.replace('–', ':00–') + ':00 ' + days.join(' ') : 'Calls paused · no country allowed yet',
+          crRows: (() => { const open = S2.crOpen || (allowed.length ? null : 'countries'); const regs = allowed.map(c => COUNTRIES.find(x => x[0] === c)).filter(c => c && c[2]);
+            const mk = (k, l, v, st, stC, stB) => ({ l, v, st, stC, stB, bg: open === k ? 'var(--surface-soft)' : 'transparent', chev: open === k ? 'rotate(180deg)' : 'none', toggle: () => this.setState({ crOpen: open === k ? null : k, dncAddOpen: false }), isCountries: k === 'countries' && open === k, isRegistries: k === 'registries' && open === k, isBlocks: k === 'blocks' && open === k, isPrefs: k === 'prefs' && open === k, isHours: k === 'hours' && open === k, isAudit: k === 'audit' && open === k });
+            return [
+              mk('countries', 'Allowed countries', allowed.length ? allowed.map(cName).join(', ') : 'None yet', allowed.length ? 'Open' : 'Paused', allowed.length ? 'var(--accent-hover)' : 'var(--warning)', allowed.length ? 'var(--accent-soft)' : 'var(--warning-soft)'),
+              mk('registries', 'Do-not-call registries', regs.length ? regs.map(c => c[2].replace(/ (Do Not Call )?(Registry|Register)$/, '')).join(', ') + ' checked before every dial' : 'No registry for the allowed countries', regs.length ? 'Live' : '—', regs.length ? 'var(--accent-hover)' : 'var(--text-2)', regs.length ? 'var(--accent-soft)' : 'var(--surface-soft)'),
+              mk('blocks', 'Blocked contacts', blocks.length + (blocks.length === 1 ? ' entry' : ' entries') + (blocks.length ? ' · latest ' + blocks[0].who : ''), String(blocks.length), 'var(--text-2)', 'var(--surface-soft)'),
+              mk('prefs', 'Lists that apply to you', 'Company-wide' + (prefs.team ? ' + team' : '') + (prefs.personal ? ' + personal' : ''), (1 + (prefs.team ? 1 : 0) + (prefs.personal ? 1 : 0)) + ' of 3', 'var(--text-2)', 'var(--surface-soft)'),
+              mk('hours', 'Calling hours', hours.replace('–', ':00–') + ':00 · ' + days.join(' ') + ' · contact’s time zone', 'Admin', 'var(--text-2)', 'var(--surface-soft)'),
+              mk('audit', 'Audit trail', audit[0] ? audit[0].when + ' · ' + audit[0].t : 'No changes yet', String(audit.length), 'var(--text-2)', 'var(--surface-soft)') ]; })(),
+          dncAddOpen: !!S2.dncAddOpen, dncAddFlip: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState(s => ({ dncAddOpen: !s.dncAddOpen })); },
+          dncAddItems: [['Block a contact', () => this.setState({ dncAddOpen: false, dncBlockOpen: true, dncBlockKind: 'person' })], ['Paste a list', () => this.setState({ dncAddOpen: false, dncBlockOpen: true, dncBlockKind: 'paste' })], ['Import CSV', () => { this.setState({ dncAddOpen: false }); this.toast('Import CSV: one phone, email or domain per row. You see a preview with per-row errors before anything is saved.'); }]].map(x => ({ l: x[0], go: x[1] })),
+          dncPaused: allowed.length === 0, dncCountryN: String(allowed.length),
+          dncCountries: allowed.map(code => { const c = COUNTRIES.find(x => x[0] === code) || [code, code, null]; return { l: c[1], reg: c[2] ? 'registry checked' : 'no registry', regC: c[2] ? 'var(--accent-hover)' : 'var(--text-muted)', remove: () => { this.setState({ dncAllowed: allowed.filter(a => a !== code), dncAudit: [{ when: 'Just now', t: 'You removed ' + c[1] + ' from allowed countries.' }].concat(audit) }); this.toast(c[1] + ' removed. Calls to its numbers are skipped from now.'); } }; }),
+          dncPickOpen: !!S2.dncPickOpen, dncOpenCountries: () => this.setState({ view: 'campaigns', campPgTab: 'channels', campChTab: 'calling', crOpen: 'countries', dncPickOpen: true, dncPendingPick: [] }), dncClosePick: () => this.setState({ dncPickOpen: false, dncPendingPick: [], vaWizReturn: false }),
+          dncPickList: COUNTRIES.filter(c => allowed.indexOf(c[0]) === -1).map(c => ({ l: c[1] + (c[2] ? '' : ' · no registry'), ...pill2(pending.indexOf(c[0]) !== -1), pick: () => this.setState({ dncPendingPick: pending.indexOf(c[0]) !== -1 ? pending.filter(p => p !== c[0]) : pending.concat([c[0]]) }) })),
+          dncAllowLabel: pending.length ? 'Allow ' + pending.length + (pending.length === 1 ? ' country' : ' countries') : 'Allow countries',
+          dncAllow: () => { if (!pending.length) { this.toast('Pick at least one country.'); return; } const names = pending.map(cName);
+            const back = S2.vaWizReturn ? { view: 'dialer', dlMode: 2, vaWizReturn: false, vaWiz: { ...(S2.vaWiz || { step: 1, name: '', aud: null, agent: null, num: null, when: 'now', pace: 'steady' }), country: (S2.vaWiz && S2.vaWiz.country) || pending[0] } } : {};
+            this.setState({ ...back, dncAllowed: allowed.concat(pending), dncPickOpen: false, dncPendingPick: [], dncAudit: [{ when: 'Just now', t: 'You allowed ' + names.join(', ') + ' for the whole team.' }].concat(audit) }); this.toast(names.join(', ') + ' allowed. The paused banner clears for everyone, no reload needed.' + (S2.vaWizReturn ? ' Back in your campaign, input kept.' : '')); },
+          dncRegistries: allowed.map(code => COUNTRIES.find(x => x[0] === code)).filter(Boolean).map(c => c[2] ? { l: c[2], d: c[1] + ' · checked before first dial and every 30 days', s: 'Live', c: 'var(--accent-hover)' } : { l: c[1], d: 'No national registry. Company and team block lists still apply.', s: 'No registry', c: 'var(--text-muted)' }).concat(allowed.length ? [] : [{ l: 'No countries allowed', d: 'Allow a country to see which registry applies.', s: 'Paused', c: 'var(--warning)' }]),
+          dncBlockN: String(blocks.length),
+          dncBlocks: blocks.map((b, i) => ({ ...b, listC: b.list === 'Company-wide' ? 'var(--accent-hover)' : b.list === 'Team' ? 'var(--text-2)' : 'var(--text-muted)', remove: () => { this.setState({ dncBlocks: blocks.filter((x, j) => j !== i) }); this.toast(b.who + ' unblocked.'); } })),
+          dncImport: () => this.toast('Import CSV: one phone, email or domain per row. You see a preview with per-row errors before anything is saved.'),
+          dncPaste: () => this.setState({ dncBlockOpen: true, dncBlockKind: 'paste' }),
+          dncBlockOpen: !!S2.dncBlockOpen, dncOpenBlock: () => this.setState({ dncBlockOpen: true, dncBlockKind: 'person' }), dncCloseBlock: () => this.setState({ dncBlockOpen: false, dncBlockVal: '', dncBlockNote: '' }),
+          dncBlockKinds: [['person', 'A person'], ['company', 'A whole company'], ['paste', 'Paste a list']].map(k => ({ l: k[1], ...pill2(bk === k[0]), pick: () => this.setState({ dncBlockKind: k[0] }) })),
+          dncBlockFieldL: bk === 'person' ? 'Phone, email, or name at a company' : bk === 'company' ? 'Company domain' : 'One phone, email or domain per line',
+          dncBlockPh: bk === 'person' ? '+14155550123, jane@example.com, or Jane Smith @ example.com' : bk === 'company' ? 'example.com or https://example.com' : '+6581234477, +6581234478 …',
+          dncBlockVal: bv, onDncBlockVal: (e) => this.setState({ dncBlockVal: e.target.value }),
+          dncBlockNote: S2.dncBlockNote || '', onDncBlockNote: (e) => this.setState({ dncBlockNote: e.target.value }),
+          dncScopes: [['company', 'Company-wide'], ['team', 'Team'], ['me', 'Only me']].map(s => ({ l: s[1], ...pill2(scope === s[0]), pick: () => this.setState({ dncBlockScope: s[0] }) })),
+          dncBlockPreview: !bv.trim() ? 'Nothing yet. Fill in a detail to see what this will block.' : bk === 'company' ? 'Blocks everyone at ' + bv.trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '') : bk === 'paste' ? bv.split(/[\n,]/).filter(x => x.trim()).length + ' ready' : 'Blocks ' + bv.trim() + ' in every campaign' + (scope === 'me' ? ' once your personal list is on' : ''),
+          dncSaveBlockL: bk === 'company' ? 'Block company' : bk === 'paste' ? 'Add blocks' : 'Block contact',
+          dncSaveBlock: () => { const v = bv.trim(); if (!v) { this.toast('Add at least one detail first.'); return; } const listL = scope === 'company' ? 'Company-wide' : scope === 'team' ? 'Team' : 'Personal'; const note = (S2.dncBlockNote || '').trim() || '—';
+            const items = bk === 'paste' ? v.split(/[\n,]/).map(x => x.trim()).filter(Boolean) : [v];
+            const nb = items.map(x => ({ who: bk === 'company' ? x.replace(/^https?:\/\//, '').replace(/\/.*$/, '') : x, id: bk === 'company' ? 'Whole company' : /@/.test(x) ? 'Email address' : /^\+?[\d\s()-]{7,}$/.test(x) ? 'Phone number' : 'Name at company', type: bk === 'company' ? 'Company' : /@/.test(x) ? 'Email' : /^\+?[\d\s()-]{7,}$/.test(x) ? 'Phone' : 'Person', list: listL, note, added: 'Today' }));
+            this.setState({ dncBlocks: nb.concat(blocks), dncBlockOpen: false, dncBlockVal: '', dncBlockNote: '', dncAudit: [{ when: 'Just now', t: 'You blocked ' + (nb.length === 1 ? nb[0].who : nb.length + ' entries') + ' (' + listL.toLowerCase() + ').' }].concat(audit) });
+            this.toast((nb.length === 1 ? nb[0].who + ' blocked ' + listL.toLowerCase() + '. Skipped in every campaign from now.' : nb.length + ' blocks added (' + listL.toLowerCase() + ').') + (scope === 'me' && !prefs.personal ? ' Your personal list is off; turn it on under dialing preferences for these to apply.' : '')); },
+          dncPrefs: [{ k: 'company', l: 'Company-wide list', d: 'Blocks added by admins and by “Do not call again” results. Always on, for everyone.', on: true, fixed: true }, { k: 'team', l: 'Team list', d: 'Also skip contacts your teammates shared with the team.', on: !!prefs.team }, { k: 'personal', l: 'Personal list', d: 'Also skip contacts on your own private list.', on: !!prefs.personal }].map(p => ({ l: p.l, d: p.d, bg: p.on ? 'var(--accent)' : 'var(--border-strong)', knob: p.on ? '17px' : '3px', cur: p.fixed ? 'default' : 'pointer', tip: p.fixed ? 'Always on' : (p.on ? 'On' : 'Off'), toggle: () => { if (p.fixed) { this.toast('The company-wide list is always on.'); return; } this.setState({ dncPrefs: { ...prefs, [p.k]: !prefs[p.k] } }); } })),
+          dncPrefSummary: 'Your campaigns check ' + (1 + (prefs.team ? 1 : 0) + (prefs.personal ? 1 : 0)) + ' of 3 block lists, plus the national registries of every allowed country.',
+          dncHours: [['9–18', '9:00–18:00'], ['9–20', '9:00–20:00'], ['8–21', '8:00–21:00']].map(h => ({ l: h[1], ...pill2(hours === h[0]), pick: () => this.setState({ dncHours: h[0] }) })),
+          dncDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => ({ l: d, ...pill2(days.indexOf(d) !== -1), pick: () => this.setState({ dncDays: days.indexOf(d) !== -1 ? days.filter(x => x !== d) : days.concat([d]) }) })),
+          dncHoursNote: 'Contact’s local time, from the number’s country and area code. Outside these hours a call waits for the next window.',
+          dncAudit: audit
+        }; })(),
+          campChTabs: [['senders','Mailboxes & domains'],['linkedin','LinkedIn seats'],['numbers','Phone numbers'],['calling','Calling rules']].map(x => { const on = (this.state.campChTab || 'senders') === x[0]; return { l: x[1], pick: () => this.setState({ campChTab: x[0] }), font: on ? "600 12px 'Pliant',sans-serif" : "500 12px 'Pliant',sans-serif", col: on ? 'var(--text)' : 'var(--text-secondary)', bg: on ? 'var(--surface)' : 'transparent' }; }), campPgAwait: t === 'await', campPgResults: t === 'results', cpR: mkT('results'), cpGoResults: () => this.setState({ campPgTab:'results' }),
           cpT: mkT('table'), cpA: mkT('appr'), cpW: mkT('await'),
           cpGoTable: () => this.setState({ campPgTab:'table' }), cpGoAppr: () => this.setState({ campPgTab:'appr' }), cpGoAwait: () => this.setState({ campPgTab:'await' }),
           caIsWaiting: true,
@@ -25169,7 +25548,7 @@ class Component extends DCLogic {
         let OPTS, note;
         if (ch === 'Email') { OPTS = [ seg('Thread', ['New thread', 'Reply in thread'], i === 0 ? 'New thread' : 'Reply in thread'), seg('Stop this contact when', ['They reply', 'Reply or click', 'Never'], 'They reply'), tog('ab', 'A/B test the variants \u00b7 50/50', false), tog('plain', 'Plain text, no tracking pixel', false) ]; note = 'Sends from the mailbox rotation, inside the delivery window, paced per Settings.'; }
         else if (ch === 'LinkedIn') { OPTS = [ seg('Type', ['Connection request', 'Message', 'InMail', 'Voice note'], /connect/i.test(st.title) ? 'Connection request' : 'Message'), seg('Warm up first', ['Nothing', 'View profile', 'Like a post', 'Comment'], 'View profile'), tog('skipConn', 'Skip if already connected', true), tog('stopAccept', 'Acceptance advances the sequence', true) ]; note = 'Invites count against the daily cap in Settings. Out-of-network contacts fall back to InMail.'; }
-        else if (ch === 'Call') { const mode = val('Mode', 'Rep dialer'); OPTS = [ seg('Mode', ['Rep dialer', 'Parallel dial', 'AI agent'], 'Rep dialer') ].concat(mode === 'Parallel dial' ? [ seg('Lines at once', ['2', '3', '5'], '3') ] : mode === 'AI agent' ? [ seg('Voice', ['Ava \u00b7 warm', 'Noah \u00b7 direct', 'Priya \u00b7 calm'], 'Ava \u00b7 warm'), tog('handoff', 'Hand off to a rep on interest', true) ] : []).concat([ tog('vm', 'Voicemail drop if no answer', true), tog('rec', 'Record and transcribe', true), tog('local', 'Local presence number', true) ]); note = mode === 'Rep dialer' ? 'Lands in the Dialer queue with the brief attached. Outcome logs to the journey.' : mode === 'Parallel dial' ? 'Dials several contacts at once; the first human answer connects to the rep, the rest hang up.' : 'The agent runs the script, books or hands off, and logs a transcript. Consent rules apply by region.'; }
+        else if (ch === 'Call') { const mode = val('Mode', 'Rep dialer'); OPTS = [ seg('Mode', ['Rep dialer', 'Parallel dial', 'AI agent'], 'Rep dialer') ].concat(mode === 'Parallel dial' ? [ seg('Lines at once', ['2', '3', '5'], '3') ] : mode === 'AI agent' ? [ seg('Agent', ['Ridge \u00b7 qualifier', 'Collections', 'Renewal'], 'Ridge \u00b7 qualifier'), seg('From number', ['+1 (615) 555 0142', '+1 (415) 555 0168', '+65 6011 2240'], '+1 (615) 555 0142'), tog('dnc', 'Check national do-not-call registries before dialling', true), tog('optout', '\u201cDo not call again\u201d blocks the number company-wide', true), tog('handoff', 'Hand off to a rep on Meeting booked', true) ] : []).concat([ tog('vm', 'Voicemail drop if no answer', true), tog('rec', 'Record and transcribe', true), tog('local', 'Local presence number', true) ]); note = mode === 'Rep dialer' ? 'Lands in the Dialer queue with the brief attached. Outcome logs to the journey.' : mode === 'Parallel dial' ? 'Dials several contacts at once; the first human answer connects to the rep, the rest hang up.' : 'The agent calls inside the admin-set calling hours in the contact\u2019s time zone, only to allowed countries, skipping block lists and national registries. Every call is labelled with a result and the reason for talking; about 2 cr a minute in the US.'; }
         else if (ch === 'WhatsApp') { OPTS = [ seg('Message', ['Approved template', 'Free text'], 'Approved template'), tog('media', 'Attach the one-pager', false), tog('optin', 'Only contacts who opted in', true) ]; note = 'Free text only reaches contacts who wrote first. Templates need approval before first use.'; }
         else { OPTS = [ seg('Number', ['Local presence', 'Fixed business number'], 'Local presence'), tog('stop', 'STOP replies opt out on every channel', true) ]; note = 'Business-number SMS. Delivery receipts log to the journey.'; }
         return { seqEdOptsOn: true, seqEdOpts: OPTS, seqEdOptsNote: note }; })(),
@@ -26545,11 +26924,122 @@ class Component extends DCLogic {
         const nextOrStop = (outs) => { const nx = DQ.findIndex((q, i) => i > dlIdx && !outs[i]); if (nx >= 0) dlGo(nx); else { this.setState({ dlPhase: 'idle' }); this.toast('Queue done. Outcomes are on each contact and in the CRM.'); } };
         const dlVals = {
           isDialer: S.view === 'dialer', goDialer: () => this.setState({ view: 'dialer' }),
-          dlSummary: vals.length ? (DQ.length - vals.length) + ' left of ' + DQ.length + ' \u00b7 ' + vals.filter(o => ['Meeting booked', 'Interested \u00b7 follow up', 'Not interested'].includes(o)).length + ' connected \u00b7 ' + vals.filter(o => o === 'Meeting booked').length + ' meeting' + (vals.filter(o => o === 'Meeting booked').length === 1 ? '' : 's') : DQ.length + ' in today\u2019s queue \u00b7 ordered by local time and signal strength',
+          dlSummary: (S.dlMode || 0) === 2 ? 'Voice agents call a list from your numbers, inside the countries and block lists admins set. You read the results.' : vals.length ? (DQ.length - vals.length) + ' left of ' + DQ.length + ' \u00b7 ' + vals.filter(o => ['Meeting booked', 'Interested \u00b7 follow up', 'Not interested'].includes(o)).length + ' connected \u00b7 ' + vals.filter(o => o === 'Meeting booked').length + ' meeting' + (vals.filter(o => o === 'Meeting booked').length === 1 ? '' : 's') : DQ.length + ' in today\u2019s queue \u00b7 ordered by local time and signal strength',
           ...(() => { const w = S.dlW || 1400; const wide = w >= 1000; return { dlWide: wide, dlMid: !wide, dlCols: wide ? 'minmax(220px,260px) minmax(0,1fr) minmax(250px,300px)' : (w < 760 ? 'minmax(170px,200px) minmax(0,1fr)' : 'minmax(200px,240px) minmax(0,1fr)'),
             dlRef: (el) => { if (!el || typeof ResizeObserver === 'undefined' || this._dlEl === el) return; if (this._dlRO) this._dlRO.disconnect(); this._dlEl = el; this._dlRO = new ResizeObserver(en => { const nw = Math.round(en[0].contentRect.width); if (Math.abs(nw - (this.state.dlW || 0)) > 6) this.setState({ dlW: nw }); }); this._dlRO.observe(el); } }; })(),
           dlSetOpen: !!S.dlSetOpen, dlSetFlip: () => this.setState(s => ({ dlSetOpen: !s.dlSetOpen })), dlSetL: (localOn ? 'Local presence' : 'Fixed number') + ' \u00b7 ' + (rec ? 'Recording on' : 'Not recorded'),
-          dlModes: ['Rep dialer', 'Parallel \u00b7 3 lines'].map((l, i) => ({ l, ...pill((S.dlMode || 0) === i), pick: () => this.setState({ dlMode: i }) })),
+          ...(() => {
+            const pill2 = (on) => ({ bd: on ? 'var(--accent)' : 'var(--border-strong)', bg: on ? 'var(--accent-soft)' : 'var(--surface)', col: on ? 'var(--accent-hover)' : 'var(--text-secondary)' });
+            const CN = { US: 'United States', SG: 'Singapore', AU: 'Australia', GB: 'United Kingdom', IN: 'India', CA: 'Canada', DE: 'Germany', AE: 'United Arab Emirates' };
+            const allowed = S.dncAllowed || ['US', 'SG']; const paused = allowed.length === 0;
+            const numbers = S.pnNumbers || [ { num: '+1 (615) 555 0142', loc: 'Nashville, TN · United States', agent: 'Ridge · outbound qualifier', caps: 'Voice · SMS · MMS', bought: '12 Aug', cost: '15 cr', connected: true }, { num: '+1 (415) 555 0168', loc: 'San Francisco, CA · United States', agent: 'Rep dialer pool', caps: 'Voice · SMS', bought: '3 Sep', cost: '15 cr', connected: true }, { num: '+65 6011 2240', loc: 'Singapore', agent: '', caps: 'Voice', bought: '28 Sep', cost: '40 cr', connected: false } ];
+            const nBlocks = (S.dncBlocks || [1, 2, 3, 4]).length;
+            const agents = S.vaAgentList || [
+              { name: 'Ridge · outbound qualifier', ini: 'RQ', purpose: 'Qualifies interested prospects and books a meeting with the right specialist.', results: ['Meeting booked', 'Callback requested', 'Not interested', 'Do not call again'], voice: 'Maya · warm', lang: 'English', status: 'Live', num: '+1 (615) 555 0142' },
+              { name: 'Collections · payment date', ini: 'CP', purpose: 'Calls customers with overdue payments and agrees a committed payment date.', results: ['Converted', 'Rejected', 'Callback requested', 'Do not call again'], voice: 'Arjun · steady', lang: 'English', status: 'Live', num: '+1 (415) 555 0168' },
+              { name: 'Renewal check-in', ini: 'RC', purpose: 'Confirms the renewal contact and captures blockers before the renewal date.', results: ['Converted', 'Rejected', 'Do not call again'], voice: 'Maya · warm', lang: 'English', status: 'Draft', num: '' } ];
+            const camps = S.vaCampList || [
+              { key: 'c1', name: 'Pricing-intent · call the sized plans', meta: 'From segment Pricing-intent · US', country: 'US', agent: 'Ridge · outbound qualifier', num: '+1 (615) 555 0142', aud: 41, dialled: 38, pos: 9, rej: 6, vm: 14, other: 9, skips: [[2, 'blocked · company-wide'], [1, 'country not allowed'], [0, 'invalid number']], status: 'Running', cost: 212, when: 'Started Mon · 9:00–18:00 contact time' },
+              { key: 'c2', name: 'Overdue invoices · September', meta: 'From file overdue-sep.csv', country: 'US', agent: 'Collections · payment date', num: '+1 (415) 555 0168', aud: 126, dialled: 119, pos: 44, rej: 21, vm: 39, other: 15, skips: [[5, 'blocked · company-wide'], [0, 'country not allowed'], [2, 'invalid number']], status: 'Finished', cost: 688, when: 'Ran 22–26 Sep' },
+              { key: 'c3', name: 'Singapore outbound · 1,000 SG numbers', meta: 'From file sg-outbound.csv', country: 'SG', agent: 'Ridge · outbound qualifier', num: '+65 6011 2240', aud: 1000, dialled: 0, pos: 0, rej: 0, vm: 0, other: 0, skips: [[212, 'on the PDPC Do Not Call Registry'], [3, 'blocked · company-wide'], [14, 'invalid number']], status: 'Ready', cost: 0, when: 'Number not connected yet' } ];
+            const sel = S.vaSel || null; const C2 = camps.find(c => c.key === sel);
+            const STC = { Running: ['var(--accent-hover)', 'var(--accent-soft)'], Finished: ['var(--text-2)', 'var(--surface-soft)'], Ready: ['var(--warning)', 'var(--warning-soft)'], Paused: ['var(--warning)', 'var(--warning-soft)'], Live: ['var(--accent-hover)', 'var(--accent-soft)'], Draft: ['var(--text-2)', 'var(--surface-soft)'] };
+            const pct = (n, d) => d ? Math.round(n / d * 100) + '%' : '0%';
+            const W = S.vaWiz || null; const wz = W ? (W.step || 1) : 1;
+            const AUD = [{ k: 'seg', l: 'Segment · Pricing-intent · US', d: '41 contacts with a phone on file, from the living segment', n: 41 }, { k: 'file', l: 'File · overdue-oct.csv', d: 'Uploaded today · 212 rows · phone, name, company, email mapped', n: 212 }, { k: 'sel', l: 'Selected in Prospects', d: '12 accounts · 31 contacts with direct dials', n: 31 }];
+            const aud = W ? AUD.find(a => a.k === W.aud) : null; const total = aud ? aud.n : 0;
+            const wCountry = W ? W.country : null; const wAgent = W ? agents.find(a => a.name === W.agent) : null; const wNum = W ? W.num : null;
+            const skipBlocked = Math.round(total * 0.05), skipCountry = Math.round(total * (wCountry === 'SG' ? 0.21 : 0.02)), skipInvalid = Math.round(total * 0.03), skipReg = Math.round(total * (wCountry === 'SG' ? 0.2 : wCountry === 'AU' ? 0.12 : wCountry === 'US' ? 0.06 : 0));
+            const dial = Math.max(0, total - skipBlocked - skipCountry - skipInvalid - skipReg);
+            const perMin = wCountry === 'SG' ? 6 : wCountry === 'AU' ? 5 : wCountry === 'GB' ? 3 : wCountry === 'IN' ? 1 : 2; const estCost = dial * 2.4 * perMin;
+            const gates = [W && (W.name || '').trim() && wCountry, W && !!aud, W && wAgent && wNum, true, dial > 0];
+            const A = S.vaAg || null; const az = A ? (A.step || 1) : 1;
+            const RES = { 'Converted': ['The person explicitly agreed to the agent’s successful next step.', 'converted', false], 'Rejected': ['The person explicitly declined the offer or asked for no further contact.', 'rejected', false], 'Meeting booked': ['The person agreed to a specific date and time for a meeting.', 'meeting_booked', false], 'Callback requested': ['The person asked to be called back at another time.', 'callback_requested', false], 'Interested': ['The person wants more information but did not commit.', 'interested', false], 'Not interested': ['The person declined, without asking to be left alone.', 'not_interested', false], 'Wrong person': ['The number reached someone other than the person.', 'wrong_person', false], 'Do not call again': ['The person asked not to be contacted again. The number is blocked company-wide, with the call linked in the note.', 'do_not_call_again', true] };
+            const agRes = A ? (A.results || []) : [];
+            const aGate = [A && (A.purpose || '').trim(), A && (A.goals || []).length > 0, true, true, A && (A.name || '').trim()];
+            const W0 = { step: 1, name: '', country: allowed[0] || null, aud: null, agent: null, num: null, when: 'now', pace: 'steady' };
+            const A0 = { step: 1, purpose: '', goals: [], hang: ['stop', 'goal'], results: ['Converted', 'Rejected', 'Do not call again'], prompt: '', name: '', voice: 'Maya · warm', lang: 'English' };
+            const setW = (p) => this.setState({ vaWiz: { ...(W || W0), ...p } }); const setA = (p) => this.setState({ vaAg: { ...(A || A0), ...p } });
+            const genGoals = (purpose) => { const p = (purpose || '').trim(); const topic = /payment/i.test(p) ? 'the overdue balance and a date they can commit to' : /renewal/i.test(p) ? 'the renewal date and anything that could block it' : /qualif|prospect|meeting|consult/i.test(p) ? 'their current setup and what a good next step looks like' : 'their situation and what they need'; return ['Confirm you are speaking with the right person before anything else.', 'Understand ' + topic + ', and capture the important context accurately.', 'Agree a clear next step and confirm it back before ending the call.']; };
+            const hoursL = ((S.dncHours || '9–18').replace('–', ':00–') + ':00');
+            const goRules = () => this.setState({ view: 'campaigns', campPgTab: 'channels', campChTab: 'calling' });
+            return {
+              dlRules: [
+                { l: paused ? 'Calls paused · no country allowed' : allowed.map(c => CN[c] || c).join(', ') + ' allowed', c: paused ? 'var(--warning)' : 'var(--accent)', go: goRules },
+                { l: nBlocks + ' blocked · registries checked', c: 'var(--accent)', go: goRules },
+                { l: 'Calling hours ' + hoursL + ' · contact’s time zone', c: 'var(--accent)', go: goRules },
+                { l: numbers.length + ' numbers · ' + numbers.filter(n => n.connected).length + ' connected', c: numbers.some(n => !n.connected) ? 'var(--warning)' : 'var(--accent)', go: () => this.setState({ view: 'campaigns', campPgTab: 'channels', campChTab: 'numbers' }) } ],
+              vaCampN: String(camps.length),
+              vaCamps: camps.map(c => ({ name: c.name, meta: c.meta, country: CN[c.country] || c.country, agent: c.agent, num: c.num || 'No number', aud: c.aud.toLocaleString('en-US'), wPos: pct(c.pos, c.aud), wRej: pct(c.rej, c.aud), wVm: pct(c.vm, c.aud), res: c.dialled ? c.pos + ' positive · ' + c.rej + ' rejected · ' + c.vm + ' voicemail' : 'Not started', status: c.status, stC: STC[c.status][0], stB: STC[c.status][1], bg: sel === c.key ? 'var(--accent-soft)' : 'transparent', open: () => this.setState({ vaSel: sel === c.key ? null : c.key, vaWiz: null, vaAg: null }) })),
+              vaSelV: !!C2, vaSelName: C2 ? C2.name : '', vaSelLine: C2 ? C2.agent + ' from ' + (C2.num || 'no number yet') + ' · ' + (CN[C2.country] || C2.country) + ' · ' + C2.when : '',
+              vaRunL: C2 ? (C2.status === 'Running' ? 'Pause' : C2.status === 'Ready' ? 'Launch' : C2.status === 'Paused' ? 'Resume' : 'Re-run') : '',
+              vaToggleRun: () => { if (!C2) return; if (C2.status === 'Ready' && !numbers.some(n => n.num === C2.num && n.connected)) { this.toast('Connect ' + (C2.num || 'a number') + ' to ' + C2.agent + ' first. Phone numbers → Connect.'); return; } const next = C2.status === 'Running' ? 'Paused' : 'Running'; this.setState({ vaCampList: camps.map(x => x.key === C2.key ? { ...x, status: next, when: next === 'Running' ? 'Running · calling hours apply' : 'Paused' } : x) }); this.toast(C2.name + (next === 'Running' ? ' is calling. Each call’s result shows here within a minute of hang-up.' : ' paused. Calls in progress finish; nothing new is dialled.')); },
+              vaExport: () => this.toast('Results exported to Downloads · ' + (C2 ? C2.dialled : 0) + ' rows with result, report key, reason for talking and recording link.'),
+              vaSelKpis: C2 ? [ { l: 'Dialled', v: C2.dialled + ' / ' + C2.aud, c: 'var(--text)' }, { l: 'Connect rate', v: C2.dialled ? pct(C2.dialled - C2.vm - C2.other, C2.dialled) : '—', c: 'var(--text)' }, { l: 'Positive result rate', v: C2.dialled ? pct(C2.pos, C2.dialled) : '—', c: 'var(--accent-hover)' }, { l: 'Credits spent', v: C2.cost + ' cr', c: 'var(--text)' }, { l: 'Cost per positive', v: C2.pos ? Math.round(C2.cost / C2.pos) + ' cr' : '—', c: 'var(--text)' }, { l: 'Blocked calls placed', v: '0', c: 'var(--accent-hover)' } ] : [],
+              vaSelSkips: C2 ? C2.skips.filter(s => s[0] > 0).map(s => ({ n: String(s[0]), l: s[1] })).concat(C2.skips.every(s => !s[0]) ? [{ n: '0', l: 'nothing skipped' }] : []) : [],
+              vaSelResults: C2 ? [ { l: C2.agent.indexOf('Collections') === 0 ? 'Converted · payment date agreed' : 'Meeting booked', n: String(C2.pos), c: 'var(--accent)' }, { l: 'Rejected / not interested', n: String(C2.rej), c: 'var(--warning)' }, { l: 'Do not call again · blocked', n: String(Math.round(C2.rej * 0.3)), c: 'var(--negative)' }, { l: 'Voicemail · retrying tomorrow', n: String(C2.vm), c: 'var(--border-strong)' }, { l: 'IVR · Unreachable · Unresolved', n: String(C2.other), c: 'var(--text-muted)' } ] : [],
+              vaSelHasCalls: !!(C2 && C2.dialled),
+              vaSelCalls: C2 && C2.dialled ? [ { when: '09:41', who: 'Maya Iyer · Philips', num: '+1 617 555 0133', reason: 'Wants to compare the sized plans with their Salesforce roll-out timeline', res: 'Meeting booked', c: 'var(--accent-hover)', b: 'var(--accent-soft)' }, { when: '09:38', who: 'Dan Kohler · Chargebee', num: '+1 415 555 0190', reason: 'Asked not to be contacted again', res: 'Do not call again', c: 'var(--negative)', b: 'var(--negative-soft)', blocked: true }, { when: '09:36', who: 'Priya Nair · Razorpay', num: '+91 80 5550 1123', reason: 'Not reached', res: 'Voicemail', c: 'var(--text-2)', b: 'var(--surface-soft)' }, { when: '09:30', who: 'Lena Fischer · Freshworks', num: '+1 415 555 0183', reason: 'Budget cycle closes in Q1; call back in January', res: 'Callback requested', c: 'var(--warning)', b: 'var(--warning-soft)' } ] : [],
+              vaWizV: !!W, vaOpenWizard: () => this.setState({ vaWiz: W0, vaSel: null, vaAg: null }), vaCloseWizard: () => this.setState({ vaWiz: null }),
+              vaWizDots: [1, 2, 3, 4, 5].map(i => ({ c: i < wz ? 'var(--accent)' : i === wz ? 'var(--accent-hover)' : 'var(--border-strong)' })), vaWizStepL: 'Step ' + wz + ' of 5',
+              vaWizTitle: ['Name your campaign', 'Who gets called', 'Agent and number', 'When and how fast', 'Review and launch'][wz - 1],
+              vaWizStand: ['Give this audience a clear name, and pick the country its phone numbers are from.', 'Pick a segment, a file or the people you selected in Prospects.', 'Which voice agent makes the calls, and from which of your numbers.', 'Calls only happen inside the admin-set calling hours in the contact’s time zone.', 'Who will be called, who is skipped and why, and what it will cost.'][wz - 1],
+              vaWizIs1: wz === 1, vaWizIs2: wz === 2, vaWizIs3: wz === 3, vaWizIs4: wz === 4, vaWizIs5: wz === 5,
+              vaWizName: W ? W.name : '', onVaWizName: (e) => setW({ name: e.target.value }),
+              vaWizCountries: allowed.map(c => ({ l: CN[c] || c, ...pill2(wCountry === c), pick: () => setW({ country: c }) })),
+              vaAllowFromWizard: () => this.setState({ vaWizReturn: true, vaWiz: W || W0, view: 'campaigns', campPgTab: 'channels', campChTab: 'calling', dncPickOpen: true, dncPendingPick: [] }),
+              vaWizAud: AUD.map(a => ({ l: a.l, d: a.d, n: a.n + ' contacts', ...pill2(!!W && W.aud === a.k), pick: () => setW({ aud: a.k }) })),
+              vaWizAgents: agents.map(a => ({ l: a.name, d: a.purpose + (a.status === 'Draft' ? ' · draft, finish it first' : ''), ...pill2(!!W && W.agent === a.name), pick: () => { if (a.status === 'Draft') { this.toast(a.name + ' is still a draft. Finish the builder to use it.'); return; } setW({ agent: a.name, num: a.num || (W && W.num) }); } })),
+              vaNewAgent: () => this.setState({ vaAg: A0, vaWiz: null, vaSel: null, view: 'dialer', dlMode: 2 }),
+              vaWizNums: numbers.map(n => { const ok = !wCountry || n.loc.indexOf(CN[wCountry] || '') !== -1; return { l: n.num, d: ok ? n.loc + (n.connected ? ' · ' + n.agent : ' · not connected, will connect to the chosen agent') : n.loc + ' · outside ' + (CN[wCountry] || wCountry) + '; a local number lifts answer rates', dc: ok ? 'var(--text-secondary)' : 'var(--warning)', ...pill2(wNum === n.num), pick: () => setW({ num: n.num }) }; }),
+              vaWizWhen: [['now', 'Start now'], ['tomorrow', 'Tomorrow 9:00'], ['monday', 'Next Monday']].map(w => ({ l: w[1], ...pill2(!!W && W.when === w[0]), pick: () => setW({ when: w[0] }) })),
+              vaWizHoursNote: 'Calling hours ' + hoursL + ', ' + (S.dncDays || ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']).join(' ') + '. Change them under Calling rules.',
+              vaWizPace: [['gentle', 'Gentle · 1 line'], ['steady', 'Steady · 3 lines'], ['fast', 'Fast · 6 lines']].map(p => ({ l: p[1], ...pill2(!!W && W.pace === p[0]), pick: () => setW({ pace: p[0] }) })),
+              vaWizDial: dial.toLocaleString('en-US'), vaWizTotal: total.toLocaleString('en-US'),
+              vaWizSkips: [[skipBlocked, 'blocked · company-wide or team list'], [skipReg, 'on the national do-not-call registry'], [skipCountry, 'number outside ' + (CN[wCountry] || 'the allowed countries')], [skipInvalid, 'invalid or unformatted number']].filter(s => s[0] > 0).map(s => ({ n: String(s[0]), l: s[1] })).concat(dial === total ? [{ n: '0', l: 'nothing skipped' }] : []),
+              vaWizCost: Math.round(estCost).toLocaleString('en-US') + ' cr', vaWizCostNote: 'about ' + dial.toLocaleString('en-US') + ' calls × 2.4 min × ' + perMin + ' cr a minute · 101,053 cr available',
+              vaWizSummary: W ? ((W.name || 'Untitled') + ' calls ' + dial.toLocaleString('en-US') + ' people in ' + (CN[wCountry] || '—') + ' with ' + (W.agent || '—') + ' from ' + (wNum || '—') + ', ' + (W.when === 'now' ? 'starting now' : W.when === 'tomorrow' ? 'from tomorrow 9:00' : 'from next Monday') + ' inside calling hours. Voicemail retries once; Do not call again blocks the number company-wide.') : '',
+              vaWizBack: () => setW({ step: Math.max(1, wz - 1) }), vaWizBackVis: wz > 1 ? 'visible' : 'hidden',
+              vaWizGate: !gates[wz - 1] ? ['Name and country needed', 'Pick who gets called', 'Pick an agent and a number', '', 'Nothing left to call'][wz - 1] : (wz === 5 ? 'Launching charges credits as calls complete' : ''), vaWizGateC: gates[wz - 1] ? 'var(--text-muted)' : 'var(--warning)',
+              vaWizNextL: wz === 5 ? 'Launch campaign' : 'Continue', vaWizNextOp: gates[wz - 1] ? '1' : '.45',
+              vaWizNext: () => { if (!gates[wz - 1]) { this.toast(['Give the campaign a name and pick a country.', 'Pick who gets called.', 'Pick a voice agent and a number to call from.', '', 'Nothing left to call after the skips.'][wz - 1]); return; } if (wz < 5) { setW({ step: wz + 1 }); return; }
+                const nc = { key: 'c' + Date.now(), name: W.name, meta: 'From ' + aud.l.split(' · ')[0].toLowerCase() + ' · ' + aud.l.split(' · ').slice(1).join(' · '), country: wCountry, agent: W.agent, num: wNum, aud: total, dialled: 0, pos: 0, rej: 0, vm: 0, other: 0, skips: [[skipBlocked, 'blocked · company-wide'], [skipReg, 'on the national registry'], [skipCountry, 'country not allowed'], [skipInvalid, 'invalid number']], status: W.when === 'now' ? 'Running' : 'Ready', cost: 0, when: W.when === 'now' ? 'Started just now · calling hours apply' : 'Scheduled' };
+                this.setState({ vaCampList: [nc].concat(camps), vaWiz: null, vaSel: nc.key, pnNumbers: numbers.map(n => n.num === wNum ? { ...n, connected: true, agent: W.agent } : n) }); this.toast(W.name + (W.when === 'now' ? ' is calling. ' : ' is scheduled. ') + dial.toLocaleString('en-US') + ' people, ' + (total - dial) + ' skipped. Each call’s result shows within a minute of hang-up.'); },
+              vaAgV: !!A, vaAgClose: () => this.setState({ vaAg: null }),
+              vaAgDots: [1, 2, 3, 4, 5].map(i => ({ c: i < az ? 'var(--accent)' : i === az ? 'var(--accent-hover)' : 'var(--border-strong)' })), vaAgStepL: 'Step ' + az + ' of 5',
+              vaAgTitle: ['What will your agent do?', 'What is your agent’s goal?', 'How should calls end?', 'System prompt or script', 'Finish setup'][az - 1],
+              vaAgStand: ['Describe the outcome you want from every conversation.', 'The outcomes this agent works toward during each outbound call.', 'What the agent may do on a call, and how each call is labelled in reports. You can change this later.', 'Optional. Paste an existing prompt or script to establish the agent’s behaviour.', 'Name, voice, language and optional knowledge. Then hear it before it joins a campaign.'][az - 1],
+              vaAgIs1: az === 1, vaAgIs2: az === 2, vaAgIs3: az === 3, vaAgIs4: az === 4, vaAgIs5: az === 5,
+              vaAgPurpose: A ? A.purpose : '', onVaAgPurpose: (e) => setA({ purpose: e.target.value }),
+              vaAgExamples: ['An outbound agent that calls customers with overdue payments and agrees a committed payment date.', 'An outbound sales agent that qualifies interested prospects and books a meeting with the right specialist.'].map(t => ({ l: t, pick: () => setA({ purpose: t }) })),
+              vaAgGoalCount: A && A.goals.length ? A.goals.length + (A.goals.length === 1 ? ' goal' : ' goals') : 'No goals yet',
+              vaAgGen: () => { setA({ goals: genGoals(A ? A.purpose : '') }); this.toast('3 goals written from the purpose. Edit or remove any.'); },
+              vaAgGoals: (A ? A.goals : []).map((t, i) => ({ t, remove: () => setA({ goals: A.goals.filter((x, j) => j !== i) }) })),
+              vaAgNewGoal: S.vaAgNewGoal || '', onVaAgNewGoal: (e) => this.setState({ vaAgNewGoal: e.target.value }), vaAgAddGoal: () => { const t = (S.vaAgNewGoal || '').trim(); if (!t) return; setA({ goals: (A ? A.goals : []).concat([t]) }); this.setState({ vaAgNewGoal: '' }); },
+              vaAgHang: [['stop', 'Person asks to stop'], ['goal', 'Goal reached'], ['wrong', 'Wrong person'], ['silent', 'No response']].map(h => ({ l: h[1], ...pill2(!!A && A.hang.indexOf(h[0]) !== -1), pick: () => setA({ hang: A.hang.indexOf(h[0]) !== -1 ? A.hang.filter(x => x !== h[0]) : A.hang.concat([h[0]]) }) })),
+              vaAgResults: agRes.map(r => ({ l: r, d: (RES[r] || ['Picked when the conversation matches this result.'])[0], key: (RES[r] || ['', r.toLowerCase().replace(/\s+/g, '_')])[1], blocks: !!(RES[r] || [])[2], c: r === 'Do not call again' ? 'var(--negative)' : /Rejected|Not interested|Wrong/.test(r) ? 'var(--warning)' : 'var(--accent)', remove: () => { if (r === 'Do not call again') { this.toast('Do not call again stays on every agent. Remove it and opt-outs stop becoming blocks.'); return; } setA({ results: agRes.filter(x => x !== r) }); } })),
+              vaAgPresets: Object.keys(RES).filter(r => agRes.indexOf(r) === -1).map(r => ({ l: r, pick: () => setA({ results: agRes.concat([r]) }) })),
+              vaAgPrompt: A ? A.prompt : '', onVaAgPrompt: (e) => setA({ prompt: e.target.value }),
+              vaAgName: A ? A.name : '', onVaAgName: (e) => setA({ name: e.target.value }),
+              vaAgVoices: ['Maya · warm', 'Arjun · steady', 'Sam · brisk'].map(v => ({ l: v, ...pill2(!!A && A.voice === v), pick: () => setA({ voice: v }) })),
+              vaAgSample: () => this.toast('Playing a 12-second sample of ' + (A ? A.voice : 'the voice') + ' reading the opening line.'),
+              vaAgLangs: ['English', 'Hindi'].map(l => ({ l, ...pill2(!!A && A.lang === l), pick: () => setA({ lang: l }) })),
+              vaAgKbUrl: () => this.toast('Add from URL: the public site is indexed as agent knowledge · 10 cr.'), vaAgKbFile: () => this.toast('Upload: PDF, TXT, Markdown or DOCX up to 20 MB · 10 cr per file.'),
+              vaAgTestCall: () => { if (!A || !(A.name || '').trim()) { this.toast('Name the agent first.'); return; } this.toast('Calling your phone from +1 (615) 555 0142 · ' + A.name + '. 2 cr a minute; hang up any time.'); },
+              vaAgBack: () => setA({ step: Math.max(1, az - 1) }), vaAgBackVis: az > 1 ? 'visible' : 'hidden',
+              vaAgGate: !aGate[az - 1] ? ['Describe the purpose to continue', 'Add at least one goal', '', '', 'Name the agent'][az - 1] : '',
+              vaAgNextL: az === 5 ? 'Create agent' : 'Continue', vaAgNextOp: aGate[az - 1] ? '1' : '.45',
+              vaAgNext: () => { if (!aGate[az - 1]) { this.toast(['Describe what the agent should achieve.', 'Add at least one goal, or generate them.', '', '', 'Give the agent a name.'][az - 1]); return; } if (az < 5) { setA({ step: az + 1 }); return; }
+                const na = { name: A.name.trim(), ini: A.name.trim().split(/[\s·]+/).filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase(), purpose: A.purpose.trim(), results: agRes, voice: A.voice, lang: A.lang, status: 'Live', num: '' };
+                this.setState({ vaAgentList: [na].concat(agents), vaAg: null }); this.toast(na.name + ' created. Connect a number under Phone numbers, then pick it in a campaign.'); },
+              vaAgentN: String(agents.length),
+              vaAgents: agents.map(a => ({ ini: a.ini, name: a.name, purpose: a.purpose, meta: a.results.length + ' results · ' + a.voice + ' · ' + a.lang + (a.num ? ' · ' + a.num : ' · no number'), status: a.status, stC: STC[a.status][0], stB: STC[a.status][1] })),
+              vaNumN: String(numbers.length), vaGoNumbers: () => this.setState({ view: 'campaigns', campPgTab: 'channels', campChTab: 'numbers' }),
+              vaNums: numbers.map(n => ({ num: n.num, d: n.connected ? n.agent + ' · ' + n.loc : 'Not connected · ' + n.loc, c: n.connected ? 'var(--accent)' : 'var(--border-strong)', cost: n.cost + '/mo' })),
+              vaCredits: '101,053 cr'
+            }; })(),
+          dlModes: ['Rep dialer', 'Parallel \u00b7 3 lines', 'AI voice agents'].map((l, i) => ({ l, ...pill((S.dlMode || 0) === i), pick: () => this.setState({ dlMode: i, dlPhase: 'idle', dlPick: null }) })),
+          dlIsAgents: (S.dlMode || 0) === 2, dlIsManual: (S.dlMode || 0) !== 2,
           dlNumber: localOn ? 'Local presence \u00b7 matches area code' : 'Fixed \u00b7 +1 (415) 555-0142', dlLocalFlip: () => this.setState({ dlLocal: !localOn }),
           dlRecBg: on(rec), dlRecKnob: kn(rec), dlRecFlip: () => this.setState({ dlRec: !rec }),
           dlRecNote: rec ? 'Recording is announced at the start of every call.' : 'Calls are not recorded.',
@@ -26611,6 +27101,7 @@ class Component extends DCLogic {
         const healthy = SEATS.filter(s => s.st === 'healthy');
         const liVals = {
           setIsLinkedin: S.view === 'campaigns' && S.campPgTab === 'channels' && S.campChTab === 'linkedin',
+          setIsNumbers: S.view === 'campaigns' && S.campPgTab === 'channels' && S.campChTab === 'numbers', setIsCalling: S.view === 'campaigns' && S.campPgTab === 'channels' && S.campChTab === 'calling',
           liSummary: healthy.length + ' sending \u00b7 ' + SEATS.filter(s => s.st === 'warming').length + ' ramping \u00b7 ' + SEATS.filter(s => s.st === 'reconnect').length + ' needs reconnecting \u00b7 ' + healthy.reduce((a, s) => a + s.cap, 0) + ' invites a day in total',
           liRows: SEATS.map(s => { const t = LST[s.st]; return { name: s.name, meta: s.plan + (s.st === 'warming' ? ' \u00b7 ramp week ' + s.week + ' of 3' : s.st === 'reconnect' ? ' \u00b7 session expired 2 days ago \u00b7 6 steps moved to tasks' : ''), stL: t[0], stC: t[1], stB: t[2],
             inv: s.inv + ' / ' + s.cap, msg: s.msg + ' / ' + s.msgCap, acc: s.acc ? s.acc + '%' : '\u2014', accC: s.acc && s.acc < 20 ? 'var(--warning)' : 'var(--text)', pend: String(s.pend), pendC: s.pend > 300 ? 'var(--negative)' : 'var(--text)', cap: s.cap + '/day',
@@ -26682,7 +27173,7 @@ class Component extends DCLogic {
           mask: 'sk_sprt_' + k.env + '_\u2026' + k.tail,
           envC: k.env === 'live' ? 'var(--accent-hover)' : 'var(--warning)', envB: k.env === 'live' ? 'var(--accent-soft)' : 'var(--warning-soft)',
           revoke: () => { this.setState(s => ({ akRevoked: { ...(s.akRevoked || {}), [k.nm]: 1 } }));
-            this.toast('\u201c' + k.nm + '\u201d revoked. Calls with it fail immediately.'); } }));
+            this.toast('\u201c' + k.nm + '\u201d revoked.'); } }));
         const sc = this.state.akScopes || { search: 1, entities: 1, usage: 0 };
         const SCOPES = [
           { k:'search', l:'Search & similar', d:'POST /v1/search, /v1/similar' },
@@ -26724,8 +27215,52 @@ class Component extends DCLogic {
         const tone = /removed|deleted|failed|didn|paused|off\b|can\u2019t|cannot/i.test(m) ? 'var(--negative)' : /select|pick|type|enter|first|before|give|name the/i.test(m) && !/added|saved|created|started/i.test(m) ? 'var(--warning)' : 'var(--positive)';
         return { toastTitle: title, toastBody: body, toastHasBody: !!body, toastDot: tone }; })(),
       dismissSetToast: () => { clearTimeout(this._tt); this.setState({ setToast:null }); },
-      sEditProfile: () => this.toast('Profile editor opened. Update your details and save.'),
-      sEditAccount: () => this.toast('Account editor opened.'),
+      ...(() => {
+        const S = this.state;
+        const TZ = [['Asia/Kolkata', 'India (IST, UTC+5:30)'], ['America/New_York', 'US Eastern (ET)'], ['America/Los_Angeles', 'US Pacific (PT)'], ['Europe/London', 'UK (GMT/BST)'], ['Europe/Berlin', 'Central Europe (CET)']];
+        const CUR = [['USD', 'USD \u00b7 US dollar'], ['INR', 'INR \u00b7 Indian rupee'], ['EUR', 'EUR \u00b7 Euro'], ['GBP', 'GBP \u00b7 Pound sterling']];
+        const lbl = (T, v) => (T.find(t => t[0] === v) || [v, v || '\u2014'])[1];
+        const prof = { name: setIsAdmin ? 'Sprouts Admin' : 'Ashwini Singh', tz: 'Asia/Kolkata', ...(S.spSaved || {}) };
+        const acct = { name: 'Sprouts', phone: '0958583423', tz: 'Asia/Kolkata', address: '#71, Subash Street, Sridevi Vaishnavi Nagar, Thirumullaivoyal, Avadi', city: 'Tiruvallur', state: 'Haryana', country: 'India', pin: '6001000', cur: 'INR', ...(S.saSaved || {}) };
+        const email = setIsAdmin ? 'abmadmin@sprouts.ai' : 'ashwini.singh@sprouts.ai';
+        const spEdit = !!S.spEdit, saEdit = !!S.saEdit;
+        const spD = { ...prof, ...(S.spDraft || {}) }, saD = { ...acct, ...(S.saDraft || {}) };
+        const row = (edit, dk, l, k, v, o) => { o = o || {}; const locked = !!o.locked, isSel = !!o.opts;
+          return { l, v: (edit && !locked) ? v : (o.disp || v), vCol: o.vCol || 'var(--text)', isView: !edit, isTxt: edit && !locked && !isSel, isSel: edit && !locked && isSel, isLocked: edit && locked, note: o.note || '', canCopy: !edit && !!o.copy,
+            opts: (o.opts || []).map(x => ({ v: x[0], l: x[1] })),
+            set: (e) => { const val = e.target.value; this.setState(s => ({ [dk]: { ...(s[dk] || {}), [k]: val } })); },
+            copy: () => { try { navigator.clipboard.writeText(v); } catch (e) {} this.toast('Copied ' + v); } }; };
+        return {
+          profRows: [
+            row(spEdit, 'spDraft', 'Full name', 'name', spD.name),
+            row(spEdit, 'spDraft', 'Primary Email ID', 'email', email, { locked: true, note: 'Comes from your Google or Microsoft login.', copy: true }),
+            row(spEdit, 'spDraft', 'Time zone', 'tz', spD.tz, { opts: TZ, disp: lbl(TZ, prof.tz) }),
+            row(spEdit, 'spDraft', 'Role', 'role', setIsAdmin ? 'Admin' : 'User', { locked: true, note: 'Changed by an admin in Team.' }),
+          ],
+          acctRows: [
+            row(saEdit, 'saDraft', 'Domain', 'domain', 'sprouts.ai', { locked: true, note: 'Verified. Ask support to change it.', vCol: 'var(--accent)' }),
+            row(saEdit, 'saDraft', 'Workspace name', 'name', saD.name),
+            row(saEdit, 'saDraft', 'Phone', 'phone', saD.phone),
+            row(saEdit, 'saDraft', 'Time zone', 'tz', saD.tz, { opts: TZ, disp: lbl(TZ, acct.tz) }),
+          ],
+          billRows: [
+            row(saEdit, 'saDraft', 'Address', 'address', saD.address),
+            row(saEdit, 'saDraft', 'City', 'city', saD.city),
+            row(saEdit, 'saDraft', 'State', 'state', saD.state),
+            row(saEdit, 'saDraft', 'Country', 'country', saD.country),
+            row(saEdit, 'saDraft', 'Pincode', 'pin', saD.pin),
+            row(saEdit, 'saDraft', 'Billing Currency', 'cur', saD.cur, { opts: CUR, disp: lbl(CUR, acct.cur) }),
+          ],
+          setUserName: prof.name, setUserInitial: ((prof.name || 'S').trim()[0] || 'S').toUpperCase(), setWsName: acct.name,
+          spEdit, spNotEdit: !spEdit, saEdit, saNotEdit: !saEdit,
+          sEditProfile: () => this.setState({ spEdit: true, spDraft: {} }),
+          spCancel: () => this.setState({ spEdit: false, spDraft: {} }),
+          spSave: () => { const nm = (spD.name || '').trim(); if (!nm) { this.toast('Your name can\u2019t be empty.'); return; } this.setState(s => ({ spSaved: { ...(s.spSaved || {}), ...(s.spDraft || {}), name: nm }, spEdit: false, spDraft: {} })); this.toast('Profile saved.'); },
+          sEditAccount: () => this.setState({ saEdit: true, saDraft: {} }),
+          saCancel: () => this.setState({ saEdit: false, saDraft: {} }),
+          saSave: () => { const nm = (saD.name || '').trim(); if (!nm) { this.toast('The workspace needs a name.'); return; } this.setState(s => ({ saSaved: { ...(s.saSaved || {}), ...(s.saDraft || {}), name: nm }, saEdit: false, saDraft: {} })); this.toast('Account details saved.'); },
+        };
+      })(),
       sInvite: () => this.toast('Invite sent. Your teammate will get an email to join.'),
       sCreateRole: () => this.toast('New role draft created. Set its permissions.'),
       sAddField: () => this.toast('Add a custom field. Choose a name and type.'),
@@ -27122,9 +27657,7 @@ class Component extends DCLogic {
       cfCatAll, cfCatAccount, cfCatContact,
       setIsProfile: STab==='profile', setIsTeam: STab==='team' && _teamTab==='members', setIsNotifications: STab==='notifications', setIsBilling: STab==='billing',
       setIsAdmin, setIsMember, setRoleAdminTgl, setRoleMemberTgl,
-      setUserName: setIsAdmin ? 'Sprouts Admin' : 'Ashwini Singh',
       setUserEmail: setIsAdmin ? 'abmadmin@sprouts.ai' : 'ashwini.singh@sprouts.ai',
-      setUserInitial: setIsAdmin ? 'S' : 'A',
       setUserRoleLabel: setIsAdmin ? 'Admin' : 'User',
       setUserRoleC: setIsAdmin ? 'var(--accent-hover)' : 'var(--accent)', setUserRoleB: setIsAdmin ? 'var(--accent-soft)' : 'var(--accent-soft)',
       teamEditOpen, edM, edRoles, edCats, edIsOwner, edNotOwner: !edIsOwner, edTransfer: () => this.setState(s => ({ edTransferOpen: !s.edTransferOpen })), edTransferOpen, edTransferLabel: edTransferOpen ? 'Cancel transfer' : 'Transfer ownership', edTransferList, teamEditClose, teamEditSave,
