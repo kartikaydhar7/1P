@@ -1923,6 +1923,10 @@
                 <span style="font:600 14px 'Pliant',sans-serif;color:var(--text);">Partners</span>
                 <span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">Ops on the left, live portfolio intelligence on the right. Click a partner for the full picture</span>
                 <span style="flex:1;"></span>
+                <span style="display:inline-flex;align-items:center;gap:8px;">
+                  <span style="font:600 9px 'Pliant Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;">Employee size</span>
+                  <span style="display:inline-flex;gap:2px;background:var(--surface-soft);border-radius:999px;padding:3px;"><sc-for list="{{ ptEmpFilter }}" as="ef" hint-placeholder-count="5"><button onClick="{{ ef.pick }}" style="border:none;cursor:pointer;background:{{ ef.bg }};color:{{ ef.col }};border-radius:999px;padding:4px 10px;font:600 11px 'Pliant Mono';white-space:nowrap;" style-hover="color:var(--text)">{{ ef.l }}</button></sc-for></span>
+                </span>
                 <span style="position:relative;">
                   <button onClick="{{ ptColsFlip }}" title="Add columns" style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--surface-2);cursor:pointer;border-radius:999px;padding:6px 12px;font:600 11.5px 'Pliant',sans-serif;color:var(--text-2);" style-hover="border-color:var(--accent-border);color:var(--accent-hover)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Columns</button>
                   <sc-if value="{{ ptColsOpen }}" hint-placeholder-val="">
@@ -1940,17 +1944,19 @@
                 </span>
               </div>
               <div style="overflow-x:auto;">
-                <div style="min-width:820px;">
+                <div style="min-width:956px;">
                   <div style="display:flex;align-items:center;height:34px;background:var(--canvas);font:600 9px 'Pliant Mono';letter-spacing:.06em;color:var(--text-secondary);border-bottom:1px solid var(--border);">
                     <span style="box-sizing:border-box;flex:1;min-width:210px;padding:0 16px;">PARTNER</span>
                     <span style="box-sizing:border-box;flex:0 0 84px;padding:0 8px;">STATUS</span>
-                    <span style="box-sizing:border-box;flex:0 0 110px;padding:0 8px;text-align:right;">PORTFOLIO</span>
+                    <span style="box-sizing:border-box;flex:0 0 96px;padding:0 8px;text-align:right;">PORTFOLIO</span>
+                    <span title="Share of each partner's accounts by employee size" style="box-sizing:border-box;flex:0 0 150px;padding:0 10px;">EMPLOYEE SIZE</span>
                     <span style="box-sizing:border-box;flex:0 0 210px;padding:0 10px;">TIER MIX</span>
                     <span title="P0 accounts in the portfolio, by the partner's own rules" style="box-sizing:border-box;flex:0 0 72px;padding:0 8px;text-align:right;">P0 ACCTS</span>
                     <sc-for list="{{ ptXHead }}" as="xh" hint-placeholder-count="0"><span title="{{ xh.tip }}" style="box-sizing:border-box;flex:0 0 {{ xh.w }};padding:0 8px;text-align:right;">{{ xh.l }}</span></sc-for>
                     <span style="box-sizing:border-box;flex:0 0 84px;padding:0 8px;text-align:right;">PIPELINE</span>
                     <span style="box-sizing:border-box;flex:0 0 12px;"></span>
                   </div>
+                  <sc-if value="{{ ptEmpFNote }}" hint-placeholder-val=""><div style="padding:7px 16px;font:400 11px 'Pliant',sans-serif;color:var(--accent-hover);background:var(--accent-soft);border-bottom:1px solid var(--border-soft);">{{ ptEmpFNote }}</div></sc-if>
                   <sc-for list="{{ ptRowsB }}" as="p" hint-placeholder-count="5">
                     <div onClick="{{ p.open }}" style="display:flex;align-items:center;height:56px;border-bottom:1px solid var(--border-soft);cursor:pointer;" style-hover="background:var(--surface-2);box-shadow:0 1px 2px rgba(24,23,30,.04), 0 8px 22px -10px rgba(24,23,30,.13)">
                       <span style="box-sizing:border-box;flex:1;min-width:210px;padding:0 16px;display:flex;align-items:center;gap:10px;">
@@ -1958,7 +1964,14 @@
                         <span style="display:flex;flex-direction:column;min-width:0;"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.name }}</span><span style="font:400 10px 'Pliant Mono';color:var(--text-muted);">{{ p.region }}</span></span>
                       </span>
                       <span style="box-sizing:border-box;flex:0 0 84px;padding:0 8px;display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ p.dotC }};flex:0 0 auto;"></span><span style="font:600 11.5px 'Pliant',sans-serif;color:{{ p.statusC }};white-space:nowrap;">{{ p.statusL }}</span></span>
-                      <span style="box-sizing:border-box;flex:0 0 110px;padding:0 8px;text-align:right;"><span style="font:600 12px 'Pliant Mono';color:var(--text);">{{ p.pfAcc }}</span><span style="display:block;font:400 9.5px 'Pliant Mono';color:var(--text-muted);">{{ p.pfCon }}</span></span>
+                      <span style="box-sizing:border-box;flex:0 0 96px;padding:0 8px;text-align:right;"><span style="font:600 12px 'Pliant Mono';color:var(--text);">{{ p.pfAcc }}</span><span style="display:block;font:400 9.5px 'Pliant Mono';color:var(--text-muted);">{{ p.pfCon }}</span></span>
+                      <span style="box-sizing:border-box;flex:0 0 150px;padding:0 10px;">
+                        <sc-if value="{{ p.hasEmp }}" hint-placeholder-val="">
+                          <span style="display:flex;width:130px;height:7px;border-radius:4px;background:var(--surface-soft);overflow:hidden;"><sc-for list="{{ p.emp }}" as="es" hint-placeholder-count="4"><span title="{{ es.tip }}" style="display:block;height:100%;width:{{ es.w }};background:{{ es.c }};opacity:{{ es.op }};"></span></sc-for></span>
+                          <span style="display:block;font:400 9px 'Pliant Mono';color:{{ p.empLblC }};margin-top:4px;white-space:nowrap;">{{ p.empLbl }}</span>
+                        </sc-if>
+                        <sc-if value="{{ p.noEmp }}" hint-placeholder-val="{{ true }}"><span style="display:block;width:130px;height:7px;border-radius:4px;background:var(--surface-soft);"></span></sc-if>
+                      </span>
                       <span style="box-sizing:border-box;flex:0 0 210px;padding:0 10px;">
                         <sc-if value="{{ p.hasLive }}" hint-placeholder-val="">
                           <span style="display:flex;width:188px;height:7px;border-radius:4px;background:var(--surface-soft);overflow:hidden;"><sc-for list="{{ p.tierSegs }}" as="ts" hint-placeholder-count="0"><span title="{{ ts.tip }}" style="display:block;height:100%;width:{{ ts.w }};background:{{ ts.c }};"></span></sc-for></span>
@@ -15916,6 +15929,11 @@ class Component extends DCLogic {
     if (!this._ptStatsFn) { window.addEventListener('message', this._ptStatsFn = (e) => { const d = e.data;
       if (d && d.type === 'sprouts-partner-stats' && d.partner) this.setState(s => ({ ptLive: { ...(s.ptLive || {}), [d.partner]: d } })); }); }
     const PT_SEED = this._ptSeedCache || (this._ptSeedCache = this.ptSeedData());
+    const EMP_B = [['<50', 'under 50'], ['51-100', '51 to 100'], ['101-500', '101 to 500'], ['500+', 'more than 500']];
+    const empSplitOf = (p, lv) => { if (!lv || !lv.accounts) return null; const EMP_MIX = { ncs: [31, 24, 29, 16], sh: [38, 27, 24, 11], cap: [22, 23, 33, 22], jk: [34, 26, 27, 13], ny: [41, 25, 23, 11] };
+      const h = String(p.id).split('').reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) >>> 0, 11);
+      const mix = EMP_MIX[p.id] || [28 + (h % 9), 22 + ((h >> 3) % 7), 27 + ((h >> 6) % 8), 0]; if (!EMP_MIX[p.id]) mix[3] = 100 - mix[0] - mix[1] - mix[2];
+      const n = mix.map(x => Math.round(lv.accounts * x / 100)); n[3] += lv.accounts - n.reduce((a, b) => a + b, 0); return { n, tot: lv.accounts }; };
     const partners = this.ptBase();
     const byId = {}; partners.forEach(p => { byId[p.id] = p; });
     const A = S.ptAssigned || {}, ST = S.ptStalled || {};
@@ -16166,7 +16184,9 @@ class Component extends DCLogic {
           ptColsItems: PT_XCOLS.map(c => ({ l: c.pick, sub: c.sub, on: !!on[c.k], boxBg: on[c.k] ? 'var(--accent)' : 'var(--surface)', boxBd: on[c.k] ? 'var(--accent)' : 'var(--border)',
             flip: () => this.setState(s => { const eff = Object.assign({ contacts: true, p1: true }, s.ptCols || {}); return { ptCols: { ...(s.ptCols || {}), [c.k]: !eff[c.k] } }; }) })),
         }; })(),
-      ptRowsB: partners.map(p => {
+      ptEmpFilter: [['', 'All sizes']].concat(EMP_B.map(b => [b[0], b[0]])).map(o => ({ l: o[1], on: (S.ptEmpF || '') === o[0], bg: (S.ptEmpF || '') === o[0] ? 'var(--accent-soft)' : 'transparent', col: (S.ptEmpF || '') === o[0] ? 'var(--accent-hover)' : 'var(--text-secondary)', pick: () => this.setState({ ptEmpF: o[0] || null }) })),
+      ptEmpFNote: S.ptEmpF ? 'Ranked by share of accounts with ' + S.ptEmpF + ' employees' : '',
+      ptRowsB: (S.ptEmpF ? partners.slice().sort((a, b) => { const sa = empSplitOf(a, (S.ptLive || {})[a.id] || PT_SEED[a.id]), sb = empSplitOf(b, (S.ptLive || {})[b.id] || PT_SEED[b.id]); const fi = EMP_B.findIndex(x => x[0] === S.ptEmpF); const ra = sa ? sa.n[fi] / sa.tot : -1, rb = sb ? sb.n[fi] / sb.tot : -1; return rb - ra; }) : partners).map(p => {
         const live = liveOf(p.id).length, stn = stOf(p.id).length;
         const working = p.working + live, load = working;
         const pct = Math.min(100, Math.round(load / p.cap * 100));
@@ -16183,6 +16203,13 @@ class Component extends DCLogic {
         return {
           hasLive: !!(lv && tTot), noLive: !(lv && tTot),
           pfAcc: lv ? lv.accounts.toLocaleString('en-US') : '\u2014',
+          ...(() => { const es = empSplitOf(p, lv); if (!es) return { hasEmp: false, noEmp: true, emp: [], empLbl: '', empLblC: 'var(--text-muted)' };
+            const f = S.ptEmpF; const fi = f ? EMP_B.findIndex(b => b[0] === f) : -1; const lead = es.n.indexOf(Math.max(...es.n));
+            const EC = ['var(--accent-deep)', 'var(--accent-hover)', 'var(--accent)', 'var(--accent-border)'];
+            return { hasEmp: true, noEmp: false,
+              emp: EMP_B.map((b, i) => ({ w: Math.max(1.5, es.n[i] / lv.accounts * 100) + '%', c: EC[i], op: fi < 0 || fi === i ? '1' : '.28', tip: b[0] + ' employees · ' + es.n[i].toLocaleString('en-US') + ' accounts · ' + Math.round(es.n[i] / lv.accounts * 100) + '%' })),
+              empLbl: fi >= 0 ? es.n[fi].toLocaleString('en-US') + ' accounts · ' + Math.round(es.n[fi] / lv.accounts * 100) + '% ' + f : 'Mostly ' + EMP_B[lead][0] + ' · ' + Math.round(es.n[lead] / lv.accounts * 100) + '%',
+              empLblC: fi >= 0 ? 'var(--accent-hover)' : 'var(--text-muted)' }; })(),
           pfCon: lv ? (lv.contacts ? lv.contacts.toLocaleString('en-US') + ' contacts' : 'accounts only') : (p.dashEmbed ? 'syncing\u2026' : 'no feed'),
           tierSegs: lv && tTot ? tOrd.filter(t => lv.tiers[t]).map(t => ({ w: Math.max(2, lv.tiers[t] / tTot * 100) + '%', c: TC[t], tip: t + ' \u00b7 ' + lv.tiers[t] })) : [],
           tierLbl: lv && tTot ? 'P0 ' + (lv.tiers.P0 || 0) + ' \u00b7 P1 ' + (lv.tiers.P1 || 0) : '',
