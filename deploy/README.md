@@ -1,6 +1,8 @@
 # Strato V2 — Sprouts agentic GTM prototype
 
-Static HTML prototype. No build step, no environment variables.
+Static HTML prototype. No build step, no environment variables. `/qms` is the
+one page with real data, read from the QOS API (moxo-poc) behind a sign-in. See
+"QMS and the QOS API" below.
 
 ## Routes
 
@@ -39,6 +41,24 @@ project's **Root Directory** must be `deploy`. With that set, this
 2. Framework preset: **Other**. Leave Build Command and Output Directory empty.
 3. Root Directory: **`deploy`**.
 4. Deploy.
+
+## QMS and the QOS API
+
+`/qms` signs in against QOS (`POST /auth/login`) and then reads and acts on real
+quotes, partners and Sprouts data. Accounts are created by a QOS admin; there is
+no sign-up.
+
+- **Where it calls:** `/qos/...` on this same site. `vercel.json` rewrites that
+  to the QOS server, so the browser never makes a cross-site call and the
+  sign-in cookie stays first-party. **The rewrite destination is a placeholder**
+  (`replace-with-qos-host.invalid`). Set it to QOS's public URL before relying
+  on the deployed `/qms`; until then the page shows "Can't reach the quote
+  service".
+- **Opened from localhost** (e.g. `python -m http.server 5500` in `deploy/`), it
+  calls `http://localhost:8000` directly instead.
+- **Overriding it:** set the `apiBase` prop on the page's script tag.
+- **Sign-in tokens:** the access token lives only in page memory. Reloading the
+  page restores the session from an httpOnly refresh cookie that QOS sets.
 
 ## Updating the app
 
