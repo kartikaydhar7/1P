@@ -6,6 +6,6 @@
     { "source": "/app", "destination": "/", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/qos/:path*", "destination": "https://replace-with-qos-host.invalid/:path*" }
+    { "source": "/qos/:path*", "destination": "https://qms.sprouts.ai/:path*" }
   ]
 }
