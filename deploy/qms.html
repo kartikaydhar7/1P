@@ -201,14 +201,12 @@ button,select,input{font-family:inherit}
           </sc-if>
           <sc-if value="{{ d.needsRouting }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;flex-direction:column;gap:12px;animation: {{ d.enter }}">
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid #1B2135;margin-top:2px"><div style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:#2B5CFF;display:grid;place-items:center;font-weight:800;font-size:11.5px">{{ d.partnerIni }}</div><div style="min-width:0"><div style="font-size:14px;font-weight:700">{{ d.partner }} <span style="font-size:11px;font-weight:600;color:#8B93A7">· suggested</span></div><div style="font-size:11.5px;color:#B7BECF;line-height:1.4">{{ d.partnerWhy }}</div></div></div>
+            <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid #1B2135;padding-top:12px;margin-top:2px">
+              <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">Partner · {{ d.partnerCount }}</div>
+              <div style="position:relative"><select value="{{ d.partnerSel }}" onChange="{{ d.setPartner }}" style="appearance:none;-webkit-appearance:none;box-sizing:border-box;width:100%;border:1px solid #2A3147;border-radius:9px;padding:10px 32px 10px 12px;font:600 13.5px 'Manrope',sans-serif;color:#fff;background:#11172A;outline:none;cursor:pointer"><sc-for list="{{ d.partnerOpts }}" as="o"><option value="{{ o.v }}" style="color:#0F1424;background:#fff">{{ o.l }}</option></sc-for></select><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8B93A7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none"><path d="M6 9l6 6 6-6"></path></svg></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:#2B5CFF;display:grid;place-items:center;font-weight:800;font-size:11.5px">{{ d.selIni }}</div><div style="min-width:0"><div style="font-size:14px;font-weight:700">{{ d.selName }} <span style="font-size:11px;font-weight:600;color:#8B93A7">{{ d.selTag }}</span></div><div style="font-size:11.5px;color:#B7BECF;line-height:1.4">{{ d.selWhy }}</div></div></div>
             <button onClick="{{ d.route }}" style="padding:12px 16px;border-radius:9px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E45D6">Review and send</button>
-            <button onClick="{{ d.toggleOthers }}" style="border:0;background:transparent;padding:0;text-align:left;font-size:12.5px;font-weight:700;cursor:pointer;color:#8B93A7" style-hover="color:#fff">{{ d.othersLabel }}</button>
-            <sc-if value="{{ d.othersOpen }}" hint-placeholder-val="{{ false }}">
-              <div style="display:flex;flex-direction:column;border-top:1px solid #1B2135">
-                <sc-for list="{{ d.otherRows }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border:0;border-bottom:1px solid #1B2135;background:transparent;text-align:left;cursor:pointer;color:#fff" style-hover="color:#2B5CFF"><span style="width:28px;height:28px;border-radius:7px;background:#1B2238;color:#C9CFDD;display:grid;place-items:center;font-size:10px;font-weight:800">{{ o.ini }}</span><span style="min-width:0"><span style="display:block;font-size:13px;font-weight:700">{{ o.name }}</span><span style="display:block;font-size:11px;color:#8B93A7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.meta }}</span></span><span style="font-size:11.5px;font-weight:700;color:#8B93A7;white-space:nowrap">Send →</span></button></sc-for>
-              </div>
-            </sc-if>
             </div>
           </sc-if>
           <sc-if value="{{ d.withPartner }}" hint-placeholder-val="{{ false }}">
@@ -591,7 +589,7 @@ class Component extends DCLogic{
   // assign-vendor the first time; reassign-vendor once the quote already has an assignment (e.g. declined).
   async route(id,pid){const q=this.find(id);if(!q||this._busy)return;this._busy=true;this.setState({preview:null,othersOpen:false});
     try{await this.api('/quotes/'+encodeURIComponent(id)+(q.hasAssignment?'/reassign-vendor':'/assign-vendor'),{method:'POST',body:{vendor_id:pid}});
-      this.toast('Sent to '+P(pid).name+'. Approve “Assign to vendor” in Moxo to start the partner step.');await this.loadAll();this.loadDetail(id);}
+      this.toast('Sent to '+P(pid).name+'. They’ll get “Accept the quote” in Moxo.');await this.loadAll();this.loadDetail(id);}
     catch(e){this.toast(e.message);}finally{this._busy=false;}}
   stagePreview(id,pid){if(!pid){this.toast('No partners in the directory yet.');return;}this.setState({preview:{id,pid},othersOpen:false,sel:id,view:'quote'});this.loadDetail(id);}
   askApproval(){this.toast('Finance approval isn’t part of this workflow.');}
@@ -656,7 +654,7 @@ class Component extends DCLogic{
       escalateHint:q.contacts[1]?'If '+(q.contacts[0].name||'').split(' ')[0]+' does not respond, go to '+q.contacts[1].name+(q.contacts[1].title?' ('+q.contacts[1].title+')':'')+'.':'',
       timeline:[...q.timeline].reverse().map(t=>({...t,fg:t.actor.startsWith('Sprouts')?BLUE:t.actor==='Moxo'?PURPLE:'#0F1424'}))};
     d.nextTitle=q.stage==='intake'?'Sprouts is researching':q.stage==='triage'?(q.assignmentStatus==='declined'?'Partner declined · pick another':'Pick a partner'):q.stage==='assigned'?'Waiting for '+p.name+' to accept':q.stage==='accepted'?p.name+' to call the customer':q.stage==='contacted'?'Customer contacted · waiting for the outcome':'Closed · '+(q.outcome||'');
-    d.nextText=q.stage==='intake'?'Company, contacts, signals and score arrive from Moxo’s enrichment step. This page checks every few seconds.':q.stage==='triage'?'Sending assigns the partner on the Moxo workflow. Ops then approves “Assign to vendor” in Moxo to start their accept step.':q.stage==='assigned'?'Moxo asks them to accept from their link. Send a reminder if it stalls, or move it to another partner.':q.stage==='accepted'?'Accepted. They contact the customer next; Sprouts gave them the contacts.':q.stage==='contacted'?'The partner is working the deal. The outcome comes back from Moxo.':'This quote is closed in Moxo.';
+    d.nextText=q.stage==='intake'?'Company, contacts, signals and score arrive from Moxo’s enrichment step. This page checks every few seconds.':q.stage==='triage'?'Sending assigns the partner on the Moxo workflow and approves “Assign to partner”, so they get the accept step right away.':q.stage==='assigned'?'Moxo asks them to accept from their link. Send a reminder if it stalls, or move it to another partner.':q.stage==='accepted'?'Accepted. They contact the customer next; Sprouts gave them the contacts.':q.stage==='contacted'?'The partner is working the deal. The outcome comes back from Moxo.':'This quote is closed in Moxo.';
     const pst=PS(q.partnerId);d.partnerStat=(pst.win==null?'no closed quotes yet':pst.win+'% win rate')+' · '+pst.open+' open';
     const pv=s.preview&&s.preview.id===q.id&&q.stage==='triage'?s.preview:null;
     d.needsApproval=false;d.needsRouting=d.needsRouting&&!pv;d.hasPreview=!!pv;
@@ -669,6 +667,15 @@ class Component extends DCLogic{
     d.enter='none';d.titleEnter='none';d.pendingLine=q.loading||q.enriching||q.stage==='intake';d.pendingText=q.loading?'Loading…':q.enriching?(q.enrichStep||'Refreshing')+'…':'Sprouts is researching this company. This page updates by itself.';
     d.showSummary=!!q.summary&&!q.loading;d.showFigures=q.score!=null&&!q.loading;d.hasSignals=q.signals.length>0;d.rerun=()=>this.rerun(q.id);d.rerunLabel=q.enriching?'Refreshing…':'Refresh Sprouts data';d.canRerun=q.id!=='—';
     const qtabs=['Company','Signals','People','Partner','Activity'];d.tabs=qtabs.map(t=>({label:t+(t==='Signals'&&d.signalCount?' '+q.signals.length:t==='People'?' '+q.contacts.length:''),go:()=>this.setState({qtab:t}),line:s.qtab===t?BLUE:'transparent',fg:s.qtab===t?INK:'#6B7280'}));
+    // Partner dropdown: every partner from GET /vendors (the Moxo partner Data Table), defaulting to the
+    // suggested one - or, after a decline, to another partner (altFor) as the old reassign did.
+    const sugPid=q.suggestedId||q.partnerId,defPid=q.assignmentStatus==='declined'?(this.altFor(q)||q.partnerId):q.partnerId;
+    const selPid=s.pick&&s.pick.id===q.id&&PARTNERS[s.pick.pid]?s.pick.pid:defPid,sp=P(selPid);
+    d.partnerOpts=Object.keys(PARTNERS).map(k=>({v:k,l:P(k).name+' · '+PS(k).covers+' · '+PS(k).specialty+(k===sugPid?' · suggested':'')}));
+    d.partnerCount=d.partnerOpts.length+' in the directory';d.partnerSel=selPid||'';
+    d.setPartner=e=>this.setState({pick:{id:q.id,pid:e.target.value}});
+    d.selName=sp.name;d.selIni=ini(sp.name);d.selWhy=sp.why||'';d.selTag=selPid===sugPid?'· suggested':'';
+    d.route=()=>this.stagePreview(q.id,selPid);
     d.othersOpen=s.othersOpen;d.toggleOthers=()=>this.setState(x=>({othersOpen:!x.othersOpen}));d.othersLabel=s.othersOpen?'Hide other partners':'Choose a different partner';d.otherRows=Object.keys(PARTNERS).filter(k=>k!==q.partnerId).map(k=>({name:P(k).name,ini:ini(P(k).name),meta:PS(k).covers+' · '+PS(k).specialty,pick:()=>this.stagePreview(q.id,k)}));
     d.tabCompany=s.qtab==='Company';d.tabSignalsOn=s.qtab==='Signals';d.tabPeople=s.qtab==='People';d.tabPartner=s.qtab==='Partner';d.tabActivity=s.qtab==='Activity';d.tabSignals=()=>this.setState({qtab:'Signals'});
     d.topSignals=d.signals.slice(0,3);d.moreSignalsLabel=d.signals.length>3?'See all '+d.signals.length+' signals →':'See the evidence →';d.propensityShort=d.propensity>=75?'high':d.propensity>=55?'medium':'low';d.noPartnerYet=!d.showPartner;d.noFacts=q.loaded&&!q.facts.length;d.noSignals=q.loaded&&!q.signals.length;
