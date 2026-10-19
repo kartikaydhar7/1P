@@ -31,6 +31,8 @@ const PAGES = [
     ['href="Onboarding Journey.dc.html"', 'href="/onboarding"']],
   // QMS is standalone -- it links to none of the others, so it needs no rewrite.
   ['QMS.dc.html', 'deploy/qms.html', null],
+  // UW is standalone too, served at /uw.
+  ['UW.dc.html', 'deploy/uw.html', null],
 ];
 
 const ASSETS = [

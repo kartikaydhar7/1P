@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600&display=swap">
+<style>
+html,body{margin:0;padding:0;background:#FFFFFF;}
+body{font-family:'Manrope',system-ui,sans-serif;color:#08080C;font-size:14px;line-height:22px;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;}
+*{box-sizing:border-box;}
+a{color:#1A2F9E;text-decoration:none;}
+a:hover{color:#2F68FF;text-decoration:underline;}
+button{font-family:inherit;font-variant-numeric:tabular-nums;}
+:focus-visible{outline:2px solid #2F68FF;outline-offset:2px;}
+@media (hover: none){[data-hover]:hover{background-color:transparent !important;}}
+</style>
+</helmet>
+<div style="height:100vh; display:flex; flex-direction:column; background:#FFFFFF; color:#08080C;">
+  <header style="height:56px; flex:none; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:0 40px; border-bottom:1px solid #C9D1DE;">
+    <a href="#/queue" style="display:flex; align-items:center; gap:10px; color:#08080C; text-decoration:none;">
+      <span style="width:22px; height:22px; border-radius:6px; background:#08080C; display:flex; align-items:center; justify-content:center;"><span style="width:8px; height:8px; border-radius:4px; background:#2F68FF;"></span></span>
+      <span style="font-size:14px; line-height:18px; font-weight:600; letter-spacing:-0.01em;">Underwriting signals</span>
+    </a>
+    <div style="display:flex; align-items:center; gap:20px; font-size:13px; line-height:18px; color:#606978; white-space:nowrap;">
+      <span style="color:#08080C; font-weight:500;">Security Bank pilot</span>
+      <span>SME credit underwriter</span>
+      <span>16 Oct 2026</span>
+    </div>
+  </header>
+
+  <main ref="{{ mainRef }}" onScroll="{{ onMainScroll }}" style="flex:1; min-height:0; overflow-y:auto; overflow-x:hidden;">
+    <sc-if value="{{ isQueue }}" hint-placeholder-val="{{ true }}">
+      <div style="max-width:1360px; margin:0 auto; padding:32px 40px 24px; display:flex; flex-direction:column; gap:28px;">
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <h1 style="margin:0; font-size:32px; line-height:38px; font-weight:500; letter-spacing:-0.03em;">Application queue</h1>
+          <span style="font-size:14px; line-height:22px; color:#606978;">Friday 16 October 2026 · SME loan requests</span>
+        </div>
+        <section style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border-top:1px solid #08080C;">
+          <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+            <div style="display:flex; flex-direction:column; gap:4px; padding:18px 24px 0; border-left:{{ s.bl }};">
+              <span style="font-size:44px; line-height:48px; font-weight:500; letter-spacing:-0.04em; color:{{ s.c }};">{{ s.n }}</span>
+              <span style="font-size:14px; line-height:20px; color:#606978;">{{ s.label }}</span>
+            </div>
+          </sc-for>
+        </section>
+        <section style="display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding-bottom:12px;">
+            <div role="radiogroup" aria-label="Filter" style="display:flex; border:1px solid #C9D1DE; border-radius:6px; padding:2px; gap:2px;">
+              <sc-for list="{{ filters }}" as="o" hint-placeholder-count="2">
+                <button role="radio" aria-checked="{{ o.on }}" onClick="{{ o.pick }}" style="height:30px; border:0; border-radius:4px; padding:0 12px; font-size:13px; font-weight:500; cursor:pointer; white-space:nowrap; background:{{ o.bg }}; color:{{ o.fg }}; transition:transform 120ms cubic-bezier(0.23,1,0.32,1);" style-active="transform:scale(0.97);">{{ o.label }}</button>
+              </sc-for>
+            </div>
+            <span style="font-size:13px; line-height:20px; color:#606978;">{{ decidedText }}</span>
+          </div>
+          <div style="display:grid; grid-template-columns:minmax(0,2.2fr) minmax(0,1fr) minmax(0,1.6fr) minmax(0,1.4fr); gap:16px; padding:0 12px 8px; font-size:11px; line-height:16px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:#1A2F9E;">
+            <div>Merchant</div><div>Requested</div><div>Recommendation</div><div>Status</div>
+          </div>
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="12">
+            <div data-hover="1" role="button" tabIndex="0" onClick="{{ r.open }}" onKeyDown="{{ r.key }}" style="display:grid; grid-template-columns:minmax(0,2.2fr) minmax(0,1fr) minmax(0,1.6fr) minmax(0,1.4fr); gap:16px; align-items:center; min-height:64px; padding:10px 12px; border-top:1px solid #C9D1DE; cursor:pointer;" style-hover="background:#F5F7FB;">
+              <div style="display:flex; flex-direction:column; min-width:0;">
+                <span style="font-size:15px; line-height:20px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ r.name }}</span>
+                <span style="font-size:13px; line-height:18px; color:#606978; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ r.meta }}</span>
+              </div>
+              <div style="display:flex; flex-direction:column; min-width:0;">
+                <span title="{{ r.reqFull }}" style="font-size:15px; line-height:20px; font-weight:500;">{{ r.req }}</span>
+                <span style="font-size:12px; line-height:16px; color:#606978; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ r.purpose }}</span>
+              </div>
+              
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="display:inline-flex; align-items:center; height:24px; padding:0 9px; border-radius:6px; font-size:12px; line-height:16px; font-weight:600; white-space:nowrap; color:{{ r.s.fg }}; background:{{ r.s.bg }}; border:1px solid {{ r.s.bd }};">{{ r.s.label }}</span>
+                <span style="font-size:14px; line-height:20px; font-weight:500;">{{ r.s.amt }}</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; font-size:13px; line-height:18px; font-weight:{{ r.stFw }}; color:{{ r.stC }};"><span style="width:8px; height:8px; border-radius:4px; background:{{ r.stDot }}; flex:none;"></span>{{ r.status }}</div>
+            </div>
+          </sc-for>
+          <div style="border-top:1px solid #C9D1DE;"></div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
+      <div style="position:sticky; top:0; z-index:10; height:0;">
+        <div style="position:absolute; left:0; right:0; top:0; background:#FFFFFF; border-bottom:1px solid #C9D1DE; transform:translateY({{ bar.y }}); opacity:{{ bar.op }}; pointer-events:{{ bar.pe }}; transition:{{ bar.tr }};">
+          <div style="max-width:1360px; margin:0 auto; padding:10px 40px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
+            <div style="display:flex; align-items:baseline; gap:14px; min-width:0;">
+              <span style="font-size:16px; line-height:22px; font-weight:600; white-space:nowrap;">{{ m.name }}</span>
+              <span style="font-size:14px; line-height:20px; color:#606978; white-space:nowrap;">{{ viewLine }}</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px;">
+              <span title="{{ d.recFull }}" style="font-size:22px; line-height:28px; font-weight:500; letter-spacing:-0.03em; color:{{ d.recC }};">{{ d.rec }}</span>
+              <span style="display:inline-flex; align-items:center; height:26px; padding:0 10px; border-radius:6px; font-size:13px; line-height:16px; font-weight:600; white-space:nowrap; color:{{ d.chip.fg }}; background:{{ d.chip.bg }}; border:1px solid {{ d.chip.bd }};">{{ d.chip.label }}</span>
+              <button onClick="{{ bar.go }}" style="height:44px; padding:0 18px; border-radius:6px; font-size:15px; font-weight:600; cursor:pointer; white-space:nowrap; background:{{ bar.btnBg }}; color:{{ bar.btnFg }}; border:1px solid {{ bar.btnBd }}; transition:transform 120ms cubic-bezier(0.23,1,0.32,1); height:38px; font-size:14px;" style-active="transform:scale(0.97);">{{ bar.btn }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width:1360px; margin:0 auto; padding:20px 40px 0; display:flex; flex-direction:column; gap:20px;">
+        <a href="#/queue" style="font-size:14px; line-height:20px; align-self:flex-start;">← Application queue</a>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;">
+          <div style="display:flex; flex-direction:column; gap:6px; min-width:0;">
+            <h1 style="margin:0; font-size:36px; line-height:42px; font-weight:500; letter-spacing:-0.035em;">{{ m.name }}</h1>
+            <span style="font-size:15px; line-height:22px; color:#606978;">{{ m.meta }}</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <span style="font-size:14px; line-height:20px; color:#606978; box-shadow:{{ view.hl }}; transition:{{ hlTr }};">{{ viewLine }}</span>
+            <button onClick="{{ view.toggle }}" style="height:44px; padding:0 18px; border-radius:6px; font-size:15px; font-weight:600; cursor:pointer; white-space:nowrap; background:{{ view.btnBg }}; color:{{ view.btnFg }}; border:1px solid {{ view.btnBd }}; transition:transform 120ms cubic-bezier(0.23,1,0.32,1); height:40px; font-size:14px;" style-active="transform:scale(0.97);">{{ view.btn }}</button>
+          </div>
+        </div>
+
+        <section ref="{{ cardRef }}" aria-label="Decision" style="border-top:2px solid #08080C; padding-top:28px; display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:56px; align-items:start;">
+          <div style="display:flex; flex-direction:column; gap:6px; min-width:0;">
+            <span style="font-size:15px; line-height:22px; color:#606978;">{{ view.recLabel }}</span>
+            <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+              <span title="{{ d.recFull }}" style="font-size:72px; line-height:76px; font-weight:500; letter-spacing:-0.045em; color:{{ d.recC }}; box-shadow:{{ d.hlRec }}; transition:{{ hlTr }};">{{ d.rec }}</span>
+              <span style="display:inline-flex; align-items:center; height:30px; padding:0 12px; border-radius:6px; font-size:14px; line-height:16px; font-weight:600; white-space:nowrap; color:{{ d.chip.fg }}; background:{{ d.chip.bg }}; border:1px solid {{ d.chip.bd }};">{{ d.chip.label }}</span>
+            </div>
+            <span style="font-size:16px; line-height:24px; padding-bottom:14px;">{{ reqLine }}</span>
+            <div style="display:flex; flex-direction:column;">
+              <sc-for list="{{ d.facts }}" as="f" hint-placeholder-count="3">
+                <div style="display:grid; grid-template-columns:170px minmax(0,1fr); gap:16px; padding:10px 0; border-top:1px solid #C9D1DE;">
+                  <span style="font-size:14px; line-height:22px; color:#606978;">{{ f.k }}</span>
+                  <span style="display:flex; flex-direction:column; align-items:flex-start;">
+                    <span style="font-size:16px; line-height:22px; font-weight:500; color:{{ f.c }}; box-shadow:{{ f.hl }}; transition:{{ hlTr }};">{{ f.v }}</span>
+                    <span style="font-size:13px; line-height:20px; color:#606978; display:{{ f.subD }};">{{ f.sub }}</span>
+                  </span>
+                </div>
+              </sc-for>
+              <div style="display:grid; grid-template-columns:170px minmax(0,1fr); gap:16px; padding:10px 0; border-top:1px solid #C9D1DE; border-bottom:1px solid #C9D1DE;">
+                <span style="font-size:14px; line-height:22px; color:#606978;">Policy checks</span>
+                <div style="display:flex; flex-direction:column; gap:4px;">
+                  <sc-for list="{{ d.checks }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex; align-items:baseline; gap:8px; font-size:14px; line-height:22px; flex-wrap:wrap;">
+                      <span style="font-weight:600; width:14px; color:{{ c.mc }};">{{ c.mark }}</span>
+                      <span>{{ c.k }}</span>
+                      <span style="color:{{ c.vc }}; font-weight:{{ c.fw }}; box-shadow:{{ c.hl }}; transition:{{ hlTr }};">{{ c.v }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+            <button onClick="{{ toggleHow }}" aria-expanded="{{ howAria }}" style="align-self:flex-start; margin-top:10px; border:0; background:transparent; padding:0; font-size:14px; line-height:22px; font-weight:600; color:#1A2F9E; cursor:pointer; text-decoration:underline; text-underline-offset:3px;">{{ howLabel }}</button>
+            <sc-if value="{{ howOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:8px; background:#F5F7FB; padding:16px 18px; display:flex; flex-direction:column; gap:6px;">
+                <sc-for list="{{ d.how }}" as="hw" hint-placeholder-count="4">
+                  <span style="font-size:{{ hw.size }}px; line-height:22px; color:{{ hw.c }}; font-weight:{{ hw.fw }};">{{ hw.t }}</span>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:24px; min-width:0;">
+            <sc-if value="{{ sigOn }}" hint-placeholder-val="{{ true }}">
+              <div style="background:#F5F7FB; padding:18px 20px; display:flex; flex-direction:column; gap:4px;">
+                <span style="font-size:15px; line-height:22px; font-weight:600; color:#1A2F9E;">What Sprouts changed</span>
+                <span style="font-size:17px; line-height:26px; text-wrap:pretty; box-shadow:{{ view.hl }}; transition:{{ hlTr }};">{{ sproutsLine }}</span>
+                <button onClick="{{ toSignals }}" style="align-self:flex-start; margin-top:10px; height:36px; padding:0 14px; border-radius:6px; border:1px solid #2F68FF; background:#FFFFFF; color:#1A2F9E; font-size:14px; font-weight:600; cursor:pointer; white-space:nowrap; transition:transform 120ms cubic-bezier(0.23,1,0.32,1);" style-hover="background:#EAF0FF;" style-active="transform:scale(0.97);">{{ toSignalsLabel }}</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ sigOff }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#F5F7FB; padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+                <span style="font-size:16px; line-height:24px; color:#606978; text-wrap:pretty;">This is the decision on bank data alone. Sprouts signals are hidden.</span>
+                <button onClick="{{ view.toS }}" style="height:44px; padding:0 18px; border-radius:6px; font-size:15px; font-weight:600; cursor:pointer; white-space:nowrap; background:#2F68FF; color:#FFFFFF; border:1px solid #2F68FF; transition:transform 120ms cubic-bezier(0.23,1,0.32,1); height:40px; font-size:14px;" style-active="transform:scale(0.97);">Add Sprouts signals</button>
+              </div>
+            </sc-if>
+            <div style="display:flex; flex-direction:column;">
+              <h2 style="margin:0 0 8px; font-size:15px; line-height:22px; font-weight:600;">Why</h2>
+              <sc-for list="{{ d.why }}" as="w" hint-placeholder-count="3">
+                <div style="display:grid; grid-template-columns:28px minmax(0,1fr); gap:8px; padding:12px 0; border-top:1px solid #C9D1DE;">
+                  <span style="font-size:16px; line-height:24px; font-weight:600; color:#1A2F9E;">{{ w.n }}</span>
+                  <span style="font-size:17px; line-height:26px; text-wrap:pretty; box-shadow:{{ w.hl }}; transition:{{ hlTr }};">{{ w.t }}</span>
+                </div>
+              </sc-for>
+              <div style="border-top:1px solid #C9D1DE;"></div>
+            </div>
+            <sc-if value="{{ undecided }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <sc-for list="{{ d.actions }}" as="a" hint-placeholder-count="3">
+                  <button onClick="{{ a.go }}" style="height:44px; padding:0 18px; border-radius:6px; font-size:15px; font-weight:600; cursor:pointer; white-space:nowrap; background:{{ a.bg }}; color:{{ a.fg }}; border:1px solid {{ a.bd }}; transition:transform 120ms cubic-bezier(0.23,1,0.32,1);" style-active="transform:scale(0.97);">{{ a.label }}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ decided }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; background:#F5F7FB; padding:16px 20px;">
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <span style="font-size:18px; line-height:24px; font-weight:600;">{{ dec.label }}</span>
+                  <span style="font-size:14px; line-height:20px; color:{{ dec.subC }};">{{ dec.sub }}</span>
+                </div>
+                <div style="display:flex; gap:10px;">
+                  <button onClick="{{ undo }}" style="height:44px; padding:0 18px; border-radius:6px; font-size:15px; font-weight:600; cursor:pointer; white-space:nowrap; background:#FFFFFF; color:#08080C; border:1px solid #C9D1DE; transition:transform 120ms cubic-bezier(0.23,1,0.32,1);" style-active="transform:scale(0.97);">Undo</button>
+                  <button onClick="{{ next }}" style="height:44px; padding:0 18px; border-radius:6px; font-size:15px; font-weight:600; cursor:pointer; white-space:nowrap; background:#2F68FF; color:#FFFFFF; border:1px solid #2F68FF; transition:transform 120ms cubic-bezier(0.23,1,0.32,1);" style-active="transform:scale(0.97);">{{ nextLabel }}</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </section>
+      </div>
+
+      <div style="max-width:1360px; margin:0 auto; padding:56px 40px 0;">
+        <div ref="{{ colsRef }}" style="display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:56px; align-items:start;">
+          <div style="display:flex; flex-direction:column; gap:20px; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:4px 16px; flex-wrap:wrap; border-top:1px solid #08080C; padding-top:14px;">
+              <h2 style="margin:0; flex:none; white-space:nowrap; font-size:22px; line-height:30px; font-weight:500; letter-spacing:-0.02em;">Bank data</h2>
+              <span style="font-size:14px; line-height:20px; color:#606978;">Security Bank systems, to 30 Sep 2026</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
+                <h3 style="margin:0; font-size:15px; line-height:22px; font-weight:600;">Sales, last 12 months</h3>
+                <span style="font-size:13px; line-height:20px; color:#606978;">POS and transactions</span>
+              </div>
+              <div style="position:relative; height:150px; margin-top:8px;">
+                <div style="position:absolute; inset:0; display:flex; gap:8px; align-items:stretch;">
+                  <sc-for list="{{ chart.bars }}" as="b" hint-placeholder-count="12">
+                    <div title="{{ b.t }}" style="flex:1; position:relative; background:{{ b.empty }};">
+                      <span style="position:absolute; left:0; right:0; bottom:0; height:{{ b.h1 }}%; background:#C9D1DE;"></span>
+                      <span style="position:absolute; left:0; right:0; bottom:{{ b.h1 }}%; height:{{ b.h2 }}%; background:#2F68FF; transform:scaleY({{ b.on }}); transform-origin:bottom center; transition:{{ barTr }};"></span>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ chart.hasEmpty }}" hint-placeholder-val="{{ false }}">
+                  <span style="position:absolute; left:0; width:{{ chart.emptyW }}%; top:44%; text-align:center; font-size:14px; line-height:20px; color:#606978;">No POS data before Jun 2026</span>
+                </sc-if>
+                <sc-if value="{{ chart.markerOn }}" hint-placeholder-val="{{ false }}">
+                  <span style="position:absolute; left:0; top:0; font-size:13px; line-height:18px; font-weight:600; color:#B7791F; background:#FFFFFF; padding:0 8px 0 0;">{{ chart.marker }}</span>
+                </sc-if>
+                <div style="position:absolute; left:0; right:0; top:0; height:0; border-top:2px solid #08080C; transform:translateY({{ chart.slowY }}px); transition:{{ slowTr }};">
+                  <span style="position:absolute; right:0; bottom:4px; background:#FFFFFF; padding:0 0 0 8px; font-size:13px; line-height:18px; font-weight:600; white-space:nowrap; box-shadow:{{ chart.hl }}; transition:{{ hlTr }};">{{ chart.slowLabel }}</span>
+                </div>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <sc-for list="{{ chart.months }}" as="mo" hint-placeholder-count="12"><span style="flex:1; text-align:center; font-size:13px; line-height:18px; color:#606978;">{{ mo.t }}</span></sc-for>
+              </div>
+              <div style="display:flex; gap:20px; flex-wrap:wrap; font-size:13px; line-height:18px; color:#606978;">
+                <span style="display:flex; align-items:center; gap:6px;"><span style="width:12px; height:12px; background:#C9D1DE;"></span>{{ chart.storeLabel }}</span>
+                <sc-if value="{{ chart.onlineOn }}" hint-placeholder-val="{{ false }}"><span style="display:flex; align-items:center; gap:6px;"><span style="width:12px; height:12px; background:#2F68FF;"></span>{{ chart.onlineLabel }}, added by Sprouts</span></sc-if>
+                <span style="display:flex; align-items:center; gap:6px;"><span style="width:16px; height:0; border-top:2px solid #08080C;"></span>Slow-month sales</span>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column;">
+              <h3 style="margin:0 0 6px; font-size:15px; line-height:22px; font-weight:600;">What the loan rule uses</h3>
+              <sc-for list="{{ keyRows }}" as="r" hint-placeholder-count="6">
+                <div data-lk="{{ r.lk }}" style="display:grid; grid-template-columns:180px minmax(0,1fr); gap:20px; padding:12px 8px; margin:0 -8px; border-top:1px solid #C9D1DE; background:{{ r.bg }}; transition:background-color 150ms ease;">
+                  <span style="font-size:14px; line-height:22px; color:#606978;">{{ r.k }}</span>
+                  <span style="display:flex; flex-direction:column; align-items:flex-start; gap:2px; min-width:0;"><span style="font-size:15px; line-height:22px; color:{{ r.c }}; box-shadow:{{ r.hl }}; transition:{{ hlTr }}; text-wrap:pretty;">{{ r.v }}</span><span style="font-size:13px; line-height:20px; font-weight:600; color:#2F68FF; display:{{ r.noteD }};">{{ r.note }}</span></span>
+                </div>
+              </sc-for>
+              <div style="border-top:1px solid #C9D1DE;"></div>
+            </div>
+            <button onClick="{{ toggleMore }}" aria-expanded="{{ moreAria }}" style="align-self:flex-start; border:0; background:transparent; padding:0; font-size:14px; line-height:22px; font-weight:600; color:#1A2F9E; cursor:pointer; text-decoration:underline; text-underline-offset:3px;">{{ moreLabel }}</button>
+            <sc-if value="{{ moreOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; flex-direction:column; gap:24px;">
+                <sc-for list="{{ moreGroups }}" as="g" hint-placeholder-count="3">
+                  <div style="display:flex; flex-direction:column;">
+                    <h3 style="margin:0 0 6px; font-size:15px; line-height:22px; font-weight:600;">{{ g.title }}</h3>
+                    <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="3">
+                      <div data-lk="{{ r.lk }}" style="display:grid; grid-template-columns:180px minmax(0,1fr); gap:20px; padding:12px 8px; margin:0 -8px; border-top:1px solid #C9D1DE; background:{{ r.bg }}; transition:background-color 150ms ease;">
+                  <span style="font-size:14px; line-height:22px; color:#606978;">{{ r.k }}</span>
+                  <span style="display:flex; flex-direction:column; align-items:flex-start; gap:2px; min-width:0;"><span style="font-size:15px; line-height:22px; color:{{ r.c }}; box-shadow:{{ r.hl }}; transition:{{ hlTr }}; text-wrap:pretty;">{{ r.v }}</span><span style="font-size:13px; line-height:20px; font-weight:600; color:#2F68FF; display:{{ r.noteD }};">{{ r.note }}</span></span>
+                </div>
+                    </sc-for>
+                    <div style="border-top:1px solid #C9D1DE;"></div>
+                  </div>
+                </sc-for>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                  <h3 style="margin:0; font-size:15px; line-height:22px; font-weight:600;">Balance, last 90 days</h3>
+                  <div style="position:relative; width:100%; height:64px;">
+                    <svg viewBox="0 0 300 64" preserveAspectRatio="none" style="position:absolute; inset:0; width:100%; height:100%; overflow:visible;">
+                      <path d="M0 48H300" style="fill:none; stroke:#E3E7EE; stroke-width:1; vector-effect:non-scaling-stroke;"></path>
+                      <path d="{{ bal.d }}" style="fill:none; stroke:#08080C; stroke-width:1.5; vector-effect:non-scaling-stroke; stroke-linejoin:round;"></path>
+                      <path d="{{ bal.ticks }}" style="fill:none; stroke:#08080C; stroke-width:2; vector-effect:non-scaling-stroke;"></path>
+                    </svg>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:13px; line-height:18px; color:#606978;"><span>90 days ago</span><span>{{ bal.caption }}</span><span>Today</span></div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                  <h3 style="margin:0; font-size:15px; line-height:22px; font-weight:600;">Bureau history, 24 months</h3>
+                  <div style="display:flex; gap:3px;">
+                    <sc-for list="{{ bureau }}" as="c" hint-placeholder-count="24"><span title="{{ c.t }}" style="flex:1; max-width:20px; height:18px; background:{{ c.bg }}; box-shadow:inset 0 0 0 1px {{ c.bd }};"></span></sc-for>
+                  </div>
+                  <span style="font-size:13px; line-height:18px; color:#606978;">Oct 2024 to Sep 2026. Filled squares are late payments.</span>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:20px; min-width:0;">
+            <div ref="{{ sigRef }}" style="display:flex; justify-content:space-between; align-items:baseline; gap:4px 16px; flex-wrap:wrap; border-top:1px solid #2F68FF; padding-top:14px; scroll-margin-top:80px; background:{{ sigFlash }}; transition:background-color 600ms ease-out;">
+              <h2 style="margin:0; flex:none; white-space:nowrap; font-size:22px; line-height:30px; font-weight:500; letter-spacing:-0.02em;">Sprouts signals</h2>
+              <span style="font-size:14px; line-height:20px; color:#606978;">{{ sigCount }}</span>
+            </div>
+            <sc-if value="{{ sigOff }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:15px; line-height:24px; color:#606978; text-wrap:pretty;">Hidden in this view. Turn them on with Add Sprouts signals.</span>
+            </sc-if>
+            <sc-if value="{{ sigOn }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+                <div style="display:flex; flex-direction:column;">
+                  <h3 style="margin:0 0 6px; font-size:15px; line-height:22px; font-weight:600;">{{ g.title }}</h3>
+                  <sc-for list="{{ g.items }}" as="s" hint-placeholder-count="2">
+                    <div onMouseEnter="{{ s.enter }}" onMouseLeave="{{ s.leave }}" style="display:flex; flex-direction:column; gap:4px; padding:12px 8px; margin:0 -8px; border-top:1px solid #C9D1DE; background:{{ s.bg }}; transition:background-color 150ms ease;">
+                      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
+                        <span style="font-size:15px; line-height:22px; text-wrap:pretty;">{{ s.t }}</span>
+                        <span style="font-size:13px; line-height:20px; font-weight:600; color:#B7791F; display:{{ s.cauD }}; white-space:nowrap;">Caution</span>
+                      </div>
+                      <span style="display:flex; align-items:center; gap:6px; font-size:13px; line-height:18px; color:#606978;"><span style="width:6px; height:6px; border-radius:3px; background:#2F68FF; display:{{ s.liveD }};"></span>{{ s.meta2 }}</span>
+                      <span style="font-size:14px; line-height:22px; font-weight:600; color:#1A2F9E; display:{{ s.efD }}; text-wrap:pretty;">{{ s.effect }}</span>
+                    </div>
+                  </sc-for>
+                  <div style="border-top:1px solid #C9D1DE;"></div>
+                </div>
+              </sc-for>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <footer style="max-width:1360px; margin:0 auto; padding:28px 40px 32px; font-size:12px; line-height:16px; color:#606978;">Synthetic data · Prototype</footer>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startView&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;signals&quot;, &quot;bank&quot;], &quot;default&quot;: &quot;signals&quot;, &quot;tsType&quot;: &quot;'signals' | 'bank'&quot;}, &quot;showLinks&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;flashChanges&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;stickySummary&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}}">
+const RULE = { share: 0.08, months: 9, fee: 1.12 };
+const maxLoan = slow => slow * RULE.share * RULE.months / RULE.fee;
+const repaid = (amt, slow) => Math.round(amt * RULE.fee / (slow * RULE.share) * 10 + 1e-9) / 10;
+const P = v => { if (v == null) return ''; if (v >= 999500) { let s = (v / 1e6).toFixed(2).replace(/0+$/, '').replace(/\.$/, ''); if (s.indexOf('.') < 0) s += '.0'; return '₱' + s + 'M'; } return '₱' + Math.round(v / 1000) + 'K'; };
+const PF = v => '₱' + Math.round(v).toLocaleString('en-US');
+const MONTHS = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+const R = (k, v, o) => Object.assign({ k, v }, o || {});
+const S = (t, src, upd, tag, o) => Object.assign({ t, src, upd, tag }, o || {});
+
+function balSeries(avg, change, days, minV, od) {
+  const pts = [];
+  for (let i = 0; i < 90; i++) {
+    const t = i < 90 - days ? 1 : 1 + change * ((i - (90 - days)) / days);
+    pts.push(t * (1 + 0.1 * Math.sin(i * 2 * Math.PI / 14) + 0.04 * Math.sin(i * 1.7)));
+  }
+  const mean = pts.reduce((a, b) => a + b, 0) / 90, k = avg / mean;
+  const out = pts.map(v => v * k);
+  out[80] = minV;
+  (od || []).forEach(i => { out[i] = Math.min(out[i], minV * 0.6); });
+  return out;
+}
+function genSeries(avg, slow, mom) {
+  const p = [0.98, 1.06, 1.14, 0.9, 0.92, 0.95, 0.97, 0.99, 1.0, 1.02, 0.99, 1.08];
+  const k = (slow * 0.97 / avg - 1) / (0.9 - 1);
+  const s = p.map(x => avg * (1 + (x - 1) * k));
+  s[11] = s[10] * (1 + mom);
+  return s;
+}
+function odIdx(n, prev) { const out = []; for (let i = 0; i < n; i++) out.push(89 - Math.round(i * 29 / Math.max(1, n))); for (let i = 0; i < (prev || 0); i++) out.push(45 + i * 6); return out; }
+
+function filler(o) {
+  const split = 'Card ' + o.split[0] + '%, QR and e-wallet ' + o.split[1] + '%, cash ' + o.split[2] + '%';
+  return {
+    id: o.id, ref: o.ref, name: o.name, seg: o.seg, city: o.city, req: o.req, purpose: o.purpose, posMonths: 12, band: o.band, od: o.od,
+    rows: {
+      profile: [R('Segment', o.seg), R('Merchant category', 'MCC ' + o.mcc), R('With Security Bank', o.years)],
+      sales: [R('Average sales', P(o.avg) + ' a month'), R('Slow-month sales', P(o.slow), o.slowRow || {}), R('Month on month', o.momT, o.momRow || {}), R('Seasonality', 'Peaks ' + o.peak), R('Busiest hours', o.hours), R('Payment split', split), R('Customers', o.uniq.toLocaleString('en-US') + ' unique a month, ' + o.rep + '% repeat')],
+      account: [R('Average balance', o.bal, o.balRow || {}), R('Minimum balance', o.min), R('Money in and out', o.flow, o.flowRow || {}), R('Overdraft', o.od + ' of 30 days', o.od >= 15 ? { c: '#C2410C' } : {})],
+      bureau: [R('Bureau band', o.band, o.band > 'B' ? { c: '#B7791F' } : {}), R('Late payments', o.late, o.lateRow || {}), R('Total debt', o.debt)]
+    },
+    chart: { store: genSeries(o.avg, o.slow, o.mom), online: o.online || null, first: 0, slowS: o.slowS, storeLabel: o.storeLabel || 'Sales', onlineLabel: o.onlineLabel || '' },
+    bal: { pts: balSeries(o.balAvg, o.balCh || 0, 40, o.minV, odIdx(o.od)), od: odIdx(o.od), caption: o.od ? o.od + ' overdraft days in the last 30' : 'No overdraft days' },
+    bureau: o.lateIdx || [],
+    signals: o.signals,
+    dec: o.dec
+  };
+}
+
+const TALA = {
+  id: 'tala', ref: 'APP-10241', name: 'Tala Home Goods', seg: 'Retail', city: 'Cebu City', req: 500000, purpose: 'Holiday stock', posMonths: 36, band: 'B', od: 0,
+  rows: {
+    profile: [R('Segment', 'Retail: home goods, sold in-store and on Lazada and Shopee'), R('Merchant category', 'MCC 5719 · home furnishings'), R('With Security Bank', '3 years')],
+    sales: [R('Average sales', '₱1.0M a month in-store'), R('Slow-month sales', '₱900K in-store', { vS: '₱1.6M (in-store ₱900K + online ₱700K)' }), R('Month on month', 'Up 12%'), R('Seasonality', 'Peaks November to December'), R('Busiest hours', '5 to 8 pm'), R('Payment split', 'Card 41%, QR and e-wallet 37%, cash 22%'), R('Customers', '2,900 unique a month, 38% repeat')],
+    account: [R('Average balance', '₱310K, down 31% in 6 weeks', { c: '#B7791F', lk: 'bal', noteS: 'Stock buying ahead of the holiday peak' }), R('Minimum balance', '₱95K'), R('Money in', '₱1.7M a month: ₱1.0M POS settlements + ₱700K transfers in, source unknown', { c: '#B7791F', lk: 'money', noteS: 'The ₱700K is her Lazada and Shopee payouts' }), R('Overdraft', '0 of 30 days')],
+    bureau: [R('Bureau band', 'B'), R('Late payments', 'None in 24 months'), R('Total debt', '₱150K on one business card')]
+  },
+  chart: { store: [.95, 1.18, 1.32, .88, .90, .93, .95, .96, .97, .99, .92, 1.03].map(v => v * 1e6), online: [.66, .80, .86, .62, .64, .66, .68, .69, .70, .70, .68, .71].map(v => v * 1e6), first: 0, slowS: 1.6e6, storeLabel: 'In-store sales', onlineLabel: 'Online sales (marketplace payouts)' },
+  bal: { pts: balSeries(310000, -0.31, 42, 95000, []), od: [], caption: 'Down 31% in the last 6 weeks' },
+  bureau: [],
+  signals: {
+    company: [S('DTI registered since 2019, about 14 staff, 1 warehouse plus online stores', 'DTI registry and company website', '1 month ago', 'Supports')],
+    growth: [S('Lazada reviews up 34% in 60 days', 'Lazada', '2 days ago', 'Supports'), S('40 new product listings in 30 days', 'Shopee', '3 days ago', 'Supports'), S('Hiring 2 packers', 'Job boards', '1 week ago', 'Supports')],
+    live: [S('Lazada and Shopee payout dates match the ₱700K of unknown transfers', 'Lazada and Shopee seller data', 'today', 'Supports', { live: true, lk: 'money', effect: 'Counts the ₱700K a month as sales, so slow-month sales go from ₱900K to ₱1.6M.' }), S('Joined the 11.11 marketplace sale', 'Lazada', 'yesterday', 'Supports', { live: true, lk: 'bal' })]
+  },
+  dec: {
+    b: { kind: 'approve', amt: 500000, slow: 900000, slowNote: "Transfers can't be counted as sales", text: 'Approve ₱500K as asked',
+      why: ['In-store sales hold at ₱900K even in a slow month, and the bureau record is clean.', '₱700K a month arrives from an unknown source, so it cannot count as sales.', 'The ₱500K request leaves a 1.2-month buffer.'] },
+    s: { kind: 'higher', amt: 850000, slow: 1600000, slowNote: 'In-store ₱900K + online ₱700K', text: 'Approve ₱850K',
+      why: ['The ₱700K a month arriving in her account is marketplace sales. It already lands at Security Bank, so the bank can collect from it.', 'The balance drop is stock buying ahead of the holiday peak.', '₱850K still leaves a 1.6-month buffer.'] }
+  }
+};
+
+const LAKBAY = {
+  id: 'lakbay', ref: 'APP-10244', name: 'Lakbay Coffee Roasters', seg: 'Food and beverage', city: 'Davao City', req: 600000, purpose: 'Fourth branch', posMonths: 4, band: 'B', od: 0,
+  rows: {
+    profile: [R('Segment', 'Food and beverage: café chain and coffee roaster'), R('Merchant category', 'MCC 5814 · cafés'), R('With Security Bank', '5 months', { lk: 'tenure', noteS: 'Registered with SEC in 2021' })],
+    sales: [R('POS history', '4 months, and policy needs 6', { c: '#B7791F', lk: 'pos' }), R('Average sales', '₱1.1M a month'), R('Slow-month sales', '₱950K, from 4 months of data'), R('Month on month', 'Up 6%'), R('Busiest hours', '7 to 10 am'), R('Payment split', 'Card 34%, QR and e-wallet 48%, cash 18%'), R('Customers', '4,100 unique a month, 52% repeat')],
+    account: [R('Average balance', '₱420K'), R('Minimum balance', '₱210K'), R('Money in and out', 'Money in exceeds money out by ₱180K a month'), R('Overdraft', '0 of 30 days')],
+    bureau: [R('Bureau band', 'B'), R('Late payments', 'None'), R('Total debt', '₱400K equipment loan with another bank, paid on time for 26 months')]
+  },
+  chart: { store: [null, null, null, null, null, null, null, null, .98, 1.08, 1.13, 1.20].map(v => v == null ? null : v * 1e6), online: null, first: 8, slowS: 950000, storeLabel: 'Sales' },
+  bal: { pts: balSeries(420000, 0.08, 60, 210000, []), od: [], caption: 'Steady, no overdraft days' },
+  bureau: [],
+  signals: {
+    company: [S('SEC registered since 2021, 3 branches, about 25 staff', 'SEC registry', '2 months ago', 'Supports', { lk: 'tenure', effect: 'Supports a policy exception for the 4-month POS history.' })],
+    growth: [S('3 branches opened in 14 months', 'Google Maps', '1 week ago', 'Supports', { lk: 'pos' }), S('Hiring 7 people now', 'Job boards', '3 days ago', 'Supports'), S('Supplies 4 cafés in Cebu', 'Company website', '1 month ago', 'Supports')],
+    live: [S('Google rating 4.7, steady across 1,200 reviews', 'Google Maps', '2 days ago', 'Supports', { live: true })]
+  },
+  dec: {
+    b: { kind: 'refer', amt: null, slow: 950000, slowNote: 'From 4 months of POS data', text: 'Refer: under 6 months of POS history',
+      why: ['Only 4 months of POS history. Policy needs 6.', 'Sales and the account look healthy: ₱950K in a slow month and no overdraft days.', 'At ₱600K it would be repaid in 8.8 months, but the history is too short to rely on.'] },
+    s: { kind: 'approve', amt: 600000, slow: 950000, slowNote: 'From 4 months of POS data', text: 'Approve ₱600K', exception: true,
+      why: ['The business is five years old. Only its relationship with Security Bank is new.', 'Growth signals agree across sources: 3 branches in 14 months, 7 people being hired, 4 cafés supplied in Cebu.', 'The bureau shows 26 months of on-time payments with another bank.'] }
+  }
+};
+
+const NORTH = {
+  id: 'north', ref: 'APP-10247', name: 'Northpoint Auto Parts', seg: 'Wholesale', city: 'San Fernando, Pampanga', req: 1500000, purpose: 'Inventory', posMonths: 96, band: 'B', od: 6,
+  rows: {
+    profile: [R('Segment', 'Wholesale: auto parts, 4 branches'), R('Merchant category', 'MCC 5533 · auto parts'), R('With Security Bank', '8 years')],
+    sales: [R('Average sales', '₱2.6M a month'), R('Slow-month sales', '₱2.4M over the last 12 months, all 4 branches', { lk: 'slow', vS: '₱1.2M with 2 branches left' }), R('Month on month', 'Down 4% last month', { c: '#B7791F', lk: 'mom' }), R('Busiest hours', '9 to 11 am'), R('Payment split', 'Card 22%, QR and e-wallet 14%, cash 64%'), R('Customers', '860 unique a month, 71% repeat')],
+    account: [R('Average balance', '₱180K, down 40% in 60 days', { c: '#B7791F', lk: 'bal' }), R('Minimum balance', '₱12K', { c: '#B7791F' }), R('Money in and out', 'Money out exceeded money in by ₱120K in each of the last 2 months', { c: '#B7791F' }), R('Overdraft', '6 of 30 days, up from 1', { c: '#B7791F' })],
+    bureau: [R('Bureau band', 'B'), R('Late payments', 'One 30-day late payment 8 months ago, since repaid'), R('Total debt', '₱1.8M with 2 lenders')]
+  },
+  chart: { store: [2.55, 2.68, 2.85, 2.42, 2.45, 2.52, 2.58, 2.62, 2.60, 2.66, 2.69, 2.58].map(v => v * 1e6), online: null, first: 0, slowS: 1.2e6, storeLabel: 'Sales, all branches', marker: '2 of 4 branches closed 3 weeks ago, after this data ends' },
+  bal: { pts: balSeries(180000, -0.4, 60, 12000, [45, 64, 69, 75, 80, 84, 88]), od: [45, 64, 69, 75, 80, 84, 88], caption: '6 overdraft days in the last 30, up from 1' },
+  bureau: [15],
+  signals: {
+    company: [S('SEC registered since 2012, 4 branches on record', 'SEC registry', '2 months ago', 'Supports')],
+    growth: [S('Job posts stopped 2 months ago', 'Job boards', '1 week ago', 'Caution', { lk: 'bal' })],
+    live: [S('2 of 4 branches marked closed on Google Maps', 'Google Maps', '3 weeks ago', 'Caution', { live: true, lk: 'slow', effect: 'Halves slow-month sales from ₱2.4M to ₱1.2M, so the most it can borrow drops to ₱771K.' }), S('Google rating fell from 4.5 to 3.6 in 60 days', 'Google Maps', '4 days ago', 'Caution', { live: true, lk: 'mom' })]
+  },
+  dec: {
+    b: { kind: 'approve', amt: 1500000, slow: 2400000, slowNote: 'Last 12 months, all 4 branches', text: 'Approve ₱1.5M as asked. Early warnings, but within policy.',
+      why: ['A falling balance and more overdraft use are early warnings, but nothing breaks policy.', 'Slow-month sales of ₱2.4M support up to ₱1.54M.', '₱1.5M leaves a buffer of only 0.2 months.'] },
+    s: { kind: 'reduce', amt: 700000, slow: 1200000, slowNote: '2 branches left', text: 'Reduce to ₱700K and refer to a senior underwriter', referToo: true,
+      why: ['Two branches closed three weeks ago, after the 12 months of sales data the rule uses.', 'That explains the falling balance and the extra overdraft days.', "With half the branches gone, ₱1.5M can't be repaid within 9 slow months."] }
+  }
+};
+
+const same = (kind, amt, slow, text, why) => { const d = { kind, amt, slow, slowNote: '', text, why }; return { b: d, s: Object.assign({}, d) }; };
+const FILL = [
+  filler({ id: 'bayanihan', ref: 'APP-10242', name: 'Bayanihan Bakeshop', seg: 'Food and beverage', mcc: '5462 · bakeries', city: 'Quezon City', years: '6 years', req: 400000, purpose: 'New oven and mixer', avg: 950000, slow: 820000, mom: .03, momT: 'Up 3%', peak: 'in December', hours: '6 to 9 am', split: [28, 30, 42], uniq: 3600, rep: 61, bal: '₱260K, steady', balAvg: 260000, min: '₱140K', minV: 140000, flow: 'Money in ₱1.0M · money out ₱930K a month', od: 0, band: 'A', late: 'None in 24 months', debt: '₱200K equipment loan',
+    signals: { company: [S('DTI registered since 2014, 3 branches, about 22 staff', 'DTI registry', '2 months ago', 'Supports')], growth: [S('Google reviews up 12% in 6 months', 'Google Maps', '1 week ago', 'Supports')], live: [S('Rating 4.6, steady across 840 reviews', 'Google Maps', '4 days ago', 'Supports', { live: true })] },
+    dec: same('approve', 400000, 820000, 'Approve ₱400K as asked', ['Steady sales, with ₱820K even in a slow month.', 'Clean bureau record and no overdraft days.', '61% of customers come back, and sales peak in December.']) }),
+  filler({ id: 'golden', ref: 'APP-10243', name: 'Golden Grain Trading', seg: 'Wholesale', mcc: '5499 · food stores', city: 'Batangas City', years: '9 years', req: 1200000, purpose: 'Rice stock before harvest', avg: 2400000, slow: 2200000, mom: .01, momT: 'Up 1%', peak: 'October to December', hours: '6 to 9 am', split: [12, 8, 80], uniq: 420, rep: 83, bal: '₱1.9M, steady', balAvg: 1900000, min: '₱1.1M', minV: 1100000, flow: 'Money in ₱2.5M · money out ₱2.4M a month', od: 0, band: 'A', late: 'None in 24 months', debt: '₱900K term loan, 82% repaid',
+    signals: { company: [S('SEC registered since 2009, 1 warehouse, about 30 staff', 'SEC registry', '2 months ago', 'Supports')], growth: [S('Supplies 40 stores', 'Company website', '1 month ago', 'Supports')], live: [S('Warehouse listing active, rated 4.5', 'Google Maps', '1 week ago', 'Supports', { live: true })] },
+    dec: same('approve', 1200000, 2200000, 'Approve ₱1.2M as asked', ['Even a slow month brings in ₱2.2M, well above what ₱1.2M needs.', 'The existing term loan is 82% repaid and has never been late.', 'The balance has stayed near ₱1.9M for 90 days.']) }),
+  filler({ id: 'liwayway', ref: 'APP-10245', name: 'Liwayway Kakanin House', seg: 'Food and beverage', mcc: '5812 · restaurants', city: 'Pasig', years: '4 years', req: 300000, purpose: 'Second kitchen', avg: 680000, slow: 600000, mom: .08, momT: 'Up 8%', peak: 'in December', hours: '11 am to 2 pm', split: [30, 42, 28], uniq: 3100, rep: 47, bal: '₱240K, up 10% in 60 days', balAvg: 240000, balCh: .1, min: '₱120K', minV: 120000,
+    flow: '₱930K a month in: ₱680K POS settlements + ₱250K transfers in, source unknown', flowRow: { c: '#B7791F', lk: 'money', noteS: 'The ₱250K is GrabFood and Foodpanda payouts' }, slowRow: { vS: '₱850K (in-store ₱600K + delivery ₱250K)' },
+    od: 0, band: 'B', late: 'None in 24 months', debt: '₱100K on a business card', online: [.22, .24, .27, .22, .23, .24, .25, .25, .26, .26, .26, .27].map(v => v * 1e6), storeLabel: 'In-store sales', onlineLabel: 'Delivery-app sales (payouts)', slowS: 850000,
+    signals: { company: [S('DTI registered since 2021, 1 shop plus 1 cloud kitchen', 'DTI registry', '1 month ago', 'Supports')], growth: [S('GrabFood orders up 22% in 90 days', 'GrabFood', '3 days ago', 'Supports')], live: [S('GrabFood and Foodpanda payout dates match the ₱250K of unknown transfers', 'Delivery-app merchant data', 'today', 'Supports', { live: true, lk: 'money', effect: 'Counts the ₱250K a month as sales, so slow-month sales go from ₱600K to ₱850K.' })] },
+    dec: { b: { kind: 'approve', amt: 300000, slow: 600000, slowNote: "Transfers can't be counted as sales", text: 'Approve ₱300K as asked', why: ['In-store sales hold at ₱600K in a slow month.', '₱250K a month arrives from an unknown source, so it cannot count.', 'The ₱300K request leaves a 2.0-month buffer.'] },
+      s: { kind: 'higher', amt: 500000, slow: 850000, slowNote: 'In-store ₱600K + delivery ₱250K', text: 'Approve ₱500K', why: ['The ₱250K a month in transfers is delivery-app sales, already landing at Security Bank.', 'Delivery orders are growing faster than in-store sales.', '₱500K still leaves a 0.8-month buffer.'] } } }),
+  filler({ id: 'marisol', ref: 'APP-10248', name: 'Marisol Pharmacy', seg: 'Retail', mcc: '5912 · drug stores', city: 'Iloilo City', years: '4 years', req: 300000, purpose: 'Stock for flu season', avg: 780000, slow: 700000, mom: .02, momT: 'Up 2%', peak: 'June to August', hours: '9 am to 12 pm', split: [30, 26, 44], uniq: 2100, rep: 58, bal: '₱190K, steady', balAvg: 190000, min: '₱85K', minV: 85000, flow: 'Money in ₱820K · money out ₱790K a month', od: 1, band: 'B', late: 'None in 24 months', debt: '₱120K on a business card',
+    signals: { company: [S('DTI registered since 2018, 1 store, about 6 staff', 'DTI registry', '3 months ago', 'Supports')], growth: [S('Hiring 1 pharmacy assistant', 'Job boards', '5 days ago', 'Supports')], live: [S('Rating 4.4 across 210 reviews', 'Google Maps', '1 week ago', 'Supports', { live: true })] },
+    dec: same('approve', 300000, 700000, 'Approve ₱300K as asked', ['The ₱300K request is well under the ₱450K the rule allows.', 'One overdraft day in 30, well inside policy.', '58% of customers come back each month.']) }),
+  filler({ id: 'kislap', ref: 'APP-10249', name: 'Kislap Print Shop', seg: 'Other services', mcc: '7338 · quick copy and printing', city: 'Makati', years: '3 years', req: 250000, purpose: 'Large-format printer', avg: 560000, slow: 480000, mom: .05, momT: 'Up 5%', peak: 'May and November', hours: '10 am to 1 pm', split: [45, 35, 20], uniq: 900, rep: 64, bal: '₱150K, steady', balAvg: 150000, min: '₱60K', minV: 60000, flow: 'Money in ₱590K · money out ₱560K a month', od: 2, band: 'B', late: 'None in 24 months', debt: '₱80K on a business card',
+    signals: { company: [S('DTI registered since 2020, 1 shop, about 8 staff', 'DTI registry', '2 months ago', 'Supports')], growth: [S('3 new corporate clients listed', 'Company website', '2 weeks ago', 'Supports')], live: [S('Rating 4.7 across 150 reviews', 'Google Maps', '6 days ago', 'Supports', { live: true })] },
+    dec: same('approve', 250000, 480000, 'Approve ₱250K as asked', ['Sales of ₱480K in a slow month support up to ₱309K, more than the ₱250K asked.', 'Two overdraft days in 30 and a clean bureau record.', 'Sales grew 5% last month.']) }),
+  filler({ id: 'tanglaw', ref: 'APP-10250', name: 'Tanglaw Appliance Center', seg: 'Retail', mcc: '5722 · household appliances', city: 'Angeles', years: '6 years', req: 1000000, purpose: 'Holiday stock', avg: 1750000, slow: 1600000, mom: .03, momT: 'Up 3%', peak: 'November to December', hours: '4 to 8 pm', split: [48, 22, 30], uniq: 1500, rep: 34, bal: '₱520K, down 12% in 30 days', balAvg: 520000, balCh: -.12, min: '₱210K', minV: 210000, flow: 'Money in ₱1.8M · money out ₱1.85M a month', od: 2, band: 'B', late: 'None in 24 months', debt: '₱600K with 1 lender', slowS: 1000000,
+    slowRow: { lk: 'slow', vS: '₱1.0M with one store open until January' },
+    signals: { company: [S('SEC registered since 2015, 2 stores', 'SEC registry', '2 months ago', 'Supports')], growth: [S('Hiring posts stopped 6 weeks ago', 'Job boards', '1 week ago', 'Caution')], live: [S('Mall store closed for renovation until January', 'Mall website', '10 days ago', 'Caution', { live: true, lk: 'slow', effect: 'Cuts slow-month sales from ₱1.6M to ₱1.0M while the store is shut.' })] },
+    dec: { b: { kind: 'approve', amt: 1000000, slow: 1600000, slowNote: 'Both stores, last 12 months', text: 'Approve ₱1.0M as asked', why: ['Slow-month sales of ₱1.6M support up to ₱1.03M, just above the ₱1.0M asked.', 'Two overdraft days in 30 and a clean bureau record.', 'The balance fell 12% in 30 days, worth watching but within policy.'] },
+      s: { kind: 'reduce', amt: 600000, slow: 1000000, slowNote: 'One store open until January', text: 'Reduce to ₱600K', why: ['The mall store, about 40% of sales, is closed until January.', 'Slow-month sales fall to ₱1.0M with one store open.', 'Hiring posts also stopped 6 weeks ago.'] } } }),
+  filler({ id: 'sinag', ref: 'APP-10251', name: 'Sinag Dental Clinic', seg: 'Health and personal services', mcc: '8021 · dentists', city: 'Mandaluyong', years: '5 years', req: 350000, purpose: 'Dental chair and X-ray', avg: 700000, slow: 620000, mom: .02, momT: 'Up 2%', peak: 'April to May', hours: '3 to 7 pm', split: [52, 30, 18], uniq: 640, rep: 72, bal: '₱280K, steady', balAvg: 280000, min: '₱150K', minV: 150000, flow: 'Money in ₱720K · money out ₱680K a month', od: 0, band: 'A', late: 'None in 24 months', debt: 'None',
+    signals: { company: [S('DTI registered since 2016, 2 dentists, about 7 staff', 'DTI registry', '3 months ago', 'Supports')], growth: [S('Online booking opened 3 months ago', 'Company website', '1 month ago', 'Supports')], live: [S('Rating 4.8 across 320 reviews', 'Google Maps', '5 days ago', 'Supports', { live: true })] },
+    dec: same('approve', 350000, 620000, 'Approve ₱350K as asked', ['No debt with any lender and a clean bureau record.', 'Sales stay above ₱620K even in a slow month.', '72% of patients come back.']) }),
+  filler({ id: 'agos', ref: 'APP-10252', name: 'Agos Motor Works', seg: 'Auto parts and services', mcc: '7538 · auto service shops', city: 'Cagayan de Oro', years: '2 years', req: 900000, purpose: 'Second service bay', avg: 1250000, slow: 1100000, mom: .04, momT: 'Up 4%', peak: 'March to May', hours: '8 to 11 am', split: [36, 20, 44], uniq: 380, rep: 66, bal: '₱210K, steady', balAvg: 210000, min: '₱70K', minV: 70000, flow: 'Money in ₱1.3M · money out ₱1.25M a month', od: 3, band: 'B', late: 'None in 24 months', debt: '₱350K · equipment loan',
+    signals: { company: [S('SEC registered since 2022, 1 shop, about 12 staff', 'SEC registry', '2 months ago', 'Supports')], growth: [S('Hiring 2 mechanics', 'Job boards', '4 days ago', 'Supports')], live: [S('Rating 4.5 across 260 reviews', 'Google Maps', '1 week ago', 'Supports', { live: true })] },
+    dec: same('reduce', 700000, 1100000, 'Reduce to ₱700K', ['Slow-month sales of ₱1.1M support up to ₱707K, so the ₱900K request is cut to fit.', 'Three overdraft days in 30 and a clean bureau record.', '₱700K leaves a thin 0.1-month buffer.']) }),
+  filler({ id: 'habagat', ref: 'APP-10253', name: 'Habagat Hardware', seg: 'Retail', mcc: '5251 · hardware stores', city: 'Tacloban', years: '7 years', req: 600000, purpose: 'Typhoon season stock', avg: 1450000, slow: 1300000, mom: .02, momT: 'Up 2%', peak: 'June to September', hours: '7 to 10 am', split: [22, 18, 60], uniq: 1300, rep: 55, bal: '₱340K, steady', balAvg: 340000, min: '₱110K', minV: 110000, flow: 'Money in ₱1.5M · money out ₱1.46M a month', od: 4, band: 'C', late: '2 payments 30+ days late in 12 months', lateRow: { c: '#B7791F' }, debt: '₱1.1M with 3 lenders', lateIdx: [14, 20],
+    signals: { company: [S('DTI registered since 2011, 2 stores', 'DTI registry', '2 months ago', 'Supports')], growth: [S('No hiring posts in 6 months', 'Job boards', '1 week ago', 'Caution')], live: [S('Rating 4.2, steady', 'Google Maps', '1 week ago', 'Supports', { live: true })] },
+    dec: same('refer', null, 1300000, 'Refer: bureau band C', ['Bureau band C fails policy. B or better is needed.', 'Two late payments in the last 12 months.', 'Sales would cover the loan, repaying ₱600K in 6.5 months.']) })
+];
+const FB = {}; FILL.forEach(f => FB[f.id] = f);
+const ALL = { tala: TALA, lakbay: LAKBAY, north: NORTH };
+FILL.forEach(f => ALL[f.id] = f);
+const ORDER = ['tala', 'bayanihan', 'lakbay', 'golden', 'liwayway', 'north', 'marisol', 'kislap', 'tanglaw', 'sinag', 'agos', 'habagat'];
+
+const CHIP = {
+  approve: { label: 'Approve', fg: '#08080C', bg: '#FFFFFF', bd: '#C9D1DE' },
+  higher: { label: 'Approve higher', fg: '#FFFFFF', bg: '#2F68FF', bd: '#2F68FF' },
+  reduce: { label: 'Reduce', fg: '#C2410C', bg: '#FFFFFF', bd: '#C9D1DE' },
+  refer: { label: 'Refer', fg: '#606978', bg: '#FFFFFF', bd: '#C9D1DE' }
+};
+
+class Component extends DCLogic {
+  mainRef = React.createRef();
+  colsRef = React.createRef();
+  cardRef = React.createRef();
+  sigRef = React.createRef();
+  state = { route: this.parse(), mode: 's', flash: false, filter: 'all', how: false, hovLk: null, links: [], decisions: {}, scrolled: false, more: false };
+  parse() { const h = (window.location.hash || '').replace(/^#\/?/, '').split('/'); return h[0] === 'app' && ALL[h[1]] ? { screen: 'review', id: h[1] } : { screen: 'queue', id: null }; }
+  startMode() { return this.props.startView === 'bank' ? 'b' : 's'; }
+  componentDidMount() {
+    if (this.startMode() !== this.state.mode) this.setState({ mode: this.startMode() });
+    this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this._hash = () => { this.setState({ route: this.parse(), mode: this.startMode(), how: false, hovLk: null, flash: false, scrolled: false, more: false }); if (this.mainRef.current) this.mainRef.current.scrollTop = 0; };
+    window.addEventListener('hashchange', this._hash);
+    this._rs = () => this.queueMeasure();
+    window.addEventListener('resize', this._rs);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.queueMeasure());
+    this.queueMeasure();
+  }
+  componentWillUnmount() { window.removeEventListener('hashchange', this._hash); window.removeEventListener('resize', this._rs); clearTimeout(this._ft); cancelAnimationFrame(this._mf); clearTimeout(this._mt); }
+  componentDidUpdate() { this.queueMeasure(); }
+  queueMeasure() { cancelAnimationFrame(this._mf); this._mf = requestAnimationFrame(() => this.measure()); clearTimeout(this._mt); this._mt = setTimeout(() => this.measure(), 260); }
+  measure() {
+    const root = this.colsRef.current, on = this.state.route.screen === 'review' && this.state.mode === 's' && (this.props.showLinks ?? true);
+    let out = [];
+    if (root && on) {
+      const rb = root.getBoundingClientRect();
+      root.querySelectorAll('[data-lk-to]').forEach(el => {
+        const key = el.getAttribute('data-lk-to'); if (!key || out.length >= 3) return;
+        const src = root.querySelector('[data-lk="' + key + '"]'); if (!src) return;
+        const a = src.getBoundingClientRect(), b = el.getBoundingClientRect();
+        const x1 = Math.round(a.right - rb.left + 4), y1 = Math.round(a.top - rb.top + 18), x2 = Math.round(b.left - rb.left - 4), y2 = Math.round(b.top - rb.top + 20);
+        const mx = Math.round((x1 + x2) / 2);
+        const dot = (x, y) => 'M' + (x - 3) + ' ' + y + 'a3 3 0 1 0 6 0a3 3 0 1 0 -6 0';
+        out.push({ key, d: 'M' + x1 + ' ' + y1 + 'C' + mx + ' ' + y1 + ' ' + mx + ' ' + y2 + ' ' + x2 + ' ' + y2, dots: dot(x1, y1) + dot(x2, y2) });
+      });
+    }
+    const k = JSON.stringify(out);
+    if (k !== this._lk) { this._lk = k; this.setState({ links: out }); }
+  }
+  setMode(mode) {
+    if (mode === this.state.mode) return;
+    clearTimeout(this._ft);
+    const fl = (this.props.flashChanges ?? true) && !this.reduced;
+    this.setState({ mode, flash: fl, hovLk: null });
+    if (fl) this._ft = setTimeout(() => this.setState({ flash: false }), 1000);
+  }
+  decide(id, rec, against) {
+    this.setState(st => ({ decisions: Object.assign({}, st.decisions, { [id]: { label: rec, against, mode: st.mode } }) }));
+  }
+  decObj(m, mode) {
+    const d = m.dec[mode], slow = d.slow, max = maxLoan(slow), amt = d.amt;
+    return Object.assign({}, d, { max, rep: amt ? repaid(amt, slow) : null, repReq: repaid(m.req, slow) });
+  }
+  renderVals() {
+    const st = this.state, route = st.route;
+    const isQueue = route.screen === 'queue', isReview = route.screen === 'review';
+    const nav = id => { window.location.hash = id ? '#/app/' + id : '#/queue'; };
+    const out = { mainRef: this.mainRef, colsRef: this.colsRef, cardRef: this.cardRef, isQueue, isReview,
+      onMainScroll: e => { const sc = isReview && e.currentTarget.scrollTop > 560; if (sc !== this.state.scrolled) this.setState({ scrolled: sc }); } };
+    // queue
+    const amtTxt = (d) => d.kind === 'refer' ? '' : P(d.amt);
+    const allRows = ORDER.map(id => {
+      const m = ALL[id], b = m.dec.b, s = m.dec.s, changed = b.kind !== s.kind || b.amt !== s.amt, dd = st.decisions[id];
+      return { id, changed, kindS: s.kind, name: m.name, meta: m.seg + ' · ' + m.city + ' · ' + m.ref, req: P(m.req), reqFull: PF(m.req), purpose: m.purpose,
+        b: Object.assign({}, CHIP[b.kind], { amt: amtTxt(b) }), s: Object.assign({}, CHIP[s.kind], { amt: amtTxt(s) }), chD: changed ? 'flex' : 'none',
+        decidedFlag: !!dd, status: dd ? dd.label : 'To decide', stC: dd ? '#1A2F9E' : '#606978', stFw: dd ? 600 : 500, stDot: dd ? '#1A2F9E' : '#C9D1DE',
+        open: () => nav(id), key: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nav(id); } } };
+    });
+    const cnt = k => allRows.filter(r => r.kindS === k).length;
+    out.stats = [{ n: String(allRows.length), label: 'applications today', c: '#08080C' }, { n: String(cnt('approve')), label: 'approve as asked', c: '#08080C' }, { n: String(cnt('higher')), label: 'approve higher', c: '#2F68FF' }, { n: String(cnt('reduce') + cnt('refer')), label: 'reduce or refer', c: '#C2410C' }].map((x, i) => Object.assign(x, { bl: i ? '1px solid #C9D1DE' : '0' }));
+    const decN = allRows.filter(r => r.decidedFlag).length;
+    out.filters = [['all', 'All ' + allRows.length], ['todo', 'To decide ' + (allRows.length - decN)], ['done', 'Decided ' + decN]].map(x => ({ label: x[1], on: st.filter === x[0] ? 'true' : 'false', bg: st.filter === x[0] ? '#08080C' : 'transparent', fg: st.filter === x[0] ? '#FFFFFF' : '#606978', pick: () => this.setState({ filter: x[0] }) }));
+    out.rows = allRows.filter(r => st.filter === 'all' || (st.filter === 'todo' ? !r.decidedFlag : r.decidedFlag));
+    const nDec = Object.keys(st.decisions).length;
+    out.decidedText = nDec ? 'Decided ' + nDec + ' of ' + allRows.length : 'None decided yet';
+    if (!isReview) return Object.assign(out, { m: {}, d: { chip: {}, facts: [], checks: [], why: [], actions: [], how: [] }, blocks: {}, chart: { bars: [], months: [] }, bal: {}, bureau: [], groups: [], offGroups: [], links: [{}, {}, {}], tg: {} });
+
+    // review
+    const m = ALL[route.id], mode = st.mode, sOn = mode === 's', fl = st.flash;
+    const hl = ch => ch && fl ? 'inset 0 -2px 0 #2F68FF' : 'inset 0 -2px 0 rgba(47,104,255,0)';
+    out.hlTr = fl ? 'none' : 'box-shadow 600ms ease-out';
+    out.m = { name: m.name, meta: m.seg + ' · ' + m.city + ' · ' + m.ref, req: P(m.req), reqFull: PF(m.req), purpose: m.purpose };
+    out.tg = { bOn: sOn ? 'false' : 'true', sOn: sOn ? 'true' : 'false', bFg: sOn ? '#606978' : '#FFFFFF', sFg: sOn ? '#FFFFFF' : '#606978', toB: () => this.setMode('b'), toS: () => this.setMode('s') };
+    out.thumbX = sOn ? 220 : 0; out.thumbBg = sOn ? '#2F68FF' : '#08080C';
+    out.thumbTr = this.reduced ? 'background-color 150ms ease' : 'transform 220ms cubic-bezier(0.77,0,0.175,1), background-color 220ms ease';
+    out.showSummary = this.props.stickySummary ?? true;
+
+    // left rows
+    const linkedKeys = {};
+    if (sOn) ['company', 'growth', 'live'].forEach(g => m.signals[g].forEach(s => { if (s.lk) linkedKeys[s.lk] = true; }));
+    const mapRow = r => {
+      const v = sOn && r.vS ? r.vS : r.v, note = sOn && r.noteS ? 'Sprouts: ' + r.noteS : (sOn && r.vS ? 'Sprouts updated this. Bank data alone: ' + r.v : '');
+      const changed = !!(r.vS || r.noteS);
+      const lit = sOn && r.lk && (st.hovLk === r.lk);
+      return { k: r.k, v, c: sOn && (r.vS || r.noteS) ? '#08080C' : (r.c || '#08080C'), note, noteD: note ? 'block' : 'none', hl: hl(changed), lk: sOn && r.lk && linkedKeys[r.lk] ? r.lk : '', bg: lit ? '#EAF0FF' : 'transparent' };
+    };
+    out.blocks = { profile: m.rows.profile.map(mapRow), sales: m.rows.sales.map(mapRow), account: m.rows.account.map(mapRow), bureau: m.rows.bureau.map(mapRow) };
+
+    // chart
+    const ch = m.chart, onl = ch.online;
+    const peak = Math.max.apply(null, ch.store.map((v, i) => (v || 0) + (onl ? onl[i] : 0)));
+    const stepV = peak > 2.5e6 ? 5e5 : peak > 1e6 ? 2.5e5 : 1e5;
+    const yMax = Math.ceil(peak * 1.12 / stepV) * stepV;
+    const dB = this.decObj(m, 'b'), dS = this.decObj(m, 's'), d = sOn ? dS : dB;
+    const slowNow = d.slow;
+    const showOnline = !!onl && sOn;
+    out.chart = {
+      bars: ch.store.map((v, i) => ({ h1: v == null ? 0 : (v / yMax * 100).toFixed(2), h2: onl ? (onl[i] / yMax * 100).toFixed(2) : 0, on: showOnline ? 1 : 0, empty: v == null ? '#F5F7FB' : 'transparent',
+        t: MONTHS[i] + (i < 3 ? ' 2025' : ' 2026') + (v == null ? ' · no POS data' : ' · ' + PF(v) + (onl && sOn ? ' in-store + ' + PF(onl[i]) + ' online' : '')) })),
+      months: MONTHS.map(t => ({ t })), slowY: (150 - slowNow / yMax * 150).toFixed(1), slowLabel: 'Slow month ' + P(slowNow), hl: hl(dB.slow !== dS.slow),
+      hasEmpty: ch.first > 0, emptyW: (ch.first / 12 * 100).toFixed(2), markerOn: !!ch.marker && sOn, marker: ch.marker || '',
+      storeLabel: ch.storeLabel, onlineOn: showOnline, onlineLabel: ch.onlineLabel || ''
+    };
+    out.barTr = this.reduced ? 'none' : 'transform 300ms cubic-bezier(0.23,1,0.32,1)';
+    out.slowTr = this.reduced ? 'none' : 'transform 320ms cubic-bezier(0.77,0,0.175,1)';
+
+    // balance
+    const pts = m.bal.pts, bmx = Math.max.apply(null, pts) * 1.08;
+    out.bal = { d: pts.map((v, i) => (i ? 'L' : 'M') + (i / 89 * 300).toFixed(1) + ' ' + (48 - Math.max(0, v) / bmx * 44).toFixed(1)).join(''), ticks: m.bal.od.map(i => 'M' + (i / 89 * 300).toFixed(1) + ' 54V62').join(''), caption: m.bal.caption };
+    const BM = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+    out.bureau = Array.from({ length: 24 }, (_, i) => { const late = m.bureau.indexOf(i) >= 0; return { bg: late ? '#08080C' : '#FFFFFF', bd: late ? '#08080C' : '#C9D1DE', t: BM[i % 12] + ' ' + (2024 + Math.floor((i + 9) / 12)) + (late ? ' · paid late' : ' · paid on time') }; });
+
+    // signals
+    const leftLabel = {}; ['profile', 'sales', 'account', 'bureau'].forEach(b => m.rows[b].forEach(r => { if (r.lk) leftLabel[r.lk] = r.k; }));
+    const GT = [['company', 'Company', 'Is this an established, real business?'], ['growth', 'Growth', 'Is the business getting bigger?'], ['live', 'Live', 'Has anything changed this month?']];
+    out.sigOn = sOn; out.sigOff = !sOn;
+    out.offGroups = GT.map(g => ({ title: g[1], count: m.signals[g[0]].length + (m.signals[g[0]].length === 1 ? ' signal hidden' : ' signals hidden') }));
+    const allSig = [].concat(m.signals.company, m.signals.growth, m.signals.live), nCau = allSig.filter(s => s.tag === 'Caution').length;
+    out.sigCount = allSig.length + ' found' + (nCau ? ', ' + nCau + ' caution' : '') + ' · checked today';
+    out.groups = GT.map(g => ({ title: g[1], n: String(m.signals[g[0]].length), q: g[2], items: m.signals[g[0]].map(s => ({ t: s.t, meta: 'Source: ' + s.src + ' · updated ' + s.upd, effect: s.effect || '', efD: s.effect ? 'block' : 'none', liveD: s.live ? 'inline-block' : 'none', tag: s.tag, tagC: s.tag === 'Caution' ? '#B7791F' : '#1A2F9E',
+      lk: s.lk && leftLabel[s.lk] ? s.lk : '', exD: s.lk && leftLabel[s.lk] ? 'block' : 'none', exp: s.lk ? leftLabel[s.lk] || '' : '', bg: s.lk && st.hovLk === s.lk ? '#EAF0FF' : 'transparent',
+      enter: () => { if (s.lk) this.setState({ hovLk: s.lk }); }, leave: () => { if (s.lk) this.setState({ hovLk: null }); } })) }));
+    const L = st.links.slice(0, 3);
+    out.links = [0, 1, 2].map(i => L[i] ? { d: L[i].d, dots: L[i].dots, w: st.hovLk && st.hovLk === L[i].key ? 2 : 1.25 } : { d: '', dots: '', w: 1 });
+    out.linkOp = sOn && L.length ? 1 : 0;
+
+    // impact + view
+    const decLbl = x => x.kind === 'refer' ? 'Refer' : CHIP[x.kind].label + ' ' + P(x.amt);
+    const imp = [];
+    if (dB.slow !== dS.slow) imp.push({ k: 'Slow-month sales', b: P(dB.slow), s: P(dS.slow) });
+    if (Math.round(dB.max) !== Math.round(dS.max)) imp.push({ k: 'Max loan by the rule', b: P(dB.max), s: P(dS.max) });
+    if (m.posMonths < 6 && dS.exception) imp.push({ k: 'POS history check', b: 'Fails', s: 'Exception' });
+    if (dB.kind !== dS.kind || dB.amt !== dS.amt) imp.push({ k: 'Decision', b: decLbl(dB), s: decLbl(dS), dec: true });
+    out.impact = imp.map(x => ({ k: x.k, b: x.b, s: x.s, c: x.dec ? (dS.kind === 'reduce' ? '#C2410C' : '#2F68FF') : '#2F68FF' }));
+    out.impactDiff = imp.length > 0; out.impactSame = imp.length === 0;
+    out.impactSameText = 'Signals confirm the bank data. The decision stays the same: ' + decLbl(dS) + '.';
+    out.view = sOn
+      ? { label: 'Bank data + Sprouts signals', dot: '#2F68FF', btn: 'Compare with bank data only', btnBg: '#FFFFFF', btnFg: '#08080C', btnBd: '#C9D1DE', cardLink: 'What would bank data alone decide?', recLabel: 'Recommended with Sprouts signals' }
+      : { label: 'Bank data only', dot: '#606978', btn: 'Add Sprouts signals', btnBg: '#2F68FF', btnFg: '#FFFFFF', btnBd: '#2F68FF', cardLink: 'Show with Sprouts signals', recLabel: 'Recommended on bank data only' };
+    out.view.hl = hl(true); out.view.toggle = () => this.setMode(sOn ? 'b' : 's'); out.view.toS = () => this.setMode('s');
+
+    // decision
+    const kind = d.kind;
+    const rec = kind === 'refer' ? 'Refer' : P(d.amt);
+    const recB = dB.kind === 'refer' ? 'Refer' : P(dB.amt), recS = dS.kind === 'refer' ? 'Refer' : P(dS.amt);
+    const facts = [
+      { k: 'Slow-month sales', v: P(d.slow), sub: d.slowNote, ch: dB.slow !== dS.slow },
+      { k: 'Max loan by the rule', v: P(d.max), sub: '', ch: Math.round(dB.max) !== Math.round(dS.max) },
+      kind === 'refer'
+        ? { k: 'Repaid in', v: d.repReq.toFixed(1) + ' months at ' + P(m.req) + ' (limit 9)', sub: 'If approved as asked', ch: dB.kind !== dS.kind }
+        : { k: 'Repaid in', v: d.rep.toFixed(1) + ' months (limit 9)', sub: '', ch: dB.rep !== dS.rep }
+    ];
+    if (kind === 'reduce') facts.push({ k: 'As asked', v: P(m.req) + ' would take ' + d.repReq.toFixed(1) + ' months', sub: '', ch: true, c: '#C2410C' });
+    out.d = {
+      rec, recFull: kind === 'refer' ? 'Refer' : PF(d.amt), recC: kind === 'refer' ? '#606978' : '#2F68FF', chip: CHIP[kind], text: d.text,
+      hlRec: hl(recB !== recS || dB.kind !== dS.kind), hlText: hl(dB.text !== dS.text),
+      repShort: kind === 'refer' ? 'Referred' : d.rep.toFixed(1) + ' months', repC: kind === 'refer' ? '#606978' : '#08080C', hlRep: hl(dB.rep !== dS.rep || dB.kind !== dS.kind),
+      facts: facts.map(f => ({ k: f.k, v: f.v, sub: f.sub, subD: f.sub ? 'block' : 'none', c: f.c || '#08080C', hl: hl(f.ch) })),
+      why: d.why.map((t, i) => ({ n: String(i + 1), t, hl: hl(dB.why[i] !== dS.why[i]) }))
+    };
+    const bandOk = m.band <= 'B', odOk = m.od < 15, posOk = m.posMonths >= 6;
+    const posV = posOk ? '' : (d.exception ? m.posMonths + ' months. Exception: 26 months paid on time with another bank' : m.posMonths + ' months');
+    out.d.checks = [
+      { k: 'Bureau band B or better', v: 'Band ' + m.band, ok: bandOk, ch: false },
+      { k: 'Overdraft under 15 of 30 days', v: m.od + ' of 30 days', ok: odOk, ch: false },
+      { k: 'POS history 6 months or more', v: posOk ? (m.posMonths >= 12 ? 'Over 12 months' : m.posMonths + ' months') : posV, ok: posOk ? true : (d.exception ? 'ex' : false), ch: !posOk }
+    ].map(c => ({ k: c.k, v: c.v, mark: c.ok === true ? '✓' : c.ok === 'ex' ? '✓' : '✗', mc: c.ok === false ? '#C2410C' : '#1A2F9E', vc: c.ok === false ? '#C2410C' : c.ok === 'ex' ? '#1A2F9E' : '#606978', fw: c.ok === true ? 400 : 600, hl: hl(c.ch) }));
+    const amtH = kind === 'refer' ? m.req : d.amt, monthly = d.slow * RULE.share;
+    out.d.how = [
+      { t: 'Max loan = slow-month sales × 8% × 9 months ÷ 1.12', size: 14, fw: 600, c: '#08080C' },
+      { t: '= ' + P(d.slow) + ' × 8% × 9 ÷ 1.12 = ' + P(d.max), size: 14, fw: 400, c: '#08080C' },
+      { t: 'Repaid in = loan × 1.12 ÷ (slow-month sales × 8%)', size: 14, fw: 600, c: '#08080C' },
+      { t: '= ' + P(amtH) + ' × 1.12 ÷ ' + P(monthly) + ' a month = ' + repaid(amtH, d.slow).toFixed(1) + ' months (limit 9)', size: 14, fw: 400, c: '#08080C' },
+      { t: '1.12 covers the loan plus a 12% fee. Slow-month sales is the level the business beats 9 months out of 10. Repayment comes from 8% of monthly sales.', size: 13, fw: 400, c: '#606978' }
+    ];
+    const A = (label, recTxt, primary, against) => ({ label, bg: primary ? '#2F68FF' : '#FFFFFF', fg: primary ? '#FFFFFF' : '#08080C', bd: primary ? '#2F68FF' : '#C9D1DE', go: () => this.decide(m.id, recTxt, !!against) });
+    let acts = [];
+    if (kind === 'refer') acts = [A('Refer to a senior underwriter', 'Referred', true), A('Approve ' + P(m.req) + ' as asked', 'Approved ' + P(m.req), false, true)];
+    else if (kind === 'approve') acts = [A('Approve ' + P(d.amt), 'Approved ' + P(d.amt), true), A('Refer', 'Referred', false, true)];
+    else if (kind === 'higher') acts = [A('Approve ' + P(d.amt), 'Approved ' + P(d.amt), true), A('Approve ' + P(m.req) + ' as asked', 'Approved ' + P(m.req), false, true), A('Refer', 'Referred', false, true)];
+    else acts = [A(d.referToo ? 'Approve ' + P(d.amt) + ', refer to a senior underwriter' : 'Approve ' + P(d.amt), d.referToo ? 'Reduced to ' + P(d.amt) + ', referred' : 'Reduced to ' + P(d.amt), true), A('Approve ' + P(m.req) + ' as asked', 'Approved ' + P(m.req), false, true)].concat(d.referToo ? [] : [A('Refer', 'Referred', false, true)]);
+    out.d.actions = acts;
+    const dd = st.decisions[m.id];
+    out.decided = !!dd; out.undecided = !dd;
+    out.dec = dd ? { label: dd.label, sub: (dd.against ? 'Against the recommendation · ' : 'As recommended · ') + (dd.mode === 's' ? 'decided with signals' : 'decided on bank data only') + ' · 16 Oct 2026', subC: dd.against ? '#B7791F' : '#606978' } : { label: '', sub: '', subC: '#606978' };
+    out.undo = () => this.setState(x => { const n = Object.assign({}, x.decisions); delete n[m.id]; return { decisions: n }; });
+    const idx = ORDER.indexOf(m.id);
+    const nextId = ORDER.slice(idx + 1).concat(ORDER.slice(0, idx)).find(id => !st.decisions[id] && id !== m.id);
+    out.nextLabel = nextId ? 'Next: ' + ALL[nextId].name : 'Back to queue';
+    out.next = () => nav(nextId || null);
+    out.toggleHow = () => this.setState(x => ({ how: !x.how })); out.howOpen = st.how; out.howAria = st.how ? 'true' : 'false'; out.howLabel = st.how ? 'Hide how we got this' : 'How we got this';
+    out.toCard = () => { const mn = this.mainRef.current, c = this.cardRef.current; if (mn && c) mn.scrollTo({ top: mn.scrollTop + c.getBoundingClientRect().top - mn.getBoundingClientRect().top - 84, behavior: this.reduced ? 'auto' : 'smooth' }); };
+    const KEYS = { 'Slow-month sales': 1, 'POS history': 1, 'Money in': 1, 'Money in and out': 1, 'Average balance': 1, 'Overdraft': 1, 'Bureau band': 1, 'Late payments': 1 };
+    out.keyRows = [].concat(out.blocks.sales, out.blocks.account, out.blocks.bureau).filter(r => KEYS[r.k]);
+    out.moreGroups = [['profile', 'Profile'], ['sales', 'Sales'], ['account', 'Account'], ['bureau', 'Credit bureau']].map(b => ({ title: b[1], rows: out.blocks[b[0]].filter(r => !KEYS[r.k]) })).filter(g => g.rows.length);
+    const moreN = out.moreGroups.reduce((a, g) => a + g.rows.length, 0);
+    out.moreOpen = st.more; out.moreAria = st.more ? 'true' : 'false'; out.toggleMore = () => this.setState(x => ({ more: !x.more }));
+    out.moreLabel = st.more ? 'Hide other bank data' : 'Show all bank data: ' + moreN + ' more rows, balance and bureau history';
+    const SL = {
+      tala: 'Lazada and Shopee payouts count as sales, so slow-month sales go from ₱900K to ₱1.6M and the loan can grow from ₱500K to ₱850K.',
+      lakbay: 'SEC records show a five-year-old business with 3 new branches, so the short POS history gets an exception. Approve instead of refer.',
+      north: 'Google Maps shows 2 of 4 branches closed 3 weeks ago, so slow-month sales halve to ₱1.2M and the loan drops from ₱1.5M to ₱700K.',
+      liwayway: 'GrabFood and Foodpanda payouts count as sales, so slow-month sales go from ₱600K to ₱850K and the loan can grow from ₱300K to ₱500K.',
+      tanglaw: 'The mall store is closed until January, so slow-month sales fall to ₱1.0M and the loan drops from ₱1.0M to ₱600K.'
+    };
+    out.sproutsLine = SL[m.id] || ('Sprouts found ' + allSig.length + ' signals and all of them agree with the bank data. The decision stays the same.');
+    out.groups = out.groups.map((g, gi) => Object.assign(g, { items: g.items.map((sg, si) => { const raw = m.signals[GT[gi][0]][si]; return Object.assign(sg, { meta2: raw.src + ' · updated ' + raw.upd, cauD: raw.tag === 'Caution' ? 'inline' : 'none' }); }) }));
+    out.sigRef = this.sigRef;
+    out.sigFlash = st.sigFlash ? '#EAF0FF' : 'transparent';
+    out.toSignalsLabel = 'See the ' + allSig.length + ' Sprouts signals ↓';
+    out.toSignals = () => {
+      const mn = this.mainRef.current, el = this.sigRef.current; if (!mn || !el) return;
+      mn.scrollTo({ top: mn.scrollTop + el.getBoundingClientRect().top - mn.getBoundingClientRect().top - 76, behavior: this.reduced ? 'auto' : 'smooth' });
+      clearTimeout(this._sf); this.setState({ sigFlash: true }); this._sf = setTimeout(() => this.setState({ sigFlash: false }), 900);
+    };
+    out.viewLine = sOn ? 'Showing bank data + Sprouts signals' : 'Showing bank data only';
+    out.reqLine = 'Requested ' + P(m.req) + ' for ' + m.purpose.toLowerCase() + '.';
+    const first = out.d.actions[0], dd2 = st.decisions[m.id];
+    out.bar = { y: st.scrolled ? '0%' : '-100%', op: st.scrolled ? 1 : 0, pe: st.scrolled ? 'auto' : 'none',
+      tr: this.reduced ? 'opacity 150ms ease' : 'transform 220ms cubic-bezier(0.23,1,0.32,1), opacity 220ms cubic-bezier(0.23,1,0.32,1)',
+      btn: dd2 ? dd2.label : first.label, btnBg: dd2 ? '#FFFFFF' : '#2F68FF', btnFg: dd2 ? '#1A2F9E' : '#FFFFFF', btnBd: dd2 ? '#C9D1DE' : '#2F68FF',
+      go: dd2 ? () => { const mn = this.mainRef.current; if (mn) mn.scrollTo({ top: 0, behavior: this.reduced ? 'auto' : 'smooth' }); } : first.go };
+    return out;
+  }
+}
+</script>
+</body>
+</html>

@@ -14,6 +14,7 @@ one page with real data, read from the QOS API (moxo-poc) behind a sign-in. See
 | `/v12` | `v12.html` | Canopy v12 blue. |
 | `/onboarding` | `onboarding.html` | Standalone onboarding flow. |
 | `/qms` | `qms.html` | Standalone QMS screen. |
+| `/uw` | `uw.html` | Standalone UW screen. |
 
 `/app` redirects to `/`.
 
