@@ -292,7 +292,7 @@ button,select,input{font-family:inherit}
               <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">What Sprouts will write to Moxo</div>
               <div style="display:flex;flex-direction:column"><sc-for list="{{ d.previewRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:7px 0;border-bottom:1px solid #1B2135;font-size:12.5px"><span style="color:#8B93A7">{{ r.l }}</span><span style="font-weight:600;color:#fff;overflow-wrap:anywhere">{{ r.v }}</span></div></sc-for></div>
               <div style="font-size:11.5px;color:#8B93A7;line-height:1.45">Sent by QOS on behalf of {{ userName }}, and logged that way in the audit trail.</div>
-              <div style="display:flex;gap:8px"><button onClick="{{ d.applyPreview }}" style="flex:1.4;padding:12px 16px;border-radius:9px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E45D6">Apply and send</button><button onClick="{{ d.discardPreview }}" style="flex:1;padding:12px 16px;border-radius:9px;border:1px solid #2A3147;background:#11172A;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#161C2E">Discard</button></div>
+              <div style="display:flex;gap:8px"><button onClick="{{ d.applyPreview }}" style="flex:1.4;padding:12px 16px;border-radius:9px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E45D6">{{ d.applyLabel }}</button><button onClick="{{ d.discardPreview }}" style="flex:1;padding:12px 16px;border-radius:9px;border:1px solid #2A3147;background:#11172A;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#161C2E">Discard</button></div>
             </div>
           </sc-if>
           <sc-if value="{{ d.needsRouting }}" hint-placeholder-val="{{ false }}">
@@ -547,7 +547,7 @@ function detailToQuote(base,det,hist){const lq=det.quote,e=det.enrichment||{};co
   const facts=[['Employees',f.employees?f.employees.toLocaleString('en-US'):null],['Revenue',f.revenue_usd?fmtMoney(f.revenue_usd):null],['Industry',f.industry],['Sub-industry',f.sub_industry],['HQ',f.hq?tc(f.hq):null],['Founded',f.founded_year],['Funding',f.funding_stage],['Tech stack',company&&company.technographics&&company.technographics.length?company.technographics.slice(0,4).join(', '):null]].filter(x=>x[1]);
   const signals=(sig&&sig.selected_signals||[]).map(x=>{const ev=(x.evidence||[])[0]||{};let host='';try{host=ev.url?new URL(ev.url).hostname.replace(/^www\./,''):'';}catch(_){}
     return signalOf(x,host||'web search',ev.url);});
-  const people=(contact&&contact.contacts||[]).map((c,i)=>({name:tc(c.name),title:c.title||'',role:c.seniority||'Suggested',email:c.email,phone:c.phone,why:c.linkedin?'Found by Sprouts · '+c.linkedin:'Found by Sprouts',emailOn:!!c.email,phoneOn:!!c.phone,contactId:c.id,position:i+1}));
+  const people=(contact&&contact.contacts||[]).map((c,i)=>({name:tc(c.name),title:c.title||'',role:c.seniority||'Suggested',email:c.email,phone:c.phone,why:c.linkedin?'Found by Sprouts · '+c.linkedin:'Found by Sprouts',emailOn:!!c.email||!!c.email_revealed,phoneOn:!!c.phone||!!c.phone_revealed,contactId:c.id,position:i+1}));
   const m=msg&&msg.raw&&msg.raw.data&&msg.raw.data[0]&&msg.raw.data[0].messages&&msg.raw.data[0].messages[0];
   const sc=icp&&icp.scores;const va=det.vendor_assignment;const vendor=va?{vendor_id:va.vendor_id,assignment_status:va.status}:null;
   const stage=stageOf(lq.status,!!sc,vendor);
@@ -615,19 +615,24 @@ class Component extends DCLogic{
     if(q.stage==='assigned')return{pill:'Awaiting accept',pillBg:'#FEF3C7',pillFg:AMBER};return{pill:q.stage==='contacted'?'On track':'Accepted',pillBg:'#DCFCE7',pillFg:GREEN};}
   openQuote(id){this.setState({view:'quote',sel:id,qtab:'Overview',othersOpen:false});this.loadDetail(id);}
   // assign-vendor the first time; reassign-vendor once the quote already has an assignment (e.g. declined).
-  async route(id,pid){const q=this.find(id);if(!q||this._busy)return;this._busy=true;this.setState({preview:null,othersOpen:false});
+  // QOS returns once the partner is assigned (it finishes the Moxo steps in the background),
+  // so the quote moves to "Waiting for partner" straight away; the reloads only reconcile.
+  async route(id,pid){const q=this.find(id);if(!q||this._busy)return;this._busy=true;this.setState({sending:id,othersOpen:false});
     try{await this.api('/quotes/'+encodeURIComponent(id)+(q.hasAssignment?'/reassign-vendor':'/assign-vendor'),{method:'POST',body:{vendor_id:pid}});
-      this.toast('Sent to '+P(pid).name+'. They’ll get “Accept the quote” in Moxo.');await this.loadAll();this.loadDetail(id);}
-    catch(e){this.toast(e.message);}finally{this._busy=false;}}
+      this.upd(id,x=>({...x,stage:'assigned',partnerId:pid,assignmentStatus:'pending',hasAssignment:true}));this.setState({preview:null});
+      this.toast('Sent to '+P(pid).name+'. They’ll get “Accept the quote” in Moxo.');this.loadAll();}
+    catch(e){this.toast(e.message);}finally{this._busy=false;this.setState({sending:null});}}
   stagePreview(id,pid){if(!pid){this.toast('No partners in the directory yet.');return;}this.setState({preview:{id,pid},othersOpen:false,sel:id,view:'quote'});this.loadDetail(id);}
   askApproval(){this.toast('Finance approval isn’t part of this workflow.');}
   async reveal(id,i,kind){const q=this.find(id);const c=q&&q.contacts[i];if(!c)return;
     if(!c.contactId){this.toast(kind==='phone'?'No phone number on file for the requester.':'Already known.');return;}
-    this.upd(id,x=>{x.contacts=x.contacts.map((y,j)=>j===i?{...y,looking:true}:y);return x;});
-    try{const r=await this.api('/quotes/'+encodeURIComponent(id)+'/enrich/contacts/'+c.position+'/email-phone',{method:'POST',body:{contact_id:c.contactId}});
-      this.upd(id,x=>{x.contacts=x.contacts.map((y,j)=>j===i?{...y,email:r.email,phone:r.phone,emailOn:true,phoneOn:true,looking:false}:y);return x;});
+    const busy=kind==='email'?'lookingEmail':'lookingPhone';
+    this.upd(id,x=>{x.contacts=x.contacts.map((y,j)=>j===i?{...y,[busy]:true}:y);return x;});
+    try{const r=await this.api('/quotes/'+encodeURIComponent(id)+'/enrich/contacts/'+c.position+'/email-phone',{method:'POST',body:{contact_id:c.contactId,field:kind}});
+      // Only the field asked for: "Find email" never reveals (or charges for) the phone, and vice versa.
+      this.upd(id,x=>{x.contacts=x.contacts.map((y,j)=>j===i?(kind==='email'?{...y,email:r.email,emailOn:true,lookingEmail:false}:{...y,phone:r.phone,phoneOn:true,lookingPhone:false}):y);return x;});
       const got=kind==='email'?r.email:r.phone;this.toast(got?(kind==='email'?'Email':'Phone')+' found for '+c.name+'.':'No '+(kind==='email'?'email':'phone')+' found for '+c.name+'.');}
-    catch(e){this.upd(id,x=>{x.contacts=x.contacts.map((y,j)=>j===i?{...y,looking:false}:y);return x;});this.toast(e.message);}}
+    catch(e){this.upd(id,x=>{x.contacts=x.contacts.map((y,j)=>j===i?{...y,lookingEmail:false,lookingPhone:false}:y);return x;});this.toast(e.message);}}
   async remind(id){try{await this.api('/quotes/'+encodeURIComponent(id)+'/remind',{method:'POST'});this.toast('Reminder sent to '+P(this.find(id).partnerId).name+'.');}catch(e){this.toast(e.message);}}
   partnerOnly(){this.toast('The partner does this from their Moxo link. This screen updates when they do.');}
   // Re-runs Sprouts enrichment by hand (normally Moxo's "Account Enrichment" step does it).
@@ -679,7 +684,7 @@ class Component extends DCLogic{
       partner:p.name,partnerIni:ini(p.name),partnerWhy:p.why||'',needsRouting:q.stage==='triage'&&q.id!=='—',route:()=>q.assignmentStatus==='declined'?this.reassign(q.id):this.stagePreview(q.id,q.partnerId),withPartner:['assigned','accepted','contacted'].includes(q.stage),remind:()=>this.remind(q.id),isClosed:q.stage==='closed',outcomeLabel:q.outcome||'',outcomeBg:q.outcome==='Won'?GREEN:INK,
       showPartner:['assigned','accepted','contacted','closed'].includes(q.stage),pDue:q.stage==='assigned'?'waiting for them to accept':q.stage==='accepted'?'accepted · call the customer':'',pIsCard:q.stage==='assigned',pIsWork:q.stage==='accepted'||q.stage==='contacted',pIsDone:q.stage==='closed',pCanContact:q.stage==='accepted',pCanClose:q.stage==='contacted',requesterFirst:(q.requester||'').split(' ')[0],
       draft:q.draft||'Sprouts drafts the first email once it has found contacts.',pAccept:()=>this.partnerOnly(),pDecline:()=>this.partnerOnly(),pContacted:()=>this.partnerOnly(),outcomes:[],
-      people:q.contacts.map((c,i)=>({...c,ini:ini(c.name),roleFg:c.role==='Requester'?BLUE:PURPLE,emailLabel:c.looking?'Looking…':c.emailOn?(c.email||'No email found'):'Find email · 1 credit',phoneLabel:c.looking?'Looking…':c.noPhone?'No phone on file':c.phoneOn?(c.phone||'No phone found'):'Find phone · 2 credits',emailFg:c.emailOn?'#0F1424':BLUE,phoneFg:c.phoneOn||c.noPhone?'#0F1424':BLUE,emailBg:c.emailOn?'#F5F6F8':'#fff',phoneBg:c.phoneOn||c.noPhone?'#F5F6F8':'#fff',emailBorder:c.emailOn?'#F5F6F8':'#C7D2FE',phoneBorder:c.phoneOn||c.noPhone?'#F5F6F8':'#C7D2FE',findEmail:()=>{if(!c.emailOn&&!c.looking)this.reveal(q.id,i,'email');},findPhone:()=>{if(!c.phoneOn&&!c.noPhone&&!c.looking)this.reveal(q.id,i,'phone');}})),
+      people:q.contacts.map((c,i)=>({...c,ini:ini(c.name),roleFg:c.role==='Requester'?BLUE:PURPLE,emailLabel:c.lookingEmail?'Looking…':c.emailOn?(c.email||'No email found'):'Find email · 1 credit',phoneLabel:c.lookingPhone?'Looking…':c.noPhone?'No phone on file':c.phoneOn?(c.phone||'No phone found'):'Find phone · 2 credits',emailFg:c.emailOn?'#0F1424':BLUE,phoneFg:c.phoneOn||c.noPhone?'#0F1424':BLUE,emailBg:c.emailOn?'#F5F6F8':'#fff',phoneBg:c.phoneOn||c.noPhone?'#F5F6F8':'#fff',emailBorder:c.emailOn?'#F5F6F8':'#C7D2FE',phoneBorder:c.phoneOn||c.noPhone?'#F5F6F8':'#C7D2FE',findEmail:()=>{if(!c.emailOn&&!c.lookingEmail)this.reveal(q.id,i,'email');},findPhone:()=>{if(!c.phoneOn&&!c.noPhone&&!c.lookingPhone)this.reveal(q.id,i,'phone');}})),
       escalateHint:q.contacts[1]?'If '+(q.contacts[0].name||'').split(' ')[0]+' does not respond, go to '+q.contacts[1].name+(q.contacts[1].title?' ('+q.contacts[1].title+')':'')+'.':'',
       timeline:[...q.timeline].reverse().map(t=>({...t,fg:t.actor.startsWith('Sprouts')?BLUE:t.actor==='Moxo'?PURPLE:'#0F1424'}))};
     d.nextTitle=q.stage==='intake'?'Sprouts is researching':q.stage==='triage'?(q.assignmentStatus==='declined'?'Partner declined · pick another':'Pick a partner'):q.stage==='assigned'?'Waiting for '+p.name+' to accept':q.stage==='accepted'?p.name+' to call the customer':q.stage==='contacted'?'Customer contacted · waiting for the outcome':(q.outcome&&q.outcome!=='Closed'?'Closed · '+q.outcome:'Closed');
@@ -687,7 +692,7 @@ class Component extends DCLogic{
     const pst=PS(q.partnerId);d.partnerStat=(pst.win==null?'no closed quotes yet':pst.win+'% win rate')+' · '+pst.open+' open';
     const pv=s.preview&&s.preview.id===q.id&&q.stage==='triage'?s.preview:null;
     d.needsApproval=false;d.needsRouting=d.needsRouting&&!pv;d.hasPreview=!!pv;
-    if(pv){d.nextTitle='Check before sending';d.nextText='Nothing changes in Moxo until you apply.';d.previewRows=[{l:'Partner',v:P(pv.pid).name},{l:'Workflow',v:q.flowId},{l:'Sprouts data',v:'Score '+(q.score==null?'—':q.score)+' · '+q.signals.length+' signals · '+q.contacts.length+' people'},{l:'Link goes to',v:PS(pv.pid).contact}];d.applyPreview=()=>this.route(q.id,pv.pid);d.discardPreview=()=>this.setState({preview:null});}else d.previewRows=[];
+    if(pv){d.nextTitle='Check before sending';d.nextText='Nothing changes in Moxo until you apply.';d.previewRows=[{l:'Partner',v:P(pv.pid).name},{l:'Workflow',v:q.flowId},{l:'Sprouts data',v:'Score '+(q.score==null?'—':q.score)+' · '+q.signals.length+' signals · '+q.contacts.length+' people'},{l:'Link goes to',v:PS(pv.pid).contact}];d.applyPreview=()=>this.route(q.id,pv.pid);d.applyLabel=s.sending===q.id?'Sending…':'Apply and send';d.discardPreview=()=>this.setState({preview:null});}else d.previewRows=[];
     const ord={intake:0,triage:1,assigned:2,accepted:3,contacted:4,closed:6}[q.stage];
     const KIND={'Sprouts agent':[BLUE,'#EEF2FF'],'Moxo':[PURPLE,'#F3E8FF'],'Person':[INK,'#F1F3F7'],'Partner':['#374151','#F1F3F7'],'Form':['#374151','#F1F3F7']};
     const fl=[['Request received','Web store form','Form',true,false],['Account researched','Sprouts enrichment step in Moxo · '+q.signals.length+' signals · score '+(q.score==null?'—':q.score),'Sprouts agent',ord>=1,ord===0],['Partner chosen',userName+' · in QMS','Person',ord>=2,ord===1],['Partner accepts',p.name+' · from the Moxo link','Partner',ord>=3,ord===2],['Partner contacts the customer',p.name,'Partner',ord>=4,ord===3],['Outcome recorded','Recorded in Moxo','Moxo',q.stage==='closed',false]];
