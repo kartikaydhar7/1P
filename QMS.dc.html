@@ -562,14 +562,18 @@ function detailToQuote(base,det,hist){const lq=det.quote,e=det.enrichment||{};co
   return q;}
 const EMPTY=listToQuote({quote:{quote_id:'—',company_name:'No quotes yet',customer_name:'',customer_email:'',line_items:[],status:'draft'},latest_score:null,vendor:null});
 const STAGE={intake:'Sprouts is looking it up',triage:'Pick a partner',assigned:'Waiting for partner to accept',accepted:'Partner to call customer',contacted:'Customer contacted',closed:'Closed'};
+const DETAIL_POLL_MS=5000,LIST_POLL_MS=30000,WAITING_STAGES=['intake','assigned','accepted','contacted'];
 const scoreBg=s=>s==null?'#9CA3AF':s>=70?INK:s>=50?BLUE:'#7C8AA5';
 class Component extends DCLogic{
   state={quotes:[],sel:null,toast:null,view:'home',tab:'All',partnerSel:null,qtab:'Overview',sigOpen:{},othersOpen:false,preview:null,
     user:null,booting:true,loading:false,loginEmail:'',loginPassword:'',loginError:'',loginBusy:false,
     cfg:{accept:'24 h',call:'48 h',remind:'6 h',auto:true,threshold:'90%',bar:'80%',credits:'6',esc:'Quote desk · shared inbox',thr:'€250k',tools:{lookup:true,enrich:true,signals:true,contacts:false,email:false,bulk:false}}};
   apiBase(){return(this.props.apiBase||(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://localhost:8000':'/qos')).replace(/\/$/,'');}
-  componentDidMount(){this.boot();}
-  componentWillUnmount(){clearTimeout(this._poll);clearTimeout(this._renew);clearTimeout(this._tt);}
+  // Live updates: QOS learns of partner actions by polling Moxo every 30s, so QMS polls QOS too -
+  // the open quote every 5s while it waits on someone, the list every 30s, paused while the tab
+  // is hidden and refreshed as soon as it is shown again.
+  componentDidMount(){this._vis=()=>{if(!document.hidden&&this._token)this.loadAll(true);};document.addEventListener('visibilitychange',this._vis);this.boot();}
+  componentWillUnmount(){document.removeEventListener('visibilitychange',this._vis);clearTimeout(this._poll);clearTimeout(this._listPoll);clearTimeout(this._renew);clearTimeout(this._tt);}
   async boot(){this.setState({booting:true});if(await this.refresh())await this.loadAll();this.setState({booting:false});}
   // One refresh in flight at a time (two callers on a 401 share it). 409 = another tab
   // refreshed with the same cookie a moment ago; the browser already has the new cookie.
@@ -577,7 +581,7 @@ class Component extends DCLogic{
         if(r.status===409){await new Promise(ok=>setTimeout(ok,400));continue;}if(!r.ok)return false;const b=await r.json();this.signedIn(b);return true;}return false;}
       catch(_){return false;}finally{this._refreshing=null;}})();return this._refreshing;}
   signedIn(b){this._token=b.access_token;this.setState({user:b.user,loginPassword:'',loginError:''});clearTimeout(this._renew);this._renew=setTimeout(()=>this.refresh(),Math.max(30,b.expires_in-60)*1000);}
-  signedOut(msg){this._token=null;clearTimeout(this._renew);clearTimeout(this._poll);PARTNERS={};PSTATS={};this.setState({user:null,quotes:[],sel:null,view:'home',preview:null,loginError:msg||''});}
+  signedOut(msg){this._token=null;clearTimeout(this._renew);clearTimeout(this._poll);clearTimeout(this._listPoll);PARTNERS={};PSTATS={};this.setState({user:null,quotes:[],sel:null,view:'home',preview:null,loginError:msg||''});}
   async api(path,opts={},retried){let res;
     try{res=await fetch(this.apiBase()+path,{method:opts.method||'GET',credentials:'include',headers:{...(opts.body?{'Content-Type':'application/json'}:{}),...(this._token?{Authorization:'Bearer '+this._token}:{})},body:opts.body?JSON.stringify(opts.body):undefined});}
     catch(_){throw new ApiError(0,'network','Can’t reach the quote service at '+this.apiBase()+'.');}
@@ -590,7 +594,7 @@ class Component extends DCLogic{
     try{const b=await this.api('/auth/login',{method:'POST',body:{email:s.loginEmail,password:s.loginPassword},noRefresh:true});this.signedIn(b);this.setState({loginBusy:false});await this.loadAll();}
     catch(e){this.setState({loginBusy:false,loginPassword:'',loginError:e.code==='invalid_credentials'?'Wrong email or password.':e.message});}}
   async logout(){try{await fetch(this.apiBase()+'/auth/logout',{method:'POST',credentials:'include'});}catch(_){}this.signedOut('');}
-  async loadAll(){this.setState({loading:true});
+  async loadAll(silent){clearTimeout(this._listPoll);if(!silent)this.setState({loading:true});
     try{const[ql,vl]=await Promise.all([this.api('/quotes?limit=200'),this.api('/vendors')]);
       PARTNERS={};PSTATS={};(vl.vendors||[]).forEach(v=>{const cats=catLabel(v.product_categories);const win=v.win_rate!=null?Math.round(v.win_rate*100):null;
         PARTNERS[v.vendor_id]={name:v.name,regions:v.region?[v.region]:[],categories:v.product_categories||[],why:['Covers '+(v.region||'any region'),cats,win!=null?'wins '+win+'% of closed quotes':null].filter(Boolean).join(' · ')};
@@ -598,15 +602,17 @@ class Component extends DCLogic{
       const prev=Object.fromEntries(this.state.quotes.filter(q=>q.loaded).map(q=>[q.id,q]));
       const quotes=(ql.quotes||[]).map(r=>{const q=listToQuote(r);const old=prev[q.id];return old?{...old,score:q.score,stage:q.stage}:q;});
       this.setState({quotes,loading:false,sel:this.state.sel||(quotes[0]&&quotes[0].id)});
-      if(this.state.view==='quote'&&this.state.sel)this.loadDetail(this.state.sel);}
-    catch(e){this.setState({loading:false});if(e.status!==401)this.toast(e.message);}}
-  async loadDetail(id){clearTimeout(this._poll);this.upd(id,q=>({...q,loading:!q.loaded}));
+      if(this.state.view==='quote'&&this.state.sel)this.loadDetail(this.state.sel,silent);}
+    catch(e){this.setState({loading:false});if(e.status!==401&&!silent)this.toast(e.message);}
+    finally{if(this._token)this._listPoll=setTimeout(()=>{if(!document.hidden)this.loadAll(true);},LIST_POLL_MS);}}
+  async loadDetail(id,silent){clearTimeout(this._poll);this.upd(id,q=>({...q,loading:!q.loaded}));
     try{const[det,hist]=await Promise.all([this.api('/quotes/'+encodeURIComponent(id)),this.api('/quotes/'+encodeURIComponent(id)+'/history').catch(()=>({events:[]}))]);
       this.setState(s=>({quotes:s.quotes.map(q=>q.id===id?{...detailToQuote(q,det,hist),enriching:q.enriching,enrichStep:q.enrichStep}:q)}));
       const q=this.state.quotes.find(x=>x.id===id);
-      // Enrichment runs in the background (Moxo's REST step) - keep checking until it lands.
-      if(q&&q.stage==='intake'&&!q.enriching)this._poll=setTimeout(()=>{if(this.state.view==='quote'&&this.state.sel===id)this.loadDetail(id);},10000);}
-    catch(e){this.upd(id,q=>({...q,loading:false}));if(e.status!==401)this.toast(e.message);}}
+      // Keep checking while the quote waits on someone: Sprouts' research (Moxo's REST step) or the
+      // partner (accept, contact, outcome). Stops once it needs the quote desk or is closed.
+      if(q&&WAITING_STAGES.includes(q.stage)&&!q.enriching)this._poll=setTimeout(()=>{if(this.state.view==='quote'&&this.state.sel===id&&!document.hidden)this.loadDetail(id,true);},DETAIL_POLL_MS);}
+    catch(e){this.upd(id,q=>({...q,loading:false}));if(e.status!==401&&!silent)this.toast(e.message);}}
   toast(t){clearTimeout(this._tt);this.setState({toast:t});this._tt=setTimeout(()=>this.setState({toast:null}),3200);}
   upd(id,fn){this.setState(s=>({quotes:s.quotes.map(q=>q.id===id?fn({...q,timeline:[...q.timeline]}):q)}));}
   find(id){return this.state.quotes.find(x=>x.id===id);}
