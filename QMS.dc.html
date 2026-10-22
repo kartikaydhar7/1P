@@ -146,110 +146,56 @@ button,select,input{font-family:inherit}
 
   <!-- QUOTE -->
   <sc-if value="{{ isQuote }}" hint-placeholder-val="{{ false }}">
-    <section style="padding:18px 28px 40px;display:flex;flex-direction:column;gap:16px;min-width:0;max-width:1040px">
+    <section style="padding:18px 28px 40px;display:flex;flex-direction:column;gap:14px;min-width:0;max-width:1320px">
       <div>
         <button onClick="{{ goQuotes }}" style="border:0;background:transparent;padding:0;font-size:12.5px;font-weight:600;cursor:pointer;color:#6B7280" style-hover="color:#0F1424">← All quotes</button>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px"><span style="font-size:24px;font-weight:700;letter-spacing:-.025em;line-height:1.1;display:inline-block;animation: {{ d.titleEnter }}">{{ d.account }}</span><span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background: {{ d.pillBg }};color: {{ d.pillFg }}">{{ d.pill }}</span></div>
-        <div style="font-size:12.5px;color:#6B7280;line-height:1.5;margin-top:4px"><span style="font-family:'JetBrains Mono',monospace">{{ d.id }}</span> · {{ d.lines }} · {{ d.value }} · {{ d.city }} · from {{ d.requester }}</div>
-      </div>
-
-
-      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,0.8fr);gap:16px;align-items:start">
-        <!-- Sprouts read -->
-        <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:16px;min-width:0">
-          <sc-if value="{{ d.pendingLine }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:#6B7280;display:flex;gap:10px;align-items:center;line-height:1.5"><span style="width:14px;height:14px;border:2px solid #C7CCD8;border-top-color:#2B5CFF;border-radius:50%;animation:qspin .8s linear infinite;display:inline-block;flex-shrink:0"></span>{{ d.pendingText }}</div></sc-if>
-          <sc-if value="{{ d.showSummary }}" hint-placeholder-val="{{ true }}"><div style="font-size:16px;font-weight:600;line-height:1.45;letter-spacing:-.01em;text-wrap:pretty;animation: {{ d.enter }}">{{ d.summary }}</div></sc-if>
-          <sc-if value="{{ d.showFigures }}" hint-placeholder-val="{{ true }}">
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px 0;border-top:1px solid #EEF0F4;border-bottom:1px solid #EEF0F4;padding:12px 0;animation: {{ d.enter }}">
-              <div style="min-width:0;padding-right:14px"><div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;font-weight:700;white-space:nowrap">Score</div><div style="font-size:24px;font-weight:800;letter-spacing:-.035em;line-height:1;margin-top:4px">{{ d.scoreLabel }}</div><div style="font-size:11.5px;color:#6B7280;font-weight:600;margin-top:4px">out of 100</div></div>
-              <div style="min-width:0;padding:0 14px;border-left:1px solid #EEF0F4"><div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;font-weight:700;white-space:nowrap">Likely to close</div><div style="font-size:24px;font-weight:800;letter-spacing:-.035em;line-height:1;margin-top:4px;color:#2B5CFF">{{ d.propensity }}%</div><div style="font-size:11.5px;color:#6B7280;font-weight:600;margin-top:4px">{{ d.propensityShort }}</div></div>
-              <div style="min-width:0;padding-left:14px;border-left:1px solid #EEF0F4"><div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;font-weight:700;white-space:nowrap">Tier</div><div style="font-size:24px;font-weight:800;letter-spacing:-.035em;line-height:1;margin-top:4px;overflow-wrap:anywhere">{{ d.tierLabel }}</div><div style="font-size:11.5px;color:#6B7280;font-weight:600;margin-top:4px">{{ d.tierSub }}</div></div>
-            </div>
-          </sc-if>
-          <sc-if value="{{ d.hasSignals }}" hint-placeholder-val="{{ true }}">
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <sc-for list="{{ d.topSignals }}" as="s" hint-placeholder-count="3"><div style="display:flex;gap:10px;align-items:baseline;font-size:13px;color:#374151;line-height:1.45;animation: {{ d.enter }}"><span style="font-weight:800;color: {{ s.fg }}">✓</span><span><b style="color:#0F1424">{{ s.title }}</b> · {{ s.evidence }}</span></div></sc-for>
-            </div>
-          </sc-if>
-          <sc-if value="{{ d.canRerun }}" hint-placeholder-val="{{ true }}">
-            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap">
-              <sc-if value="{{ d.hasSignals }}" hint-placeholder-val="{{ true }}"><button onClick="{{ d.tabSignals }}" style="border:0;background:transparent;padding:0;color:#2B5CFF;font-weight:700;font-size:12.5px;cursor:pointer">{{ d.moreSignalsLabel }}</button></sc-if>
-              <span style="display:flex;gap:10px;align-items:baseline;margin-left:auto"><button onClick="{{ d.rerun }}" style="border:0;background:transparent;padding:0;color:#6B7280;font-weight:700;font-size:11.5px;cursor:pointer" style-hover="color:#0F1424">{{ d.rerunLabel }}</button><span style="font-size:11px;color:#9CA3AF">Sprouts data</span></span>
-            </div>
-          </sc-if>
-        </div>
-        <!-- Action -->
-        <div style="background:#0B0F1C;color:#fff;border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:12px;min-width:0">
-          <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">Next step</div>
-          <div style="font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.25">{{ d.nextTitle }}</div>
-          <div style="font-size:12.5px;color:#B7BECF;line-height:1.5">{{ d.nextText }}</div>
-          <sc-if value="{{ d.needsApproval }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-direction:column;gap:12px;border-top:1px solid #1B2135;padding-top:12px;margin-top:2px">
-              <div><div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">Sprouts advice for Finance</div><div style="font-size:15px;font-weight:700;margin-top:4px">{{ d.adviceVerdict }} <span style="font-size:12px;font-weight:600;color:#B7BECF">· {{ d.adviceText }}</span></div></div>
-              <div style="display:flex;flex-direction:column;gap:5px"><sc-for list="{{ d.topSignals }}" as="s" hint-placeholder-count="3"><div style="display:flex;gap:8px;align-items:baseline;font-size:12px;color:#B7BECF;line-height:1.45"><span style="font-weight:800;color:#3DDC84">✓</span><span><b style="color:#fff">{{ s.title }}</b> · {{ s.source }}</span></div></sc-for></div>
-              <sc-if value="{{ d.approvalIdle }}" hint-placeholder-val="{{ true }}"><button onClick="{{ d.askApproval }}" style="padding:12px 16px;border-radius:9px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E45D6">Ask Finance to approve</button></sc-if>
-              <sc-if value="{{ d.approvalWaiting }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:#B7BECF"><span style="width:14px;height:14px;border:2px solid #2A3147;border-top-color:#2B5CFF;border-radius:50%;animation:qspin .8s linear infinite;display:inline-block;flex-shrink:0"></span>Waiting for Markus Lang in Moxo</div></sc-if>
-            </div>
-          </sc-if>
-          <sc-if value="{{ d.hasPreview }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-direction:column;gap:12px;border-top:1px solid #1B2135;padding-top:12px;margin-top:2px;animation:qin .28s cubic-bezier(.23,1,.32,1) both">
-              <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">What Sprouts will write to Moxo</div>
-              <div style="display:flex;flex-direction:column"><sc-for list="{{ d.previewRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:7px 0;border-bottom:1px solid #1B2135;font-size:12.5px"><span style="color:#8B93A7">{{ r.l }}</span><span style="font-weight:600;color:#fff;overflow-wrap:anywhere">{{ r.v }}</span></div></sc-for></div>
-              <div style="font-size:11.5px;color:#8B93A7;line-height:1.45">Sent by QOS on behalf of {{ userName }}, and logged that way in the audit trail.</div>
-              <div style="display:flex;gap:8px"><button onClick="{{ d.applyPreview }}" style="flex:1.4;padding:12px 16px;border-radius:9px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E45D6">Apply and send</button><button onClick="{{ d.discardPreview }}" style="flex:1;padding:12px 16px;border-radius:9px;border:1px solid #2A3147;background:#11172A;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#161C2E">Discard</button></div>
-            </div>
-          </sc-if>
-          <sc-if value="{{ d.needsRouting }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-direction:column;gap:12px;animation: {{ d.enter }}">
-            <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid #1B2135;padding-top:12px;margin-top:2px">
-              <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">Partner · {{ d.partnerCount }}</div>
-              <div style="position:relative"><select value="{{ d.partnerSel }}" onChange="{{ d.setPartner }}" style="appearance:none;-webkit-appearance:none;box-sizing:border-box;width:100%;border:1px solid #2A3147;border-radius:9px;padding:10px 32px 10px 12px;font:600 13.5px 'Manrope',sans-serif;color:#fff;background:#11172A;outline:none;cursor:pointer"><sc-for list="{{ d.partnerOpts }}" as="o"><option value="{{ o.v }}" style="color:#0F1424;background:#fff">{{ o.l }}</option></sc-for></select><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8B93A7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none"><path d="M6 9l6 6 6-6"></path></svg></div>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:#2B5CFF;display:grid;place-items:center;font-weight:800;font-size:11.5px">{{ d.selIni }}</div><div style="min-width:0"><div style="font-size:14px;font-weight:700">{{ d.selName }} <span style="font-size:11px;font-weight:600;color:#8B93A7">{{ d.selTag }}</span></div><div style="font-size:11.5px;color:#B7BECF;line-height:1.4">{{ d.selWhy }}</div></div></div>
-            <button onClick="{{ d.route }}" style="padding:12px 16px;border-radius:9px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E45D6">Review and send</button>
-            </div>
-          </sc-if>
-          <sc-if value="{{ d.withPartner }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ d.openPartnerPage }}" style="display:flex;align-items:center;gap:10px;border:0;border-top:1px solid #1B2135;background:transparent;padding:10px 0;cursor:pointer;text-align:left;color:#fff;margin-top:2px"><div style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:#2B5CFF;display:grid;place-items:center;font-weight:800;font-size:11.5px">{{ d.partnerIni }}</div><div><div style="font-size:14px;font-weight:700">{{ d.partner }}</div><div style="font-size:11.5px;color:#B7BECF">{{ d.partnerStat }}</div></div></button>
-            <button onClick="{{ d.remind }}" style="padding:12px 16px;border-radius:9px;border:1px solid #2A3147;background:#11172A;font-weight:700;font-size:14px;cursor:pointer;color:#fff" style-hover="background:#161C2E">Send reminder</button>
-            <sc-if value="{{ d.canReassign }}" hint-placeholder-val="{{ false }}"><button onClick="{{ d.reassign }}" style="padding:12px 16px;border-radius:9px;border:0;background:#B91C1C;font-weight:700;font-size:14px;cursor:pointer;color:#fff">Reassign to {{ d.altPartner }}</button></sc-if>
-          </sc-if>
-          <sc-if value="{{ d.isClosed }}" hint-placeholder-val="{{ false }}"><div style="font-size:16px;font-weight:700;color:#3DDC84;border-top:1px solid #1B2135;padding-top:12px">{{ d.outcomeLabel }}</div></sc-if>
-        </div>
+        <div style="font-size:12.5px;color:#6B7280;line-height:1.5;margin-top:4px"><span style="font-family:'JetBrains Mono',monospace">{{ d.id }}</span> · {{ d.lines }} · {{ d.city }} · from {{ d.requester }}</div>
       </div>
 
       <!-- Tabs -->
-      <div style="display:flex;gap:2px;border-bottom:1px solid #E6E8EE">
-        <sc-for list="{{ d.tabs }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.go }}" style="padding:10px 14px;border:0;border-bottom:2px solid {{ t.line }};background:transparent;font-size:13px;font-weight:700;cursor:pointer;color: {{ t.fg }};margin-bottom:-1px" style-hover="color:#0F1424">{{ t.label }}</button></sc-for>
+      <div style="display:flex;gap:2px;border-bottom:1px solid #E6E8EE;overflow-x:auto">
+        <sc-for list="{{ d.tabs }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.go }}" style="padding:10px 14px;border:0;border-bottom:2px solid {{ t.line }};background:transparent;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;color: {{ t.fg }};margin-bottom:-1px" style-hover="color:#0F1424">{{ t.label }}</button></sc-for>
       </div>
 
-      <sc-if value="{{ d.tabCompany }}" hint-placeholder-val="{{ true }}">
-        <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:6px 22px 20px">
-          <sc-if value="{{ d.noFacts }}" hint-placeholder-val="{{ false }}"><div style="padding:16px 0 4px;font-size:13px;color:#6B7280">No company profile yet. Sprouts adds it once the company is matched.</div></sc-if>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));column-gap:24px">
-            <sc-for list="{{ d.facts }}" as="f" hint-placeholder-count="6"><div style="padding:12px 0;border-bottom:1px solid #EEF0F4;min-width:0;animation: {{ d.enter }}"><div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;font-weight:700">{{ f.l }}</div><div style="font-size:14px;font-weight:700;margin-top:3px;line-height:1.3">{{ f.v }} <sc-if value="{{ f.hasTrend }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:700;color: {{ f.trendFg }}">{{ f.trend }}</span></sc-if></div></div></sc-for>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:32px;margin-top:18px">
-            <div><div style="font-size:13px;font-weight:700">Why {{ d.propensity }}% likely to close</div><div style="font-size:12.5px;color:#6B7280;line-height:1.5;margin-top:3px">{{ d.propensityWhy }}</div><div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
-              <sc-for list="{{ d.scoreParts }}" as="sp" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:minmax(100px,0.9fr) minmax(60px,1fr) 28px;gap:10px;align-items:center;font-size:12px;color:#6B7280"><span>{{ sp.l }}</span><span style="height:4px;background:#EEF0F4;border-radius:2px;overflow:hidden;display:block"><span style="display:block;height:100%;background:#2B5CFF;border-radius:2px;width: {{ sp.pct }}%"></span></span><span style="text-align:right;font-weight:700;color:#0F1424">{{ sp.v }}</span></div></sc-for>
-            </div></div>
-          </div>
-        </div>
-      </sc-if>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+      <!-- Main column -->
+      <div style="flex:1 1 560px;min-width:0;display:flex;flex-direction:column;gap:16px">
 
-      <sc-if value="{{ d.tabSignalsOn }}" hint-placeholder-val="{{ false }}">
-        <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:6px 22px 14px">
-          <sc-for list="{{ d.signals }}" as="s" hint-placeholder-count="4">
-            <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start;padding:14px 0;border-bottom:1px solid #EEF0F4">
-              <div style="min-width:0"><div style="font-size:14px;font-weight:700;line-height:1.3">{{ s.title }}</div><div style="font-size:13px;color:#374151;line-height:1.5;margin-top:2px">{{ s.evidence }}</div><div style="font-size:11.5px;color:#9CA3AF;margin-top:3px">Source · <sc-if value="{{ s.hasUrl }}" hint-placeholder-val="{{ true }}"><a href="{{ s.url }}" target="_blank" rel="noopener noreferrer">{{ s.source }}</a></sc-if><sc-if value="{{ s.noUrl }}" hint-placeholder-val="{{ false }}">{{ s.source }}</sc-if></div></div>
-              <div style="text-align:right;white-space:nowrap"><div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color: {{ s.fg }}">{{ s.verdict }}</div><div style="font-size:11.5px;color:#6B7280;margin-top:2px">{{ s.strengthLabel }}</div></div>
+      <sc-if value="{{ d.tabOverview }}" hint-placeholder-val="{{ true }}">
+        <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:16px 22px 18px;display:flex;flex-direction:column;gap:10px;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#6B7280;font-weight:700">Sprouts read</div><sc-if value="{{ d.canRerun }}" hint-placeholder-val="{{ true }}"><button onClick="{{ d.rerun }}" style="border:0;background:transparent;padding:0;color:#6B7280;font-weight:700;font-size:12px;cursor:pointer" style-hover="color:#2B5CFF">{{ d.rerunLabel }}</button></sc-if></div>
+          <sc-if value="{{ d.pendingLine }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:#6B7280;display:flex;gap:10px;align-items:center;line-height:1.5"><span style="width:14px;height:14px;border:2px solid #C7CCD8;border-top-color:#2B5CFF;border-radius:50%;animation:qspin .8s linear infinite;display:inline-block;flex-shrink:0"></span>{{ d.pendingText }}</div></sc-if>
+          <sc-if value="{{ d.showSummary }}" hint-placeholder-val="{{ true }}"><div style="font-size:15.5px;font-weight:600;line-height:1.5;letter-spacing:-.01em;text-wrap:pretty;max-width:72ch;animation: {{ d.enter }}">{{ d.summary }}</div></sc-if>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:16px 22px 8px;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><div style="font-size:14px;font-weight:700">Buying signals <span style="color:#9CA3AF;font-weight:600">{{ d.signalCountLabel }}</span></div><div style="font-size:11.5px;color:#9CA3AF">Why this company would buy this now · checked against news search</div></div>
+          <sc-for list="{{ d.signals }}" as="s" hint-placeholder-count="3">
+            <div style="padding:14px 0;border-bottom:1px solid {{ s.divider }};min-width:0;animation: {{ d.enter }}">
+              <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span style="font-size:11px;font-weight:700;color:#374151;background:#F1F3F7;padding:2px 8px;border-radius:999px">{{ s.title }}</span><span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background: {{ s.bg }};color: {{ s.fg }}">{{ s.strengthLabel }}</span></div>
+              <div style="font-size:15px;font-weight:700;line-height:1.35;margin-top:7px;letter-spacing:-.01em;max-width:72ch">{{ s.headline }}</div>
+              <sc-if value="{{ s.hasWhy }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#374151;line-height:1.5;margin-top:3px;max-width:72ch">{{ s.whyShort }}</div></sc-if>
+              <div style="display:flex;gap:14px;align-items:baseline;margin-top:6px;font-size:12px;flex-wrap:wrap">
+                <sc-if value="{{ s.hasUrl }}" hint-placeholder-val="{{ true }}"><a href="{{ s.url }}" target="_blank" rel="noopener noreferrer" style="color:#2B5CFF;font-weight:700;text-decoration:none">{{ s.source }} ↗</a></sc-if>
+                <sc-if value="{{ s.noUrl }}" hint-placeholder-val="{{ false }}"><span style="color:#9CA3AF">{{ s.source }}</span></sc-if>
+                <button onClick="{{ s.toggle }}" style="border:0;background:transparent;padding:0;color:#6B7280;font-weight:700;font-size:12px;cursor:pointer" style-hover="color:#0F1424">{{ s.toggleLabel }}</button>
+              </div>
+              <sc-if value="{{ s.open }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#374151;line-height:1.55;margin-top:8px;padding:10px 12px;background:#F7F8FA;border-radius:10px;white-space:pre-line;max-width:72ch">{{ s.details }}</div></sc-if>
             </div>
           </sc-for>
-          <sc-if value="{{ d.noSignals }}" hint-placeholder-val="{{ false }}"><div style="padding:16px 0 4px;font-size:13px;color:#6B7280">No buying signals yet.</div></sc-if>
-          <div style="font-size:11.5px;color:#9CA3AF;padding-top:12px">Picked by Sprouts for this company and product, then checked against web and news search.</div>
+          <sc-if value="{{ d.noSignals }}" hint-placeholder-val="{{ false }}"><div style="padding:14px 0;font-size:13px;color:#6B7280">No buying signals yet.</div></sc-if>
         </div>
       </sc-if>
 
+      <sc-if value="{{ d.tabCompany }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:6px 22px 14px">
+          <sc-if value="{{ d.noFacts }}" hint-placeholder-val="{{ false }}"><div style="padding:16px 0 4px;font-size:13px;color:#6B7280">No company profile yet. Sprouts adds it once the company is matched.</div></sc-if>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));column-gap:24px">
+            <sc-for list="{{ d.facts }}" as="f" hint-placeholder-count="6"><div style="padding:12px 0;border-bottom:1px solid #EEF0F4;min-width:0;animation: {{ d.enter }}"><div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;font-weight:700">{{ f.l }}</div><div style="font-size:14px;font-weight:700;margin-top:3px;line-height:1.3">{{ f.v }}</div></div></sc-for>
+          </div>
+        </div>
+      </sc-if>
       <sc-if value="{{ d.tabPeople }}" hint-placeholder-val="{{ false }}">
         <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:6px 22px 14px">
           <sc-for list="{{ d.people }}" as="p" hint-placeholder-count="3">
@@ -325,6 +271,71 @@ button,select,input{font-family:inherit}
           </div>
         </div>
       </sc-if>
+      </div>
+      <!-- Rail: next step, score, contacts -->
+      <aside style="flex:0 1 340px;min-width:280px;display:flex;flex-direction:column;gap:12px;position:sticky;top:16px">
+        <div style="background: {{ d.actionBg }};color: {{ d.actionFg }};border:1px solid {{ d.actionBorder }};border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:12px;min-width:0">
+          <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">Next step</div>
+          <div style="font-size:18px;font-weight:700;letter-spacing:-.02em;line-height:1.25">{{ d.nextTitle }}</div>
+          <div style="font-size:12.5px;color: {{ d.actionMuted }};line-height:1.5">{{ d.nextText }}</div>
+          <sc-if value="{{ d.needsApproval }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px;border-top:1px solid #1B2135;padding-top:12px;margin-top:2px">
+              <div><div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">Sprouts advice for Finance</div><div style="font-size:15px;font-weight:700;margin-top:4px">{{ d.adviceVerdict }} <span style="font-size:12px;font-weight:600;color:#B7BECF">· {{ d.adviceText }}</span></div></div>
+              <div style="display:flex;flex-direction:column;gap:5px"><sc-for list="{{ d.topSignals }}" as="s" hint-placeholder-count="3"><div style="display:flex;gap:8px;align-items:baseline;font-size:12px;color:#B7BECF;line-height:1.45"><span style="font-weight:800;color:#3DDC84">✓</span><span><b style="color:#fff">{{ s.title }}</b> · {{ s.source }}</span></div></sc-for></div>
+              <sc-if value="{{ d.approvalIdle }}" hint-placeholder-val="{{ true }}"><button onClick="{{ d.askApproval }}" style="padding:12px 16px;border-radius:9px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E45D6">Ask Finance to approve</button></sc-if>
+              <sc-if value="{{ d.approvalWaiting }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:#B7BECF"><span style="width:14px;height:14px;border:2px solid #2A3147;border-top-color:#2B5CFF;border-radius:50%;animation:qspin .8s linear infinite;display:inline-block;flex-shrink:0"></span>Waiting for Markus Lang in Moxo</div></sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ d.hasPreview }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px;border-top:1px solid #1B2135;padding-top:12px;margin-top:2px;animation:qin .28s cubic-bezier(.23,1,.32,1) both">
+              <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">What Sprouts will write to Moxo</div>
+              <div style="display:flex;flex-direction:column"><sc-for list="{{ d.previewRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:7px 0;border-bottom:1px solid #1B2135;font-size:12.5px"><span style="color:#8B93A7">{{ r.l }}</span><span style="font-weight:600;color:#fff;overflow-wrap:anywhere">{{ r.v }}</span></div></sc-for></div>
+              <div style="font-size:11.5px;color:#8B93A7;line-height:1.45">Sent by QOS on behalf of {{ userName }}, and logged that way in the audit trail.</div>
+              <div style="display:flex;gap:8px"><button onClick="{{ d.applyPreview }}" style="flex:1.4;padding:12px 16px;border-radius:9px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E45D6">Apply and send</button><button onClick="{{ d.discardPreview }}" style="flex:1;padding:12px 16px;border-radius:9px;border:1px solid #2A3147;background:#11172A;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#161C2E">Discard</button></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ d.needsRouting }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px;animation: {{ d.enter }}">
+            <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid #1B2135;padding-top:12px;margin-top:2px">
+              <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8B93A7;font-weight:700">Partner · {{ d.partnerCount }}</div>
+              <div style="position:relative"><select value="{{ d.partnerSel }}" onChange="{{ d.setPartner }}" style="appearance:none;-webkit-appearance:none;box-sizing:border-box;width:100%;border:1px solid #2A3147;border-radius:9px;padding:10px 32px 10px 12px;font:600 13.5px 'Manrope',sans-serif;color:#fff;background:#11172A;outline:none;cursor:pointer"><sc-for list="{{ d.partnerOpts }}" as="o"><option value="{{ o.v }}" style="color:#0F1424;background:#fff">{{ o.l }}</option></sc-for></select><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8B93A7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none"><path d="M6 9l6 6 6-6"></path></svg></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:#2B5CFF;display:grid;place-items:center;font-weight:800;font-size:11.5px">{{ d.selIni }}</div><div style="min-width:0"><div style="font-size:14px;font-weight:700">{{ d.selName }} <span style="font-size:11px;font-weight:600;color:#8B93A7">{{ d.selTag }}</span></div><div style="font-size:11.5px;color:#B7BECF;line-height:1.4">{{ d.selWhy }}</div></div></div>
+            <button onClick="{{ d.route }}" style="padding:12px 16px;border-radius:9px;border:0;background:#2B5CFF;color:#fff;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E45D6">Review and send</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ d.withPartner }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ d.openPartnerPage }}" style="display:flex;align-items:center;gap:10px;border:0;border-top:1px solid #1B2135;background:transparent;padding:10px 0;cursor:pointer;text-align:left;color:#fff;margin-top:2px"><div style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:#2B5CFF;display:grid;place-items:center;font-weight:800;font-size:11.5px">{{ d.partnerIni }}</div><div><div style="font-size:14px;font-weight:700">{{ d.partner }}</div><div style="font-size:11.5px;color:#B7BECF">{{ d.partnerStat }}</div></div></button>
+            <button onClick="{{ d.remind }}" style="padding:12px 16px;border-radius:9px;border:1px solid #2A3147;background:#11172A;font-weight:700;font-size:14px;cursor:pointer;color:#fff" style-hover="background:#161C2E">Send reminder</button>
+            <sc-if value="{{ d.canReassign }}" hint-placeholder-val="{{ false }}"><button onClick="{{ d.reassign }}" style="padding:12px 16px;border-radius:9px;border:0;background:#B91C1C;font-weight:700;font-size:14px;cursor:pointer;color:#fff">Reassign to {{ d.altPartner }}</button></sc-if>
+          </sc-if>
+        </div>
+        <sc-if value="{{ d.showFigures }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;animation: {{ d.enter }}">
+            <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#6B7280;font-weight:700">Account score</div>
+            <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap"><span style="font-size:13px;font-weight:800;padding:3px 10px;border-radius:999px;background: {{ d.tierBg }};color: {{ d.tierFg }}">{{ d.tierLabel }}</span><span style="font-size:22px;font-weight:800;letter-spacing:-.03em;color:#0F1424">{{ d.propensity }}%</span><span style="font-size:12.5px;color:#6B7280;font-weight:600">likely to close</span></div>
+            <sc-if value="{{ d.hasWhy }}" hint-placeholder-val="{{ true }}"><div style="font-size:12.5px;color:#374151;line-height:1.5">{{ d.propensityWhy }}</div></sc-if>
+            <div style="display:flex;flex-direction:column;gap:7px;margin-top:2px">
+              <sc-for list="{{ d.scoreParts }}" as="sp" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:88px minmax(0,1fr) 26px;gap:10px;align-items:center;font-size:12px;color:#6B7280"><span>{{ sp.l }}</span><span style="height:4px;background:#EEF0F4;border-radius:2px;overflow:hidden;display:block"><span style="display:block;height:100%;background:#2B5CFF;border-radius:2px;width: {{ sp.pct }}%"></span></span><span style="text-align:right;font-weight:700;color:#0F1424">{{ sp.v }}</span></div></sc-for>
+            </div>
+            <div style="font-size:11px;color:#9CA3AF;line-height:1.45">{{ d.tierHint }} Fit: how closely the account matches HPE’s ideal customer. Intent: how strong its buying signals are.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ d.hasRailPeople }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:14px 18px 10px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#6B7280;font-weight:700">Who to contact</div><button onClick="{{ d.tabPeopleGo }}" style="border:0;background:transparent;padding:0;color:#2B5CFF;font-weight:700;font-size:12px;cursor:pointer">{{ d.allPeopleLabel }}</button></div>
+            <sc-for list="{{ d.railPeople }}" as="c" hint-placeholder-count="3">
+              <div style="padding:10px 0;border-bottom:1px solid {{ c.divider }};min-width:0">
+                <div style="font-size:13px;font-weight:700;line-height:1.3">{{ c.name }} <span style="font-size:11px;font-weight:700;color: {{ c.roleFg }}">· {{ c.role }}</span></div>
+                <sc-if value="{{ c.hasTitle }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#6B7280;line-height:1.35">{{ c.title }}</div></sc-if>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><button onClick="{{ c.findEmail }}" style="padding:3px 8px;border-radius:6px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:'JetBrains Mono',monospace;overflow-wrap:anywhere;text-align:left;border:1px solid {{ c.emailBorder }};background: {{ c.emailBg }};color: {{ c.emailFg }}">{{ c.emailLabel }}</button><button onClick="{{ c.findPhone }}" style="padding:3px 8px;border-radius:6px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:'JetBrains Mono',monospace;white-space:nowrap;border:1px solid {{ c.phoneBorder }};background: {{ c.phoneBg }};color: {{ c.phoneFg }}">{{ c.phoneLabel }}</button></div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </aside>
+      </div>
     </section>
   </sc-if>
 
@@ -481,7 +492,15 @@ let PARTNERS={},PSTATS={};
 const NOP={name:'No partner yet',regions:[],why:'',categories:[]};
 const NOPS={covers:'—',specialty:'—',win:null,open:0,closed:0,won:0,contact:'—'};
 const P=k=>PARTNERS[k]||NOP,PS=k=>PSTATS[k]||NOPS;
-const S=(title,verdict,evidence,strength,source,url)=>({title,verdict,evidence,strength:strength||0,source:source||'web search',url:url||''});const T=(t,actor,text)=>({t,actor,text});
+const T=(t,actor,text)=>({t,actor,text});
+const firstSentence=t=>{const m=(t||'').match(/^[\s\S]*?[.!?](?=\s|$)/);return(m?m[0]:t||'').trim();};
+const clip=(t,n)=>!t||t.length<=n?t||'':t.slice(0,n).replace(/\s+\S*$/,'')+'…';
+// QOS signal -> card. reason is "<finding>\n\nWhy it matters: <why>"; headline is QOS's
+// <=12-word takeaway (signal_verify). Older quotes have no headline and long text, so the
+// card falls back to the finding's first sentence and keeps the full text behind "Details".
+function signalOf(x,source,url){const parts=(x.reason||'').split(/\s*Why it matters:\s*/);const finding=(parts[0]||'').trim(),why=(parts[1]||'').trim();
+  const whyShort=clip(firstSentence(why),220);const details=[finding,why&&why!==whyShort?'Why it matters: '+why:''].filter(Boolean).join('\n\n');
+  return{title:x.name,headline:x.headline||clip(firstSentence(finding),140)||x.name,whyShort,details,strength:Math.round((x.strength||0)*100),source,url:url||''};}
 const CAT={compute:'Servers',storage:'Storage',dc_networking:'Networking',ai_infra:'AI infrastructure'};
 const catLabel=cs=>(cs||[]).map(c=>CAT[c]||c).join(', ');
 // Vendor directory regions (NA / EMEA / APAC / LATAM) vs. the free-text country on a quote.
@@ -518,7 +537,7 @@ function detailToQuote(base,det,hist){const lq=det.quote,e=det.enrichment||{};co
   const company=R('company'),contact=R('contact'),sig=R('signal'),icp=R('icp_score'),msg=R('message');const f=company&&company.firmographics||{};
   const facts=[['Employees',f.employees?f.employees.toLocaleString():null],['Revenue',f.revenue_usd?fmtMoney(f.revenue_usd):null],['Industry',f.industry],['Sub-industry',f.sub_industry],['HQ',f.hq?tc(f.hq):null],['Founded',f.founded_year],['Funding',f.funding_stage],['Tech stack',company&&company.technographics&&company.technographics.length?company.technographics.slice(0,4).join(', '):null]].filter(x=>x[1]);
   const signals=(sig&&sig.selected_signals||[]).map(x=>{const ev=(x.evidence||[])[0]||{};let host='';try{host=ev.url?new URL(ev.url).hostname.replace(/^www\./,''):'';}catch(_){}
-    return S(x.name,x.confidence>=0.7?'confirmed':'partial',x.reason,Math.round((x.strength||0)*100),host||'web search',ev.url);});
+    return signalOf(x,host||'web search',ev.url);});
   const people=(contact&&contact.contacts||[]).map((c,i)=>({name:tc(c.name),title:c.title||'',role:c.seniority||'Suggested',email:c.email,phone:c.phone,why:c.linkedin?'Found by Sprouts · '+c.linkedin:'Found by Sprouts',emailOn:!!c.email,phoneOn:!!c.phone,contactId:c.id,position:i+1}));
   const m=msg&&msg.raw&&msg.raw.data&&msg.raw.data[0]&&msg.raw.data[0].messages&&msg.raw.data[0].messages[0];
   const sc=icp&&icp.scores;const va=det.vendor_assignment;const vendor=va?{vendor_id:va.vendor_id,assignment_status:va.status}:null;
@@ -536,7 +555,7 @@ const EMPTY=listToQuote({quote:{quote_id:'—',company_name:'No quotes yet',cust
 const STAGE={intake:'Sprouts is looking it up',triage:'Pick a partner',assigned:'Waiting for partner to accept',accepted:'Partner to call customer',contacted:'Customer contacted',closed:'Closed'};
 const scoreBg=s=>s==null?'#9CA3AF':s>=70?INK:s>=50?BLUE:'#7C8AA5';
 class Component extends DCLogic{
-  state={quotes:[],sel:null,toast:null,view:'home',tab:'All',partnerSel:null,qtab:'Company',othersOpen:false,preview:null,
+  state={quotes:[],sel:null,toast:null,view:'home',tab:'All',partnerSel:null,qtab:'Overview',sigOpen:{},othersOpen:false,preview:null,
     user:null,booting:true,loading:false,loginEmail:'',loginPassword:'',loginError:'',loginBusy:false,
     cfg:{accept:'24 h',call:'48 h',remind:'6 h',auto:true,threshold:'90%',bar:'80%',credits:'6',esc:'Quote desk · shared inbox',thr:'€250k',tools:{lookup:true,enrich:true,signals:true,contacts:false,email:false,bulk:false}}};
   apiBase(){return(this.props.apiBase||(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://localhost:8000':'/qos')).replace(/\/$/,'');}
@@ -585,7 +604,7 @@ class Component extends DCLogic{
   pill(q){if(q.stage==='closed')return{pill:q.outcome||'Closed',pillBg:q.outcome==='Won'?'#DCFCE7':'#F3F4F6',pillFg:q.outcome==='Won'?GREEN:GREY};if(q.stage==='intake')return{pill:'Running',pillBg:'#EEF2FF',pillFg:BLUE};
     if(q.stage==='triage')return q.assignmentStatus==='declined'?{pill:'Declined',pillBg:'#FEE2E2',pillFg:RED}:{pill:'Needs you',pillBg:'#FEF3C7',pillFg:AMBER};
     if(q.stage==='assigned')return{pill:'Awaiting accept',pillBg:'#FEF3C7',pillFg:AMBER};return{pill:q.stage==='contacted'?'On track':'Accepted',pillBg:'#DCFCE7',pillFg:GREEN};}
-  openQuote(id){this.setState({view:'quote',sel:id,qtab:'Company',othersOpen:false});this.loadDetail(id);}
+  openQuote(id){this.setState({view:'quote',sel:id,qtab:'Overview',othersOpen:false});this.loadDetail(id);}
   // assign-vendor the first time; reassign-vendor once the quote already has an assignment (e.g. declined).
   async route(id,pid){const q=this.find(id);if(!q||this._busy)return;this._busy=true;this.setState({preview:null,othersOpen:false});
     try{await this.api('/quotes/'+encodeURIComponent(id)+(q.hasAssignment?'/reassign-vendor':'/assign-vendor'),{method:'POST',body:{vendor_id:pid}});
@@ -621,7 +640,7 @@ class Component extends DCLogic{
     const needsMe=all.filter(x=>x.stage==='triage');const withP=all.filter(x=>['assigned','accepted','contacted'].includes(x.stage));const closed=all.filter(x=>x.stage==='closed');
     const navDefs=[['home','Home'],['quotes','Quotes'],['partners','Partners'],['settings','Settings']];
     const navItems=navDefs.map(([v,label])=>({label,go:go(v),bg:(s.view===v||(v==='quotes'&&s.view==='quote')||(v==='partners'&&s.view==='partner'))?'#1B2238':'transparent',fg:(s.view===v||(v==='quotes'&&s.view==='quote')||(v==='partners'&&s.view==='partner'))?'#fff':'#B7BECF',hasBadge:v==='quotes'&&needsMe.length>0,badge:needsMe.length}));
-    const titles={home:['Home','what needs you today'],quotes:['Quotes',all.length+' quotes · '+withP.length+' with partners'],quote:['Quote',q.id],partners:['Partners',Object.keys(PARTNERS).length+' partners · '+withP.length+' quotes with them'],partner:['Partner',''],settings:['Settings','preview only · not connected yet']};
+    const titles={home:['Home','what needs you today'],quotes:['Quotes',all.length+' quotes · '+withP.length+' with partners'],quote:['Quote',''],partners:['Partners',Object.keys(PARTNERS).length+' partners · '+withP.length+' quotes with them'],partner:['Partner',''],settings:['Settings','preview only · not connected yet']};
     const needs=[...needsMe.map(x=>{const sug=x.suggestedId||x.partnerId||Object.keys(PARTNERS)[0];return{x,ask:x.assignmentStatus==='declined'?P(x.partnerId).name+' declined · pick another partner':'Pick a partner',askFg:x.assignmentStatus==='declined'?RED:AMBER,primaryLabel:'Review and send',primary:()=>x.assignmentStatus==='declined'?this.reassign(x.id):this.stagePreview(x.id,sug),openLabel:'Open',open:openQ(x.id),hasPrimary:!!sug};}),
       ...all.filter(x=>x.stage==='intake').map(x=>({x,ask:'Sprouts is looking up the company',askFg:BLUE,hasPrimary:false,openLabel:'Open',open:openQ(x.id)}))].map(n=>({...n.x,ask:n.ask,askFg:n.askFg,primaryLabel:n.primaryLabel,primary:n.primary,openLabel:n.openLabel,open:n.open,hasPrimary:n.hasPrimary}));
     const kpis=[{v:needsMe.length,l:'need a partner',color:AMBER,go:()=>this.setState({view:'quotes',tab:'Needs me'})},{v:withP.length,l:'with partners',color:INK,go:()=>this.setState({view:'quotes',tab:'With partners'})},{v:all.filter(x=>x.stage==='intake').length,l:'being researched',color:BLUE,go:()=>this.setState({view:'quotes',tab:'All'})},{v:closed.length,l:'closed',color:GREEN,go:()=>this.setState({view:'quotes',tab:'Closed'})}];
@@ -644,7 +663,8 @@ class Component extends DCLogic{
     st.perQuote=TOOLS.filter(t=>cfg.tools[t[0]]&&t[0]!=='bulk').reduce((a,t)=>a+t[3],0)+' credits';
     st.esc=cfg.esc;st.escOpen=!!s.escOpen;st.toggleEsc=()=>this.setState(x=>({escOpen:!x.escOpen}));st.escOpts=[userName+' · quote desk','Quote desk · shared inbox'].map(o=>({label:o,mark:cfg.esc===o?'✓':'',bg:cfg.esc===o?'#F5F6F8':'#fff',pick:()=>{this.setState(x=>({escOpen:false,cfg:{...x.cfg,esc:o}}));this.toast('Escalations now go to '+o.split(' · ')[0]+'.');}}));
     const d={...q,...this.pill(q),scoreLabel:q.score==null?'—':String(q.score),scoreBg:scoreBg(q.score),intelReady:q.stage!=='intake'&&q.loaded,
-      facts:q.facts.map(([l,v])=>({l,v,trend:'',hasTrend:false,trendFg:GREY})),signals:q.signals.map(x=>({...x,bg:x.verdict==='confirmed'?'#DCFCE7':'#FEF3C7',fg:x.verdict==='confirmed'?GREEN:AMBER,strengthLabel:x.strength>=75?'strong':x.strength>=55?'solid':'weak',hasUrl:!!x.url,noUrl:!x.url})),
+      facts:q.facts.map(([l,v])=>({l,v,trend:'',hasTrend:false,trendFg:GREY})),signals:q.signals.map((x,i,all)=>{const k=q.id+':'+i,open=!!s.sigOpen[k];return{...x,bg:x.strength>=75?'#DCFCE7':x.strength>=55?'#FEF3C7':'#F1F3F7',fg:x.strength>=75?GREEN:x.strength>=55?AMBER:GREY,strengthLabel:x.strength>=75?'Strong evidence':x.strength>=55?'Some evidence':'Weak evidence',hasUrl:!!x.url,noUrl:!x.url,hasWhy:!!x.whyShort,
+        open:open&&!!x.details,toggleLabel:x.details?(open?'Hide details':'Details'):'',toggle:()=>this.setState(st=>({sigOpen:{...st.sigOpen,[k]:!st.sigOpen[k]}})),divider:i===all.length-1?'transparent':'#EEF0F4'};}),
       signalCount:q.signals.length?q.signals.length+' found':'',propensity:q.propensity||0,propensityWhy:q.propensityWhy||'',scoreParts:(q.scoreParts||[]).map(([l,v,m])=>({l,v,pct:Math.round((v||0)/m*100)})),
       tierLabel:q.tier||'—',tierSub:q.intent!=null?'intent '+q.intent+' / 100':'not scored yet',
       partner:p.name,partnerIni:ini(p.name),partnerWhy:p.why||'',needsRouting:q.stage==='triage'&&q.id!=='—',route:()=>q.assignmentStatus==='declined'?this.reassign(q.id):this.stagePreview(q.id,q.partnerId),withPartner:['assigned','accepted','contacted'].includes(q.stage),remind:()=>this.remind(q.id),isClosed:q.stage==='closed',outcomeLabel:q.outcome||'',outcomeBg:q.outcome==='Won'?GREEN:INK,
@@ -653,7 +673,7 @@ class Component extends DCLogic{
       people:q.contacts.map((c,i)=>({...c,ini:ini(c.name),roleFg:c.role==='Requester'?BLUE:PURPLE,emailLabel:c.looking?'Looking…':c.emailOn?(c.email||'No email found'):'Find email · 1 credit',phoneLabel:c.looking?'Looking…':c.noPhone?'No phone on file':c.phoneOn?(c.phone||'No phone found'):'Find phone · 2 credits',emailFg:c.emailOn?'#0F1424':BLUE,phoneFg:c.phoneOn||c.noPhone?'#0F1424':BLUE,emailBg:c.emailOn?'#F5F6F8':'#fff',phoneBg:c.phoneOn||c.noPhone?'#F5F6F8':'#fff',emailBorder:c.emailOn?'#F5F6F8':'#C7D2FE',phoneBorder:c.phoneOn||c.noPhone?'#F5F6F8':'#C7D2FE',findEmail:()=>{if(!c.emailOn&&!c.looking)this.reveal(q.id,i,'email');},findPhone:()=>{if(!c.phoneOn&&!c.noPhone&&!c.looking)this.reveal(q.id,i,'phone');}})),
       escalateHint:q.contacts[1]?'If '+(q.contacts[0].name||'').split(' ')[0]+' does not respond, go to '+q.contacts[1].name+(q.contacts[1].title?' ('+q.contacts[1].title+')':'')+'.':'',
       timeline:[...q.timeline].reverse().map(t=>({...t,fg:t.actor.startsWith('Sprouts')?BLUE:t.actor==='Moxo'?PURPLE:'#0F1424'}))};
-    d.nextTitle=q.stage==='intake'?'Sprouts is researching':q.stage==='triage'?(q.assignmentStatus==='declined'?'Partner declined · pick another':'Pick a partner'):q.stage==='assigned'?'Waiting for '+p.name+' to accept':q.stage==='accepted'?p.name+' to call the customer':q.stage==='contacted'?'Customer contacted · waiting for the outcome':'Closed · '+(q.outcome||'');
+    d.nextTitle=q.stage==='intake'?'Sprouts is researching':q.stage==='triage'?(q.assignmentStatus==='declined'?'Partner declined · pick another':'Pick a partner'):q.stage==='assigned'?'Waiting for '+p.name+' to accept':q.stage==='accepted'?p.name+' to call the customer':q.stage==='contacted'?'Customer contacted · waiting for the outcome':(q.outcome&&q.outcome!=='Closed'?'Closed · '+q.outcome:'Closed');
     d.nextText=q.stage==='intake'?'Company, contacts, signals and score arrive from Moxo’s enrichment step. This page checks every few seconds.':q.stage==='triage'?'Sending assigns the partner on the Moxo workflow and approves “Assign to partner”, so they get the accept step right away.':q.stage==='assigned'?'Moxo asks them to accept from their link. Send a reminder if it stalls, or move it to another partner.':q.stage==='accepted'?'Accepted. They contact the customer next; Sprouts gave them the contacts.':q.stage==='contacted'?'The partner is working the deal. The outcome comes back from Moxo.':'This quote is closed in Moxo.';
     const pst=PS(q.partnerId);d.partnerStat=(pst.win==null?'no closed quotes yet':pst.win+'% win rate')+' · '+pst.open+' open';
     const pv=s.preview&&s.preview.id===q.id&&q.stage==='triage'?s.preview:null;
@@ -665,8 +685,12 @@ class Component extends DCLogic{
     d.flow=fl.map(([name,who,kind,done,active])=>({name,who,kind,kindFg:KIND[kind][0],kindBg:KIND[kind][1],dot:done?GREEN:active?BLUE:'#fff',ring:done?GREEN:active?BLUE:'#D1D5DB',fg:done||active?'#0F1424':'#9CA3AF',state:done?'done':active?'now':'',stateFg:active?BLUE:GREY}));
     d.flowSub=q.flowId==='—'?'no workflow yet':'flow '+q.flowId.slice(0,8);d.exportLog=()=>this.toast('CSV export isn’t connected yet.');
     d.enter='none';d.titleEnter='none';d.pendingLine=q.loading||q.enriching||q.stage==='intake';d.pendingText=q.loading?'Loading…':q.enriching?(q.enrichStep||'Refreshing')+'…':'Sprouts is researching this company. This page updates by itself.';
-    d.showSummary=!!q.summary&&!q.loading;d.showFigures=q.score!=null&&!q.loading;d.hasSignals=q.signals.length>0;d.rerun=()=>this.rerun(q.id);d.rerunLabel=q.enriching?'Refreshing…':'Refresh Sprouts data';d.canRerun=q.id!=='—';
-    const qtabs=['Company','Signals','People','Partner','Activity'];d.tabs=qtabs.map(t=>({label:t+(t==='Signals'&&d.signalCount?' '+q.signals.length:t==='People'?' '+q.contacts.length:''),go:()=>this.setState({qtab:t}),line:s.qtab===t?BLUE:'transparent',fg:s.qtab===t?INK:'#6B7280'}));
+    d.showSummary=!!q.summary&&!q.loading;d.showFigures=q.score!=null&&!q.loading;d.hasSignals=q.signals.length>0;d.rerun=()=>this.rerun(q.id);d.rerunLabel=q.enriching?'Re-running…':'Re-run research';d.canRerun=q.id!=='—';
+    const dark=q.stage!=='closed';d.actionBg=dark?INK:'#fff';d.actionFg=dark?'#fff':'#0F1424';d.actionBorder=dark?INK:'#E6E8EE';d.actionMuted=dark?'#B7BECF':GREY;
+    d.signalCountLabel=q.signals.length?String(q.signals.length):'';d.hasWhy=!!d.propensityWhy;
+    const TIER={Hot:['#FEE2E2',RED],Warm:['#FEF3C7',AMBER],Cool:['#EEF2FF',BLUE],Cold:['#F1F3F7',GREY]}[q.tier]||['#F1F3F7',GREY];d.tierBg=TIER[0];d.tierFg=TIER[1];d.tierHint={Hot:'Hot: fit and intent both clear their bar.',Warm:'Warm: fit or intent clears its bar, not both.',Cold:'Cold: neither fit nor intent clears its bar.'}[q.tier]||'';d.scoreParts=d.scoreParts.filter(x=>x.l!=='Likely to close');
+    d.railPeople=d.people.slice(0,3).map((c,i,a)=>({...c,hasTitle:!!c.title,divider:i===a.length-1?'transparent':'#EEF0F4'}));d.hasRailPeople=d.railPeople.length>0;d.tabPeopleGo=()=>this.setState({qtab:'People'});d.allPeopleLabel=q.contacts.length>3?'All '+q.contacts.length+' →':'Details →';
+    const qtabs=['Overview','Company','People','Partner','Activity'];d.tabs=qtabs.map(t=>({label:t+(t==='People'?' '+q.contacts.length:''),go:()=>this.setState({qtab:t}),line:s.qtab===t?BLUE:'transparent',fg:s.qtab===t?INK:'#6B7280'}));
     // Partner dropdown: every partner from GET /vendors (the Moxo partner Data Table), defaulting to the
     // suggested one - or, after a decline, to another partner (altFor) as the old reassign did.
     const sugPid=q.suggestedId||q.partnerId,defPid=q.assignmentStatus==='declined'?(this.altFor(q)||q.partnerId):q.partnerId;
@@ -677,7 +701,7 @@ class Component extends DCLogic{
     d.selName=sp.name;d.selIni=ini(sp.name);d.selWhy=sp.why||'';d.selTag=selPid===sugPid?'· suggested':'';
     d.route=()=>this.stagePreview(q.id,selPid);
     d.othersOpen=s.othersOpen;d.toggleOthers=()=>this.setState(x=>({othersOpen:!x.othersOpen}));d.othersLabel=s.othersOpen?'Hide other partners':'Choose a different partner';d.otherRows=Object.keys(PARTNERS).filter(k=>k!==q.partnerId).map(k=>({name:P(k).name,ini:ini(P(k).name),meta:PS(k).covers+' · '+PS(k).specialty,pick:()=>this.stagePreview(q.id,k)}));
-    d.tabCompany=s.qtab==='Company';d.tabSignalsOn=s.qtab==='Signals';d.tabPeople=s.qtab==='People';d.tabPartner=s.qtab==='Partner';d.tabActivity=s.qtab==='Activity';d.tabSignals=()=>this.setState({qtab:'Signals'});
+    d.tabOverview=s.qtab==='Overview';d.tabCompany=s.qtab==='Company';d.tabPeople=s.qtab==='People';d.tabPartner=s.qtab==='Partner';d.tabActivity=s.qtab==='Activity';d.tabSignals=()=>this.setState({qtab:'Signals'});
     d.topSignals=d.signals.slice(0,3);d.moreSignalsLabel=d.signals.length>3?'See all '+d.signals.length+' signals →':'See the evidence →';d.propensityShort=d.propensity>=75?'high':d.propensity>=55?'medium':'low';d.noPartnerYet=!d.showPartner;d.noFacts=q.loaded&&!q.facts.length;d.noSignals=q.loaded&&!q.signals.length;
     const altK=this.altFor(q);d.canReassign=q.stage==='assigned'&&!!altK;d.altPartner=altK?P(altK).name:'';d.reassign=()=>this.reassign(q.id);d.openPartnerPage=openP(q.partnerId);
     const tri=needsMe.length;const statusLine=tri?(tri===1?'One quote needs a partner.':tri+' quotes need a partner.'):all.length?'Nothing needs you. Every quote is with a partner or being researched.':'No quotes yet.';
