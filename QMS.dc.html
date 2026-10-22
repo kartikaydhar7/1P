@@ -166,7 +166,7 @@ button,select,input{font-family:inherit}
         <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:16px 22px 18px;display:flex;flex-direction:column;gap:10px;min-width:0">
           <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#6B7280;font-weight:700">Sprouts read</div><sc-if value="{{ d.canRerun }}" hint-placeholder-val="{{ true }}"><button onClick="{{ d.rerun }}" style="border:0;background:transparent;padding:0;color:#6B7280;font-weight:700;font-size:12px;cursor:pointer" style-hover="color:#2B5CFF">{{ d.rerunLabel }}</button></sc-if></div>
           <sc-if value="{{ d.pendingLine }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:#6B7280;display:flex;gap:10px;align-items:center;line-height:1.5"><span style="width:14px;height:14px;border:2px solid #C7CCD8;border-top-color:#2B5CFF;border-radius:50%;animation:qspin .8s linear infinite;display:inline-block;flex-shrink:0"></span>{{ d.pendingText }}</div></sc-if>
-          <sc-if value="{{ d.showSummary }}" hint-placeholder-val="{{ true }}"><div style="font-size:15.5px;font-weight:600;line-height:1.5;letter-spacing:-.01em;text-wrap:pretty;max-width:72ch;animation: {{ d.enter }}">{{ d.summary }}</div></sc-if>
+          <sc-if value="{{ d.showSummary }}" hint-placeholder-val="{{ true }}"><div style="font-size:15.5px;font-weight:500;line-height:1.6;letter-spacing:-.01em;text-wrap:pretty;max-width:72ch;color:#1F2937;animation: {{ d.enter }}"><sc-for list="{{ d.summaryParts }}" as="h" hint-placeholder-count="3"><span style="font-weight: {{ h.fw }};color: {{ h.fg }};background: {{ h.bg }};padding: {{ h.pad }};border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone">{{ h.t }}</span></sc-for></div></sc-if>
         </div>
 
         <div style="background:#fff;border:1px solid #E6E8EE;border-radius:14px;padding:16px 22px 8px;min-width:0">
@@ -494,6 +494,14 @@ const NOPS={covers:'—',specialty:'—',win:null,open:0,closed:0,won:0,contact:
 const P=k=>PARTNERS[k]||NOP,PS=k=>PSTATS[k]||NOPS;
 const T=(t,actor,text)=>({t,actor,text});
 const firstSentence=t=>{const m=(t||'').match(/^[\s\S]*?[.!?](?=\s|$)/);return(m?m[0]:t||'').trim();};
+// Key facts in the Sprouts read summary. QOS sends summary_highlights (phrases the summary
+// LLM picked, each verbatim in the text); older quotes without them fall back to this
+// pattern: money, percentages, dates and HPE model names.
+const HL=/\$\s?\d[\d,.]*(?:\s?(?:billion|million|trillion|bn|[BMK])\b)?|\b\d+(?:\.\d+)?\s?%|\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}(?:,?\s+20\d\d)?\b|\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+20\d\d\b|\bQ[1-4]\s+20\d\d\b|\b(?:DL|ML|XD)\d{2,3}a?(?:\s+Gen1[0-2])?\b|\bAlletra(?:\s+\d{4})?\b|\bStoreOnce(?:\s+\d{4})?\b|\bCX\s?\d{4,5}\b/gi;
+const esc=x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const highlight=(t,phrases)=>{const ps=(phrases||[]).filter(Boolean).sort((a,b)=>b.length-a.length);const re=ps.length?new RegExp(ps.map(esc).join('|'),'g'):HL;
+  const out=[];let last=0;for(const m of(t||'').matchAll(re)){if(m.index>last)out.push([t.slice(last,m.index),false]);out.push([m[0],true]);last=m.index+m[0].length;}if(last<(t||'').length)out.push([t.slice(last),false]);
+  return out.map(([s,on])=>({t:s,fw:on?'700':'inherit',fg:on?'#0B0F1C':'inherit',bg:on?'#FFF1B8':'transparent',pad:on?'0 2px':'0'}));};
 const clip=(t,n)=>!t||t.length<=n?t||'':t.slice(0,n).replace(/\s+\S*$/,'')+'…';
 // QOS signal -> card. reason is "<finding>\n\nWhy it matters: <why>"; headline is QOS's
 // <=12-word takeaway (signal_verify). Older quotes have no headline and long text, so the
@@ -524,7 +532,7 @@ function requesterContact(lq){return{name:lq.customer_name,title:'',role:'Reques
 function listToQuote(row){const lq=row.quote,sc=row.latest_score&&row.latest_score.scores,v=row.vendor;
   const stage=stageOf(lq.status,!!sc,v);
   return{id:lq.quote_id,store:'Web store',country:lq.country||'',city:lq.country||'',account:lq.company_name,domain:lq.domain,requester:lq.customer_name,requesterEmail:lq.customer_email,lines:linesOf(lq.line_items),
-    score:sc?sc.fit:null,propensity:sc?sc.propensity:0,intent:sc?sc.intent:null,tier:sc?sc.tier:null,value:sc?sc.tier+' tier':'Not scored',summary:row.latest_score?row.latest_score.summary:'',
+    score:sc?sc.fit:null,propensity:sc?sc.propensity:0,intent:sc?sc.intent:null,tier:sc?sc.tier:null,value:sc?sc.tier+' tier':'Not scored',summary:row.latest_score?row.latest_score.summary:'',summaryHighlights:row.latest_score&&row.latest_score.summary_highlights||[],
     propensityWhy:sc?whyOf(sc):'',scoreParts:sc?[['Fit',sc.fit,100],['Intent',sc.intent,100],['Likely to close',sc.propensity,100]]:[],upsell:null,
     stage,outcome:stage==='closed'?(lq.status==='expired'?'Expired':'Closed'):null,partnerId:v?v.vendor_id:null,assignmentStatus:v?v.assignment_status:null,hasAssignment:!!v,
     flowId:lq.flow_id||'—',dueInH:null,facts:[],signals:[],contacts:[requesterContact(lq)],categories:[],draft:'',submittedAt:lq.submitted_at,
@@ -545,7 +553,7 @@ function detailToQuote(base,det,hist){const lq=det.quote,e=det.enrichment||{};co
   const events=(hist&&hist.events||[]).slice().reverse().map(ev=>T(fmtT(ev.created_at),ev.actor||'Moxo',ev.action+(ev.reason?' · '+ev.reason:'')));
   const q={...base,account:company&&company.account&&company.account.name||lq.company_name,city:[f.city?tc(f.city):'',lq.country].filter(Boolean).join(', '),facts,signals,
     contacts:[requesterContact(lq),...people],categories:sig&&sig.normalized&&sig.normalized.product_categories||[],draft:m?stripHtml(m.message):'',draftSubject:m?m.subject:'',
-    score:sc?sc.fit:null,propensity:sc?sc.propensity:0,intent:sc?sc.intent:null,tier:sc?sc.tier:null,value:sc?sc.tier+' tier':'Not scored',summary:icp?icp.summary:'',
+    score:sc?sc.fit:null,propensity:sc?sc.propensity:0,intent:sc?sc.intent:null,tier:sc?sc.tier:null,value:sc?sc.tier+' tier':'Not scored',summary:icp?icp.summary:'',summaryHighlights:icp&&icp.summary_highlights||[],
     propensityWhy:sc?whyOf(sc):'',scoreParts:sc?[['Fit',sc.fit,100],['Intent',sc.intent,100],['Likely to close',sc.propensity,100]]:[],
     stage,outcome:stage==='closed'?(lq.status==='expired'?'Expired':'Closed'):null,partnerId:vendor?vendor.vendor_id:null,assignmentStatus:vendor?vendor.assignment_status:null,hasAssignment:!!vendor,flowId:lq.flow_id||'—',
     timeline:[T(fmtT(lq.submitted_at),'Web store','Quote request received'),...events],loaded:true,loading:false};
@@ -687,7 +695,7 @@ class Component extends DCLogic{
     d.enter='none';d.titleEnter='none';d.pendingLine=q.loading||q.enriching||q.stage==='intake';d.pendingText=q.loading?'Loading…':q.enriching?(q.enrichStep||'Refreshing')+'…':'Sprouts is researching this company. This page updates by itself.';
     d.showSummary=!!q.summary&&!q.loading;d.showFigures=q.score!=null&&!q.loading;d.hasSignals=q.signals.length>0;d.rerun=()=>this.rerun(q.id);d.rerunLabel=q.enriching?'Re-running…':'Re-run research';d.canRerun=q.id!=='—';
     const dark=q.stage!=='closed';d.actionBg=dark?INK:'#fff';d.actionFg=dark?'#fff':'#0F1424';d.actionBorder=dark?INK:'#E6E8EE';d.actionMuted=dark?'#B7BECF':GREY;
-    d.signalCountLabel=q.signals.length?String(q.signals.length):'';d.hasWhy=!!d.propensityWhy;
+    d.summaryParts=highlight(q.summary,q.summaryHighlights);d.signalCountLabel=q.signals.length?String(q.signals.length):'';d.hasWhy=!!d.propensityWhy;
     const TIER={Hot:['#FEE2E2',RED],Warm:['#FEF3C7',AMBER],Cool:['#EEF2FF',BLUE],Cold:['#F1F3F7',GREY]}[q.tier]||['#F1F3F7',GREY];d.tierBg=TIER[0];d.tierFg=TIER[1];d.tierHint={Hot:'Hot: fit and intent both clear their bar.',Warm:'Warm: fit or intent clears its bar, not both.',Cold:'Cold: neither fit nor intent clears its bar.'}[q.tier]||'';d.scoreParts=d.scoreParts.filter(x=>x.l!=='Likely to close');
     d.railPeople=d.people.slice(0,3).map((c,i,a)=>({...c,hasTitle:!!c.title,divider:i===a.length-1?'transparent':'#EEF0F4'}));d.hasRailPeople=d.railPeople.length>0;d.tabPeopleGo=()=>this.setState({qtab:'People'});d.allPeopleLabel=q.contacts.length>3?'All '+q.contacts.length+' →':'Details →';
     const qtabs=['Overview','Company','People','Partner','Activity'];d.tabs=qtabs.map(t=>({label:t+(t==='People'?' '+q.contacts.length:''),go:()=>this.setState({qtab:t}),line:s.qtab===t?BLUE:'transparent',fg:s.qtab===t?INK:'#6B7280'}));
