@@ -15,6 +15,7 @@ one page with real data, read from the QOS API (moxo-poc) behind a sign-in. See
 | `/onboarding` | `onboarding.html` | Standalone onboarding flow. |
 | `/qms` | `qms.html` | Standalone QMS screen. |
 | `/uw` | `uw.html` | Standalone UW screen. |
+| `/website-redeign` | `website-redeign/index.html` | Marketing site redesign, unpacked from `sprouts-site.zip`. Its asset paths are absolute (`/website-redeign/...`) because `trailingSlash: false` would make relative paths resolve from `/`. |
 
 `/app` redirects to `/`.
 

@@ -1,0 +1,17 @@
+{
+  "fonts": [
+    {"name": "Manrope (variable)", "author": "Mikhail Sharanda", "license": "SIL Open Font License 1.1", "source": "https://github.com/sharanda/manrope", "file": "fonts/manrope-latin-wght.woff2"},
+    {"name": "Newsreader (variable, italic and roman)", "author": "Production Type", "license": "SIL Open Font License 1.1", "source": "https://github.com/productiontype/Newsreader", "file": "fonts/newsreader-latin-opsz-*.woff2"}
+  ],
+  "code": [
+    {"name": "scroll-craft engine (scrollcraft.js, scrollcraft.css, device-diag.html)", "author": "Nate Herk", "license": "MIT", "source": "https://github.com/nateherkai/scroll-craft", "note": "copied unchanged"},
+    {"name": "scrub-hero.js / scrub-hero.css", "author": "KD website design skill (original engine)", "license": "project", "note": "copied unchanged"},
+    {"name": "GSAP 3", "author": "Webflow", "license": "GSAP Standard License (free for all uses since 3.13)", "source": "https://gsap.com", "file": "gsap.min.js"},
+    {"name": "HyperFrames (film renderer)", "author": "HeyGen", "license": "Apache-2.0", "source": "https://hyperframes.heygen.com", "note": "used to render assets/hero.mp4 and assets/hero-phone.mp4; not shipped"}
+  ],
+  "imagery": [
+    {"name": "Product screens (assets/screens/*, hero films and posters)", "owner": "Sprouts.ai", "source": "captures of the Sprouts Discover prototype, Oct 2026", "note": "sample data; the greeting persona is Karan C."},
+    {"name": "Customer logos (assets/logos/*)", "owner": "the respective companies", "source": "as published on sprouts.ai in Oct 2026", "note": "customers' marks shown with the same permission sprouts.ai already carries"},
+    {"name": "Sprouts mark (assets/mark-*.png, favicon.ico)", "owner": "Sprouts.ai", "source": "the prototype's app icon"}
+  ]
+}
