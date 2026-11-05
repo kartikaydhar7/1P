@@ -16,6 +16,7 @@ one page with real data, read from the QOS API (moxo-poc) behind a sign-in. See
 | `/qms` | `qms.html` | Standalone QMS screen. |
 | `/uw` | `uw.html` | Standalone UW screen. |
 | `/website-redeign` | `website-redeign/index.html` | Marketing site redesign, unpacked from `sprouts-site.zip`. Its asset paths are absolute (`/website-redeign/...`) because `trailingSlash: false` would make relative paths resolve from `/`. |
+| `/accountOS` | `accountOS.html` | Account Intelligence prototype: the one-file build (`npm run build:single`) of the separate `Account-Intelligence 2.0` repo, copied in by hand. Its routes are hash-based (`/accountOS#/account-intelligence`). The path is case-sensitive. |
 
 `/app` redirects to `/`.
 
