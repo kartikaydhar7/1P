@@ -217,7 +217,7 @@
       </button>
       <button onClick="{{ goDialer }}" title="Dialer" style-hover="background:rgba(var(--accent-rgb),.06)" style="display:flex;align-items:center;gap:10px;padding:6px 10px;border:none;cursor:pointer;border-radius:9px;width:100%;text-align:left;background:{{ nav.dialer.bg }};box-shadow:{{ nav.dialer.ring }};">
         <span style="display:flex;color:{{ nav.dialer.icol }};"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"></path></svg></span>
-        <span style="font:500 13px 'Pliant',sans-serif;color:{{ nav.dialer.col }};flex:1;">Dialer</span>
+        <span style="font:500 13px 'Pliant',sans-serif;color:{{ nav.dialer.col }};flex:1;display:flex;align-items:center;gap:6px;">Dialer<span title="Your calls left today" style="margin-left:auto;font:600 10px 'Pliant Mono';color:var(--accent-hover);background:var(--accent-soft);border-radius:9px;padding:1px 7px;">{{ rdNavN }}</span></span>
       </button>
       
 
@@ -4133,9 +4133,9 @@
             </div>
           </div>
           
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-6px 0 12px;flex:0 0 auto;">
+          <sc-if value="{{ dlShowRules }}" hint-placeholder-val=""><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-6px 0 12px;flex:0 0 auto;">
             <sc-for list="{{ dlRules }}" as="dr" hint-placeholder-count="4"><button onClick="{{ dr.go }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--surface-2);border-radius:999px;padding:4px 10px 4px 7px;font:500 11.5px 'Pliant',sans-serif;color:var(--text);cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)"><span style="width:7px;height:7px;border-radius:50%;background:{{ dr.c }};"></span>{{ dr.l }}</button></sc-for>
-          </div>
+          </div></sc-if>
           <sc-if value="{{ dlIsAgents }}" hint-placeholder-val="">
           <div class="cx-scroll" style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(290px,.8fr);gap:16px;align-items:start;align-content:start;">
             <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
@@ -4301,7 +4301,520 @@
             </div>
           </div>
           </sc-if>
-          <sc-if value="{{ dlIsManual }}" hint-placeholder-val="{{ true }}">
+          <!-- Rep dialer: queue, calling session, wrap-up, call log, results, settings -->
+          <sc-if value="{{ rdOn }}" hint-placeholder-val="{{ true }}">
+          <div class="cx-scroll" style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:16px;padding-bottom:8px;">
+            <sc-if value="{{ rdShowTabs }}" hint-placeholder-val="{{ true }}">
+            <div role="tablist" aria-label="Dialer" style="display:flex;flex-wrap:wrap;gap:18px;border-bottom:1px solid var(--border-soft);flex:0 0 auto;">
+              <sc-for list="{{ rdTabs }}" as="rt" hint-placeholder-count="4"><button role="tab" aria-selected="{{ rt.sel }}" onClick="{{ rt.pick }}" style="border:none;background:transparent;cursor:pointer;padding:9px 2px;font:{{ rt.w }} 12.5px 'Pliant',sans-serif;color:{{ rt.col }};box-shadow:inset 0 -2px 0 {{ rt.bd }};white-space:nowrap;">{{ rt.l }}</button></sc-for>
+              <span style="margin-left:auto;align-self:center;font:500 10.5px 'Pliant Mono';color:var(--text-muted);">{{ rdTabNote }}</span>
+            </div>
+            </sc-if>
+
+            <!-- ===== QUEUE ===== -->
+            <sc-if value="{{ rdIsQueue }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
+              <div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 24px;">
+                  <div style="flex:1 1 320px;"><h2 style="margin:0;font:600 22px 'Pliant',sans-serif;letter-spacing:-0.02em;color:var(--text);">{{ rdHeadline }}</h2><p role="status" style="margin:6px 0 0;font:400 13px 'Pliant',sans-serif;color:var(--text-secondary);">{{ rdSubline }}</p></div>
+                  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;">
+                    <span role="group" aria-label="Whose calls" style="display:inline-flex;gap:2px;background:var(--surface-soft);border-radius:999px;padding:3px;"><sc-for list="{{ rdWhoOpts }}" as="wo" hint-placeholder-count="2"><button onClick="{{ wo.pick }}" aria-pressed="{{ wo.pressed }}" style="border:none;cursor:pointer;border-radius:999px;padding:5px 11px;font:{{ wo.font }};color:{{ wo.col }};background:{{ wo.bg }};white-space:nowrap;">{{ wo.l }}</button></sc-for></span>
+                    <button onClick="{{ rdToggleMenu }}" aria-expanded="{{ rdMenuAttr }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Add calls</button>
+                    <button onClick="{{ rdStartSession }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:10px 18px;font:600 12.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Start session</button>
+                  </div>
+                </div>
+                <sc-if value="{{ rdMenu }}" hint-placeholder-val="">
+                <div role="group" aria-label="Add calls" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 14px;border-radius:12px;background:var(--surface-soft);">
+                  <span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);">Add calls from</span>
+                  <button onClick="{{ rdAddSeg }}" aria-disabled="{{ rdSegDone }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;opacity:{{ rdSegOp }};" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ rdSegLabel }}</button>
+                  <button onClick="{{ rdAddWeb }}" aria-disabled="{{ rdWebDone }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;opacity:{{ rdWebOp }};" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ rdWebLabel }}</button>
+                  <button onClick="{{ rdToggleMenu }}" style="margin-left:auto;border:none;background:transparent;color:var(--accent-hover);padding:4px 6px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;">Close</button>
+                </div>
+                </sc-if>
+                <sc-if value="{{ rdTip }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px 14px;border-radius:12px;background:var(--accent-soft);">
+                  <span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);">First session?</span>
+                  <span style="flex:1 1 380px;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);">You call one person at a time and stay on the line. Voicemail and phone trees are handled for you. If someone asks a hard question, an approved answer appears on screen.</span>
+                  <button onClick="{{ rdStartSession }}" style="border:none;background:transparent;color:var(--accent-hover);padding:4px 6px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;">Walk through a call</button>
+                  <button onClick="{{ rdHideTip }}" style="border:none;background:transparent;color:var(--text-secondary);padding:4px 6px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;">Dismiss</button>
+                </div>
+                </sc-if>
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;">
+                  <sc-for list="{{ rdQFilters }}" as="qf" hint-placeholder-count="5"><button onClick="{{ qf.pick }}" aria-pressed="{{ qf.pressed }}" style="border:1px solid {{ qf.bd }};background:{{ qf.bg }};color:{{ qf.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">{{ qf.l }}</button></sc-for>
+                  <span style="margin-left:auto;font:500 10.5px 'Pliant Mono';color:var(--text-muted);">Sample data</span>
+                </div>
+                <div style="background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow-x:auto;">
+                  <div role="table" aria-label="Calls due today" style="min-width:760px;">
+                    <div role="row" style="display:grid;grid-template-columns:{{ rdQCols }};gap:0 16px;padding:0 16px;height:34px;align-items:center;background:var(--surface-soft);font:600 9px 'Pliant Mono';letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);">
+                      <span role="columnheader">Contact</span><span role="columnheader">Why call now</span><span role="columnheader">Calling window</span><span role="columnheader">Added by</span><span role="columnheader">Help on the call</span>
+                      <sc-if value="{{ rdTeam }}" hint-placeholder-val=""><span role="columnheader">Rep</span></sc-if>
+                    </div>
+                    <sc-for list="{{ rdQRows }}" as="r" hint-placeholder-count="7">
+                    <div role="row" style="display:grid;grid-template-columns:{{ rdQCols }};gap:0 16px;padding:10px 16px;border-top:1px solid var(--border-soft);background:{{ r.bg }};align-items:start;">
+                      <div role="cell" style="min-width:0;"><div style="font:{{ r.nameW }} 12.5px 'Pliant',sans-serif;color:var(--text);">{{ r.name }}<sc-if value="{{ r.next }}" hint-placeholder-val=""><span style="margin-left:8px;font:600 9.5px 'Pliant',sans-serif;text-transform:uppercase;letter-spacing:.04em;color:var(--positive);background:var(--positive-soft);border-radius:5px;padding:2px 6px;">Next</span></sc-if></div><div style="font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);">{{ r.role }}</div></div>
+                      <div role="cell" style="font:400 12px/1.45 'Pliant',sans-serif;color:var(--text-2);">{{ r.why }}</div>
+                      <div role="cell"><div style="font:500 12px 'Pliant',sans-serif;color:{{ r.winC }};">{{ r.win }}</div><div style="font:400 10.5px 'Pliant Mono';color:var(--text-muted);">{{ r.local }}</div></div>
+                      <div role="cell"><div style="font:500 12px 'Pliant',sans-serif;color:var(--text);">{{ r.from }}</div><div style="font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);">{{ r.detail }}</div></div>
+                      <div role="cell"><div style="font:500 12px 'Pliant',sans-serif;color:{{ r.helpC }};">{{ r.help }}</div><div style="font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);">{{ r.helpWhy }}</div></div>
+                      <sc-if value="{{ r.showRep }}" hint-placeholder-val=""><div role="cell" style="font:500 12px 'Pliant',sans-serif;color:var(--text-2);">{{ r.rep }}</div></sc-if>
+                    </div>
+                    </sc-for>
+                    <sc-if value="{{ rdQEmpty }}" hint-placeholder-val=""><p style="margin:0;padding:18px 16px;border-top:1px solid var(--border-soft);font:400 12.5px 'Pliant',sans-serif;color:var(--text-secondary);">No calls from this source today.</p></sc-if>
+                  </div>
+                </div>
+              </div>
+              <aside aria-label="Next call" style="flex:1 1 280px;max-width:340px;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px;">
+                <div style="display:flex;gap:12px;align-items:center;"><span aria-hidden="true" style="width:40px;height:40px;border-radius:50%;background:var(--accent-soft);color:var(--accent-hover);display:flex;align-items:center;justify-content:center;font:700 12px 'Pliant Mono';flex:0 0 auto;">MF</span><div><div style="font:600 15px 'Pliant',sans-serif;color:var(--text);">Maya Fernandes</div><div style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">Your next call, economic buyer</div></div></div>
+                <div><div style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Open with</div><p style="margin:0;font:500 14px/1.5 'Pliant',sans-serif;color:var(--text);">“Kestrel is hiring six SDRs in Austin. I help RevOps teams give new reps a ready list on day one.”</p></div>
+                <div><div style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Likely questions, answers ready</div><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px;font:400 12px/1.45 'Pliant',sans-serif;color:var(--text-2);"><li>Does it run inside Dynamics 365?</li><li>Where is our data stored?</li><li>How is this different from ZoomInfo?</li></ul></div>
+                <div><div style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">So far</div><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px;font:400 12px/1.45 'Pliant',sans-serif;color:var(--text-2);"><li>Opened campaign email 1 twice, no reply</li><li>Visited the pricing page twice</li></ul></div>
+                <div><div style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Help on this call</div><p style="margin:0;font:400 12px/1.45 'Pliant',sans-serif;color:var(--text-2);">Answers appear on screen. Savant can speak if Maya agrees.</p></div>
+                <div style="border-top:1px solid var(--border-soft);padding-top:12px;"><button onClick="{{ rdStartSession }}" style="border:none;background:transparent;color:var(--accent-hover);padding:0;font:600 12px 'Pliant',sans-serif;cursor:pointer;">Call only Maya</button></div>
+              </aside>
+            </div>
+            </sc-if>
+
+            <!-- ===== CALLING SESSION ===== -->
+            <sc-if value="{{ rdIsCall }}" hint-placeholder-val="">
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 12px;border:1px dashed var(--border-strong);border-radius:12px;">
+                <span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);margin-right:4px;">Prototype: jump to a moment</span>
+                <sc-for list="{{ rdSteps }}" as="sp" hint-placeholder-count="9"><button onClick="{{ sp.go }}" aria-pressed="{{ sp.pressed }}" style="border:1px solid {{ sp.bd }};background:{{ sp.bg }};color:{{ sp.col }};border-radius:999px;padding:3px 9px;font:500 11px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">{{ sp.l }}</button></sc-for>
+                <span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);margin:0 4px 0 10px;">When things go wrong</span>
+                <sc-for list="{{ rdEdges }}" as="sp" hint-placeholder-count="5"><button onClick="{{ sp.go }}" aria-pressed="{{ sp.pressed }}" style="border:1px solid {{ sp.bd }};background:{{ sp.bg }};color:{{ sp.col }};border-radius:999px;padding:3px 9px;font:500 11px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">{{ sp.l }}</button></sc-for>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;">
+                <div style="display:flex;align-items:center;gap:8px;font:600 13px 'Pliant',sans-serif;"><button onClick="{{ rdBackToQueue }}" style="border:none;background:transparent;color:var(--accent-hover);padding:0;font:600 13px 'Pliant',sans-serif;cursor:pointer;">Dialer</button><span aria-hidden="true" style="color:var(--text-muted);">/</span><span style="color:var(--text);">Calling session</span></div>
+                <div style="margin-left:auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font:400 12px 'Pliant',sans-serif;color:var(--text-secondary);">
+                  <span>Calling as Sprouts, <span style="font-family:'Pliant Mono';">+1 (512) 555‑0142</span></span>
+                  <span role="status" style="font:500 11px 'Pliant Mono';color:var(--text-muted);">{{ rdSessionText }}</span>
+                  <button onClick="{{ rdTogglePause }}" aria-pressed="{{ rdPausedAttr }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ rdPauseLabel }}</button>
+                </div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
+                <sc-if value="{{ rdQueueOpen }}" hint-placeholder-val="{{ true }}">
+                <aside aria-label="Your calls today" style="flex:0 0 240px;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:8px 6px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px;">
+                  <div style="display:flex;align-items:center;gap:8px;padding:7px 9px 2px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Your calls today</span><span style="flex:1;"></span><sc-if value="{{ rdCanHideQueue }}" hint-placeholder-val=""><button onClick="{{ rdTogglePin }}" style="border:none;background:transparent;color:var(--accent-hover);padding:0;font:600 11px 'Pliant',sans-serif;cursor:pointer;">Hide</button></sc-if></div>
+                  <div aria-hidden="true" style="height:4px;border-radius:4px;background:var(--surface-soft);overflow:hidden;margin:2px 9px 4px;"><div style="width:22%;height:100%;background:var(--positive);"></div></div>
+                  <div style="padding:9px 10px;border-radius:9px;background:var(--accent-soft);"><div style="display:flex;justify-content:space-between;gap:8px;"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Maya Fernandes</span><span style="font:600 11px 'Pliant',sans-serif;color:var(--positive);white-space:nowrap;">{{ rdQueueStatus }}</span></div><div style="font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">VP Revenue Ops, Kestrel Freight</div></div>
+                  <sc-for list="{{ rdSideQ }}" as="sq" hint-placeholder-count="4"><div style="padding:9px 10px;"><div style="display:flex;justify-content:space-between;gap:8px;"><span style="font:500 12.5px 'Pliant',sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ sq.name }}</span><span style="font:400 10.5px 'Pliant Mono';color:var(--text-muted);white-space:nowrap;">{{ sq.when }}</span></div><div style="font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ sq.role }}</div></div></sc-for>
+                  <div style="margin:4px 9px 0;padding-top:10px;border-top:1px solid var(--border-soft);display:flex;flex-direction:column;gap:8px;">
+                    <span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Done</span>
+                    <div style="display:flex;justify-content:space-between;gap:8px;font:400 12px 'Pliant',sans-serif;"><span style="color:var(--text-2);">Tom Lindqvist</span><span style="color:var(--text-secondary);white-space:nowrap;">Voicemail left</span></div>
+                    <div style="display:flex;justify-content:space-between;gap:8px;font:400 12px 'Pliant',sans-serif;"><span style="color:var(--text-2);">Rhea Kapoor</span><span style="color:var(--positive);white-space:nowrap;">Meeting booked</span></div>
+                  </div>
+                </aside>
+                </sc-if>
+                <sc-if value="{{ rdQueueRail }}" hint-placeholder-val="">
+                <aside aria-label="Your calls today, folded" style="flex:0 0 64px;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:14px 0;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:9px;">
+                  <div style="text-align:center;font:400 10.5px 'Pliant',sans-serif;color:var(--text-secondary);line-height:1.3;"><span style="display:block;font:600 14px 'Pliant Mono';color:var(--text);">2 / 9</span>done</div>
+                  <span aria-hidden="true" style="width:24px;height:1px;background:var(--border-soft);"></span>
+                  <span style="font:500 10px 'Pliant Mono';color:var(--text-muted);">Next</span>
+                  <span title="Daniel Okafor" style="width:32px;height:32px;border-radius:50%;background:var(--surface-soft);color:var(--text-2);display:flex;align-items:center;justify-content:center;font:700 10.5px 'Pliant Mono';">DO</span>
+                  <span title="Aisha Rahman" style="width:32px;height:32px;border-radius:50%;background:var(--surface-soft);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font:700 10.5px 'Pliant Mono';">AR</span>
+                  <span title="Oliver Grant" style="width:32px;height:32px;border-radius:50%;background:var(--surface-soft);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font:700 10.5px 'Pliant Mono';">OG</span>
+                  <button onClick="{{ rdTogglePin }}" aria-label="Show the queue" title="Show the queue" style="width:32px;height:32px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+                </aside>
+                </sc-if>
+
+                <section aria-label="Call" style="flex:999 1 460px;min-width:0;display:flex;flex-direction:column;gap:14px;">
+                  <div style="padding:16px 18px;border-radius:14px;border:1px solid {{ rdBand.bd }};background:{{ rdBand.bg }};">
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;">
+                      <span aria-hidden="true" style="width:42px;height:42px;border-radius:50%;background:var(--surface);color:var(--accent-hover);display:flex;align-items:center;justify-content:center;font:700 12px 'Pliant Mono';flex:0 0 auto;">MF</span>
+                      <div style="flex:1 1 260px;min-width:0;"><h2 style="margin:0;font:600 19px 'Pliant',sans-serif;letter-spacing:-0.02em;color:var(--text);">Maya Fernandes</h2><div style="font:400 12.5px 'Pliant',sans-serif;color:{{ rdBand.sub }};">VP Revenue Operations, Kestrel Freight. Austin, 10:42 AM, business line.</div></div>
+                      <div style="text-align:right;"><div style="font:600 24px 'Pliant Mono';letter-spacing:-0.02em;color:var(--text);line-height:1.1;">{{ rdTimer }}</div><div role="status" style="font:600 10px 'Pliant',sans-serif;text-transform:uppercase;letter-spacing:.04em;margin-top:4px;color:{{ rdBand.st }};">{{ rdStatusText }}</div></div>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin-top:12px;padding-top:10px;border-top:1px solid {{ rdBand.line }};">
+                      <span style="font:400 12px 'Pliant',sans-serif;color:{{ rdBand.sub }};">On the line</span>
+                      <sc-for list="{{ rdSeats }}" as="p" hint-placeholder-count="3"><span style="display:inline-flex;align-items:center;gap:7px;"><span aria-hidden="true" style="width:9px;height:9px;border-radius:50%;box-sizing:border-box;background:{{ p.fill }};border:2px solid {{ p.ring }};"></span><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);">{{ p.name }}</span><span style="font:400 11.5px 'Pliant',sans-serif;color:{{ rdBand.sub }};">{{ p.note }}</span></span></sc-for>
+                    </div>
+                  </div>
+
+                  <sc-if value="{{ rdShowControls }}" hint-placeholder-val="">
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                    <button onClick="{{ rdToggleMute }}" aria-pressed="{{ rdMutedAttr }}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid {{ rdMuteBd }};background:{{ rdMuteBg }};color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0014 0M12 18v3"></path></svg>{{ rdMuteLabel }}</button>
+                    <button onClick="{{ rdToggleHold }}" aria-pressed="{{ rdHeldAttr }}" style="border:1px solid {{ rdHoldBd }};background:{{ rdHoldBg }};color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)">{{ rdHoldLabel }}</button>
+                    <button onClick="{{ rdToggleKeypad }}" aria-pressed="{{ rdKeypadAttr }}" style="border:1px solid {{ rdKeyBd }};background:{{ rdKeyBg }};color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)">Keypad</button>
+                    <button onClick="{{ rdToggleMate }}" aria-pressed="{{ rdMateAttr }}" style="border:1px solid {{ rdMateBd }};background:{{ rdMateBg }};color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border)">{{ rdMateLabel }}</button>
+                    <button onClick="{{ rdEndCall }}" style="margin-left:auto;border:none;background:var(--negative);color:#fff;border-radius:999px;padding:8px 16px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">End call</button>
+                  </div>
+                  </sc-if>
+                  <sc-if value="{{ rdKeypad }}" hint-placeholder-val="">
+                  <div role="group" aria-label="Keypad" style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;">
+                    <sc-for list="{{ rdKeys }}" as="k" hint-placeholder-count="12"><button onClick="{{ k.press }}" style="width:42px;height:38px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);border-radius:9px;font:600 13px 'Pliant Mono';cursor:pointer;" style-hover="border-color:var(--accent-border)">{{ k.l }}</button></sc-for>
+                    <span role="status" style="margin-left:8px;font:400 12px 'Pliant Mono';color:var(--text-secondary);">{{ rdDigitsText }}</span>
+                  </div>
+                  </sc-if>
+                  <sc-if value="{{ rdHasNote }}" hint-placeholder-val="">
+                  <p role="status" style="margin:0;padding:10px 14px;border-radius:10px;background:var(--surface-soft);font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);">{{ rdNote }}</p>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsReady }}" hint-placeholder-val="{{ true }}">
+                  <section aria-label="Next call" style="display:flex;flex-direction:column;gap:14px;padding:4px 2px;">
+                    <div><div style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Open with</div><p style="margin:0;font:500 18px/1.45 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);max-width:36em;">“Kestrel is hiring six SDRs in Austin. I help RevOps teams give new reps a ready list on day one.”</p></div>
+                    <p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);max-width:62ch;">Answers appear on screen. Savant can speak if Maya agrees. Campaign Q4 RevOps leaders, step 3, attempt 1 of 3.</p>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;"><button onClick="{{ rdGoCall }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:11px 20px;font:600 13px 'Pliant',sans-serif;cursor:pointer;" style-hover="background:var(--accent-hover)">Call Maya</button><button onClick="{{ rdSkip }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:9px 15px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Skip</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsRinging }}" hint-placeholder-val="">
+                  <section aria-label="Ringing" style="display:flex;flex-direction:column;gap:12px;padding:4px 2px;">
+                    <h3 style="margin:0;font:600 17px/1.35 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">You're on the line. Maya's phone is ringing.</h3>
+                    <div style="display:grid;grid-template-columns:110px 1fr;gap:8px 16px;max-width:660px;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);">
+                      <span style="color:var(--text-muted);">Voicemail</span><span>Your “Hiring signal” message (0:24) is left and a text follow-up is logged.</span>
+                      <span style="color:var(--text-muted);">Phone tree</span><span>Navigated by keypad. You're back on when a person answers.</span>
+                      <span style="color:var(--text-muted);">Call screener</span><span>You answer. Say your reason-for-call line.</span>
+                    </div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;"><button onClick="{{ rdGoReady }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Cancel call</button><button onClick="{{ rdLeaveVm }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Leave voicemail now</button><button onClick="{{ rdGoConnect }}" style="border:1px dashed var(--border-strong);background:transparent;color:var(--text-secondary);border-radius:999px;padding:8px 14px;font:500 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent);color:var(--accent-hover)">She picks up (demo)</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsConnected }}" hint-placeholder-val="">
+                  <section aria-label="Say this first" role="status" style="padding:16px 18px;border-radius:14px;border:1px solid var(--warning);background:var(--warning-soft);display:flex;flex-direction:column;gap:10px;">
+                    <span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--warning);">Say this first</span>
+                    <p style="margin:0;font:500 18px/1.45 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">“Hi Maya, it's Kartikay from Sprouts. Quick note that this call is recorded.”</p>
+                    <p style="margin:0;font:400 12px 'Pliant',sans-serif;color:var(--text-secondary);">The recording notice ticks off when the transcript hears it.</p>
+                    <div><button onClick="{{ rdGoQuestion }}" style="border:1px dashed var(--border-strong);background:transparent;color:var(--text-secondary);border-radius:999px;padding:8px 14px;font:500 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent);color:var(--accent-hover)">She asks a hard question (demo)</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsQuestion }}" hint-placeholder-val="">
+                  <section aria-label="Answer card" role="status" style="padding:16px 18px;border-radius:14px;border:1px solid var(--accent-border);background:var(--accent-soft);display:flex;flex-direction:column;gap:10px;">
+                    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--accent-hover);">Maya asked: “Does it run inside Dynamics 365? And where would our data sit?”</span><span style="font:500 10.5px 'Pliant Mono';color:var(--text-secondary);">Answer found in 0.9 s</span></div>
+                    <p style="margin:0;font:500 18px/1.45 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Yes. One Platform runs inside Dynamics 365 and Salesforce, so reps work from the records they already use. Data location: [DATA REGION, FROM APPROVED SECURITY NOTE].</p>
+                    <p style="margin:0;font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">From the Security one-pager, p.2 and the Dynamics 365 guide.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdGoAsk }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:9px 16px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Bring in Savant</button><button onClick="{{ rdGoSelf }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">I'll answer it myself</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsAsk }}" hint-placeholder-val="">
+                  <section aria-label="Ask permission" role="status" style="padding:16px 18px;border-radius:14px;border:1px solid var(--warning);background:var(--warning-soft);display:flex;flex-direction:column;gap:10px;">
+                    <span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--warning);">Ask Maya first</span>
+                    <p style="margin:0;font:500 18px/1.45 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">“Good question. Our AI assistant, Savant, knows that detail better than I do. Okay if it answers?”</p>
+                    <p style="margin:0;font:400 12px 'Pliant',sans-serif;color:var(--text-secondary);">Savant stays off the line until she says yes.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdGoQuestion }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Never mind</button><button onClick="{{ rdGoYes }}" style="border:1px dashed var(--border-strong);background:transparent;color:var(--text-secondary);border-radius:999px;padding:8px 14px;font:500 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent);color:var(--accent-hover)">She says yes (demo)</button><button onClick="{{ rdGoSelf }}" style="border:1px dashed var(--border-strong);background:transparent;color:var(--text-secondary);border-radius:999px;padding:8px 14px;font:500 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent);color:var(--accent-hover)">She says no (demo)</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsYes }}" hint-placeholder-val="">
+                  <section aria-label="Confirm permission" role="status" style="padding:16px 18px;border-radius:14px;border:1px solid var(--accent-border);background:var(--accent-soft);display:flex;flex-direction:column;gap:10px;">
+                    <h3 style="margin:0;font:600 17px/1.35 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Maya said yes</h3>
+                    <p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);max-width:62ch;">Heard at 02:04: “Sure, go ahead.” The clip is saved. Savant will say it is an AI, answer once from the approved sources, and leave within 30 seconds.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdGoSavant }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:9px 16px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Bring Savant on</button><button onClick="{{ rdGoSelf }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">That wasn't a yes</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsSavant }}" hint-placeholder-val="">
+                  <section aria-label="Savant is speaking" role="status" style="padding:18px 20px;border-radius:14px;border:1px solid var(--accent);background:var(--accent-soft);display:flex;flex-direction:column;gap:14px;">
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;">
+                      <span aria-hidden="true" style="display:flex;gap:3px;align-items:center;"><span style="width:3px;height:12px;background:var(--accent);border-radius:2px;"></span><span style="width:3px;height:22px;background:var(--accent);border-radius:2px;"></span><span style="width:3px;height:14px;background:var(--accent);border-radius:2px;"></span><span style="width:3px;height:26px;background:var(--accent);border-radius:2px;"></span><span style="width:3px;height:10px;background:var(--accent);border-radius:2px;"></span></span>
+                      <h3 style="margin:0;flex:1 1 240px;font:600 17px/1.35 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Savant is answering Maya</h3>
+                      <span style="font:600 18px 'Pliant Mono';color:var(--text);">0:09 <span style="font:500 12px 'Pliant',sans-serif;color:var(--text-secondary);">of 0:30</span></span>
+                    </div>
+                    <div role="progressbar" aria-label="Savant's speaking time" aria-valuemin="0" aria-valuemax="30" aria-valuenow="9" style="height:6px;border-radius:6px;background:var(--surface);overflow:hidden;"><div style="width:30%;height:100%;background:var(--accent);"></div></div>
+                    <p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);max-width:62ch;">It said it is an AI and is answering from the two approved sources. You're still on the line.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdGoBack }}" style="border:none;background:var(--ink-btn);color:var(--ink-btn-fg);border-radius:999px;padding:12px 22px;font:600 14px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">Take the call back</button><button onClick="{{ rdEndCall }}" style="border:none;background:var(--negative);color:#fff;border-radius:999px;padding:12px 18px;font:600 12.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">End call</button><button onClick="{{ rdGoBack }}" style="border:1px dashed var(--border-strong);background:transparent;color:var(--text-secondary);border-radius:999px;padding:8px 14px;font:500 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent);color:var(--accent-hover)">Savant finishes (demo)</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsBack }}" hint-placeholder-val="">
+                  <section aria-label="Back with Maya" role="status" style="display:flex;flex-direction:column;gap:10px;padding:4px 2px;">
+                    <h3 style="margin:0;font:600 17px/1.35 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Savant left the line. You're back with Maya.</h3>
+                    <p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);max-width:62ch;">It spoke for 14 seconds. Suggested next: offer a 20-minute walkthrough with her RevOps lead.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdBookMeeting }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Book meeting</button><button onClick="{{ rdEndCall }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:9px 16px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">End call and wrap up</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsNoAnswer }}" hint-placeholder-val="">
+                  <section aria-label="No approved answer" role="status" style="padding:16px 18px;border-radius:14px;border:1px solid var(--warning);background:var(--warning-soft);display:flex;flex-direction:column;gap:10px;">
+                    <span style="font:600 12.5px 'Pliant',sans-serif;color:var(--warning);">Maya asked: “Could we talk to another freight company that uses it?”</span>
+                    <h3 style="margin:0;font:600 17px/1.35 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">No approved answer for this one</h3>
+                    <p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);max-width:62ch;">The knowledge base has nothing on customer references in freight. You could say:</p>
+                    <p style="margin:0;font:500 18px/1.45 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">“I don't want to guess on that. Let me confirm and send it over today.”</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdAddFollowUp }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Add to follow-ups</button><button aria-disabled="true" style="border:1px solid var(--border-soft);background:transparent;color:var(--text-muted);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:not-allowed;white-space:nowrap;">Bring in Savant</button><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">Savant speaks only from approved answers.</span></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsUnsure }}" hint-placeholder-val="">
+                  <section aria-label="Partly covered answer" role="status" style="padding:16px 18px;border-radius:14px;border:1px solid var(--warning);background:var(--warning-soft);display:flex;flex-direction:column;gap:10px;">
+                    <span style="font:600 12.5px 'Pliant',sans-serif;color:var(--warning);">Maya asked: “Does it run inside Dynamics 365? And where would our data sit?”</span>
+                    <h3 style="margin:0;font:600 17px/1.35 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Only the first part is covered</h3>
+                    <div style="display:grid;grid-template-columns:110px 1fr;gap:10px 16px;max-width:700px;">
+                      <span style="font:600 12px 'Pliant',sans-serif;color:var(--positive);">Covered</span><span style="font:400 14px/1.45 'Pliant',sans-serif;color:var(--text);">Yes, it runs inside Dynamics 365 and Salesforce. <span style="font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);">Dynamics 365 guide</span></span>
+                      <span style="font:600 12px 'Pliant',sans-serif;color:var(--warning);">Not covered</span><span style="font:400 14px/1.45 'Pliant',sans-serif;color:var(--text);">Where her data would be stored. The security note gives no region for her plan.</span>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdGoSelf }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">I'll answer the first part</button><button onClick="{{ rdAddFollowUp }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Add the rest to follow-ups</button><button aria-disabled="true" style="border:1px solid var(--border-soft);background:transparent;color:var(--text-muted);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:not-allowed;white-space:nowrap;">Bring in Savant</button><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">Savant won't speak on a partial answer.</span></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsNoJoin }}" hint-placeholder-val="">
+                  <section aria-label="Savant could not join" role="status" style="padding:16px 18px;border-radius:14px;border:1px solid var(--warning);background:var(--warning-soft);display:flex;flex-direction:column;gap:10px;">
+                    <h3 style="margin:0;font:600 17px/1.35 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Savant couldn't join</h3>
+                    <p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);max-width:62ch;">It didn't connect in time, so Maya heard nothing from it. Answer from the card below, or try again.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdGoSelf }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">I'll answer it myself</button><button onClick="{{ rdGoSavant }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:9px 16px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Try again</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsDropped }}" hint-placeholder-val="">
+                  <section aria-label="Call dropped" role="status" style="display:flex;flex-direction:column;gap:10px;padding:4px 2px;">
+                    <h3 style="margin:0;font:600 17px/1.35 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">The call dropped at 01:12</h3>
+                    <p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);max-width:62ch;">Maya's line closed. You're still in your session and the transcript is saved.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdGoCall }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:9px 16px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Call Maya back</button><button onClick="{{ rdWrapNotNow }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Wrap up as “Spoke, not now”</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdIsDnc }}" hint-placeholder-val="">
+                  <section aria-label="Do-not-call match" role="status" style="display:flex;flex-direction:column;gap:10px;padding:4px 2px;">
+                    <h3 style="margin:0;font:600 17px/1.35 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Maya was not dialled</h3>
+                    <p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);max-width:62ch;">She was added to the do-not-call list at 10:39, after today's queue was built. She is out of every call queue in the workspace.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdBackToQueue }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:9px 16px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Back to your queue</button><button onClick="{{ rdShowDnc }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">See the do-not-call entry</button></div>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdShowCompact }}" hint-placeholder-val="">
+                  <section aria-label="Approved answer" style="padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--border-soft);">
+                    <div style="font:600 12px 'Pliant',sans-serif;color:var(--accent-hover);margin-bottom:6px;">The approved answer, for you to say</div>
+                    <p style="margin:0;font:400 12.5px/1.55 'Pliant',sans-serif;color:var(--text-2);">Yes. One Platform runs inside Dynamics 365 and Salesforce, so reps work from the records they already use. Data location: [DATA REGION, FROM APPROVED SECURITY NOTE].</p>
+                    <p style="margin:6px 0 0;font:400 11px 'Pliant',sans-serif;color:var(--text-muted);">From the Security one-pager, p.2 and the Dynamics 365 guide.</p>
+                  </section>
+                  </sc-if>
+
+                  <sc-if value="{{ rdShowStrip }}" hint-placeholder-val="">
+                  <div role="img" aria-label="Who has spoken on this call: you and Maya, then Maya's yes at 02:04, then Savant" style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="display:flex;align-items:center;gap:2px;"><sc-for list="{{ rdSegs }}" as="g" hint-placeholder-count="9"><span style="flex:{{ g.flex }};height:{{ g.h }};border-radius:2px;background:{{ g.c }};"></span></sc-for></div>
+                    <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);">
+                      <span><span aria-hidden="true" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--positive);margin-right:6px;"></span>You</span>
+                      <span><span aria-hidden="true" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--text-muted);margin-right:6px;"></span>Maya</span>
+                      <span><span aria-hidden="true" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);margin-right:6px;"></span>Savant</span>
+                      <span><span aria-hidden="true" style="display:inline-block;width:2px;height:10px;background:var(--warning);margin-right:6px;"></span>Maya's yes, 02:04</span>
+                    </div>
+                  </div>
+                  </sc-if>
+
+                  <sc-if value="{{ rdShowTranscript }}" hint-placeholder-val="">
+                  <section aria-label="Transcript" style="border-top:1px solid var(--border-soft);padding-top:12px;display:flex;flex-direction:column;gap:8px;">
+                    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Transcript</span><span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);">Her hello reached you in 0.3 s</span></div>
+                    <div aria-live="polite" style="display:flex;flex-direction:column;gap:2px;">
+                      <sc-for list="{{ rdLines }}" as="l" hint-placeholder-count="4"><div style="display:flex;gap:12px;align-items:flex-start;padding:6px 10px;border-radius:9px;margin:0 -10px;background:{{ l.bg }};"><span style="flex:0 0 84px;font:600 11.5px 'Pliant',sans-serif;padding-top:1px;color:{{ l.c }};">{{ l.who }}</span><p style="margin:0;flex:1;min-width:0;font:400 12.5px/1.55 'Pliant',sans-serif;color:var(--text-2);">{{ l.text }}</p></div></sc-for>
+                    </div>
+                  </section>
+                  </sc-if>
+                </section>
+
+                <aside aria-label="Brief" style="flex:1 1 260px;max-width:320px;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px;">
+                  <sc-if value="{{ rdShowReason }}" hint-placeholder-val="">
+                  <div><div style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Reason-for-call line</div><p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text);">“Kestrel is hiring six SDRs in Austin. I help RevOps teams give new reps a ready list on day one.”</p><p style="margin:6px 0 0;font:400 11px 'Pliant',sans-serif;color:var(--text-muted);">Also on caller ID, in the voicemail and in the pre-call text.</p></div>
+                  </sc-if>
+                  <div><div style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Likely questions, answers ready</div><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px;font:400 12px/1.45 'Pliant',sans-serif;color:var(--text-2);"><li>Does it run inside Dynamics 365?</li><li>Where is our data stored?</li><li>How is this different from ZoomInfo?</li></ul></div>
+                  <div><div style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">So far</div><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px;font:400 12px/1.45 'Pliant',sans-serif;color:var(--text-2);"><li>Opened campaign email 1 twice, no reply</li><li>Visited the pricing page twice</li></ul></div>
+                  <div><div style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">Account signals</div><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px;font:400 12px/1.45 'Pliant',sans-serif;color:var(--text-2);"><li>Hiring 6 SDRs in Austin, 9 days ago</li><li>Series B, $[AMOUNT], Oct 2026</li><li>No competitor found in their stack</li></ul></div>
+                </aside>
+              </div>
+            </div>
+            </sc-if>
+
+            <!-- ===== WRAP-UP ===== -->
+            <sc-if value="{{ rdIsWrap }}" hint-placeholder-val="">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:600 13px 'Pliant',sans-serif;"><button onClick="{{ rdBackToQueue }}" style="border:none;background:transparent;color:var(--accent-hover);padding:0;font:600 13px 'Pliant',sans-serif;cursor:pointer;">Dialer</button><span aria-hidden="true" style="color:var(--text-muted);">/</span><button onClick="{{ rdBackToCall }}" style="border:none;background:transparent;color:var(--accent-hover);padding:0;font:600 13px 'Pliant',sans-serif;cursor:pointer;">Calling session</button><span aria-hidden="true" style="color:var(--text-muted);">/</span><span style="color:var(--text);">Wrap-up</span><span style="margin-left:auto;font:500 11px 'Pliant Mono';color:var(--text-muted);">3 of 9 done</span></div>
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;">
+                <span aria-hidden="true" style="width:42px;height:42px;border-radius:50%;background:var(--accent-soft);color:var(--accent-hover);display:flex;align-items:center;justify-content:center;font:700 12px 'Pliant Mono';flex:0 0 auto;">MF</span>
+                <div style="flex:1 1 300px;min-width:0;"><h2 style="margin:0;font:600 19px 'Pliant',sans-serif;letter-spacing:-0.02em;color:var(--text);">Call with Maya Fernandes</h2><div style="font:400 12.5px 'Pliant',sans-serif;color:var(--text-secondary);">2:47, Kestrel Freight. Campaign Q4 RevOps leaders, step 3.</div></div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;"><button onClick="{{ rdSavePause }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:9px 15px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Save and pause</button><button onClick="{{ rdSaveNext }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:10px 18px;font:600 12.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Save and call Daniel Okafor</button></div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
+                <div style="flex:999 1 500px;min-width:0;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;display:flex;flex-direction:column;gap:22px;">
+                  <section aria-label="Outcome" style="display:flex;flex-direction:column;gap:10px;">
+                    <h3 style="margin:0;font:600 15px 'Pliant',sans-serif;color:var(--text);">How did it go?</h3>
+                    <div role="group" aria-label="Outcome" style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ rdOutcomes }}" as="o" hint-placeholder-count="6"><button onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="border:1px solid {{ o.bd }};background:{{ o.bg }};color:{{ o.col }};border-radius:999px;padding:6px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">{{ o.l }}</button></sc-for></div>
+                    <p role="status" style="margin:0;font:400 12.5px 'Pliant',sans-serif;color:var(--text-secondary);">{{ rdOutcomeLine }}</p>
+                    <sc-if value="{{ rdIsMeeting }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;flex-direction:column;gap:10px;padding:10px 14px;border-radius:10px;background:var(--surface-soft);">
+                      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;"><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);">Meeting</span><span style="flex:1 1 280px;font:400 12.5px 'Pliant',sans-serif;color:var(--text-2);">{{ rdMeetingText }}, 20 minutes, with Maya and her RevOps lead</span><button onClick="{{ rdToggleEdit }}" aria-expanded="{{ rdEditAttr }}" style="border:none;background:transparent;color:var(--accent-hover);padding:4px 6px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ rdEditLabel }}</button></div>
+                      <sc-if value="{{ rdEditing }}" hint-placeholder-val=""><div role="group" aria-label="Meeting time" style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ rdTimes }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.pick }}" aria-pressed="{{ t.pressed }}" style="border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">{{ t.l }}</button></sc-for></div></sc-if>
+                    </div>
+                    </sc-if>
+                  </section>
+                  <section aria-label="Notes" style="display:flex;flex-direction:column;gap:8px;">
+                    <label for="rd-notes" style="font:600 15px 'Pliant',sans-serif;color:var(--text);">Notes</label>
+                    <textarea id="rd-notes" value="{{ rdNotes }}" onChange="{{ rdSetNotes }}" rows="4" placeholder="Anything the transcript won't show" style="width:100%;box-sizing:border-box;min-height:92px;resize:vertical;border:1px solid var(--border);border-radius:9px;background:var(--surface);padding:10px 12px;font:400 13px/1.55 'Pliant',sans-serif;color:var(--text);outline:none;" style-focus="border-color:var(--accent)"></textarea>
+                  </section>
+                  <section aria-label="When you save" style="display:flex;flex-direction:column;gap:2px;">
+                    <h3 style="margin:0 0 6px;font:600 15px 'Pliant',sans-serif;color:var(--text);">When you save</h3>
+                    <sc-for list="{{ rdChecks }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-top:1px solid var(--border-soft);">
+                      <button role="checkbox" aria-checked="{{ c.checked }}" onClick="{{ c.flip }}" style="flex:1;display:flex;align-items:flex-start;gap:10px;border:none;background:transparent;padding:0;text-align:left;cursor:pointer;">
+                        <span aria-hidden="true" style="width:18px;height:18px;border-radius:5px;flex:0 0 auto;margin-top:1px;display:flex;align-items:center;justify-content:center;border:1.5px solid {{ c.bd }};background:{{ c.bg }};color:#fff;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ c.op }};"><path d="M5 12l5 5 9-10"></path></svg></span>
+                        <span><span style="display:block;font:500 12.5px 'Pliant',sans-serif;color:var(--text);">{{ c.l }}</span><span style="display:block;font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">{{ c.sub }}</span></span>
+                      </button>
+                      <sc-if value="{{ c.hasDraft }}" hint-placeholder-val=""><button onClick="{{ rdToggleDraft }}" aria-expanded="{{ rdDraftAttr }}" style="border:none;background:transparent;color:var(--accent-hover);padding:2px 6px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">{{ rdDraftLabel }}</button></sc-if>
+                    </div>
+                    </sc-for>
+                    <sc-if value="{{ rdDraft }}" hint-placeholder-val=""><p style="margin:4px 0 6px;padding:10px 14px;border-radius:10px;background:var(--surface-soft);font:400 12.5px/1.55 'Pliant',sans-serif;color:var(--text-2);">{{ rdDraftText }}</p></sc-if>
+                    <p style="margin:8px 0 0;font:400 12px/1.5 'Pliant',sans-serif;color:var(--text-secondary);max-width:66ch;">If Maya calls back, Savant answers +1 (512) 555‑0142 as an AI, knows about this call, and can ring you.</p>
+                  </section>
+                  <p style="margin:0;font:400 11px 'Pliant',sans-serif;color:var(--text-muted);border-top:1px solid var(--border-soft);padding-top:12px;">Calls that end in no answer or voicemail skip this screen.</p>
+                </div>
+                <div style="flex:1 1 320px;min-width:0;max-width:440px;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;display:flex;flex-direction:column;gap:20px;">
+                  <section aria-label="Summary" style="display:flex;flex-direction:column;gap:8px;">
+                    <h3 style="margin:0;font:600 15px 'Pliant',sans-serif;color:var(--text);">Summary <span style="font:500 10.5px 'Pliant Mono';color:var(--text-muted);margin-left:6px;">by Savant, from the transcript</span></h3>
+                    <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);"><li>Pipeline for the six new Austin SDRs is on Maya's plate.</li><li>Kestrel is halfway through picking tools. No vendor named.</li><li>Asked whether it runs inside Dynamics 365 and where data is stored.</li><li>Agreed to a walkthrough with her RevOps lead on Thursday.</li></ul>
+                  </section>
+                  <section aria-label="Savant on this call" style="display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border-soft);padding-top:18px;">
+                    <h3 style="margin:0;font:600 15px 'Pliant',sans-serif;color:var(--text);">Savant on this call</h3>
+                    <div role="img" aria-label="Call timeline: you and Maya spoke until 02:04, Maya agreed, Savant spoke for 14 seconds, then you and Maya finished the call" style="display:flex;align-items:center;gap:2px;"><sc-for list="{{ rdFullSegs }}" as="g" hint-placeholder-count="14"><span style="flex:{{ g.flex }};height:{{ g.h }};border-radius:2px;background:{{ g.c }};"></span></sc-for></div>
+                    <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);"><span><span aria-hidden="true" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--positive);margin-right:6px;"></span>You</span><span><span aria-hidden="true" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--text-muted);margin-right:6px;"></span>Maya</span><span><span aria-hidden="true" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);margin-right:6px;"></span>Savant</span><span><span aria-hidden="true" style="display:inline-block;width:2px;height:10px;background:var(--warning);margin-right:6px;"></span>Maya's yes</span></div>
+                    <p style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);">Savant spoke for 14 seconds, after Maya's yes at 02:04. Its answer is waiting for an accuracy review.</p>
+                    <button onClick="{{ rdOpenAudit }}" style="align-self:flex-start;border:none;background:transparent;color:var(--accent-hover);padding:0;font:600 12px 'Pliant',sans-serif;cursor:pointer;">Open the full audit in the Call log</button>
+                  </section>
+                </div>
+              </div>
+            </div>
+            </sc-if>
+
+            <!-- ===== CALL LOG ===== -->
+            <sc-if value="{{ rdIsLog }}" hint-placeholder-val="">
+            <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
+              <div style="flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:12px;">
+                <div><h2 style="margin:0;font:600 19px 'Pliant',sans-serif;letter-spacing:-0.02em;color:var(--text);">Today's calls</h2><p style="margin:5px 0 0;font:400 12.5px 'Pliant',sans-serif;color:var(--text-secondary);">Calls where Savant spoke keep a full audit for review.</p></div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ rdLogFilters }}" as="lf" hint-placeholder-count="4"><button onClick="{{ lf.pick }}" aria-pressed="{{ lf.pressed }}" style="border:1px solid {{ lf.bd }};background:{{ lf.bg }};color:{{ lf.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">{{ lf.l }}</button></sc-for></div>
+                <div style="background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow-x:auto;">
+                  <div style="min-width:660px;">
+                    <div style="display:grid;grid-template-columns:52px minmax(150px,1.4fr) minmax(110px,1fr) 56px minmax(140px,1.2fr) 64px;gap:0 14px;padding:0 16px;height:34px;align-items:center;background:var(--surface-soft);font:600 9px 'Pliant Mono';letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);"><span>Time</span><span>Contact</span><span>Outcome</span><span>Length</span><span>AI help</span><span>Rep</span></div>
+                    <sc-for list="{{ rdLogRows }}" as="r" hint-placeholder-count="6">
+                    <button onClick="{{ r.pick }}" aria-pressed="{{ r.pressed }}" style="display:grid;grid-template-columns:52px minmax(150px,1.4fr) minmax(110px,1fr) 56px minmax(140px,1.2fr) 64px;gap:0 14px;width:100%;text-align:left;border:none;border-top:1px solid var(--border-soft);background:{{ r.bg }};padding:10px 16px;cursor:pointer;align-items:start;box-sizing:border-box;" style-hover="background:var(--surface-soft)">
+                      <span style="font:500 11px 'Pliant Mono';color:var(--text-muted);padding-top:1px;">{{ r.time }}</span>
+                      <span style="min-width:0;"><span style="display:block;font:600 12.5px 'Pliant',sans-serif;color:var(--text);">{{ r.name }}</span><span style="display:block;font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);">{{ r.company }}</span></span>
+                      <span style="font:500 12px 'Pliant',sans-serif;color:{{ r.outC }};">{{ r.outcome }}</span>
+                      <span style="font:500 11.5px 'Pliant Mono';color:var(--text-2);">{{ r.len }}</span>
+                      <span><span style="display:block;font:500 12px 'Pliant',sans-serif;color:{{ r.aiC }};">{{ r.ai }}</span><span style="display:block;font:400 11px 'Pliant',sans-serif;color:{{ r.subC }};">{{ r.aiSub }}</span></span>
+                      <span style="font:500 12px 'Pliant',sans-serif;color:var(--text-2);">{{ r.rep }}</span>
+                    </button>
+                    </sc-for>
+                    <sc-if value="{{ rdLogEmpty }}" hint-placeholder-val=""><p style="margin:0;padding:18px 16px;border-top:1px solid var(--border-soft);font:400 12.5px 'Pliant',sans-serif;color:var(--text-secondary);">No calls match this filter.</p></sc-if>
+                  </div>
+                </div>
+              </div>
+              <aside aria-label="Call detail" style="flex:1 1 380px;min-width:0;max-width:500px;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px;">
+                <div><h3 style="margin:0;font:600 17px 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">{{ rdDTitle }}</h3><div style="font:400 12px/1.5 'Pliant',sans-serif;color:var(--text-secondary);margin-top:2px;">{{ rdDMeta }}</div></div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                    <button onClick="{{ rdPlayCall }}" aria-pressed="{{ rdCallAttr }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ rdCallLabel }}</button>
+                    <sc-if value="{{ rdHasAudit }}" hint-placeholder-val="{{ true }}"><button onClick="{{ rdPlaySav }}" aria-pressed="{{ rdSavAttr }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">{{ rdSavLabel }}</button><button onClick="{{ rdToggleTr }}" aria-expanded="{{ rdTrAttr }}" style="border:none;background:transparent;color:var(--accent-hover);padding:4px 6px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ rdTrLabel }}</button></sc-if>
+                  </div>
+                  <sc-if value="{{ rdPlaying }}" hint-placeholder-val=""><p role="status" style="margin:0;font:500 11.5px 'Pliant Mono';color:var(--positive);">{{ rdPlayText }}</p></sc-if>
+                </div>
+                <sc-if value="{{ rdNoAudit }}" hint-placeholder-val=""><p style="margin:0;padding-top:14px;border-top:1px solid var(--border-soft);font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);">{{ rdDNote }}</p></sc-if>
+                <sc-if value="{{ rdHasAudit }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <div role="img" aria-label="Call timeline: you and Maya spoke until 02:04, Maya agreed, Savant spoke for 14 seconds, then you and Maya finished the call" style="display:flex;align-items:center;gap:2px;"><sc-for list="{{ rdFullSegs }}" as="g" hint-placeholder-count="14"><span style="flex:{{ g.flex }};height:{{ g.h }};border-radius:2px;background:{{ g.c }};"></span></sc-for></div>
+                  <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font:400 11px 'Pliant',sans-serif;color:var(--text-secondary);"><span><span aria-hidden="true" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--positive);margin-right:6px;"></span>You</span><span><span aria-hidden="true" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--text-muted);margin-right:6px;"></span>Maya</span><span><span aria-hidden="true" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);margin-right:6px;"></span>Savant</span><span><span aria-hidden="true" style="display:inline-block;width:2px;height:10px;background:var(--warning);margin-right:6px;"></span>Maya's yes</span></div>
+                </div>
+                </sc-if>
+                <sc-if value="{{ rdTranscript }}" hint-placeholder-val="">
+                <section aria-label="Transcript" style="display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:10px;background:var(--surface-soft);">
+                  <div style="display:flex;gap:12px;"><span style="flex:0 0 76px;font:600 11.5px 'Pliant',sans-serif;color:var(--text);">Maya</span><span style="font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);">Does it run inside Dynamics 365? And where would our data sit?</span></div>
+                  <div style="display:flex;gap:12px;"><span style="flex:0 0 76px;font:600 11.5px 'Pliant',sans-serif;color:var(--positive);">You</span><span style="font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);">Good question. Our AI assistant, Savant, knows that detail better than I do. Okay if it answers?</span></div>
+                  <div style="display:flex;gap:12px;"><span style="flex:0 0 76px;font:600 11.5px 'Pliant',sans-serif;color:var(--text);">Maya</span><span style="font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);">Sure, go ahead.</span></div>
+                  <div style="display:flex;gap:12px;"><span style="flex:0 0 76px;font:600 11.5px 'Pliant',sans-serif;color:var(--accent-hover);">Savant (AI)</span><span style="font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-2);">Hi Maya, I'm Savant, an AI assistant with Sprouts. Yes, One Platform runs inside Dynamics 365, so your reps work from records they already use. On data location: [approved answer]. I'll hand you back to Kartikay.</span></div>
+                </section>
+                </sc-if>
+                <sc-if value="{{ rdHasAudit }}" hint-placeholder-val="{{ true }}">
+                <section aria-label="Savant audit" style="display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border-soft);padding-top:16px;">
+                  <h3 style="margin:0;font:600 15px 'Pliant',sans-serif;color:var(--text);">Savant audit</h3>
+                  <dl style="margin:0;display:grid;grid-template-columns:140px 1fr;gap:8px 14px;font:400 12.5px/1.5 'Pliant',sans-serif;">
+                    <dt style="color:var(--text-secondary);">Maya asked</dt><dd style="margin:0;color:var(--text);">“Does it run inside Dynamics 365? And where would our data sit?” at 01:51</dd>
+                    <dt style="color:var(--text-secondary);">You asked permission</dt><dd style="margin:0;color:var(--text);">02:01</dd>
+                    <dt style="color:var(--text-secondary);">Maya said</dt><dd style="margin:0;color:var(--text);">“Sure, go ahead.” at 02:04 <button onClick="{{ rdPlayClip }}" aria-pressed="{{ rdClipAttr }}" style="border:none;background:transparent;color:var(--accent-hover);padding:0 4px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;">{{ rdClipLabel }}</button></dd>
+                    <dt style="color:var(--text-secondary);">You confirmed</dt><dd style="margin:0;color:var(--text);">02:05</dd>
+                    <dt style="color:var(--text-secondary);">Savant said it is an AI</dt><dd style="margin:0;color:var(--positive);">Yes, in its first words</dd>
+                    <dt style="color:var(--text-secondary);">Spoke for</dt><dd style="margin:0;color:var(--text);">14 s of the 30 s allowed, then left the line</dd>
+                    <dt style="color:var(--text-secondary);">You cut in</dt><dd style="margin:0;color:var(--text);">No</dd>
+                    <dt style="color:var(--text-secondary);">Sources</dt><dd style="margin:0;color:var(--text);">Security one-pager, p.2 and the Dynamics 365 guide</dd>
+                  </dl>
+                </section>
+                <section aria-label="Accuracy review" style="display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--border-soft);padding-top:16px;">
+                  <h3 style="margin:0;font:600 15px 'Pliant',sans-serif;color:var(--text);">Was the answer right?</h3>
+                  <p role="status" style="margin:0;font:400 12.5px/1.5 'Pliant',sans-serif;color:{{ rdReviewC }};">{{ rdReviewText }}</p>
+                  <sc-if value="{{ rdReviewPending }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-wrap:wrap;gap:8px;"><button onClick="{{ rdMarkOk }}" style="border:none;background:var(--accent);color:#fff;border-radius:999px;padding:8px 14px;font:600 12px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="background:var(--accent-hover)">Mark as accurate</button><button onClick="{{ rdMarkFlag }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--negative);color:var(--negative)">Flag an error</button></div></sc-if>
+                  <sc-if value="{{ rdReviewDone }}" hint-placeholder-val=""><div><button onClick="{{ rdMarkUndo }}" style="border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);border-radius:999px;padding:7px 13px;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;" style-hover="border-color:var(--accent-border);color:var(--accent-hover)">Undo</button></div></sc-if>
+                </section>
+                </sc-if>
+              </aside>
+            </div>
+            </sc-if>
+
+            <!-- ===== RESULTS ===== -->
+            <sc-if value="{{ rdIsResults }}" hint-placeholder-val="">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <section aria-label="From dial to meeting held" style="background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:18px 20px;display:flex;flex-direction:column;gap:18px;">
+                <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 24px;">
+                  <div style="flex:1 1 300px;"><h2 style="margin:0;font:600 19px 'Pliant',sans-serif;letter-spacing:-0.02em;color:var(--text);">From dial to meeting held</h2><p style="margin:5px 0 0;font:400 12.5px 'Pliant',sans-serif;color:var(--text-secondary);">Each step shows how many made it from the step before.</p></div>
+                  <div role="group" aria-label="Source" style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ rdResFilters }}" as="rf" hint-placeholder-count="5"><button onClick="{{ rf.pick }}" aria-pressed="{{ rf.pressed }}" style="border:1px solid {{ rf.bd }};background:{{ rf.bg }};color:{{ rf.col }};border-radius:999px;padding:4px 10px;font:500 11.5px 'Pliant',sans-serif;cursor:pointer;white-space:nowrap;">{{ rf.l }}</button></sc-for></div>
+                </div>
+                <div role="status" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px;">
+                  <sc-for list="{{ rdFunnel }}" as="fn" hint-placeholder-count="5"><div style="display:flex;flex-direction:column;gap:6px;"><span style="font:600 30px 'Pliant Mono';letter-spacing:-0.03em;color:{{ fn.numC }};">{{ fn.n }}</span><span style="font:600 12.5px 'Pliant',sans-serif;color:var(--text);">{{ fn.l }}<sc-if value="{{ fn.metric }}" hint-placeholder-val=""><span style="font:500 10.5px 'Pliant Mono';color:var(--positive);margin-left:6px;">success metric</span></sc-if></span><sc-if value="{{ fn.hasBar }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="display:block;height:6px;border-radius:3px;background:var(--surface-soft);overflow:hidden;"><span style="display:block;height:100%;width:{{ fn.w }};background:{{ fn.barC }};"></span></span></sc-if><span style="font:400 11.5px 'Pliant',sans-serif;color:var(--text-secondary);">{{ fn.t }}</span></div></sc-for>
+                </div>
+              </section>
+              <p style="margin:0;font:500 10.5px 'Pliant Mono';color:var(--text-muted);">The three sections below cover all sources · sample data, last 2 weeks</p>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start;">
+                <sc-for list="{{ rdResBlocks }}" as="rb" hint-placeholder-count="2">
+                <section aria-label="{{ rb.h }}" style="background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;display:flex;flex-direction:column;gap:6px;">
+                  <h3 style="margin:0 0 4px;font:600 15px 'Pliant',sans-serif;color:var(--text);">{{ rb.h }}<sc-if value="{{ rb.hasTag }}" hint-placeholder-val=""><span style="display:block;font:500 10.5px 'Pliant Mono';color:var(--accent-hover);margin-top:3px;">{{ rb.tag }}</span></sc-if></h3>
+                  <dl style="margin:0;display:flex;flex-direction:column;"><sc-for list="{{ rb.rows }}" as="rr" hint-placeholder-count="7"><div style="display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-top:1px solid var(--border-soft);font:400 12px/1.45 'Pliant',sans-serif;"><dt style="color:var(--text-secondary);">{{ rr.k }}</dt><dd style="margin:0;font:600 12px 'Pliant Mono';color:var(--text);white-space:nowrap;text-align:right;">{{ rr.v }}</dd></div></sc-for></dl>
+                </section>
+                </sc-for>
+                <section aria-label="Did Savant help with hard questions" style="background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;display:flex;flex-direction:column;gap:12px;">
+                  <h3 style="margin:0;font:600 15px 'Pliant',sans-serif;color:var(--text);">Did Savant help with hard questions?</h3>
+                  <div style="display:flex;flex-direction:column;gap:6px;"><div style="display:flex;justify-content:space-between;gap:12px;font:400 12px 'Pliant',sans-serif;color:var(--text-2);"><span>Rep answered alone, with the answer card</span><span style="font:600 11.5px 'Pliant Mono';color:var(--text);white-space:nowrap;">1 of 4 booked</span></div><span aria-hidden="true" style="display:block;height:8px;border-radius:4px;background:var(--surface-soft);overflow:hidden;"><span style="display:block;width:25%;height:100%;background:var(--text-muted);"></span></span></div>
+                  <div style="display:flex;flex-direction:column;gap:6px;"><div style="display:flex;justify-content:space-between;gap:12px;font:400 12px 'Pliant',sans-serif;color:var(--text-2);"><span>Savant answered, after permission</span><span style="font:600 11.5px 'Pliant Mono';color:var(--text);white-space:nowrap;">3 of 5 booked</span></div><span aria-hidden="true" style="display:block;height:8px;border-radius:4px;background:var(--surface-soft);overflow:hidden;"><span style="display:block;width:60%;height:100%;background:var(--accent);"></span></span></div>
+                  <p style="margin:0;padding:8px 10px;border-radius:8px;background:var(--warning-soft);font:400 12px/1.5 'Pliant',sans-serif;color:var(--warning);">Too few calls to pick a winner. The pilot needs about [N] hard-question conversations in each group.</p>
+                  <dl style="margin:0;display:flex;flex-direction:column;"><div style="display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-top:1px solid var(--border-soft);font:400 12px/1.45 'Pliant',sans-serif;"><dt style="color:var(--text-secondary);">Best reason-for-call line with call screeners</dt><dd style="margin:0;font:600 12px 'Pliant',sans-serif;color:var(--text);text-align:right;">Hiring signal, 41% put through</dd></div><div style="display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-top:1px solid var(--border-soft);font:400 12px/1.45 'Pliant',sans-serif;"><dt style="color:var(--text-secondary);">Complaints or opt-outs per 1,000 calls</dt><dd style="margin:0;font:600 12px 'Pliant Mono';color:var(--text);">0</dd></div></dl>
+                </section>
+              </div>
+            </div>
+            </sc-if>
+
+            <!-- ===== SETTINGS ===== -->
+            <sc-if value="{{ rdIsSettings }}" hint-placeholder-val="">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <section aria-label="Phone numbers" style="background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
+                <div style="padding:16px 18px 12px;"><h2 style="margin:0;font:600 17px 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Phone numbers</h2><p style="margin:4px 0 0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);max-width:72ch;">The numbers your reps call from. Daily caps and reputation count every call, whatever added it.</p></div>
+                <div style="overflow-x:auto;"><div style="min-width:720px;">
+                  <div style="display:grid;grid-template-columns:1.2fr 1.3fr .7fr 1.3fr 1fr;gap:0 14px;padding:0 18px;height:34px;align-items:center;background:var(--surface-soft);font:600 9px 'Pliant Mono';letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);"><span>Number</span><span>Caller ID shown</span><span>Calls today</span><span>Reputation</span><span>Used by</span></div>
+                  <sc-for list="{{ rdNums }}" as="n" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:1.2fr 1.3fr .7fr 1.3fr 1fr;gap:0 14px;padding:10px 18px;border-top:1px solid var(--border-soft);align-items:start;font:400 12px 'Pliant',sans-serif;"><span><span style="display:block;font:600 12px 'Pliant Mono';color:var(--text);">{{ n.num }}</span><span style="display:block;font-size:11px;color:var(--text-secondary);">{{ n.where }}</span></span><span><span style="display:block;color:var(--text);">{{ n.cid }}</span><span style="display:block;font-size:11px;color:var(--text-secondary);">{{ n.cidSub }}</span></span><span style="font-family:'Pliant Mono';color:var(--text-2);">{{ n.today }}</span><span style="display:flex;align-items:center;gap:7px;color:{{ n.repC }};"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:{{ n.dot }};flex:0 0 auto;"></span>{{ n.rep }}</span><span style="color:var(--text-2);">{{ n.by }}</span></div></sc-for>
+                </div></div>
+              </section>
+              <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
+                <section aria-label="Calling policy" style="flex:999 1 580px;min-width:0;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);overflow:hidden;">
+                  <div style="padding:16px 18px 12px;"><h2 style="margin:0;font:600 17px 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">Calling policy</h2><p style="margin:4px 0 0;font:400 12.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);max-width:72ch;">Decides, for each call, whether Savant may speak. Savant stays off for a destination until your counsel has reviewed it and an admin turns it on. Answer cards are on everywhere. This is not legal advice.</p></div>
+                  <div style="overflow-x:auto;"><div style="min-width:620px;">
+                    <div style="display:grid;grid-template-columns:1.1fr 1.2fr 1.3fr 1.1fr;gap:0 14px;padding:0 18px;height:34px;align-items:center;background:var(--surface-soft);font:600 9px 'Pliant Mono';letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);"><span>Calls to</span><span>Savant may speak, after permission</span><span>Counsel review</span><span>AI agent calls</span></div>
+                    <sc-for list="{{ rdPolicy }}" as="r" hint-placeholder-count="8">
+                    <div style="display:grid;grid-template-columns:1.1fr 1.2fr 1.3fr 1.1fr;gap:0 14px;padding:9px 18px;border-top:1px solid var(--border-soft);align-items:center;font:400 12px 'Pliant',sans-serif;">
+                      <span style="font-weight:600;color:var(--text);">{{ r.dest }}</span>
+                      <span><button role="switch" aria-checked="{{ r.checked }}" aria-disabled="{{ r.locked }}" aria-label="{{ r.aria }}" onClick="{{ r.toggle }}" style="display:inline-flex;align-items:center;gap:8px;border:none;background:transparent;padding:0;cursor:{{ r.cur }};font:500 12px 'Pliant',sans-serif;color:{{ r.labC }};"><span aria-hidden="true" style="width:34px;height:20px;border-radius:20px;background:{{ r.trk }};position:relative;flex:0 0 auto;opacity:{{ r.op }};"><span style="position:absolute;top:3px;left:{{ r.knob }};width:14px;height:14px;border-radius:50%;background:#fff;"></span></span>{{ r.swLabel }}</button></span>
+                      <span><sc-if value="{{ r.canRequest }}" hint-placeholder-val=""><button onClick="{{ r.request }}" style="border:none;background:transparent;color:var(--accent-hover);padding:0;font:600 11.5px 'Pliant',sans-serif;cursor:pointer;">Request review</button></sc-if><sc-if value="{{ r.hasReview }}" hint-placeholder-val="{{ true }}"><span style="color:{{ r.reviewC }};">{{ r.review }}</span></sc-if></span>
+                      <span style="color:{{ r.agentC }};">{{ r.agent }}</span>
+                    </div>
+                    </sc-for>
+                  </div></div>
+                  <p style="margin:0;padding:12px 18px 16px;font:400 11.5px/1.5 'Pliant',sans-serif;color:var(--text-secondary);border-top:1px solid var(--border-soft);">A switch unlocks once that destination is reviewed. Before each dial, Sprouts checks the do-not-call lists for the destination and your workspace list.</p>
+                </section>
+                <div style="flex:1 1 340px;min-width:0;max-width:460px;display:flex;flex-direction:column;gap:16px;">
+                  <sc-for list="{{ rdSetBlocks }}" as="sb" hint-placeholder-count="2">
+                  <section aria-label="{{ sb.h }}" style="background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:16px 18px;display:flex;flex-direction:column;gap:10px;">
+                    <h2 style="margin:0;font:600 17px 'Pliant',sans-serif;letter-spacing:-0.01em;color:var(--text);">{{ sb.h }}</h2>
+                    <dl style="margin:0;display:grid;grid-template-columns:128px 1fr;gap:8px 14px;font:400 12.5px/1.5 'Pliant',sans-serif;"><sc-for list="{{ sb.rows }}" as="sr" hint-placeholder-count="5"><dt style="color:var(--text-secondary);">{{ sr.k }}</dt><dd style="margin:0;color:var(--text);">{{ sr.v }}</dd></sc-for></dl>
+                  </section>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+            </sc-if>
+          </div>
+          </sc-if>
+          <sc-if value="{{ dlIsManual }}" hint-placeholder-val="">
           <div style="flex:1;min-height:0;display:grid;grid-template-columns:{{ dlCols }};gap:16px;">
             <div style="border:none;background:var(--surface);border-radius:14px;box-shadow:0 1px 3px rgba(24,23,30,.05), 0 12px 44px -10px rgba(24,23,30,.13);padding:6px;display:flex;flex-direction:column;gap:2px;min-height:0;overflow-y:auto;overflow-x:hidden;">
               <div style="display:flex;align-items:center;padding:7px 9px 5px;"><span style="font:600 9.5px 'Pliant Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);">Queue</span><span style="flex:1;"></span><span style="font:500 10px 'Pliant Mono';color:var(--text-muted);">{{ dlQN }}</span></div>
@@ -26949,9 +27462,286 @@ class Component extends DCLogic {
         const outC = (o) => (OUTS.find(x => x[0] === o) || OUTS[3]);
         const C = DQ[dlIdx]; const vals = Object.values(dlOut); const localOn = S.dlLocal !== false; const rec = S.dlRec !== false;
         const nextOrStop = (outs) => { const nx = DQ.findIndex((q, i) => i > dlIdx && !outs[i]); if (nx >= 0) dlGo(nx); else { this.setState({ dlPhase: 'idle' }); this.toast('Queue done. Outcomes are on each contact and in the CRM.'); } };
+        // ===== REP DIALER (queue, calling session, wrap-up, call log, results, settings) =====
+        const rdVals = (() => {
+          const set = (o) => this.setState(o);
+          const b = (v) => (v ? 'true' : 'false');
+          const chip = (on) => ({ bd: on ? 'var(--accent)' : 'var(--border-strong)', bg: on ? 'var(--accent-soft)' : 'var(--surface)', col: on ? 'var(--accent-hover)' : 'var(--text-secondary)', pressed: b(on) });
+          const tog = (on) => ({ bd: on ? 'var(--accent)' : 'var(--border-strong)', bg: on ? 'var(--accent-soft)' : 'var(--surface)' });
+          const tab = S.rdTab || 'queue'; const scr = S.rdScr || 'list';
+          const inQueue = tab === 'queue';
+
+          // ----- Queue -----
+          const who = S.rdWho || 'mine'; const src = S.rdSrc || 'all'; const team = who === 'team';
+          const R = (name, role, why, open, win, local, src, from, detail, savant, helpWhy, rep) => ({ name, role, why, open, win, local, src, from, detail, help: savant ? 'Savant can join' : 'Answers on screen', helpWhy, rep, savant });
+          const camp = 'Q4 RevOps leaders, attempt ';
+          const all = [
+            R('Maya Fernandes', 'VP Revenue Ops, Kestrel Freight', 'Hiring 6 SDRs in Austin', true, 'Open until 11:30', '10:42 in Austin', 'camp', 'Campaign', camp + '1 of 3', true, '', 'You'),
+            R('Daniel Okafor', 'Head of Sales Ops, Ledgerline', 'Intent surge: sales intelligence', true, 'Open until 11:30', '10:42 in Chicago', 'seg', 'Segment', 'Fintech sales leaders, attempt 2 of 3', false, 'Mobile number', 'You'),
+            R('Aisha Rahman', 'CRO, Orbit Health', 'Visited pricing twice this week', true, 'Open until 11:30', '9:42 in Denver', 'web', 'Website visitor', 'Attempt 1 of 3', true, '', 'You'),
+            R('Oliver Grant', 'Sales Director, Fenmoor', 'Replied “call me next week”', true, 'Open until 17:30', '16:42 in London', 'cb', 'Callback', 'He asked for this week', false, 'UK', 'You'),
+            R('Priya Raman', 'Director RevOps, Castellan', 'Intent surge: data providers', true, 'Open until 11:30', '10:42 in Dallas', 'seg', 'Segment', 'Fintech sales leaders, attempt 1 of 3', true, '', 'Sandeep'),
+            R('Liam Byrne', 'VP Sales, Corrib Systems', 'Visited pricing this week', true, 'Open until 17:30', '16:42 in Dublin', 'web', 'Website visitor', 'Attempt 1 of 3', false, 'EU', 'Sandeep'),
+            R('Arjun Mehta', 'CRO, Lumen Freight', 'Asked for a call today', true, 'Open until 11:30', '10:42 in Houston', 'cb', 'Callback', 'He asked for today', false, 'Mobile number', 'Pratik'),
+            R('Marcus Bell', 'VP Sales, Northgate Logistics', 'New CRO started last month', false, 'Opens 9:30', '8:42 in Seattle', 'camp', 'Campaign', camp + '1 of 3', true, '', 'You'),
+            R('Grace Whitfield', 'RevOps Director, Tidewater Supply', 'Series A, hiring AEs', false, 'Opens 9:30', '8:42 in San Diego', 'camp', 'Campaign', camp + '3 of 3', false, 'Mobile number', 'You'),
+            R('Sofia Marin', 'Head of Sales, Brasa Logistics', 'Hiring 4 AEs in Portland', false, 'Opens 9:30', '8:42 in Portland', 'camp', 'Campaign', camp + '2 of 3', true, '', 'Sandeep'),
+            R('Wei Ling Tan', 'Head of Growth, Harbourline', 'New VP Sales started last month', false, 'Opens 9:30', '0:42 in Singapore', 'camp', 'Campaign', 'APAC fintech, attempt 1 of 3', true, '', 'Pratik'),
+            R('Elena Sokolova', 'VP Growth, Larkspur', 'Opened the last two emails', false, 'Opens 16:00', '11:42 in Toronto', 'camp', 'Campaign', 'Canada expansion, attempt 1 of 3', false, 'Canada', 'You')
+          ];
+          if (S.rdSeg) {
+            all.push(R('Nadia Hassan', 'VP Sales Ops, Fernhill Pay', 'Added from the segment', true, 'Open until 11:30', '10:42 in Nashville', 'seg', 'Segment', 'Fintech sales leaders, added just now', true, '', 'You'));
+            all.push(R('Owen Clarke', 'Head of RevOps, Brightpath', 'Added from the segment', false, 'Opens 9:30', '8:42 in Sacramento', 'seg', 'Segment', 'Fintech sales leaders, added just now', true, '', 'You'));
+          }
+          if (S.rdWeb) all.push(R('Tessa Lund', 'COO, Vantry', 'On the pricing page this week', true, 'Open until 11:30', '10:42 in Minneapolis', 'web', 'Website visitor', 'Added just now', true, '', 'You'));
+          const mine = all.filter(r => r.rep === 'You');
+          const scope = team ? all : mine;
+          const shown = scope.filter(r => src === 'all' || r.src === src);
+          const qCount = (k) => scope.filter(r => k === 'all' || r.src === k).length;
+          const startSession = () => set({ rdTab: 'queue', rdScr: 'call', rdStep: 0, rdNote: '', rdMute: false, rdHold: false, rdKey: false, rdDig: '', rdMate: false });
+
+          // ----- Calling session -----
+          const step = S.rdStep || 0;
+          const fresh = { rdMute: false, rdHold: false, rdKey: false, rdDig: '', rdMate: false, rdNote: '' };
+          const go = (n, note) => () => set({ ...fresh, rdStep: n, rdNote: note || '' });
+          const say = (note) => () => set({ rdNote: note });
+          const mk = (pairs) => pairs.map(p => { const c = chip(p[0] === step); return { l: p[1], go: go(p[0]), ...c }; });
+          const TONES = {
+            idle: { bg: 'var(--surface)', bd: 'var(--border-soft)', sub: 'var(--text-secondary)', st: 'var(--text-secondary)', line: 'var(--border-soft)' },
+            ring: { bg: 'var(--warning-soft)', bd: 'var(--warning)', sub: 'var(--text-2)', st: 'var(--warning)', line: 'var(--warning)' },
+            live: { bg: 'var(--positive-soft)', bd: 'var(--positive)', sub: 'var(--text-2)', st: 'var(--positive)', line: 'var(--positive)' },
+            sav: { bg: 'var(--accent-soft)', bd: 'var(--accent)', sub: 'var(--text-2)', st: 'var(--accent-hover)', line: 'var(--accent-border)' },
+            drop: { bg: 'var(--negative-soft)', bd: 'var(--negative)', sub: 'var(--text-2)', st: 'var(--negative)', line: 'var(--negative)' }
+          };
+          const band = TONES[['idle', 'ring', 'live', 'live', 'live', 'live', 'sav', 'live', 'live', 'live', 'live', 'live', 'drop', 'idle'][step]];
+          const live = step >= 2 && step <= 11;
+          let statusText = ['Not dialled', 'Ringing', 'Live', 'Live', 'Live, asking Maya', 'Live, Maya agreed', 'Savant is speaking', 'Live', 'Live', 'Live', 'Live', 'Live', 'Call dropped', 'Skipped, do-not-call'][step];
+          if (live && S.rdHold) statusText = 'On hold';
+          const timer = ['00:00', '00:00', '00:04', '01:58', '02:01', '02:04', '02:14', '02:31', '02:12', '01:44', '01:58', '02:09', '01:12', '00:00'][step];
+          const seat = (kind, color) => ({ fill: kind === 'on' ? color : 'transparent', ring: kind === 'on' ? color : kind === 'wait' ? 'var(--warning)' : kind === 'gone' ? 'var(--negative)' : 'var(--border-strong)' });
+          let you = ['on', S.rdMute ? 'on the line, muted' : 'on the line'];
+          let maya = ['on', S.rdHold ? 'on hold' : 'on the line'];
+          let sav = ['off', 'off the line, joins only if Maya agrees'];
+          if (step === 0) { you = ['off', 'ready']; maya = ['off', 'not dialled']; sav = ['off', 'off the line']; }
+          if (step === 1) { maya = ['wait', 'ringing']; sav = ['off', 'off the line']; }
+          if (step === 4) sav = ['wait', 'waiting for Maya’s yes'];
+          if (step === 5) sav = ['wait', 'Maya agreed at 02:04'];
+          if (step === 6) { you = ['on', 'listening, can cut in']; sav = ['on', 'speaking, 0:09 of 0:30']; }
+          if (step === 7) sav = ['off', 'left after 14 s'];
+          if (step === 9 || step === 10) sav = ['off', 'off the line'];
+          if (step === 11) sav = ['gone', 'couldn’t join'];
+          if (step === 12) { you = ['on', 'still in your session']; maya = ['gone', 'dropped at 01:12']; sav = ['off', 'off the line']; }
+          if (step === 13) { you = ['off', 'ready']; maya = ['gone', 'on the do-not-call list']; sav = ['off', 'off the line']; }
+          const seats = [
+            { name: 'You', note: you[1], ...seat(you[0], 'var(--positive)') },
+            { name: 'Maya', note: maya[1], ...seat(maya[0], 'var(--text)') },
+            { name: 'Savant', note: sav[1], ...seat(sav[0], 'var(--accent)') }
+          ];
+          if (S.rdMate) seats.push({ name: 'Sandeep', note: 'ringing', ...seat('wait') });
+          const L = {
+            p1: ['Maya', 'Hello, Maya speaking.'],
+            r1: ['You', 'Hi Maya, it’s Kartikay from Sprouts. Quick note that this call is recorded. I saw Kestrel is hiring six SDRs in Austin, so I’ll be quick: is pipeline for the new team on your plate?'],
+            p2: ['Maya', 'It is. We’re halfway through picking tools, actually.'],
+            p3: ['Maya', 'Before we go further: does it run inside Dynamics 365? And where would our data sit?'],
+            r2: ['You', 'Good question. Our AI assistant, Savant, knows that detail better than I do. Okay if it answers?'],
+            p4: ['Maya', 'Sure, go ahead.'],
+            a1: ['Savant (AI)', 'Hi Maya, I’m Savant, an AI assistant with Sprouts. Yes, One Platform runs inside Dynamics 365, so your reps work from records they already use. On data location: [approved answer]. I’ll hand you back to Kartikay.'],
+            r3: ['You', 'Thanks. Would a 20-minute walkthrough with your RevOps lead next week help?'],
+            p5: ['Maya', 'Thursday works.'],
+            r4: ['You', 'Yes, it runs inside Dynamics 365. On data location, here’s what our security note says…'],
+            p6: ['Maya', 'Could we talk to another freight company that uses it?']
+          };
+          const SCRIPT = { 2: [['p1']], 3: [['p1'], ['r1'], ['p2'], ['p3', 1]], 4: [['r1'], ['p2'], ['p3', 1]], 5: [['p3'], ['r2'], ['p4', 1]], 6: [['r2'], ['p4'], ['a1']], 7: [['a1'], ['r3'], ['p5']], 8: [['p2'], ['p3'], ['r4']], 9: [['r1'], ['p2'], ['p6', 1]], 10: [['r1'], ['p2'], ['p3', 1]], 11: [['p3'], ['r2'], ['p4']], 12: [['p1'], ['r1'], ['p2']] };
+          const whoC = (w) => (w === 'You' ? 'var(--positive)' : w === 'Maya' ? 'var(--text)' : 'var(--accent-hover)');
+          const lines = (SCRIPT[step] || []).map(e => { const l = L[e[0]]; return { who: l[0], text: l[1], c: whoC(l[0]), bg: e[1] ? 'var(--accent-soft)' : 'transparent' }; });
+          const SEGC = { y: 'var(--positive)', m: 'var(--text-muted)', s: 'var(--accent)' };
+          const segsOf = (parts) => parts.map(p => (p[0] === 'tick' ? { flex: '0 0 2px', h: '16px', c: 'var(--warning)' } : { flex: p[1] + ' 1 0', h: '6px', c: SEGC[p[0]] }));
+          const BASE = [['y', 20], ['m', 6], ['y', 34], ['m', 14], ['y', 10], ['m', 22], ['y', 8], ['m', 10], ['tick']];
+          let parts = BASE;
+          if (step === 6) parts = BASE.concat([['s', 9]]);
+          if (step === 7) parts = BASE.concat([['s', 14], ['y', 7], ['m', 5]]);
+          const pinned = !!S.rdPin; const qOpen = step === 0 || step === 13 || pinned;
+
+          // ----- Wrap-up -----
+          const out = S.rdOut || 0; const time = S.rdTime || 0;
+          const checks = S.rdChk || [true, true, true];
+          const OUTL = ['Meeting booked', 'Spoke, not now', 'No answer', 'Voicemail', 'Wrong person', 'Do not call'];
+          const OUTLINE = ['Maya moves to End of journey. Her account’s AE gets this brief.', 'Maya gets the email recap next.', 'Maya waits 1 day, then gets attempt 2 of 3.', 'Maya waits 1 day, then gets attempt 2 of 3.', 'Sprouts looks for the right person at Kestrel Freight.', 'Maya leaves every call queue in the workspace.'];
+          const SLOTS = ['Thu 19 Nov, 10:00 CST', 'Thu 19 Nov, 14:00 CST', 'Fri 20 Nov, 10:00 CST'];
+          const isMeeting = out === 0; const meetingText = SLOTS[time];
+          const flip = (i) => () => set({ rdChk: checks.map((c, j) => (j === i ? !c : c)) });
+          const CHK = [
+            { i: 0, l: 'Send the calendar invite', sub: 'To Maya, for ' + meetingText, meetingOnly: true },
+            { i: 1, l: 'Send the email recap in the campaign thread', sub: 'Links the Dynamics 365 guide Savant quoted', draft: true },
+            { i: 2, l: 'Log the call to Kestrel Freight', sub: 'Call and summary go to its activity in Account Intelligence' }
+          ].filter(c => !c.meetingOnly || isMeeting).map(c => { const on = checks[c.i]; return { l: c.l, sub: c.sub, checked: b(on), flip: flip(c.i), bd: on ? 'var(--accent)' : 'var(--border-strong)', bg: on ? 'var(--accent)' : 'var(--surface)', op: on ? '1' : '0', hasDraft: !!c.draft }; });
+          const saveMsg = () => { const did = []; if (isMeeting && checks[0]) did.push('invite sent'); if (checks[1]) did.push('recap sent'); if (checks[2]) did.push('call logged to Kestrel Freight'); return 'Saved as “' + OUTL[out] + '”' + (did.length ? ': ' + did.join(', ') + '.' : '.'); };
+
+          // ----- Call log -----
+          const review = S.rdReview || 'pending'; const logF = S.rdLogF || 'all'; const sel = S.rdLogSel || 'maya'; const playing = S.rdPlay || '';
+          const reviewSub = { pending: 'Review pending', ok: 'Reviewed, accurate', flag: 'Flagged as an error' }[review];
+          const reviewC = { pending: 'var(--warning)', ok: 'var(--positive)', flag: 'var(--negative)' }[review];
+          const LOG = [
+            { id: 'maya', time: '10:41', name: 'Maya Fernandes', company: 'Kestrel Freight', outcome: 'Meeting booked', good: true, len: '2:47', ai: 'Savant spoke, 14 s', aiSub: reviewSub, sav: true, rep: 'You', from: 'campaign Q4 RevOps leaders', note: '' },
+            { id: 'rhea', time: '10:18', name: 'Rhea Kapoor', company: 'Fieldnote', outcome: 'Meeting booked', good: true, len: '4:12', ai: 'Answer card, 2 used', aiSub: '', rep: 'You', from: 'a callback', note: 'Savant did not speak on this call. You used two answer cards.' },
+            { id: 'tom', time: '10:02', name: 'Tom Lindqvist', company: 'Brightwell', outcome: 'Voicemail left', len: '0:31', ai: 'None', aiSub: '', rep: 'You', from: 'campaign Q4 RevOps leaders', note: 'Your “Hiring signal” voicemail was left. A text follow-up is logged.' },
+            { id: 'hannah', time: '09:51', name: 'Hannah Brooks', company: 'Cinderline', outcome: 'Spoke, not now', len: '3:05', ai: 'Answer card, 1 used', aiSub: '', rep: 'Sandeep', from: 'segment Fintech sales leaders', note: 'Savant did not speak on this call. Sandeep used one answer card.' },
+            { id: 'jun', time: '09:44', name: 'Jun Watanabe', company: 'Halden Works', outcome: 'No answer', len: '0:22', ai: 'None', aiSub: '', rep: 'Pratik', from: 'campaign APAC fintech', note: 'No answer. Attempt 2 of 3 is due tomorrow.' },
+            { id: 'carla', time: '09:36', name: 'Carla Mendes', company: 'Rookfield', outcome: 'Wrong person', len: '0:48', ai: 'None', aiSub: '', rep: 'Sandeep', from: 'a website visit', note: 'Wrong person. Sprouts is looking for the right contact at Rookfield.' }
+          ];
+          const PASS = { all: () => true, sav: r => !!r.sav, review: r => !!r.sav && review === 'pending', mine: r => r.rep === 'You' };
+          const logShown = LOG.filter(PASS[logF]);
+          const D = LOG.find(r => r.id === sel) || LOG[0]; const hasAudit = !!D.sav;
+          const play = (k) => () => set({ rdPlay: playing === k ? '' : k });
+          const FULL = BASE.concat([['s', 14], ['y', 7], ['m', 5], ['y', 9], ['m', 7]]);
+
+          // ----- Results -----
+          const rsrc = S.rdResSrc || 'all';
+          const RES = { all: [412, 38, 24, 6, 4], camp: [260, 22, 14, 3, 2], seg: [84, 7, 4, 1, 1], cb: [38, 6, 4, 1, 1], web: [30, 3, 2, 1, 0] }[rsrc];
+          const pct = (i) => (RES[i - 1] ? Math.round(RES[i] / RES[i - 1] * 100) : 0);
+          const SRCS = [['all', 'All sources'], ['camp', 'Campaigns'], ['seg', 'Segments and lists'], ['cb', 'Callbacks'], ['web', 'Website visitors']];
+
+          // ----- Settings -----
+          const polOn = S.rdPolOn || { usb: true, sg: true }; const polReq = S.rdPolReq || {};
+          const POL = [
+            { id: 'usb', dest: 'US, business lines', open: true, review: 'Reviewed 12 Nov', agent: 'Consented leads only' },
+            { id: 'usm', dest: 'US, mobile numbers', ask: true, agent: 'Consented leads only' },
+            { id: 'uk', dest: 'United Kingdom', review: 'With counsel since 6 Nov', wait: true, agent: 'Off' },
+            { id: 'eu', dest: 'European Union', review: 'With counsel since 6 Nov', wait: true, agent: 'Off' },
+            { id: 'ca', dest: 'Canada', ask: true, agent: 'Off' },
+            { id: 'sg', dest: 'Singapore', open: true, review: 'Reviewed 12 Nov', agent: 'With counsel', agentWait: true },
+            { id: 'au', dest: 'Australia', review: 'With counsel since 6 Nov', wait: true, agent: 'With counsel', agentWait: true },
+            { id: 'in', dest: 'India', review: 'Declare your numbers first', agent: 'Off' }
+          ];
+
+          return {
+            rdOn: (S.dlMode || 0) === 0,
+            rdNavN: String(mine.length),
+            rdShowTabs: !(inQueue && scr !== 'list'),
+            rdTabNote: { queue: 'Sample data', log: 'Sample data', results: 'Sample data · last 2 weeks', settings: 'Sample data · admin view' }[tab],
+            rdTabs: [['queue', 'Queue'], ['log', 'Call log'], ['results', 'Results'], ['settings', 'Settings']].map(([k, l]) => { const on = tab === k; return { l, sel: b(on), w: on ? 600 : 500, col: on ? 'var(--text)' : 'var(--text-secondary)', bd: on ? 'var(--accent)' : 'transparent', pick: () => set({ rdTab: k, rdScr: 'list' }) }; }),
+            rdIsQueue: inQueue && scr === 'list', rdIsCall: inQueue && scr === 'call', rdIsWrap: inQueue && scr === 'wrap',
+            rdIsLog: tab === 'log', rdIsResults: tab === 'results', rdIsSettings: tab === 'settings',
+
+            // queue
+            rdHeadline: scope.length + ' calls left today',
+            rdSubline: scope.filter(r => r.open).length + ' people are in their calling window now.',
+            rdWhoOpts: [['mine', 'Mine · ' + mine.length], ['team', 'Team · ' + all.length]].map(([k, l]) => ({ l, ...pill(who === k), pressed: b(who === k), pick: () => set({ rdWho: k }) })),
+            rdMenu: !!S.rdMenu, rdMenuAttr: b(!!S.rdMenu), rdToggleMenu: () => set({ rdMenu: !S.rdMenu }),
+            rdSegDone: b(!!S.rdSeg), rdWebDone: b(!!S.rdWeb), rdSegOp: S.rdSeg ? '.55' : '1', rdWebOp: S.rdWeb ? '.55' : '1',
+            rdSegLabel: S.rdSeg ? 'Added: Fintech sales leaders' : 'Segment: Fintech sales leaders, 2 contacts',
+            rdWebLabel: S.rdWeb ? 'Added: website visitors' : 'Website visitors this week, 1 contact',
+            rdAddSeg: () => { if (S.rdSeg) return; set({ rdSeg: true }); this.toast('2 calls added from Fintech sales leaders.'); },
+            rdAddWeb: () => { if (S.rdWeb) return; set({ rdWeb: true }); this.toast('1 call added from this week’s website visitors.'); },
+            rdTip: S.rdTip !== false, rdHideTip: () => set({ rdTip: false }),
+            rdQFilters: SRCS.map(([k, l]) => ({ l: l + ' · ' + qCount(k), ...chip(src === k), pick: () => set({ rdSrc: k }) })),
+            rdTeam: team,
+            rdQCols: 'minmax(170px,1.4fr) minmax(140px,1.2fr) 130px minmax(150px,1.2fr) 130px' + (team ? ' 70px' : ''),
+            rdQRows: shown.map((r, i) => { const nx = i === 0 && r.name === 'Maya Fernandes'; return { ...r, next: nx, showRep: team, nameW: nx ? 700 : 600, winC: r.open ? 'var(--positive)' : 'var(--text-secondary)', helpC: r.savant ? 'var(--accent-hover)' : 'var(--text)', bg: nx ? 'var(--accent-soft)' : 'transparent' }; }),
+            rdQEmpty: shown.length === 0,
+            rdStartSession: startSession,
+
+            // calling session
+            rdSteps: mk([[0, 'Ready'], [1, 'Ringing'], [2, 'Connected'], [3, 'Hard question'], [4, 'Ask permission'], [5, 'She says yes'], [6, 'Savant answers'], [7, 'Back to you'], [8, 'You answer alone']]),
+            rdEdges: mk([[9, 'No approved answer'], [10, 'Partly covered'], [11, 'Savant can’t join'], [12, 'Call drops'], [13, 'Do-not-call match']]),
+            rdBand: band, rdTimer: timer, rdStatusText: statusText, rdSeats: seats, rdLines: lines, rdSegs: segsOf(parts), rdFullSegs: segsOf(FULL),
+            rdQueueOpen: qOpen, rdQueueRail: !qOpen, rdCanHideQueue: pinned && step !== 0 && step !== 13,
+            rdQueueStatus: step === 0 ? 'Next' : step === 13 ? 'Skipped' : 'On call',
+            rdSideQ: [['Daniel Okafor', 'Head of Sales Ops, Ledgerline', 'until 11:30'], ['Aisha Rahman', 'CRO, Orbit Health', 'until 11:30'], ['Oliver Grant', 'Sales Director, Fenmoor', 'until 17:30'], ['Marcus Bell', 'VP Sales, Northgate Logistics', 'opens 9:30']].map(q => ({ name: q[0], role: q[1], when: q[2] })),
+            rdTogglePin: () => set({ rdPin: !pinned }),
+            rdSessionText: S.rdPause ? 'Paused, 2 of 9 done' : '2 of 9 done',
+            rdPauseLabel: S.rdPause ? 'Resume session' : 'Pause session', rdPausedAttr: b(!!S.rdPause), rdTogglePause: () => set({ rdPause: !S.rdPause }),
+            rdShowControls: live && step !== 6,
+            rdMuteLabel: S.rdMute ? 'Muted' : 'Mute', rdMutedAttr: b(!!S.rdMute), rdMuteBd: tog(!!S.rdMute).bd, rdMuteBg: tog(!!S.rdMute).bg, rdToggleMute: () => set({ rdMute: !S.rdMute }),
+            rdHoldLabel: S.rdHold ? 'On hold' : 'Hold', rdHeldAttr: b(!!S.rdHold), rdHoldBd: tog(!!S.rdHold).bd, rdHoldBg: tog(!!S.rdHold).bg, rdToggleHold: () => set({ rdHold: !S.rdHold }),
+            rdKeypad: !!S.rdKey && live && step !== 6, rdKeypadAttr: b(!!S.rdKey), rdKeyBd: tog(!!S.rdKey).bd, rdKeyBg: tog(!!S.rdKey).bg, rdToggleKeypad: () => set({ rdKey: !S.rdKey }),
+            rdKeys: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'].map(k => ({ l: k, press: () => set({ rdDig: (S.rdDig || '') + k }) })),
+            rdDigitsText: S.rdDig ? 'Sent ' + S.rdDig : 'Tap a key to send its tone',
+            rdMateLabel: S.rdMate ? 'Stop ringing Sandeep' : 'Ring a teammate', rdMateAttr: b(!!S.rdMate), rdMateBd: tog(!!S.rdMate).bd, rdMateBg: tog(!!S.rdMate).bg, rdToggleMate: () => set({ rdMate: !S.rdMate }),
+            rdNote: S.rdNote || '', rdHasNote: !!S.rdNote,
+            rdIsReady: step === 0, rdIsRinging: step === 1, rdIsConnected: step === 2, rdIsQuestion: step === 3, rdIsAsk: step === 4, rdIsYes: step === 5, rdIsSavant: step === 6, rdIsBack: step === 7,
+            rdIsNoAnswer: step === 9, rdIsUnsure: step === 10, rdIsNoJoin: step === 11, rdIsDropped: step === 12, rdIsDnc: step === 13,
+            rdShowCompact: step === 4 || step === 5 || step === 8 || step === 11,
+            rdShowStrip: step >= 5 && step <= 7, rdShowTranscript: step >= 2 && step <= 12, rdShowReason: step !== 0,
+            rdSkip: say('Skipped. Maya moves to the end of your queue.'),
+            rdLeaveVm: go(0, 'Voicemail left for Maya. A text follow-up is logged.'),
+            rdBookMeeting: say('Meeting drafted for Thu 19 Nov, 10:00 CST. Confirm it in wrap-up.'),
+            rdAddFollowUp: say('Added to your follow-ups for wrap-up.'),
+            rdShowDnc: say('Added by Sandeep at 10:39, from an email opt-out.'),
+            rdGoReady: go(0), rdGoCall: go(1), rdGoConnect: go(2), rdGoQuestion: go(3), rdGoAsk: go(4), rdGoYes: go(5), rdGoSavant: go(6), rdGoBack: go(7), rdGoSelf: go(8),
+            rdEndCall: () => set({ rdScr: 'wrap', rdOut: 0, rdEdit: false, rdDraft: false }),
+            rdWrapNotNow: () => set({ rdScr: 'wrap', rdOut: 1, rdEdit: false, rdDraft: false }),
+            rdBackToQueue: () => set({ rdTab: 'queue', rdScr: 'list' }),
+            rdBackToCall: () => set({ rdScr: 'call' }),
+
+            // wrap-up
+            rdOutcomes: OUTL.map((l, i) => { const on = out === i; return { l, pressed: b(on), bd: on ? 'var(--accent)' : 'var(--border)', bg: on ? 'var(--accent-soft)' : 'var(--surface)', col: on ? 'var(--accent-hover)' : 'var(--text-2)', pick: () => set({ rdOut: i, rdEdit: false }) }; }),
+            rdOutcomeLine: OUTLINE[out], rdIsMeeting: isMeeting, rdMeetingText: meetingText,
+            rdEditing: !!S.rdEdit, rdEditAttr: b(!!S.rdEdit), rdEditLabel: S.rdEdit ? 'Close' : 'Change time', rdToggleEdit: () => set({ rdEdit: !S.rdEdit }),
+            rdTimes: SLOTS.map((l, i) => ({ l, ...chip(time === i), pick: () => set({ rdTime: i, rdEdit: false }) })),
+            rdNotes: S.rdNotes || '', rdSetNotes: (e) => set({ rdNotes: e.target.value }),
+            rdChecks: CHK,
+            rdDraft: !!S.rdDraft, rdDraftAttr: b(!!S.rdDraft), rdDraftLabel: S.rdDraft ? 'Hide draft' : 'Review draft', rdToggleDraft: () => set({ rdDraft: !S.rdDraft }),
+            rdDraftText: 'Hi Maya, thanks for the time today. ' + (isMeeting ? 'Confirming ' + meetingText + ' with you and your RevOps lead. ' : '') + 'Here is the Dynamics 365 guide Savant quoted: [LINK]. Kartikay',
+            rdSavePause: () => { this.toast(saveMsg() + ' Session paused.'); set({ rdTab: 'queue', rdScr: 'list', rdPause: true, rdNotes: '' }); },
+            rdSaveNext: () => { this.toast(saveMsg() + ' Calling Daniel Okafor next.'); set({ rdScr: 'call', rdStep: 0, rdNotes: '', ...fresh }); },
+            rdOpenAudit: () => set({ rdTab: 'log', rdScr: 'list', rdLogSel: 'maya', rdLogF: 'all' }),
+
+            // call log
+            rdLogFilters: [['all', 'All calls'], ['sav', 'Savant spoke'], ['review', 'Needs review'], ['mine', 'Mine']].map(([k, l]) => ({ l: l + ' · ' + LOG.filter(PASS[k]).length, ...chip(logF === k), pick: () => set({ rdLogF: k }) })),
+            rdLogRows: logShown.map(r => ({ ...r, pressed: b(r.id === sel), bg: r.id === sel ? 'var(--accent-soft)' : 'transparent', outC: r.good ? 'var(--positive)' : 'var(--text-2)', aiC: r.sav ? 'var(--accent-hover)' : r.ai === 'None' ? 'var(--text-muted)' : 'var(--text-2)', subC: reviewC, pick: () => set({ rdLogSel: r.id, rdPlay: '', rdTr: false }) })),
+            rdLogEmpty: logShown.length === 0,
+            rdDTitle: D.name + ', ' + D.time,
+            rdDMeta: D.outcome + ', ' + D.len + '. ' + (D.rep === 'You' ? 'Your call' : D.rep + '’s call') + ', from ' + D.from + '.',
+            rdDNote: D.note, rdHasAudit: hasAudit, rdNoAudit: !hasAudit,
+            rdPlaying: !!playing,
+            rdPlayText: { call: 'Playing the call, 0:00 of ' + D.len, sav: 'Playing Savant’s part, 02:05 to 02:19', clip: 'Playing Maya’s yes, 02:04' }[playing] || '',
+            rdCallLabel: playing === 'call' ? 'Pause' : 'Play the call', rdCallAttr: b(playing === 'call'), rdPlayCall: play('call'),
+            rdSavLabel: playing === 'sav' ? 'Pause' : 'Play Savant’s part', rdSavAttr: b(playing === 'sav'), rdPlaySav: play('sav'),
+            rdClipLabel: playing === 'clip' ? 'Pause clip' : 'Play clip', rdClipAttr: b(playing === 'clip'), rdPlayClip: play('clip'),
+            rdTranscript: !!S.rdTr && hasAudit, rdTrAttr: b(!!S.rdTr), rdTrLabel: S.rdTr ? 'Hide transcript' : 'Show transcript', rdToggleTr: () => set({ rdTr: !S.rdTr }),
+            rdReviewPending: review === 'pending', rdReviewDone: review !== 'pending',
+            rdReviewText: { pending: 'Not reviewed yet. Check what Savant said against its two sources.', ok: 'You marked this answer accurate.', flag: 'You flagged this answer as an error.' }[review],
+            rdReviewC: review === 'pending' ? 'var(--text-2)' : reviewC,
+            rdMarkOk: () => set({ rdReview: 'ok' }), rdMarkFlag: () => set({ rdReview: 'flag' }), rdMarkUndo: () => set({ rdReview: 'pending' }),
+
+            // results
+            rdResFilters: SRCS.map(([k, l]) => ({ l, ...chip(rsrc === k), pick: () => set({ rdResSrc: k }) })),
+            rdFunnel: [
+              { n: String(RES[0]), l: 'Dials', t: 'Where it starts', hasBar: false },
+              { n: String(RES[1]), l: 'Reached a person', w: pct(1) + '%', t: pct(1) + '% of dials', hasBar: true },
+              { n: String(RES[2]), l: 'Talked for over 30 s', w: pct(2) + '%', t: pct(2) + '% of people reached', hasBar: true },
+              { n: String(RES[3]), l: 'Meetings booked', w: pct(3) + '%', t: pct(3) + '% of conversations', hasBar: true },
+              { n: String(RES[4]), l: 'Meetings held', w: pct(4) + '%', t: pct(4) + '% of meetings booked', hasBar: true, metric: true }
+            ].map(f => ({ ...f, metric: !!f.metric, numC: f.metric ? 'var(--positive)' : 'var(--text)', barC: f.metric ? 'var(--positive)' : 'var(--accent)' })),
+            rdResBlocks: [
+              { h: 'Pickup and machines', rows: [['Typical time from a prospect’s hello to the rep hearing it', '0.3 s'], ['Slowest 5% of pickups (target: under 1 s)', '0.6 s'], ['Calls with dead air on connect', '0'], ['Voicemails left for the rep', '141'], ['Phone trees navigated by keypad', '22'], ['Call screeners the rep answered', '31, 11 put through'], ['Blocked before dialling by a do-not-call list', '9']] },
+              { h: 'AI help on live calls', tag: 'Pilot: US business lines, Singapore', rows: [['Conversations with a question the rep couldn’t answer alone', '9 of 24'], ['Times a rep used an answer card', '17'], ['Times a rep brought in Savant', '6'], ['Prospects who said yes to Savant', '5 of 6'], ['Hang-ups within 15 s of Savant’s intro', '0'], ['Typical wait from confirming to Savant’s first word', '1.6 s'], ['Savant answers reviewed, and flagged wrong', '5, 0'], ['Times the rep took the call back early', '1']] }
+            ].map(x => ({ h: x.h, tag: x.tag || '', hasTag: !!x.tag, rows: x.rows.map(r => ({ k: r[0], v: r[1] })) })),
+
+            // settings
+            rdNums: [
+              { num: '+1 (512) 555‑0142', where: 'US, local to Austin', cid: 'Sprouts', cidSub: 'Branded, with the call reason', today: '38 of 80', rep: 'Clean on 3 of 3 carriers', ok: true, by: 'You, Sandeep' },
+              { num: '+65 6555 0187', where: 'Singapore', cid: 'Sprouts', cidSub: 'Name only', today: '12 of 60', rep: 'Clean', ok: true, by: 'Pratik' },
+              { num: '+44 20 5550 0119', where: 'UK', cid: 'Number only', cidSub: 'Branding not set up', today: '51 of 60', rep: 'Close to today’s cap', ok: false, by: 'You' }
+            ].map(n => ({ ...n, dot: n.ok ? 'var(--positive)' : 'var(--warning)', repC: n.ok ? 'var(--text-2)' : 'var(--warning)' })),
+            rdPolicy: POL.map(r => { const on = !!r.open && !!polOn[r.id]; const requested = !!polReq[r.id]; return {
+              dest: r.dest, checked: b(on), locked: b(!r.open), swLabel: on ? 'On, pilot' : 'Off', aria: 'Savant may speak on calls to ' + r.dest,
+              trk: on ? 'var(--accent)' : 'var(--border-strong)', knob: on ? '17px' : '3px', op: r.open ? '1' : '.45', cur: r.open ? 'pointer' : 'not-allowed', labC: r.open ? 'var(--text)' : 'var(--text-muted)',
+              toggle: r.open ? () => set({ rdPolOn: { ...polOn, [r.id]: !polOn[r.id] } }) : () => this.toast('Unlocks once counsel has reviewed ' + r.dest + '.'),
+              canRequest: !!r.ask && !requested, request: () => { set({ rdPolReq: { ...polReq, [r.id]: true } }); this.toast('Review requested for ' + r.dest + '.'); },
+              hasReview: !r.ask || requested, review: r.ask ? 'With counsel since today' : r.review,
+              reviewC: r.wait || r.ask ? 'var(--warning)' : 'var(--text-2)', agent: r.agent, agentC: r.agentWait ? 'var(--warning)' : 'var(--text-2)' }; }),
+            rdSetBlocks: [
+              { h: 'Savant on calls', rows: [['Spoken name', 'Savant'], ['First words, always', '“Hi, I’m Savant, an AI assistant with [Your company].”'], ['Voice', 'A stock voice that is clearly not the rep. No voice cloning.'], ['Answers from', 'Approved knowledge only, in Personalization › Knowledge base'], ['Longest answer', '30 seconds, then it hands back'], ['Joins only when', 'The rep invokes it, the prospect says yes, and the rep confirms'], ['Never', 'Opens a call, greets at pickup, or speaks uninvited']] },
+              { h: 'Recording', rows: [['Notice the rep says', '“Quick note that this call is recorded.”'], ['Shown', 'On connect, where the destination needs it'], ['Vendors training on call data', 'Not allowed, by contract']] }
+            ].map(x => ({ h: x.h, rows: x.rows.map(r => ({ k: r[0], v: r[1] })) }))
+          };
+        })();
         const dlVals = {
+          ...rdVals,
           isDialer: S.view === 'dialer', goDialer: () => this.setState({ view: 'dialer' }),
-          dlSummary: (S.dlMode || 0) === 2 ? 'Voice agents call a list from your numbers, inside the countries and block lists admins set. You read the results.' : vals.length ? (DQ.length - vals.length) + ' left of ' + DQ.length + ' \u00b7 ' + vals.filter(o => ['Meeting booked', 'Interested \u00b7 follow up', 'Not interested'].includes(o)).length + ' connected \u00b7 ' + vals.filter(o => o === 'Meeting booked').length + ' meeting' + (vals.filter(o => o === 'Meeting booked').length === 1 ? '' : 's') : DQ.length + ' in today\u2019s queue \u00b7 ordered by local time and signal strength',
+          dlSummary: (S.dlMode || 0) === 0 ? 'One call at a time. You stay on the line, and approved answers appear when a prospect asks something hard.' : (S.dlMode || 0) === 2 ? 'Voice agents call a list from your numbers, inside the countries and block lists admins set. You read the results.' : vals.length ? (DQ.length - vals.length) + ' left of ' + DQ.length + ' \u00b7 ' + vals.filter(o => ['Meeting booked', 'Interested \u00b7 follow up', 'Not interested'].includes(o)).length + ' connected \u00b7 ' + vals.filter(o => o === 'Meeting booked').length + ' meeting' + (vals.filter(o => o === 'Meeting booked').length === 1 ? '' : 's') : DQ.length + ' in today\u2019s queue \u00b7 ordered by local time and signal strength',
           ...(() => { const w = S.dlW || 1400; const wide = w >= 1000; return { dlWide: wide, dlMid: !wide, dlCols: wide ? 'minmax(220px,260px) minmax(0,1fr) minmax(250px,300px)' : (w < 760 ? 'minmax(170px,200px) minmax(0,1fr)' : 'minmax(200px,240px) minmax(0,1fr)'),
             dlRef: (el) => { if (!el || typeof ResizeObserver === 'undefined' || this._dlEl === el) return; if (this._dlRO) this._dlRO.disconnect(); this._dlEl = el; this._dlRO = new ResizeObserver(en => { const nw = Math.round(en[0].contentRect.width); if (Math.abs(nw - (this.state.dlW || 0)) > 6) this.setState({ dlW: nw }); }); this._dlRO.observe(el); } }; })(),
           dlSetOpen: !!S.dlSetOpen, dlSetFlip: () => this.setState(s => ({ dlSetOpen: !s.dlSetOpen })), dlSetL: (localOn ? 'Local presence' : 'Fixed number') + ' \u00b7 ' + (rec ? 'Recording on' : 'Not recorded'),
@@ -27066,7 +27856,7 @@ class Component extends DCLogic {
               vaCredits: '101,053 cr'
             }; })(),
           dlModes: ['Rep dialer', 'Parallel \u00b7 3 lines', 'AI voice agents'].map((l, i) => ({ l, ...pill((S.dlMode || 0) === i), pick: () => this.setState({ dlMode: i, dlPhase: 'idle', dlPick: null }) })),
-          dlIsAgents: (S.dlMode || 0) === 2, dlIsManual: (S.dlMode || 0) !== 2,
+          dlIsAgents: (S.dlMode || 0) === 2, dlIsManual: (S.dlMode || 0) === 1, dlShowRules: (S.dlMode || 0) !== 0,
           dlNumber: localOn ? 'Local presence \u00b7 matches area code' : 'Fixed \u00b7 +1 (415) 555-0142', dlLocalFlip: () => this.setState({ dlLocal: !localOn }),
           dlRecBg: on(rec), dlRecKnob: kn(rec), dlRecFlip: () => this.setState({ dlRec: !rec }),
           dlRecNote: rec ? 'Recording is announced at the start of every call.' : 'Calls are not recorded.',
