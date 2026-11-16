@@ -4644,6 +4644,21 @@
           <!-- Rep dialer: ported from the Dialer v2 design -->
           <sc-if value="{{ rdOn }}" hint-placeholder-val="{{ true }}">
           <div class="cx-scroll" style="flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;background:#0C0E12;">
+          <sc-if value="{{ rdKeys.open }}" hint-placeholder-val="{{ false }}">
+          <div class="rdx" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts" onClick="{{ rdKeys.toggle }}" style="position:fixed;inset:0;z-index:2000;background:rgba(5,7,10,.62);display:flex;align-items:center;justify-content:center;padding:16px;font-family:Manrope,system-ui,sans-serif;color:#EAEDF2">
+          <div onClick="{{ rdKeys.stop }}" style="width:100%;max-width:520px;max-height:90vh;overflow:auto;background:#101318;border:1px solid #2A313D;border-radius:14px;padding:22px 24px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;justify-content:space-between"><h2 style="margin:0;font-size:16px;font-weight:700">Keyboard shortcuts</h2><span style="font-size:12px;color:#8A92A3">Esc to close</span></div>
+          <sc-for list="{{ rdKeys.groups }}" as="gr" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:6px">
+          <h3 style="margin:0;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A92A3">{{ gr.title }}</h3>
+          <sc-for list="{{ gr.rows }}" as="r" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #1C212A"><span style="color:#DDE2EA;font-size:13px">{{ r.what }}</span><kbd style="font:600 12px/1 Manrope,system-ui,sans-serif;padding:5px 8px;border:1px solid #2A313D;border-radius:5px;background:#13161C;color:#EAEDF2;white-space:nowrap">{{ r.key }}</kbd></div>
+          </sc-for>
+          </div>
+          </sc-for>
+          </div>
+          </div>
+          </sc-if>
           <sc-if value="{{ rdxScr.Queue }}" hint-placeholder-val="">
           <div class="rdx rdx-Queue" style="flex:1 0 auto;display:flex;flex-wrap:wrap;background:#0C0E12;color:#EAEDF2;font-family:Manrope,system-ui,sans-serif;font-size:13px;line-height:1.45;">
 <div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column">
@@ -4747,7 +4762,7 @@
 <div style="display:flex;align-items:center;gap:8px"><a role="link" tabindex="0" onClick="{{ rdGo.Queue }}" style="font-weight:600;text-decoration:none">Dialer</a><span aria-hidden="true" style="color:#8A92A3">/</span><span style="font-weight:600">Calling session</span></div>
 <div style="margin-left:auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;color:#A3AAB7">
 <span>Calling as Sprouts, +1 (512) 555‑0142</span>
-<span role="status">{{ rdxMain.sessionText }}</span>
+<span role="status" style="display:inline-flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums"><span>{{ rdxMain.sessionText }}</span><span aria-hidden="true" style="display:inline-block;width:96px;height:4px;border-radius:4px;background:#1C212A;overflow:hidden"><span style="{{ rdSess.bar }}"></span></span><span style="{{ rdSess.meetStyle }}">{{ rdSess.meetText }}</span><span style="color:#8A92A3">{{ rdSess.leftText }}</span></span><button class="btn quiet" type="button" onClick="{{ rdKeys.toggle }}" aria-label="Keyboard shortcuts" style="min-height:28px">Shortcuts <kbd style="font:600 11px/1 Manrope,system-ui,sans-serif;padding:3px 6px;border:1px solid #2A313D;border-radius:4px;color:#C4CAD5">?</kbd></button>
 <button class="btn" type="button" onClick="{{ rdGo.Docked }}">Dock beside CRM</button>
 <button class="btn" type="button" onClick="{{ rdxMain.togglePause }}" aria-pressed="{{ rdxMain.pausedAttr }}">{{ rdxMain.pauseLabel }}</button>
 </div>
@@ -4759,7 +4774,7 @@
 <aside aria-label="Your calls today" style="flex:0 0 264px;border-right:1px solid #1C212A;padding:20px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px">
 <div style="padding:0 8px;display:flex;flex-direction:column;gap:8px">
 <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><h2 style="margin:0;font-size:13px;font-weight:700">Your calls today</h2><sc-if value="{{ rdxMain.canHideQueue }}" hint-placeholder-val="{{ false }}"><button class="btn quiet" type="button" onClick="{{ rdxMain.togglePin }}" style="min-height:28px;padding:0 6px">Hide</button></sc-if></div>
-<div aria-hidden="true" style="height:4px;border-radius:4px;background:#1C212A;overflow:hidden"><div style="width:22%;height:100%;background:#3FBF7F"></div></div>
+<div aria-hidden="true" style="height:4px;border-radius:4px;background:#1C212A;overflow:hidden"><div style="{{ rdSess.bar }}"></div></div>
 </div>
 <div style="display:flex;flex-direction:column;gap:2px">
 <div style="padding:10px 8px;border-radius:8px;background:#141B2B">
@@ -5008,7 +5023,26 @@
 </div>
 </section>
 
-<aside aria-label="Brief" style="flex:1 1 300px;max-width:340px;border-left:1px solid #1C212A;padding:24px;box-sizing:border-box;display:flex;flex-direction:column;gap:20px">
+<aside aria-label="Brief" style="flex:1 1 300px;max-width:360px;border-left:1px solid #1C212A;padding:24px;box-sizing:border-box;display:flex;flex-direction:column;gap:20px">
+<sc-if value="{{ rdxMain.hasSug }}" hint-placeholder-val="{{ false }}">
+<section aria-label="Savant suggests" style="margin:-4px -8px 0;padding:14px;border-radius:12px;border:1px solid #2C4170;background:#121A2A;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h2 style="margin:0;font-size:13px;font-weight:700;color:#A9C2FA">Savant suggests</h2><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#A9B8D6"><span aria-hidden="true" style="width:6px;height:6px;border-radius:50%;background:#6E96F5"></span>Listening</span></div>
+<div aria-live="polite" style="display:flex;flex-direction:column;gap:4px">
+<span style="{{ rdxMain.sug.tagStyle }}">{{ rdxMain.sug.tag }}</span>
+<p style="margin:0;color:#DDE2EA;line-height:1.45">{{ rdxMain.sug.heard }}</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ rdxMain.sug.items }}" as="g" hint-placeholder-count="3">
+<button type="button" onClick="{{ g.use }}" aria-pressed="{{ g.usedAttr }}" style="{{ g.style }}">
+<span style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-size:12px;font-weight:700;color:#A9C2FA">{{ g.label }}</span><kbd style="font:600 11px/1 Manrope,system-ui,sans-serif;padding:3px 6px;border:1px solid #2C4170;border-radius:4px;color:#A9B8D6">{{ g.key }}</kbd></span>
+<span style="display:block;margin-top:6px;color:#EAEDF2;line-height:1.45;font-weight:500">{{ g.text }}</span>
+<span style="display:block;margin-top:6px;font-size:12px;color:#8A92A3;line-height:1.4">{{ g.why }}</span>
+</button>
+</sc-for>
+</div>
+<p style="margin:0;font-size:11px;color:#8A92A3">Suggestions come from the live transcript, approved answers and Maya's account. Press 1 to 3 to use one.</p>
+</section>
+</sc-if>
 <sc-if value="{{ rdxMain.showReason }}" hint-placeholder-val="{{ false }}">
 <div>
 <h2 style="margin:0 0 6px;font-size:13px;font-weight:600;color:#A3AAB7">Reason-for-call line</h2>
@@ -5039,7 +5073,7 @@
 <div style="flex:1;min-width:0;display:flex;flex-direction:column">
 <header style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:10px 20px;border-bottom:1px solid #242A34">
 <div style="display:flex;align-items:center;gap:8px"><a role="link" tabindex="0" onClick="{{ rdGo.Queue }}" style="font-weight:600;text-decoration:none">Dialer</a><span aria-hidden="true" style="color:#8A92A3">/</span><span style="font-weight:600">Calling session</span></div>
-<span style="margin-left:auto;color:#A3AAB7">2 of 9 done</span>
+<span style="margin-left:auto;color:#A3AAB7"><span role="status" style="display:inline-flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums"><span>{{ rdSess.callText }}</span><span aria-hidden="true" style="display:inline-block;width:96px;height:4px;border-radius:4px;background:#1C212A;overflow:hidden"><span style="{{ rdSess.bar }}"></span></span><span style="{{ rdSess.meetStyle }}">{{ rdSess.meetText }}</span><span style="color:#8A92A3">{{ rdSess.leftText }}</span></span></span>
 <button class="btn" type="button" onClick="{{ rdGo.Main }}">Full width</button>
 </header>
 
@@ -5171,7 +5205,7 @@
 <div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column">
 <header style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding:10px 24px;border-bottom:1px solid #242A34">
 <div style="display:flex;align-items:center;gap:8px"><a role="link" tabindex="0" onClick="{{ rdGo.Queue }}" style="font-weight:600;text-decoration:none">Dialer</a><span aria-hidden="true" style="color:#8A92A3">/</span><a role="link" tabindex="0" onClick="{{ rdGo.Main }}" style="font-weight:600;text-decoration:none">Calling session</a><span aria-hidden="true" style="color:#8A92A3">/</span><span style="font-weight:600">Wrap-up</span></div>
-<span style="margin-left:auto;color:#A3AAB7">3 of 9 done</span>
+<span style="margin-left:auto;display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px 16px;color:#A3AAB7"><span role="status" style="display:inline-flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums"><span>{{ rdSess.wrapText }}</span><span aria-hidden="true" style="display:inline-block;width:96px;height:4px;border-radius:4px;background:#1C212A;overflow:hidden"><span style="{{ rdSess.bar }}"></span></span><span style="{{ rdSess.meetStyle }}">{{ rdSess.meetText }}</span><span style="color:#8A92A3">{{ rdSess.leftText }}</span></span><button class="btn quiet" type="button" onClick="{{ rdKeys.toggle }}" aria-label="Keyboard shortcuts" style="min-height:28px">Shortcuts <kbd style="font:600 11px/1 Manrope,system-ui,sans-serif;padding:3px 6px;border:1px solid #2A313D;border-radius:4px;color:#C4CAD5">?</kbd></button></span>
 </header>
 
 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;padding:24px 32px 0">
@@ -5180,7 +5214,7 @@
 <h1 style="margin:0;font-size:20px;font-weight:700;letter-spacing:-0.01em;line-height:1.2">Call with Maya Fernandes</h1>
 <div style="color:#A3AAB7">2:47, Kestrel Freight. Campaign Q4 RevOps leaders, step 3.</div>
 </div>
-<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><a class="btn tall" role="link" tabindex="0" onClick="{{ rdGo.Queue }}">Save and pause</a><a class="btn go" role="link" tabindex="0" onClick="{{ rdGo.Main }}">Save and call Daniel Okafor</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><a class="btn tall" role="link" tabindex="0" onClick="{{ rdxWrapUp.savePause }}">Save and pause <kbd style="font:600 11px/1 Manrope,system-ui,sans-serif;color:#8A92A3;margin-left:4px">P</kbd></a><a class="btn go" role="link" tabindex="0" onClick="{{ rdxWrapUp.saveNext }}">Save and call Daniel Okafor <kbd style="font:600 11px/1 Manrope,system-ui,sans-serif;color:#CDEBDB;margin-left:4px">Enter</kbd></a></div>
 </div>
 
 <div style="flex:1;display:flex;flex-wrap:wrap;gap:32px 56px;padding:28px 32px 32px;box-sizing:border-box;align-items:flex-start">
@@ -5189,6 +5223,7 @@
 
 <section aria-label="Outcome" style="display:flex;flex-direction:column;gap:12px">
 <h2 style="margin:0;font-size:16px;font-weight:700">How did it go?</h2>
+<div role="status" style="{{ rdxWrapUp.pickStyle }}"><span aria-hidden="true" style="flex:0 0 auto;font:700 11px/1 Manrope,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#A9C2FA;padding-top:3px">Savant</span><span style="flex:1 1 300px;min-width:0;color:#DDE2EA;line-height:1.5">{{ rdxWrapUp.pickText }}</span><sc-if value="{{ rdxWrapUp.changed }}" hint-placeholder-val="{{ false }}"><button class="btn quiet" type="button" onClick="{{ rdxWrapUp.restore }}" style="min-height:28px">Use Savant's pick</button></sc-if></div>
 <div role="group" aria-label="Outcome" style="display:flex;flex-wrap:wrap;gap:8px">
 <sc-for list="{{ rdxWrapUp.outcomes }}" as="o" hint-placeholder-count="6">
 <button class="out" type="button" aria-pressed="{{ o.pressed }}" onClick="{{ o.pick }}">{{ o.label }}</button>
@@ -5214,8 +5249,8 @@
 </section>
 
 <section aria-label="Notes" style="display:flex;flex-direction:column;gap:8px">
-<label for="notes" style="font-size:16px;font-weight:700">Notes</label>
-<textarea id="notes" rows="4" placeholder="Anything the transcript won't show" style="width:100%;box-sizing:border-box;min-height:96px;resize:vertical;background:#101318;border:1px solid #2A313D;border-radius:8px;color:#EAEDF2;font-size:13px;line-height:1.5;padding:12px 14px"></textarea>
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px"><label for="notes" style="font-size:16px;font-weight:700">Notes</label><span style="font-size:12px;color:#8A92A3">Drafted by Savant from the transcript. Edit anything.</span></div>
+<textarea id="notes" rows="5" value="{{ rdxWrapUp.notes }}" onChange="{{ rdxWrapUp.setNotes }}" placeholder="Anything the transcript won't show" style="width:100%;box-sizing:border-box;min-height:96px;resize:vertical;background:#101318;border:1px solid #2A313D;border-radius:8px;color:#EAEDF2;font-size:13px;line-height:1.5;padding:12px 14px"></textarea>
 </section>
 
 <section aria-label="When you save" style="display:flex;flex-direction:column;gap:4px">
@@ -18159,6 +18194,7 @@ class Component extends DCLogic {
     else { el.style.setProperty('--vh', Math.floor(H / z) + 'px');
            el.style.setProperty('--vw', Math.floor(W / z) + 'px'); } }
   componentDidMount() { this._applyNavWidth(); this.generateBrief(); this._lastView = this.state.view;
+    if (!this._rdxKey) window.addEventListener('keydown', this._rdxKey = (e) => { try { if (this._rdxKb && this._rdxKb(e)) e.preventDefault(); } catch (err) {} });
     if (!this._apqKey) window.addEventListener('keydown', this._apqKey = (e) => { const S = this.state; if (S.view !== 'segments' || S.segDetailTab !== 'approvals' || !this._apqKb) return;
       const tag = (e.target && e.target.tagName) || ''; if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); this._apqKb.ok(); return; }
       if (tag === 'TEXTAREA' || tag === 'INPUT' || e.metaKey || e.ctrlKey) return; if (e.key === 'j' || e.key === 'ArrowDown') { e.preventDefault(); this._apqKb.next(); } else if (e.key === 'k' || e.key === 'ArrowUp') { e.preventDefault(); this._apqKb.prev(); } });
@@ -28294,6 +28330,19 @@ class Component extends DCLogic {
           const cur = S.rdxScr || 'Queue';
           const rdxScr = {}, rdGo = {};
           ["Queue","Main","Docked","WrapUp","CallLog","Flow","Settings","Results"].forEach((b) => { rdxScr[b] = cur === b; rdGo[b] = () => this.setState({ rdxScr: b, ['rdx' + b]: null }); });
+          const sess = Object.assign({ done: 2, meet: 0, total: 9, goal: 2 }, S.rdxSess || {});
+          const sessLeft = (n) => { const m = Math.max(0, sess.total - n) * 4; return m ? 'about ' + m + ' min left' : 'queue done'; };
+          const rdSess = {
+            bar: 'display:block;width:' + Math.round(100 * sess.done / sess.total) + '%;height:100%;background:#3FBF7F;transition:width .3s ease',
+            meetText: sess.meet + ' of ' + sess.goal + ' meetings', meetStyle: 'font-weight:600;color:' + (sess.meet >= sess.goal ? '#9FE0BC' : '#C4CAD5'),
+            leftText: sessLeft(sess.done), wrapText: (sess.done + 1) + ' of ' + sess.total + ' done', callText: 'Call ' + (sess.done + 1) + ' of ' + sess.total
+          };
+          const rdSave = (outcome, next) => this.setState((p) => {
+            const c = Object.assign({ done: 2, meet: 0, total: 9, goal: 2 }, p.rdxSess || {});
+            const ns = { done: Math.min(c.total, c.done + 1), meet: c.meet + (outcome === 0 ? 1 : 0), total: c.total, goal: c.goal };
+            const msg = 'Saved Maya: ' + ["meeting booked", "spoke, not now", "no answer", "voicemail", "wrong person", "do not call"][outcome] + '. ' + ns.done + ' of ' + ns.total + ' done' + (ns.meet ? ', ' + ns.meet + ' of ' + ns.goal + ' meetings.' : '.');
+            return { rdxSess: ns, rdxScr: next ? 'Main' : 'Queue', rdxMain: next ? { note: msg } : null, rdxWrapUp: null };
+          });
           const rdxQueue = rdxMk('rdxQueue', { who: "mine", src: "all", tip: true, menu: false, seg: false, web: false }, function () {
     const s = this.state;
     const R = (name, role, why, open, win, local, src, from, detail, savant, helpWhy, rep) => ({ name, role, why, open, win, local, src, from, detail, help: savant ? "Savant can join" : "Answers on screen", helpWhy, rep });
@@ -28353,10 +28402,11 @@ class Component extends DCLogic {
       addSeg: () => this.setState({ seg: true }), addWeb: () => this.setState({ web: true })
     };
   });
+          const rdGoWrap = () => this.setState({ rdxScr: 'WrapUp', rdxWrapUp: null });
           const rdxMain = rdxMk('rdxMain', { step: 0, pinned: false, muted: false, held: false, keypad: false, digits: "", mate: false, paused: false, note: "" }, function () {
     const st = this.state;
     const step = st.step;
-    const fresh = { muted: false, held: false, keypad: false, digits: "", mate: false, note: "" };
+    const fresh = { muted: false, held: false, keypad: false, digits: "", mate: false, note: "", used: "" };
     const go = (n, note) => () => this.setState({ ...fresh, step: n, note: note || "" });
     const say = (note) => () => this.setState({ note });
     const chip = (on) => "font:600 12px/1 Manrope,system-ui,sans-serif;padding:7px 10px;border-radius:999px;cursor:pointer;border:1px solid " + (on ? "#2C4170;background:#1B2740;color:#A9C2FA" : "#242A34;background:transparent;color:#A3AAB7");
@@ -28444,17 +28494,73 @@ class Component extends DCLogic {
     }));
 
     const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"].map((k) => ({ label: k, press: () => this.setState({ digits: st.digits + k }) }));
+    const TAGS = { q: ["Question", "#A9C2FA", "#1B2740"], buy: ["Buying signal", "#9FE0BC", "#11291D"], obj: ["Objection", "#F2C38B", "#2A2012"], wait: ["Waiting", "#A3AAB7", "#1C212A"], risk: ["Heads up", "#F6B7BC", "#2A1518"] };
+    const SG = {
+      2: ["wait", "Maya picked up. Lead with the recording notice, then the reason you called.", [
+        ["Open", "“Hi Maya, it’s Kartikay from Sprouts. Quick note that this call is recorded.”", "Required first. The transcript ticks it off.", go(3)],
+        ["Earn 30 seconds", "“I saw Kestrel is hiring six SDRs in Austin. Is pipeline for the new team on your plate?”", "Her hiring signal is 9 days old. Fresh signals get answered."],
+        ["If she’s busy", "“Is there a better time this week? I’ll keep it to five minutes.”", "Books a callback instead of losing the call."]]],
+      3: ["q", "Maya asked: “Does it run inside Dynamics 365? And where would our data sit?” That’s two questions. She is comparing tools.", [
+        ["Answer with the approved line", "“Yes, it runs inside Dynamics 365, so your reps work from the records they already use.”", "From the Dynamics 365 guide. Covers the first question.", go(8)],
+        ["Bring in Savant", "“Good question. Our AI assistant, Savant, knows that detail better than I do. Okay if it answers?”", "Data location needs the exact security wording. Savant has it.", go(4)],
+        ["Find out what’s behind it", "“Before I answer: is Dynamics where your reps live all day?”", "“Halfway through picking tools” means she has a shortlist. Learn her criteria."]]],
+      4: ["wait", "You asked Maya if Savant can answer. Wait for a clear yes before it joins.", [
+        ["If she says yes", "“Great, here’s Savant. I’ll stay on the line.”", "Tells her you are not leaving.", go(5)],
+        ["If she hesitates", "“No problem, I’ll answer it myself.”", "Never push the AI on someone who pauses.", go(8)]]],
+      5: ["buy", "Maya said “Sure, go ahead.” Her yes is logged at 02:04.", [
+        ["Hand over", "“Great, here’s Savant. I’ll stay on the line.”", "Savant joins, answers in about 30 s, then hands back.", go(6)],
+        ["Line up your next ask", "“Would a 20-minute walkthrough with your RevOps lead next week help?”", "Ask this the moment Savant hands back."]]],
+      6: ["wait", "Savant is answering the Dynamics and data question. You can cut in at any time.", [
+        ["When it hands back, ask for the meeting", "“Thanks. Would a 20-minute walkthrough with your RevOps lead next week help?”", "She asked a technical question, so she is evaluating. Move to a meeting.", go(7)],
+        ["If she follows up on data", "“I’ll send the security one-pager after this call.”", "Adds it to the recap email in wrap-up."]]],
+      7: ["buy", "Maya said “Thursday works.” That’s a yes to a meeting.", [
+        ["Lock the exact time", "“Thursday at 10:00 or 14:00 your time?”", "Both slots are free on your calendar. Two options close faster than one.", "Meeting drafted for Thu 19 Nov, 10:00 CST. Confirm it in wrap-up."],
+        ["Bring in the RevOps lead", "“Who else should join? I’ll add them to the invite.”", "Her lead decides on tools. Getting them on the call saves a second meeting."],
+        ["Wrap up", "“Perfect. I’ll send the invite and the Dynamics guide right after this.”", "Ends on a clear next step. Opens wrap-up.", rdGoWrap]]],
+      8: ["q", "You answered the Dynamics part. Data location is still open.", [
+        ["Close the data question", "“On data location, I’ll send our security note in writing so it’s exact.”", "Never guess on security. A written answer is safer."],
+        ["Check it landed", "“Does that cover what you need for Dynamics?”", "Confirms before you move on."],
+        ["Ask for the meeting", "“Would a 20-minute walkthrough with your RevOps lead next week help?”", "She asked a technical question, so she is evaluating.", go(7)]]],
+      9: ["obj", "Maya asked for a freight customer reference. There is no approved answer for this.", [
+        ["Don’t promise a name", "“Let me find the right customer to connect you with. I’ll email you by Friday.”", "No approved freight reference exists. Logged for marketing."],
+        ["Ask what she wants to hear", "“What would you most want to ask them?”", "Tells you which proof matters to her."],
+        ["Offer a walkthrough instead", "“Would seeing it on your own Dynamics records help in the meantime?”", "Keeps the meeting on track while you find a reference.", go(7)]]],
+      10: ["q", "Only part of Maya’s question has an approved answer: Dynamics yes, data location partly covered.", [
+        ["Say what you know", "“Yes, it runs inside Dynamics 365.”", "This part is approved."],
+        ["Put the rest in writing", "“On data location, I’ll send the exact wording from our security team today.”", "The approved note only covers US and EU regions."]]],
+      11: ["risk", "Savant couldn’t join. Answer it yourself. The approved answer is below the call.", [
+        ["Answer it yourself", "“Yes, it runs inside Dynamics 365, so your reps work from the records they already use.”", "From the Dynamics 365 guide.", go(8)],
+        ["Smooth it over", "“Looks like our assistant is busy, so I’ll take this one.”", "Keeps the moment natural."]]],
+      12: ["risk", "The call dropped at 01:12, mid-conversation.", [
+        ["Call back now", "Ring Maya again on the same number.", "Calling back within a minute recovers most dropped calls.", go(1)],
+        ["Text first", "“Sorry Maya, we got cut off. Calling you back in a minute.”", "Sent from your Sprouts number before you redial."]]]
+    };
+    const sg = SG[step];
+    const used = st.used || "";
+    const sug = sg ? {
+      tag: TAGS[sg[0]][0], heard: sg[1],
+      tagStyle: "align-self:flex-start;font:700 11px/1 Manrope,system-ui,sans-serif;padding:4px 8px;border-radius:999px;color:" + TAGS[sg[0]][1] + ";background:" + TAGS[sg[0]][2],
+      items: sg[2].map((x, i) => {
+        const id = step + ":" + i; const on = used === id;
+        const act = x[3];
+        return {
+          label: on ? x[0] + " · used" : x[0], text: x[1], why: x[2], key: String(i + 1), usedAttr: on ? "true" : "false",
+          style: "display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:10px 12px;border-radius:10px;border:1px solid " + (on ? "#6E96F5" : "#243556") + ";background:" + (on ? "#1B2740" : "#0F1522"),
+          use: typeof act === "function" ? () => { this.setState({ used: "" }); act(); } : () => this.setState({ used: id, note: typeof act === "string" ? act : "Using: " + x[0] + "." })
+        };
+      })
+    } : { tag: "", heard: "", tagStyle: "", items: [] };
     const open = step === 0 || step === 13 || st.pinned;
     const b = (v) => (v ? "true" : "false");
     return {
-      steps, edges, seats, lines, segs, keys, timer, statusText,
+      steps, edges, seats, lines, segs, keys, timer, statusText, sug, hasSug: !!sg && !st.held,
       bandStyle: "padding:18px 20px;border-radius:12px;border:1px solid " + t.bd + ";background:" + t.bg,
       subStyle: "font-size:13px;color:" + t.sub,
       statusStyle: "font-size:12px;font-weight:700;margin-top:4px;color:" + t.st,
       seatsRowStyle: "display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px;margin-top:14px;padding-top:12px;border-top:1px solid " + t.bd,
       queueOpen: open, queueRail: !open, canHideQueue: st.pinned && step !== 0 && step !== 13,
       queueStatus: step === 0 ? "Next" : step === 13 ? "Skipped" : "On call",
-      sessionText: st.paused ? "Paused, 2 of 9 done" : "2 of 9 done",
+      sessionText: (st.paused ? "Paused, " : "") + sess.done + " of " + sess.total + " done",
       pauseLabel: st.paused ? "Resume session" : "Pause session", pausedAttr: b(st.paused),
       togglePause: () => this.setState({ paused: !st.paused }),
       showControls: live && step !== 6,
@@ -28530,8 +28636,9 @@ class Component extends DCLogic {
       goQuestion: go("q"), goAsk: go("ask"), goYes: go("yes"), goSavant: go("sav"), goBack: go("back"), goSelf: go("self")
     };
   });
-          const rdxWrapUp = rdxMk('rdxWrapUp', { outcome: 0, checks: [true, true, true], editing: false, time: 0, draft: false }, function () {
+          const rdxWrapUp = rdxMk('rdxWrapUp', { outcome: 0, checks: [true, true, true], editing: false, time: 0, draft: false, notes: null }, function () {
     const st = this.state;
+    const SAV_NOTES = "Maya owns pipeline for the six new Austin SDRs. Kestrel is halfway through picking tools; no vendor named yet.\nAsked: runs inside Dynamics 365? (yes, Savant answered) Where is data stored? (send security one-pager)\nNext: walkthrough Thu with Maya + RevOps lead. Ask the lead's name in the invite.";
     const b = (v) => (v ? "true" : "false");
     const labels = ["Meeting booked", "Spoke, not now", "No answer", "Voicemail", "Wrong person", "Do not call"];
     const lines = [
@@ -28556,6 +28663,11 @@ class Component extends DCLogic {
       c0: b(st.checks[0]), c1: b(st.checks[1]), c2: b(st.checks[2]), t0: flip(0), t1: flip(1), t2: flip(2),
       draft: st.draft, draftAttr: b(st.draft), draftLabel: st.draft ? "Hide draft" : "Review draft",
       toggleDraft: () => this.setState({ draft: !st.draft }),
+      changed: st.outcome !== 0 || st.time !== 0, restore: () => this.setState({ outcome: 0, time: 0 }),
+      pickText: st.outcome === 0 && st.time === 0 ? "I picked Meeting booked at Thu 19 Nov, 10:00 CST. Maya said \u201cThursday works\u201d at 02:33, and 10:00 is the first slot free on both calendars." : "You changed my pick. I suggested Meeting booked at Thu 19 Nov, 10:00 CST, because Maya said \u201cThursday works\u201d at 02:33.",
+      pickStyle: "display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px 12px;padding:10px 14px;border-radius:10px;border:1px solid " + (st.outcome === 0 && st.time === 0 ? "#2C4170;background:#121A2A" : "#242A34;background:#101318"),
+      notes: st.notes == null ? SAV_NOTES : st.notes, setNotes: (e) => this.setState({ notes: e && e.target ? e.target.value : e }),
+      savePause: () => rdSave(st.outcome, false), saveNext: () => rdSave(st.outcome, true),
       draftText: "Hi Maya, thanks for the time today. " + (isMeeting ? "Confirming " + meetingText + " with you and your RevOps lead. " : "") + "Here is the Dynamics 365 guide Savant quoted: [LINK]. Kartikay"
     };
   });
@@ -28679,7 +28791,47 @@ class Component extends DCLogic {
     };
   });
           const rdxModes = ['Rep dialer', 'Parallel \u00b7 3 lines', 'AI voice agents'].map((l, i) => { const on = (S.dlMode || 0) === i; return { l, pressed: on ? 'true' : 'false', pick: () => this.setState({ dlMode: i, dlPhase: 'idle', dlPick: null }), style: 'font:600 12px/1 Manrope,system-ui,sans-serif;padding:9px 12px;border-radius:6px;border:0;cursor:pointer;' + (on ? 'background:#2A313D;color:#EAEDF2' : 'background:transparent;color:#A3AAB7') }; });
+          const rdKeyOpen = !!S.rdxKeys;
+          const rdKeys = {
+            open: rdKeyOpen, toggle: () => this.setState((p) => ({ rdxKeys: !p.rdxKeys })), stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+            groups: [
+              { title: "Anywhere in Dialer", rows: [{ what: "Show or hide shortcuts", key: "?" }, { what: "Close this panel", key: "Esc" }] },
+              { title: "On a call", rows: [{ what: "Call, or end the call", key: "Space" }, { what: "Use Savant suggestion 1, 2 or 3", key: "1  2  3" }, { what: "Bring in Savant", key: "S" }, { what: "Mute", key: "M" }, { what: "Hold", key: "H" }, { what: "Keypad", key: "K" }] },
+              { title: "Wrap-up", rows: [{ what: "Pick an outcome", key: "1 to 6" }, { what: "Save and call the next person", key: "Enter" }, { what: "Save and pause", key: "P" }] }
+            ]
+          };
+          this._rdxKb = (e) => {
+            if (this.state.view !== 'dialer' || !rdOn) return false;
+            const k = e.key; const tag = (e.target && e.target.tagName) || '';
+            if (tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT' || e.metaKey || e.ctrlKey || e.altKey) return false;
+            if (k === '?') { rdKeys.toggle(); return true; }
+            if (k === 'Escape') { if (rdKeyOpen) { rdKeys.toggle(); return true; } return false; }
+            if (rdKeyOpen) return false;
+            if ((k === ' ' || k === 'Enter') && (tag === 'BUTTON' || tag === 'A')) return false;
+            const lk = k.length === 1 ? k.toLowerCase() : k;
+            if (cur === 'Main') {
+              const m = rdxMain; const step = (S.rdxMain && S.rdxMain.step) || 0; const live = step >= 2 && step <= 11;
+              if (lk === ' ') { if (step === 0) m.goCall(); else if (step === 1) m.goReady(); else if (live) rdGoWrap(); else return false; return true; }
+              if ('123'.indexOf(lk) >= 0 && m.hasSug) { const it = m.sug.items[+lk - 1]; if (it) { it.use(); return true; } return false; }
+              if (!live || step === 6) return false;
+              if (lk === 'm') { m.toggleMute(); return true; }
+              if (lk === 'h') { m.toggleHold(); return true; }
+              if (lk === 'k') { m.toggleKeypad(); return true; }
+              if (lk === 's' && step === 3) { m.goAsk(); return true; }
+              return false;
+            }
+            if (cur === 'WrapUp') {
+              const w = rdxWrapUp;
+              if ('123456'.indexOf(lk) >= 0 && lk !== ' ') { w.outcomes[+lk - 1].pick(); return true; }
+              if (k === 'Enter') { w.saveNext(); return true; }
+              if (lk === 'p') { w.savePause(); return true; }
+              return false;
+            }
+            if (cur === 'Queue' && (lk === ' ' || k === 'Enter')) { rdGo.Main(); return true; }
+            return false;
+          };
           return {
+            rdSess, rdKeys,
             rdOn, rdxScr, rdGo, rdxModes, rdxQueue, rdxMain, rdxDocked, rdxWrapUp, rdxCallLog, rdxFlow, rdxSettings, rdxResults,
             rdNavN: rdxQueue.badge,
             dlShowHead: !rdOn,
