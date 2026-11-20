@@ -49,7 +49,12 @@ const ASSETS = [
 // assets/ is mirrored wholesale -- the partner dashboards pull in their own
 // marks, logos and scripts, and naming each one here would go stale the moment
 // a dashboard is re-exported.
-const ASSET_DIRS = ['assets'];
+const ASSET_DIRS = ['assets',
+  // The AI Dialer redesign, published as is at /dialer: every artboard of the
+  // design project, unchanged, plus the runtime they load from beside them.
+  'dialer',
+  // The design's files point at their logo by an absolute /_blob/<id> path.
+  '_blob'];
 
 // Assets the pages reference but that we knowingly cannot ship yet. Anything
 // missing and NOT listed here fails the sync, because a 404 on a background

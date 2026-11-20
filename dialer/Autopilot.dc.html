@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dialer — Autopilot campaign running</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap; background: #F6F7F9; font-family: Manrope, 'Segoe UI', system-ui, -apple-system, sans-serif; color: #16181D; font-size: 13px; font-weight: 500; line-height: 1.45">
+
+<nav aria-label="Main" style="flex: 1 1 190px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; padding: 10px 8px 12px; background: #F8F9FB; border-right: 1px solid #E7EAF0">
+<div style="display: flex; align-items: center; gap: 8px; padding: 2px 6px 6px">
+<img src="/_blob/f3ef3dd45903c0199d6a4165ce97d877" alt="" style="width: 24px; height: 24px; display: block">
+<span style="font-size: 14px; font-weight: 800; letter-spacing: -0.01em">Sprouts.ai</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 2px 12px">
+<sc-for list="{{ navGroups }}" as="g" hint-placeholder-count="6">
+<div style="flex: 1 1 160px; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<sc-if value="{{ g.has }}" hint-placeholder-val="{{ true }}">
+<div style="padding: 10px 8px 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; color: #646B77">{{ g.label }}</div>
+</sc-if>
+<sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+<a href="{{ it.href }}" aria-current="{{ it.current }}" style="display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; font-size: 12.5px; font-weight: 600; text-decoration: none; color: {{ it.color }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ it.d }}"></path></svg>
+<span>{{ it.label }}</span>
+</a>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 14px">
+<a href="#" style="display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px; background: #EBF1FE; color: #1D46A8; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<span aria-hidden="true" style="width: 15px; height: 15px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #A9C6FF 0%, #2E63E7 55%, #1D46A8 100%)"></span>
+<span>Savant</span>
+<span style="margin-left: auto; font-size: 11px; font-weight: 600">⌘K</span>
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 600; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.bell }}"></path></svg>
+<span>Notifications</span>
+</a>
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 0; margin-top: 6px; border-top: 1px solid #E7EAF0">
+<span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 50%; background: #DDE5F5; color: #1D46A8; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center">DC</span>
+<span style="font-size: 12.5px; font-weight: 600">Dharam C.</span>
+</div>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 20px; background: #FFFFFF; border-bottom: 1px solid #E7EAF0">
+<div style="flex: 1 1 280px; min-width: 0">
+<h1 style="margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.015em">Dialer</h1>
+<p style="margin: 2px 0 0; font-size: 12px; color: #555C68">The AI makes the calls on your campaign schedule and logs every one.</p>
+</div>
+<div role="tablist" aria-label="Dialer mode" style="display: inline-flex; gap: 2px; padding: 3px; border-radius: 11px; background: #F1F3F6; border: 1px solid #E7EAF0">
+<a href="LiveAssist.dc.html" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.headset }}"></path></svg>
+<span>Live Assist</span>
+<span style="padding: 0 6px; border-radius: 5px; background: #E7EAF0; color: #555C68; font-size: 11px; font-weight: 700">4 due</span>
+</a>
+<span role="tab" aria-selected="true" style="display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; background: #FFFFFF; color: #16181D; font-size: 12.5px; font-weight: 700; box-shadow: 0 0 0 1px #E7EAF0, 0 1px 2px rgba(22,24,29,0.08)">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2E63E7" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg>
+<span>Autopilot</span>
+<span style="padding: 0 6px; border-radius: 5px; background: #EBF1FE; color: #1D46A8; font-size: 11px; font-weight: 700">{{ autoChip }}</span>
+</span>
+<a href="CallHistory.dc.html" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.history }}"></path></svg>
+<span>Call history</span>
+</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<a href="PhoneNumbers.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #16181D; text-decoration: none">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.hash }}"></path></svg>
+<span>Phone numbers</span>
+</a>
+<a href="CallingRules.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #16181D; text-decoration: none">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.shield }}"></path></svg>
+<span>Calling rules</span>
+</a>
+</div>
+</header>
+
+<div style="flex: 1 1 auto; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 14px; padding: 16px 20px 20px">
+
+<aside aria-label="Autopilot campaigns" style="flex: 1 1 240px; min-width: 0; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 0 4px 4px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 800">Autopilot campaigns</h2>
+<span style="font-size: 11.5px; color: #646B77">{{ campaignCount }}</span>
+</div>
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; padding: 4px 4px 6px; font-size: 12px; color: #555C68">None yet. Campaigns with an Autopilot Call step show up here.</p>
+</sc-if>
+<sc-if value="{{ hasCampaigns }}" hint-placeholder-val="{{ true }}">
+<div aria-current="true" style="display: flex; gap: 10px; align-items: flex-start; padding: 10px; border-radius: 10px; border: 1px solid #C9D9FB; background: #EBF1FE; text-align: left">
+<span aria-hidden="true" style="width: 28px; height: 28px; flex: 0 0 28px; border-radius: 8px; background: #FFFFFF; color: #2E63E7; display: flex; align-items: center; justify-content: center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg></span>
+<span style="min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12.5px; font-weight: 800">Pricing-intent · Q4 follow-up</span>
+<span style="display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: #555C68"><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: {{ statusDot }}"></span>{{ listStatus }}</span>
+</span>
+</div>
+<a href="NumberCheck.dc.html" style="display: flex; gap: 10px; align-items: flex-start; padding: 10px; border-radius: 10px; border: 1px solid #E7EAF0; background: #FFFFFF; color: inherit; text-decoration: none">
+<span aria-hidden="true" style="width: 28px; height: 28px; flex: 0 0 28px; border-radius: 8px; background: #F6F7F9; color: #555C68; display: flex; align-items: center; justify-content: center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg></span>
+<span style="min-width: 0; display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 12.5px; font-weight: 800">Singapore outbound</span>
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; padding: 1px 7px; border-radius: 6px; background: #FDEEEC; color: #B42318; font-size: 11px; font-weight: 800"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.alert }}"></path></svg>Needs your decision</span>
+<span style="font-size: 11.5px; color: #555C68">112 numbers can't get AI calls</span>
+</span>
+</a>
+</sc-if>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 8px; margin-top: 6px; padding: 10px; border-radius: 10px; border: 1px dashed #D5DAE2; color: #555C68; font-size: 12px; font-weight: 700; text-decoration: none">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.plus }}"></path></svg>
+<span>Add a Call step to a campaign</span>
+</a>
+</aside>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<section aria-label="No Autopilot campaigns yet" style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 32px; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px">
+<span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: #EBF1FE; color: #2E63E7; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg></span>
+<h2 style="margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.01em">No Autopilot campaigns yet</h2>
+<p style="margin: 0; max-width: 520px; font-size: 13px; color: #555C68">Autopilot is set up inside a campaign. Once a campaign with an Autopilot Call step launches, its calls, outcomes and recordings show up here.</p>
+<ol style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 13px">
+<li>Add a Call step to a campaign and pick Autopilot.</li>
+<li>Write the agent prompt and connect a calendar.</li>
+<li>Clear the number check, then launch.</li>
+</ol>
+<a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: 10px; background: #1C1F26; color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none">Go to Campaigns<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowR }}"></path></svg></a>
+</section>
+</sc-if>
+
+<sc-if value="{{ hasCampaigns }}" hint-placeholder-val="{{ true }}">
+<section aria-label="Pricing-intent · Q4 follow-up" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px">
+<div style="flex: 1 1 320px; min-width: 0">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -0.01em">Pricing-intent · Q4 follow-up</h2>
+<span style="display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; background: {{ runChip.bg }}; color: {{ runChip.fg }}"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: currentColor"></span>{{ runChip.label }}</span>
+</div>
+<div style="margin-top: 3px; font-size: 12px; color: #555C68">{{ runText }}</div>
+</div>
+<sc-if value="{{ canPause }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ togglePause }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; color: #16181D; cursor: pointer">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ pauseIcon }}"></path></svg>
+<span>{{ pauseLabel }}</span>
+</button>
+</sc-if>
+<a href="ReadyToLaunch.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 9px; background: #1C1F26; color: #FFFFFF; font-size: 12.5px; font-weight: 700; text-decoration: none">Open campaign</a>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<sc-if value="{{ showStateCard }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 3 1 340px; min-width: 0; box-sizing: border-box; padding: 14px 16px; background: {{ stateCard.bg }}; border: 1px solid {{ stateCard.border }}; border-radius: 12px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">{{ stateCard.label }}</span>
+<div style="display: flex; align-items: flex-start; gap: 10px">
+<span aria-hidden="true" style="width: 36px; height: 36px; flex: 0 0 36px; border-radius: 10px; background: {{ stateCard.tile }}; color: {{ stateCard.fg }}; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ stateCard.icon }}"></path></svg></span>
+<div style="flex: 1; min-width: 0">
+<div style="font-size: 15px; font-weight: 800">{{ stateCard.title }}</div>
+<div style="margin-top: 2px; font-size: 12.5px; color: #555C68">{{ stateCard.text }}</div>
+</div>
+</div>
+<sc-if value="{{ stateCard.hasFacts }}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 4px 12px; padding: 10px 12px; border-radius: 10px; background: #F6F7F9; font-size: 12px">
+<sc-for list="{{ stateCard.facts }}" as="sf" hint-placeholder-count="3">
+<span style="color: #555C68">{{ sf.k }}</span><span style="font-weight: 600">{{ sf.v }}</span>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ stateCard.hasButton }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ stateCard.action }}" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 16px; border: 0; border-radius: 10px; background: #1C1F26; color: #FFFFFF; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.calCheck }}"></path></svg>{{ stateCard.cta }}</button>
+</sc-if>
+<sc-if value="{{ stateCard.hasLink }}" hint-placeholder-val="{{ false }}">
+<a href="{{ stateCard.href }}" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12.5px; font-weight: 700; color: #16181D; text-decoration: none">{{ stateCard.cta }}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowR }}"></path></svg></a>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ showLive }}" hint-placeholder-val="{{ true }}">
+<div style="flex: 3 1 340px; min-width: 0; box-sizing: border-box; padding: 14px 16px; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">NOW CALLING</span>
+<span style="margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 999px; background: #EBF1FE; color: #1D46A8; font-size: 11.5px; font-weight: 800"><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: #2E63E7; box-shadow: 0 0 0 3px rgba(46,99,231,0.2)"></span>On the call · 0:41</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px">
+<span aria-hidden="true" style="width: 36px; height: 36px; flex: 0 0 36px; border-radius: 50%; background: #EBF1FE; color: #1D46A8; border: 1px solid #C9D9FB; box-sizing: border-box; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center">KW</span>
+<div style="min-width: 0">
+<div style="font-size: 14px; font-weight: 800">Kenji Watanabe</div>
+<div style="font-size: 12px; color: #555C68">Director of RevOps · Ramp · New York, 1:12 PM ET</div>
+</div>
+<button type="button" onClick="{{ openKenji }}" style="margin-left: auto; height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9D9FB; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer">Follow live</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: 10px; background: #F6F7F9; border: 1px solid #EEF0F4">
+<div style="font-size: 12px"><span style="font-weight: 800; color: #1D46A8">Ridge (AI)</span> <span style="color: #16181D">Hi Kenji, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?</span></div>
+<div style="font-size: 12px"><span style="font-weight: 800">Kenji</span> <span>Sure, what's it about?</span></div>
+</div>
+<div style="font-size: 11.5px; color: #555C68">Up next: <strong style="color: #16181D; font-weight: 700">Rachel Kim</strong> · Brex</div>
+</div>
+</sc-if>
+
+<div style="flex: 2 1 240px; min-width: 0; box-sizing: border-box; padding: 14px 16px; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">PROGRESS</span>
+<div style="display: flex; align-items: baseline; gap: 8px">
+<span style="font-size: 26px; font-weight: 800; letter-spacing: -0.02em">{{ prog.n }}</span>
+<span style="font-size: 13px; color: #555C68">of 42 called</span>
+<span style="margin-left: auto; font-size: 12px; font-weight: 700; color: #555C68">{{ prog.pct }}</span>
+</div>
+<div role="progressbar" aria-label="Calls made" aria-valuemin="0" aria-valuemax="42" aria-valuenow="{{ prog.n }}" style="height: 8px; border-radius: 999px; background: #EEF0F4; overflow: hidden">
+<div style="width: {{ prog.pct }}; height: 100%; border-radius: 999px; background: {{ prog.color }}"></div>
+</div>
+<div style="font-size: 12px; color: #555C68">{{ prog.left }}</div>
+<div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555C68">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.clock }}"></path></svg>
+<span>Mon–Fri, 9:00–17:00 in each contact's time</span>
+</div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr)); gap: 10px">
+<sc-for list="{{ tiles }}" as="t" hint-placeholder-count="5">
+<div style="padding: 12px 14px; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px">
+<div style="display: flex; align-items: center; gap: 6px; font-size: 22px; font-weight: 800; letter-spacing: -0.02em"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: {{ t.dot }}"></span>{{ t.n }}</div>
+<div style="font-size: 12px; color: #555C68">{{ t.label }}</div>
+</div>
+</sc-for>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #EEF0F4">
+<h3 style="margin: 0; font-size: 13.5px; font-weight: 800">Calls</h3>
+<span style="font-size: 12px; color: #646B77">{{ rowsCaption }}</span>
+<span style="position: relative; display: inline-block; margin-left: auto">
+<select aria-label="Show calls with this outcome" value="{{ outcomeSel }}" onChange="{{ setOutcome }}" style="height: 32px; box-sizing: border-box; padding: 0 28px 0 10px; border-radius: 8px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer; appearance: none">
+<option value="all">All outcomes</option>
+<option value="Meeting booked">Meeting booked</option>
+<option value="Interested, follow up">Interested, follow up</option>
+<option value="Not interested">Not interested</option>
+<option value="Asked not to be called">Asked not to be called</option>
+<option value="Call not answered">Call not answered</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+</div>
+<div style="overflow-x: auto">
+<div role="table" aria-label="Calls in this campaign" style="min-width: 700px">
+<div role="row" style="display: grid; grid-template-columns: minmax(170px, 2fr) minmax(150px, 1.5fr) 70px minmax(170px, 1.8fr) 96px; gap: 12px; padding: 8px 16px; font-size: 11px; font-weight: 800; letter-spacing: 0.04em; color: #646B77; background: #FAFBFC; border-bottom: 1px solid #EEF0F4">
+<span role="columnheader">CONTACT</span><span role="columnheader">OUTCOME</span><span role="columnheader">LENGTH</span><span role="columnheader">MEETING OR NEXT STEP</span><span role="columnheader">CALLED</span>
+</div>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+<button type="button" role="row" onClick="{{ r.open }}" style="width: 100%; display: grid; grid-template-columns: minmax(170px, 2fr) minmax(150px, 1.5fr) 70px minmax(170px, 1.8fr) 96px; gap: 12px; align-items: center; padding: 10px 16px; border: 0; border-bottom: 1px solid #EEF0F4; background: {{ r.bg }}; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<span role="cell" style="min-width: 0; display: flex; flex-direction: column"><span style="font-size: 12.5px; font-weight: 700">{{ r.name }}</span><span style="font-size: 11.5px; color: #555C68">{{ r.company }}</span></span>
+<span role="cell"><span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 800; background: {{ r.tone.bg }}; color: {{ r.tone.fg }}"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: currentColor"></span>{{ r.outcome }}</span></span>
+<span role="cell" style="font-size: 12px; font-variant-numeric: tabular-nums; color: #555C68">{{ r.duration }}</span>
+<span role="cell" style="font-size: 12px; color: #16181D; min-width: 0">{{ r.next }}</span>
+<span role="cell" style="font-size: 12px; color: #555C68">{{ r.when }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 18px 16px; font-size: 12.5px; color: #555C68">
+<span>No calls with this outcome yet.</span>
+<button type="button" onClick="{{ clearOutcome }}" style="min-height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer">Show all outcomes</button>
+</div>
+</sc-if>
+</div>
+</section>
+</sc-if>
+</div>
+</main>
+
+<sc-if value="{{ hasRec }}" hint-placeholder-val="{{ false }}">
+<button type="button" aria-label="Close call record" onClick="{{ closeRec }}" style="position: fixed; inset: 0; z-index: 30; border: 0; padding: 0; margin: 0; background: rgba(22, 24, 29, 0.24); cursor: default"></button>
+<aside role="dialog" aria-modal="true" aria-labelledby="rec-title" style="position: fixed; top: 0; right: 0; bottom: 0; z-index: 31; width: 480px; max-width: 100%; box-sizing: border-box; background: #FFFFFF; box-shadow: -24px 0 64px rgba(22,24,29,0.18); display: flex; flex-direction: column">
+<div style="display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px 14px; border-bottom: 1px solid #EEF0F4">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; background: #EBF1FE; color: #1D46A8; border: 1px solid #C9D9FB; box-sizing: border-box; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center">{{ rec.initials }}</span>
+<div style="flex: 1; min-width: 0">
+<h2 id="rec-title" style="margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -0.01em">{{ rec.name }}</h2>
+<div style="font-size: 12px; color: #555C68">{{ rec.role }}</div>
+<div style="font-size: 12px; color: #555C68; font-variant-numeric: tabular-nums">{{ rec.number }}</div>
+</div>
+<button type="button" onClick="{{ closeRec }}" aria-label="Close" style="width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #555C68; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.x }}"></path></svg></button>
+</div>
+
+<div style="flex: 1 1 auto; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<span style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 7px; font-size: 12px; font-weight: 800; background: {{ rec.tone.bg }}; color: {{ rec.tone.fg }}"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: currentColor"></span>{{ rec.outcome }}</span>
+<span style="font-size: 12px; color: #555C68">{{ rec.meta }}</span>
+</div>
+
+<sc-if value="{{ rec.hasMeeting }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid #BFE3CF; background: #F3FAF6">
+<span aria-hidden="true" style="width: 32px; height: 32px; flex: 0 0 32px; border-radius: 9px; background: #FFFFFF; color: #1B6B45; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 1px #BFE3CF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.calCheck }}"></path></svg></span>
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 13px; font-weight: 800">Intro: Sprouts and Twilio</div>
+<div style="font-size: 12.5px; font-weight: 700">Wed 25 Nov · 10:30–11:00 AM PT</div>
+<div style="font-size: 12px; color: #555C68">Invite sent to owen.wright@twilio.com, confirmed on the call</div>
+<div style="font-size: 12px; color: #555C68">On dharam@sprouts.ai · Google Calendar</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ rec.hasNote }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; background: {{ rec.noteBg }}; font-size: 12.5px; color: #16181D">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 15px; margin-top: 2px"><path d="{{ ic.info }}"></path></svg>
+<span>{{ rec.note }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ rec.hasAudio }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">RECORDING</span>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid #E7EAF0">
+<button type="button" aria-label="{{ playLabel }}" onClick="{{ togglePlay }}" style="width: 36px; height: 36px; flex: 0 0 36px; border: 0; border-radius: 50%; background: #1C1F26; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ playIcon }}"></path></svg></button>
+<div aria-hidden="true" style="flex: 1; min-width: 0; height: 32px; display: flex; align-items: center; gap: 2px; overflow: hidden">
+<sc-for list="{{ wave }}" as="w" hint-placeholder-count="40">
+<span style="flex: 1 1 0; min-width: 2px; max-width: 4px; height: {{ w.h }}px; border-radius: 2px; background: {{ w.bg }}"></span>
+</sc-for>
+</div>
+<span style="font-size: 11.5px; font-weight: 700; color: #555C68; font-variant-numeric: tabular-nums; white-space: nowrap">{{ playClock }} / {{ rec.duration }}</span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ rec.hasLines }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">{{ rec.linesTitle }}</span>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{ rec.lines }}" as="ln" hint-placeholder-count="4">
+<li style="display: flex; flex-direction: column; gap: 2px">
+<span style="display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800; color: {{ ln.color }}">{{ ln.who }}<span style="font-weight: 600; color: #646B77; font-variant-numeric: tabular-nums">{{ ln.t }}</span></span>
+<span style="font-size: 12.5px; line-height: 1.5">{{ ln.text }}</span>
+</li>
+</sc-for>
+</ol>
+</div>
+</sc-if>
+</div>
+
+<div style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-top: 1px solid #EEF0F4; font-size: 11.5px; color: #555C68">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B6B45" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.check }}"></path></svg>
+<span>{{ rec.saved }}</span>
+</div>
+</aside>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"status":{"editor":"enum","options":["running","waiting","attention","finished","empty"],"default":"running"},"record":{"editor":"enum","options":["none","kenji","owen","jennifer","lena","tomas","alex"],"default":"none"},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  icons() {
+    return {
+      brief: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18',
+      rocket: 'M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0 M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5',
+      search: 'M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0z M21 21l-4.3-4.3',
+      globe: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20 M2 12h20',
+      users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+      handshake: 'M11 17l2 2a1 1 0 1 0 3-3 M14 14l2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4 M21 3l1 11h-2 M3 3L2 14l6.5 6.5a1 1 0 1 0 3-3 M3 4h8',
+      megaphone: 'M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14 M8 6v8',
+      inbox: 'M22 12h-6l-2 3h-4l-2-3H2 M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z',
+      phone: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z',
+      building: 'M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2 M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2 M10 6h4 M10 10h4 M10 14h4 M10 18h4',
+      briefcase: 'M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16 M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z',
+      bot: 'M12 8V4H8 M6 8h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z M2 14h2 M20 14h2 M15 13v2 M9 13v2',
+      zap: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
+      plug: 'M12 22v-5 M9 8V2 M15 8V2 M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z',
+      bell: 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0',
+      chevD: 'M6 9l6 6 6-6',
+      arrowR: 'M5 12h14 M12 5l7 7-7 7',
+      history: 'M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8 M3 3v5h5 M12 7v5l4 2',
+      calX: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18 M10 14l4 4 M14 14l-4 4',
+      plus: 'M12 5v14 M5 12h14',
+      clock: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 6v6l4 2',
+      check: 'M20 6L9 17l-5-5',
+      x: 'M18 6L6 18 M6 6l12 12',
+      alert: 'M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01',
+      shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      info: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 16v-4 M12 8h.01',
+      calCheck: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18 M9 16l2 2 4-4',
+      sparkles: 'M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z M20 3v4 M22 5h-4 M4 17v2 M5 18H3',
+      headset: 'M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5z M3 11a9 9 0 0 1 18 0 M21 11v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z M21 16v2a4 4 0 0 1-4 4h-5',
+      play: 'M6 3l14 9-14 9V3z',
+      pause: 'M10 4H6v16h4V4z M18 4h-4v16h4V4z',
+      hash: 'M4 9h16 M4 15h16 M10 3L8 21 M16 3l-2 18'
+    };
+  }
+
+  navGroups(active, ic) {
+    const mk = (label, d, href) => {
+      const on = label === active;
+      return {
+        label: label,
+        d: d,
+        href: href || '#',
+        current: on ? 'page' : undefined,
+        color: on ? '#16181D' : '#555C68',
+        bg: on ? '#FFFFFF' : 'transparent',
+        shadow: on ? '0 0 0 1px #E7EAF0, 0 1px 2px rgba(22,24,29,0.06)' : 'none'
+      };
+    };
+    return [
+      { has: false, label: '', items: [mk('Daily Brief', ic.brief), mk('Get started', ic.rocket)] },
+      { has: true, label: 'DISCOVER', items: [mk('Global Search', ic.search), mk('Website Visitors', ic.globe)] },
+      { has: true, label: 'QUALIFY', items: [mk('Prospects', ic.users), mk('Partners', ic.handshake)] },
+      { has: true, label: 'OUTREACH', items: [mk('Campaigns', ic.megaphone, 'Main.dc.html'), mk('Inbox', ic.inbox), mk('Dialer', ic.phone, 'LiveAssist.dc.html')] },
+      { has: true, label: 'CONVERSION', items: [mk('Account Intelligence', ic.building), mk('Opportunities', ic.briefcase)] },
+      { has: true, label: 'ORCHESTRATOR', items: [mk('Agents', ic.bot), mk('Personalization', ic.zap), mk('Connectors', ic.plug)] }
+    ];
+  }
+
+  records() {
+    const green = { bg: '#E7F5EE', fg: '#1B6B45' };
+    const blue = { bg: '#EBF1FE', fg: '#1D46A8' };
+    const gray = { bg: '#F1F3F6', fg: '#555C68' };
+    const red = { bg: '#FDEEEC', fg: '#B42318' };
+    const amber = { bg: '#FBF3DF', fg: '#8A5A00' };
+    const ai = (t, text) => ({ who: 'Ridge (AI)', color: '#1D46A8', t: t, text: text });
+    const them = (who, t, text) => ({ who: who, color: '#16181D', t: t, text: text });
+    return {
+      kenji: {
+        name: 'Kenji Watanabe', initials: 'KW', company: 'Ramp', role: 'Director of RevOps · Ramp', number: '+1 (646) 555 0119 · New York',
+        outcome: 'Calling now', tone: blue, duration: '0:41', when: 'Now', next: '—',
+        meta: '0:41 so far · from +1 (615) 555 0142',
+        hasMeeting: false, hasNote: true, noteBg: '#F5F8FF', note: 'Live call. The recording and full transcript save when it ends.',
+        hasAudio: false, hasLines: true, linesTitle: 'LIVE TRANSCRIPT',
+        lines: [
+          ai('0:00', 'Hi Kenji, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?'),
+          them('Kenji', '0:06', "Sure, what's it about?"),
+          ai('0:09', 'Your team looked at our pricing page last week. Would a 30-minute walkthrough with a Sprouts specialist be useful?')
+        ],
+        saved: 'Saves to Kenji’s activity when the call ends'
+      },
+      owen: {
+        name: 'Owen Wright', initials: 'OW', company: 'Twilio', role: 'Head of Revenue Operations · Twilio', number: '+1 (415) 555 0177 · San Francisco',
+        outcome: 'Meeting booked', tone: green, duration: '4:12', when: '12 min ago', next: 'Wed 25 Nov · 10:30 AM PT',
+        meta: '4:12 · 12 min ago · from +1 (615) 555 0142',
+        hasMeeting: true, hasNote: false, noteBg: '', note: '',
+        hasAudio: true, hasLines: true, linesTitle: 'TRANSCRIPT',
+        lines: [
+          ai('0:00', 'Hi Owen, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?'),
+          them('Owen', '0:05', "Sure, what's this about?"),
+          ai('0:08', 'Your team looked at our pricing page twice last week. Would a 30-minute walkthrough with a Sprouts specialist be useful?'),
+          them('Owen', '0:16', 'Maybe. Does it work with Salesforce?'),
+          ai('0:20', 'Yes. Sprouts works inside Salesforce and Dynamics 365.'),
+          them('Owen', '3:41', 'Okay. Wednesday morning works for me.'),
+          ai('3:46', 'Wednesday 25 November at 10:30 AM Pacific, and I will send the invite to owen.wright@twilio.com. Is that right?'),
+          them('Owen', '3:55', "Yes, that's right."),
+          ai('3:58', 'Booked. The invite is on its way. Thanks, Owen.')
+        ],
+        saved: 'Saved to Owen’s activity: recording, transcript, outcome and meeting'
+      },
+      jennifer: {
+        name: 'Jennifer Lee', initials: 'JL', company: 'Robinhood', role: 'VP Sales Development · Robinhood', number: '+1 (650) 555 0134 · Menlo Park',
+        outcome: 'Call not answered', tone: amber, duration: '—', when: '18 min ago', next: '—',
+        meta: '18 min ago · from +1 (615) 555 0142',
+        hasMeeting: false, hasNote: true, noteBg: '#FBF3DF', note: 'Nobody picked up. Status set to Call not answered and the next contact was called.',
+        hasAudio: false, hasLines: false, linesTitle: '', lines: [],
+        saved: 'Saved to Jennifer’s activity: outcome'
+      },
+      lena: {
+        name: 'Lena Ortiz', initials: 'LO', company: 'Mercury', role: 'Sales Ops Manager · Mercury', number: '+1 (415) 555 0193 · San Francisco',
+        outcome: 'Asked not to be called', tone: red, duration: '0:14', when: '24 min ago', next: 'Added to the Sprouts DNC list',
+        meta: '0:14 · 24 min ago · from +1 (615) 555 0142',
+        hasMeeting: false, hasNote: true, noteBg: '#FDEEEC', note: 'Added to the Sprouts DNC list. Lena won’t be called again from any campaign.',
+        hasAudio: true, hasLines: true, linesTitle: 'TRANSCRIPT',
+        lines: [
+          ai('0:00', 'Hi Lena, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?'),
+          them('Lena', '0:05', 'No. Please take me off your list.'),
+          ai('0:09', "Understood. I've noted that you don't want to be called again. Have a good day.")
+        ],
+        saved: 'Saved to Lena’s activity: recording, transcript and outcome'
+      },
+      tomas: {
+        name: 'Tomás Rivera', initials: 'TR', company: 'HighRadius', role: 'Director, Sales Ops · HighRadius', number: '+1 (832) 555 0163 · Houston',
+        outcome: 'Interested, follow up', tone: blue, duration: '3:05', when: '31 min ago', next: 'Send pricing for 40 seats',
+        meta: '3:05 · 31 min ago · from +1 (615) 555 0142',
+        hasMeeting: false, hasNote: true, noteBg: '#F5F8FF', note: 'Next step from the call: send pricing for 40 seats by email.',
+        hasAudio: true, hasLines: true, linesTitle: 'TRANSCRIPT',
+        lines: [
+          ai('0:00', 'Hi Tomás, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?'),
+          them('Tomás', '0:06', 'A quick one, yes.'),
+          ai('0:09', 'Your team looked at our pricing page last week. Would a 30-minute walkthrough be useful?'),
+          them('Tomás', '2:40', 'Not yet. Send me pricing for 40 seats and I will look at it this week.'),
+          ai('2:48', "I don't have a 40-seat quote on hand, so a specialist will email it to you today. Thanks, Tomás.")
+        ],
+        saved: 'Saved to Tomás’s activity: recording, transcript and outcome'
+      },
+      alex: {
+        name: 'Alex Nakamura', initials: 'AN', company: 'SoFi', role: 'RevOps Lead · SoFi', number: '+1 (415) 555 0156 · San Francisco',
+        outcome: 'Not interested', tone: gray, duration: '1:12', when: '38 min ago', next: '—',
+        meta: '1:12 · 38 min ago · from +1 (615) 555 0142',
+        hasMeeting: false, hasNote: false, noteBg: '', note: '',
+        hasAudio: true, hasLines: true, linesTitle: 'TRANSCRIPT',
+        lines: [
+          ai('0:00', 'Hi Alex, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?'),
+          them('Alex', '0:05', 'Go ahead.'),
+          ai('0:08', 'Your team looked at our pricing page last week. Would a 30-minute walkthrough be useful?'),
+          them('Alex', '0:58', 'We just renewed with another vendor, so not this year.'),
+          ai('1:03', 'Thanks for letting me know, Alex. Have a good day.')
+        ],
+        saved: 'Saved to Alex’s activity: recording, transcript and outcome'
+      }
+    };
+  }
+
+  componentWillUnmount() {
+    if (this._pv) { clearInterval(this._pv); this._pv = null; }
+  }
+
+  renderVals() {
+    const s = this.state || {};
+    const p = this.props || {};
+    const ic = this.icons();
+    const recs = this.records();
+    const fromProp = p.record && p.record !== 'none' ? p.record : null;
+    const recId = s.rec !== undefined ? s.rec : fromProp;
+    const rec = recId && recs[recId] ? recs[recId] : null;
+    const status = s.status || p.status || 'running';
+    const isRunning = status === 'running';
+    const isWaiting = status === 'waiting';
+    const isAttention = status === 'attention';
+    const isFinished = status === 'finished';
+    const isEmpty = status === 'empty';
+    const paused = isRunning && !!s.paused;
+    const order = isRunning ? ['kenji', 'owen', 'jennifer', 'lena', 'tomas', 'alex'] : ['owen', 'jennifer', 'lena', 'tomas', 'alex'];
+    const waitWhen = { owen: 'Today, 4:48 PM ET', jennifer: 'Today, 4:42 PM ET', lena: 'Today, 4:36 PM ET', tomas: 'Today, 4:29 PM ET', alex: 'Today, 4:22 PM ET' };
+    const outcomeSel = s.outcomeSel || 'all';
+    const stopPlay = () => { if (this._pv) { clearInterval(this._pv); this._pv = null; } };
+    const rows = order.filter((id) => outcomeSel === 'all' || recs[id].outcome === outcomeSel).map((id) => {
+      const r = recs[id];
+      return {
+        name: r.name, company: r.company, outcome: r.outcome, tone: r.tone, duration: r.duration, next: r.next,
+        when: isFinished ? 'Mon 23 Nov' : (isWaiting ? waitWhen[id] : r.when),
+        bg: id === recId ? '#F5F8FF' : '#FFFFFF',
+        open: () => { stopPlay(); this.setState({ rec: id, playing: false, playAt: 0 }); }
+      };
+    });
+    const durParts = /^(\d+):(\d+)$/.exec(rec ? rec.duration : '');
+    const durSec = durParts ? Number(durParts[1]) * 60 + Number(durParts[2]) : 0;
+    const playAt = Math.min(s.playAt || 0, durSec);
+    const playing = !!s.playing && playAt < durSec;
+    const wave = [];
+    for (let i = 0; i < 64; i++) {
+      const h = 6 + Math.round(Math.abs(Math.sin(i * 0.55) * 14 + Math.sin(i * 1.7) * 7));
+      wave.push({ h: Math.min(28, h), bg: (durSec && playAt > 0 && i / 64 < playAt / durSec) ? '#2E63E7' : '#B8C3D6' });
+    }
+    let stateCard = { label: '', title: '', text: '', icon: ic.clock, tile: '#F1F3F6', fg: '#555C68', bg: '#FFFFFF', border: '#E7EAF0', facts: [], hasFacts: false, hasButton: false, hasLink: false, cta: '', href: '#', action: () => {} };
+    if (isWaiting) {
+      stateCard = Object.assign(stateCard, {
+        label: 'NEXT CALL', icon: ic.clock, tile: '#FBF3DF', fg: '#8A5A00',
+        title: 'Calls start again tomorrow at 9:00 AM ET',
+        text: 'Nobody left to call is inside calling hours right now. Autopilot waits and starts again on its own.',
+        hasFacts: true,
+        facts: [
+          { k: 'First up', v: 'Rachel Kim · Brex · New York' },
+          { k: 'Their time now', v: '6:40 PM ET' },
+          { k: 'Calling hours', v: "Mon–Fri, 9:00–17:00 in each contact's time" }
+        ]
+      });
+    } else if (isAttention) {
+      stateCard = Object.assign(stateCard, {
+        label: 'ON HOLD', icon: ic.calX, tile: '#FDEEEC', fg: '#B42318', bg: '#FFF7F6', border: '#F6C9C3',
+        title: 'The calendar is disconnected',
+        text: "The AI can't book meetings without dharam@sprouts.ai's Google Calendar, so no new calls have started since 1:14 PM ET. Reconnect it and Autopilot picks up at contact 19 of 42.",
+        hasButton: true, cta: 'Reconnect calendar', action: () => this.setState({ status: 'running', paused: false })
+      });
+    } else if (isFinished) {
+      stateCard = Object.assign(stateCard, {
+        label: 'RUN SUMMARY', icon: ic.check, tile: '#E7F5EE', fg: '#1B6B45',
+        title: 'Every contact was called once',
+        text: "6 meetings are on dharam@sprouts.ai's calendar. The 21 contacts who didn't pick up keep the status Call not answered.",
+        hasFacts: true,
+        facts: [
+          { k: 'Started', v: 'Mon 23 Nov, 9:00 AM ET' },
+          { k: 'Finished', v: 'Wed 25 Nov, 4:52 PM ET' },
+          { k: 'Talk time', v: '1 h 48 min across 21 answered calls' }
+        ],
+        hasLink: true, cta: 'See all 42 calls', href: 'CallHistory.dc.html'
+      });
+    }
+
+    const tilesRunning = [
+      { n: '3', label: 'Meetings booked', dot: '#1B6B45' },
+      { n: '2', label: 'Interested, follow up', dot: '#2E63E7' },
+      { n: '3', label: 'Not interested', dot: '#8A919D' },
+      { n: '1', label: 'Asked not to be called', dot: '#B42318' },
+      { n: '9', label: 'Call not answered', dot: '#C58A12' }
+    ];
+    const tilesFinished = [
+      { n: '6', label: 'Meetings booked', dot: '#1B6B45' },
+      { n: '5', label: 'Interested, follow up', dot: '#2E63E7' },
+      { n: '8', label: 'Not interested', dot: '#8A919D' },
+      { n: '2', label: 'Asked not to be called', dot: '#B42318' },
+      { n: '21', label: 'Call not answered', dot: '#C58A12' }
+    ];
+
+    let runChip = { label: 'Running', bg: '#E7F5EE', fg: '#1B6B45' };
+    let runText = 'Autopilot · Ridge, outbound qualifier · Maya voice · from +1 (615) 555 0142';
+    let listStatus = 'Running · 18 of 42 called';
+    let statusDot = '#1B6B45';
+    let autoChip = '1 running';
+    if (paused) {
+      runChip = { label: 'Paused', bg: '#FBF3DF', fg: '#8A5A00' };
+      runText = 'Paused. The call in progress finishes, then no new calls start until you resume.';
+      listStatus = 'Paused · 18 of 42 called';
+      statusDot = '#C58A12';
+      autoChip = '1 paused';
+    } else if (isWaiting) {
+      runChip = { label: 'Waiting for calling hours', bg: '#FBF3DF', fg: '#8A5A00' };
+      listStatus = 'Waiting · 18 of 42 called';
+      statusDot = '#C58A12';
+      autoChip = '1 waiting';
+    } else if (isAttention) {
+      runChip = { label: 'On hold · needs you', bg: '#FDEEEC', fg: '#B42318' };
+      listStatus = 'On hold · calendar disconnected';
+      statusDot = '#B42318';
+      autoChip = '1 on hold';
+    } else if (isFinished) {
+      runChip = { label: 'Finished', bg: '#F1F3F6', fg: '#555C68' };
+      runText = 'Finished Wed 25 Nov · Ridge, outbound qualifier · Maya voice · from +1 (615) 555 0142';
+      listStatus = 'Finished · 42 called';
+      statusDot = '#8A919D';
+      autoChip = '0 running';
+    } else if (isEmpty) {
+      autoChip = '0 running';
+    }
+
+    return {
+      ic: ic,
+      navGroups: this.navGroups('Dialer', ic),
+      isEmpty: isEmpty,
+      hasCampaigns: !isEmpty,
+      campaignCount: isEmpty ? '0' : '2',
+      outcomeSel: outcomeSel,
+      setOutcome: (e) => this.setState({ outcomeSel: e.target.value }),
+      clearOutcome: () => this.setState({ outcomeSel: 'all' }),
+      noRows: rows.length === 0,
+      playLabel: playing ? 'Pause recording' : 'Play recording',
+      playIcon: playing ? ic.pause : ic.play,
+      playClock: Math.floor(playAt / 60) + ':' + (playAt % 60 < 10 ? '0' : '') + (playAt % 60),
+      togglePlay: () => {
+        stopPlay();
+        if (playing) { this.setState({ playing: false }); return; }
+        this.setState({ playing: true, playAt: playAt >= durSec ? 0 : playAt });
+        this._pv = setInterval(() => {
+          const st = this.state || {};
+          const n = (st.playAt || 0) + 1;
+          if (n >= durSec) { stopPlay(); this.setState({ playAt: durSec, playing: false }); }
+          else this.setState({ playAt: n });
+        }, 1000);
+      },
+      autoChip: autoChip,
+      canPause: isRunning,
+      showLive: isRunning,
+      showStateCard: isWaiting || isAttention || isFinished,
+      stateCard: stateCard,
+      prog: isFinished
+        ? { n: '42', pct: '100%', left: 'All 42 contacts called', color: '#1B6B45' }
+        : { n: '18', pct: '43%', left: '24 left · one call at a time', color: isAttention ? '#8A919D' : '#2E63E7' },
+      rowsCaption: isFinished
+        ? 'Latest first · ' + rows.length + ' of 42 shown · open a call for its recording and transcript'
+        : 'Latest first · ' + rows.length + ' shown · open a call for its recording and transcript',
+      rows: rows,
+      wave: wave,
+      hasRec: !!rec,
+      rec: rec || recs.owen,
+      closeRec: () => { stopPlay(); this.setState({ rec: null, playing: false, playAt: 0 }); },
+      openKenji: () => { stopPlay(); this.setState({ rec: 'kenji', playing: false, playAt: 0 }); },
+      tiles: isFinished ? tilesFinished : tilesRunning,
+      runChip: runChip,
+      runText: runText,
+      listStatus: listStatus,
+      statusDot: statusDot,
+      pauseLabel: paused ? 'Resume' : 'Pause',
+      pauseIcon: paused ? ic.play : ic.pause,
+      togglePause: () => this.setState({ paused: !paused })
+    };
+  }
+}
+</script>
+</body>
+</html>

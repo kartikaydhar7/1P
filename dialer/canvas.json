@@ -1,0 +1,410 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Autopilot.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "2a · Autopilot campaign running",
+      "w": 1440,
+      "x": 0,
+      "y": 1400
+    },
+    "AutopilotAttention.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "2d · On hold: calendar disconnected",
+      "w": 1440,
+      "x": 4560,
+      "y": 1400
+    },
+    "AutopilotEmpty.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "2f · No Autopilot campaigns yet",
+      "w": 1440,
+      "x": 7600,
+      "y": 1400
+    },
+    "AutopilotFinished.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "2e · Run finished",
+      "w": 1440,
+      "x": 6080,
+      "y": 1400
+    },
+    "AutopilotRecord.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "2b · Call record",
+      "w": 1440,
+      "x": 1520,
+      "y": 1400
+    },
+    "AutopilotSetup.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "1c · Autopilot: prompt, voice, calendar",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "AutopilotWaiting.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "2c · Waiting for calling hours",
+      "w": 1440,
+      "x": 3040,
+      "y": 1400
+    },
+    "BuyNumber.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "4e · Buy a number from Twilio",
+      "w": 1440,
+      "x": 6080,
+      "y": 4200
+    },
+    "CallHistory.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "4a · Call history, both modes",
+      "w": 1440,
+      "x": 0,
+      "y": 4200
+    },
+    "CallHistoryRecord.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "4b · Live Assist call record",
+      "w": 1440,
+      "x": 1520,
+      "y": 4200
+    },
+    "CallStepLiveAssist.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "1b · Live Assist: script and who calls",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "CallingRules.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "4c · Calling rules",
+      "w": 1440,
+      "x": 3040,
+      "y": 4200
+    },
+    "LaunchConfirm.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "1h · Launch confirmation",
+      "w": 1440,
+      "x": 10640,
+      "y": 0
+    },
+    "LiveAssist.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "3a · Live Assist queue, ready",
+      "w": 1440,
+      "x": 0,
+      "y": 2800
+    },
+    "LiveAssistCall.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "3c · On the call with Whisper",
+      "w": 1440,
+      "x": 3040,
+      "y": 2800
+    },
+    "LiveAssistDone.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "3f · Queue complete",
+      "w": 1440,
+      "x": 7600,
+      "y": 2800
+    },
+    "LiveAssistEmpty.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "3h · No calls due",
+      "w": 1440,
+      "x": 10640,
+      "y": 2800
+    },
+    "LiveAssistMeeting.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "3e · Book the meeting at wrap-up",
+      "w": 1440,
+      "x": 6080,
+      "y": 2800
+    },
+    "LiveAssistMic.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "3g · Microphone blocked",
+      "w": 1440,
+      "x": 9120,
+      "y": 2800
+    },
+    "LiveAssistNoAnswer.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "3b · Call not answered, next call",
+      "w": 1440,
+      "x": 1520,
+      "y": 2800
+    },
+    "LiveAssistWrapUp.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "3d · Log the outcome",
+      "w": 1440,
+      "x": 4560,
+      "y": 2800
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "1a · Call step: pick a mode",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "MovedContactsScript.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "1f · Script for the moved contacts",
+      "w": 1440,
+      "x": 7600,
+      "y": 0
+    },
+    "NumberBought.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "4f · Number bought",
+      "w": 1440,
+      "x": 7600,
+      "y": 4200
+    },
+    "NumberCheck.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "1e · Number check: launch blocked",
+      "w": 1440,
+      "x": 6080,
+      "y": 0
+    },
+    "NumberChecking.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "1d · Number check: running",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "PhoneNumbers.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "4d · Phone numbers",
+      "w": 1440,
+      "x": 4560,
+      "y": 4200
+    },
+    "ReadyToLaunch.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "1g · All checks passed",
+      "w": 1440,
+      "x": 9120,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-20T05:40:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "noteOrder": [
+    "t1",
+    "t2",
+    "t3",
+    "t4",
+    "n1",
+    "n2",
+    "n3",
+    "n4",
+    "n5",
+    "n6",
+    "n8",
+    "n7"
+  ],
+  "notes": {
+    "n1": {
+      "fill": "blue",
+      "size": 24,
+      "text": "Row 1 covers FR-1 to FR-8\n\n• FR-1, FR-2: one Call step next to Email and LinkedIn. Pick Autopilot or Live Assist.\n• FR-6, FR-7: agent prompt with guideline checks that update as you type; calendar connect. Check numbers stays off until a calendar is connected.\n• FR-3: 1d shows the check running on every number: country by number, country by contact location, then DNC.\n• FR-4, FR-5: 1e blocks launch with the PRD message. The user picks Live Assist or Remove; nothing is preselected.\n• New in 1f: contacts moved to Live Assist need a script, so the flow asks for one before launch.\n• FR-8: 1h says what starts when. After that Autopilot runs on its own.\n\nTo confirm with the PRD owner: DNC contacts can only be removed, because DNC lists cover calls made by people too.",
+      "w": 460,
+      "x": 12160,
+      "y": 0
+    },
+    "n2": {
+      "fill": "blue",
+      "size": 24,
+      "text": "Row 2 covers FR-8, FR-10, FR-12\n\n• Calls run on the campaign schedule, one contact at a time; the live card shows who is on the line.\n• No pickup: Call not answered, then the next contact.\n• Every row opens its record: recording, transcript, outcome and any meeting.\n• 2c to 2f are the other states: outside calling hours, on hold, finished, nothing set up yet.\n\nAssumption to confirm (2d): if the calendar disconnects, Autopilot stops starting calls. The other choice is to keep calling without booking.",
+      "w": 420,
+      "x": 9120,
+      "y": 1400
+    },
+    "n3": {
+      "fill": "orange",
+      "size": 24,
+      "text": "Ideas from the Nooks teardown (not in PRD V1; keep or cut)\n\n• Connect cue: the prospect's first words show on pickup\n• Each on-screen answer cites its source\n• A competitor mention, including speech-to-text spellings, brings up the matching talking point\n• Number health next to Calling from\n• Test call before launch\n• Suggested outcome from the transcript\n\nLeft out on purpose: parallel lines, a multi-tab call view, a model picker.",
+      "w": 440,
+      "x": 9620,
+      "y": 1400
+    },
+    "n4": {
+      "fill": "gray",
+      "size": 24,
+      "text": "Out of V1 (in the V2 PRD): switching between BDR and AI mid-call, call transfer, inbound calls.\n\nTaken out of the current prototype: the Parallel · 3 lines tab, the Parallel dial step and the 'Hand off on interest' setting.",
+      "w": 400,
+      "x": 10140,
+      "y": 1400
+    },
+    "n5": {
+      "fill": "blue",
+      "size": 24,
+      "text": "Row 3 covers FR-9, FR-10, FR-11, FR-12\n\n• The queue dials one contact at a time; pickup connects to the BDR.\n• No answer: the status saves and the next call starts in 3 s. The BDR can call now or pause.\n• Whisper shows the script and talking points, live transcript and on-screen answers. Only the BDR sees it.\n• 3c: the live transcript gets the middle of the screen at reading size, newest line at the bottom, the prospect's words in bold. The answer and the script stay on the right.\n• Wrap-up: the BDR logs the outcome. For Meeting booked, 3e picks a free slot from the BDR's calendar.\n• 3g: the browser has to allow the microphone before the first call.\n\nIn Play, Start calling on 3a runs the whole loop.",
+      "w": 440,
+      "x": 12160,
+      "y": 2800
+    },
+    "n6": {
+      "fill": "blue",
+      "size": 24,
+      "text": "Row 4 covers FR-12 for both modes\n\n• 4a lists every call from Autopilot and Live Assist in one place. The outcome, campaign and period filters and the search all work.\n• 4b is a Live Assist record: recording, transcript, outcome, the BDR's notes and what Whisper showed.\n• 4c is the page behind the Calling rules button. It explains why a number fails the check. The team can change the rule for each mode in each country, add countries of its own and leave a note on any row. A row that differs from Sprouts' starting rule is marked Changed and can be reset. The Sprouts DNC list takes new numbers.\n\nThe countries and registers on 4c are sample data. Legal needs to confirm the real list.",
+      "w": 440,
+      "x": 9120,
+      "y": 4200
+    },
+    "n7": {
+      "fill": "orange",
+      "size": 24,
+      "text": "Questions for the PRD (the design assumes an answer for each)\n\n1. FR-10 ends with [custom markings]. Can teams rename or add call outcomes? The design uses a fixed list.\n2. Voicemail, busy and wrong numbers: all Call not answered? The design says yes.\n3. Are unanswered calls retried? The design calls each contact once.\n4. Calling rules are editable (decided). Still open: which roles can edit them, and whether a team may allow AI calls where Sprouts blocks them. The design allows it and shows a warning.\n5. Can the call mode change after launch? The design locks it at launch.\n6. Calendar disconnects mid-run: stop calling (as drawn in 2d) or keep calling without booking?\n7. Sprouts buys the numbers from Twilio (decided). Still open: what a number costs. 4e shows no price for now.",
+      "w": 460,
+      "x": 10160,
+      "y": 4200
+    },
+    "n8": {
+      "fill": "blue",
+      "size": 24,
+      "text": "4d to 4f: phone numbers, bought from Twilio\n\n• 4d lists the team's numbers: where each is from, which mode calls from it, and its health.\n• Used for is one choice per number: Autopilot and Live Assist, one of the two, or Not connected. It stands in for 'Connect agent' in the current product, because V1 has two modes and no agent list.\n• 4e keeps the current product's Twilio search (country, state, city, area code, number contains, services). The rarely used filters sit under Advanced.\n• 4f: the new number lands at the top of the list with its mode set.\n• Release asks first. It is blocked while a campaign or queue is calling from the number.\n\nDecided: Sprouts buys the numbers, and one number can serve both modes. No price is shown yet.\n\nNot in the V1 PRD, which only names Twilio as the phone layer.",
+      "w": 460,
+      "x": 9620,
+      "y": 4200
+    },
+    "t1": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "1 · Add a Call step, set it up, clear the number check, launch",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "t2": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "2 · Autopilot runs on its own and logs every call",
+      "w": 240,
+      "x": 0,
+      "y": 1100
+    },
+    "t3": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "3 · Live Assist: one contact at a time, Whisper on the side",
+      "w": 240,
+      "x": 0,
+      "y": 2500
+    },
+    "t4": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "4 · Shared: call history, calling rules and phone numbers",
+      "w": 240,
+      "x": 0,
+      "y": 3900
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "CallStepLiveAssist.dc.html",
+    "AutopilotSetup.dc.html",
+    "NumberChecking.dc.html",
+    "NumberCheck.dc.html",
+    "MovedContactsScript.dc.html",
+    "ReadyToLaunch.dc.html",
+    "LaunchConfirm.dc.html",
+    "Autopilot.dc.html",
+    "AutopilotRecord.dc.html",
+    "AutopilotWaiting.dc.html",
+    "AutopilotAttention.dc.html",
+    "AutopilotFinished.dc.html",
+    "AutopilotEmpty.dc.html",
+    "LiveAssist.dc.html",
+    "LiveAssistNoAnswer.dc.html",
+    "LiveAssistCall.dc.html",
+    "LiveAssistWrapUp.dc.html",
+    "LiveAssistMeeting.dc.html",
+    "LiveAssistDone.dc.html",
+    "LiveAssistMic.dc.html",
+    "LiveAssistEmpty.dc.html",
+    "CallHistory.dc.html",
+    "CallHistoryRecord.dc.html",
+    "CallingRules.dc.html",
+    "PhoneNumbers.dc.html",
+    "BuyNumber.dc.html",
+    "NumberBought.dc.html"
+  ],
+  "pages": [],
+  "title": "AI Dialer Redesign — Autopilot & Live Assist"
+}

@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campaign flow — Call step</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap; background: #F6F7F9; font-family: Manrope, 'Segoe UI', system-ui, -apple-system, sans-serif; color: #16181D; font-size: 13px; font-weight: 500; line-height: 1.45">
+
+<nav aria-label="Main" style="flex: 1 1 190px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; padding: 10px 8px 12px; background: #F8F9FB; border-right: 1px solid #E7EAF0">
+<div style="display: flex; align-items: center; gap: 8px; padding: 2px 6px 6px">
+<img src="/_blob/f3ef3dd45903c0199d6a4165ce97d877" alt="" style="width: 24px; height: 24px; display: block">
+<span style="font-size: 14px; font-weight: 800; letter-spacing: -0.01em">Sprouts.ai</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 2px 12px">
+<sc-for list="{{ navGroups }}" as="g" hint-placeholder-count="6">
+<div style="flex: 1 1 160px; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<sc-if value="{{ g.has }}" hint-placeholder-val="{{ true }}">
+<div style="padding: 10px 8px 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; color: #646B77">{{ g.label }}</div>
+</sc-if>
+<sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+<a href="{{ it.href }}" aria-current="{{ it.current }}" style="display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; font-size: 12.5px; font-weight: 600; text-decoration: none; color: {{ it.color }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ it.d }}"></path></svg>
+<span>{{ it.label }}</span>
+</a>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 14px">
+<a href="#" style="display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px; background: #EBF1FE; color: #1D46A8; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<span aria-hidden="true" style="width: 15px; height: 15px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #A9C6FF 0%, #2E63E7 55%, #1D46A8 100%)"></span>
+<span>Savant</span>
+<span style="margin-left: auto; font-size: 11px; font-weight: 600">⌘K</span>
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 600; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.bell }}"></path></svg>
+<span>Notifications</span>
+</a>
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 0; margin-top: 6px; border-top: 1px solid #E7EAF0">
+<span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 50%; background: #DDE5F5; color: #1D46A8; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center">DC</span>
+<span style="font-size: 12.5px; font-weight: 600">Dharam C.</span>
+</div>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 9px 16px; background: #FFFFFF; border-bottom: 1px solid #E7EAF0">
+<a href="#" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: 7px; background: #EBF1FE; color: #1D46A8; font-size: 12px; font-weight: 700; text-decoration: none">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.megaphone }}"></path></svg>
+<span>Campaigns</span>
+</a>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A919D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.chevR }}"></path></svg>
+<span style="padding: 4px 8px; font-size: 13px; font-weight: 700; color: #16181D">Pricing-intent · Q4 follow-up</span>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 10px">
+<span style="padding: 2px 8px; border-radius: 6px; background: #F1F3F6; color: #555C68; font-size: 11px; font-weight: 700">Draft</span>
+<span style="font-size: 12px; color: #646B77">Saved</span>
+<button type="button" onClick="{{ reviewCampaign }}" style="height: 32px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer">Review campaign</button>
+</div>
+</header>
+
+<div role="tablist" aria-label="Campaign sections" style="display: flex; flex-wrap: wrap; align-items: center; gap: 2px; padding: 7px 16px; background: #FFFFFF; border-bottom: 1px solid #E7EAF0">
+<button type="button" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 8px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #555C68; cursor: pointer">Contacts <span style="color: #646B77; font-weight: 600">48</span></button>
+<button type="button" role="tab" aria-selected="true" style="display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 8px; border: 0; background: #F1F3F6; box-shadow: inset 0 0 0 1px #E7EAF0; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer">Flow</button>
+<button type="button" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 8px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #555C68; cursor: pointer">Results</button>
+<button type="button" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 8px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #555C68; cursor: pointer">Settings</button>
+</div>
+
+<div style="padding: 12px 16px 0">
+<section aria-label="Campaign setup" style="border-radius: 12px; border: 1px solid {{ banner.border }}; background: {{ banner.bg }}">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 11px 14px">
+<span aria-hidden="true" style="width: 30px; height: 30px; flex: 0 0 30px; border-radius: 9px; background: #FFFFFF; color: {{ banner.fg }}; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 1px {{ banner.border }}">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ banner.icon }}"></path></svg>
+</span>
+<div style="flex: 1 1 260px; min-width: 0">
+<div style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: {{ banner.fg }}">{{ banner.eyebrow }}</div>
+<div style="font-size: 15px; font-weight: 800; letter-spacing: -0.01em">{{ banner.title }}</div>
+<div style="font-size: 12px; color: #555C68">{{ banner.text }}</div>
+</div>
+<sc-if value="{{ banner.isLink }}" hint-placeholder-val="{{ false }}">
+<a href="{{ banner.href }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; border-radius: 9px; background: #1C1F26; color: #FFFFFF; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<span>{{ banner.cta }}</span>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowR }}"></path></svg>
+</a>
+</sc-if>
+<sc-if value="{{ banner.isButton }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ banner.action }}" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px; border: 0; border-radius: 9px; background: #1C1F26; color: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer">
+<span>{{ banner.cta }}</span>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowR }}"></path></svg>
+</button>
+</sc-if>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 7px 14px; border-top: 1px solid {{ banner.border }}">
+<sc-for list="{{ banner.chips }}" as="c" hint-placeholder-count="3">
+<span style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 7px; font-size: 11.5px; font-weight: 700; background: {{ c.bg }}; color: {{ c.fg }}; box-shadow: inset 0 0 0 1px {{ c.border }}">
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ c.icon }}"></path></svg>
+<span>{{ c.label }}</span>
+</span>
+</sc-for>
+</div>
+</section>
+</div>
+
+<div style="flex: 1 1 auto; display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px; padding: 12px 16px 16px">
+
+<sc-if value="{{ showAddPanel }}" hint-placeholder-val="{{ true }}">
+<aside aria-label="Add to flow" style="flex: 1 1 196px; min-width: 0; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<h2 style="margin: 0; font-size: 13px; font-weight: 800">Add to flow</h2>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A919D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.chevL }}"></path></svg>
+</div>
+<label style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 9px; border-radius: 8px; background: #F6F7F9; border: 1px solid #EEF0F4; color: #646B77">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.search }}"></path></svg>
+<input type="search" placeholder="Search steps" aria-label="Search steps" style="flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; font-size: 12px; color: #16181D; outline: none">
+</label>
+<div style="font-size: 10px; font-weight: 800; letter-spacing: 0.07em; color: #646B77; padding: 4px 2px 0">BUILD YOUR FLOW</div>
+<sc-for list="{{ stepTypes }}" as="st" hint-placeholder-count="4">
+<button type="button" style="display: flex; align-items: center; gap: 10px; padding: 7px 6px; border: 0; border-radius: 9px; background: {{ st.bg }}; box-shadow: {{ st.ring }}; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<span aria-hidden="true" style="width: 30px; height: 30px; flex: 0 0 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: {{ st.tile }}; color: {{ st.fg }}; font-size: 12px; font-weight: 800">
+<sc-if value="{{ st.isText }}" hint-placeholder-val="{{ false }}"><span>{{ st.text }}</span></sc-if>
+<sc-if value="{{ st.isIcon }}" hint-placeholder-val="{{ true }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ st.d }}"></path></svg></sc-if>
+</span>
+<span style="min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 12.5px; font-weight: 700">{{ st.label }}</span>
+<span style="font-size: 11.5px; color: #555C68">{{ st.sub }}</span>
+</span>
+</button>
+</sc-for>
+<button type="button" style="display: flex; align-items: center; gap: 8px; padding: 8px 6px; border: 0; border-top: 1px solid #EEF0F4; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #555C68; cursor: pointer; text-align: left">
+<span style="flex: 1">More channels and formats</span>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.chevR }}"></path></svg>
+</button>
+<p style="margin: auto 0 0; font-size: 11.5px; color: #646B77">Click to add at the end, or use + between steps.</p>
+</aside>
+</sc-if>
+
+<section aria-label="Flow canvas" style="flex: 999 1 360px; min-width: 0; box-sizing: border-box; border: 1px solid #E7EAF0; border-radius: 12px; background-color: #F8F9FB; background-image: radial-gradient(#D9DEE6 1px, transparent 1px); background-size: 16px 16px; display: flex; flex-direction: column">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px">
+<span style="display: inline-flex; gap: 2px; padding: 2px; border-radius: 8px; background: #FFFFFF; border: 1px solid #E7EAF0">
+<button type="button" style="height: 26px; padding: 0 10px; border: 0; border-radius: 6px; background: #F1F3F6; font: inherit; font-size: 11.5px; font-weight: 700; color: #16181D">Canvas</button>
+<button type="button" style="height: 26px; padding: 0 10px; border: 0; border-radius: 6px; background: transparent; font: inherit; font-size: 11.5px; font-weight: 700; color: #555C68">Text</button>
+</span>
+<span style="font-size: 11.5px; color: #646B77">{{ canvasHint }}</span>
+</div>
+
+<div style="flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; padding: 6px 16px 18px">
+<div style="width: 100%; max-width: 260px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 10px; box-shadow: 0 1px 2px rgba(22,24,29,0.05)">
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid #EEF0F4">
+<span aria-hidden="true" style="width: 22px; height: 22px; border-radius: 6px; background: #F1F3F6; color: #555C68; display: flex; align-items: center; justify-content: center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.play }}"></path></svg></span>
+<span style="font-size: 12.5px; font-weight: 700">Start</span>
+<span style="margin-left: auto; font-size: 11px; font-weight: 700; color: #1D46A8">Settings</span>
+</div>
+<div style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 3px 8px; padding: 8px 10px; font-size: 11.5px">
+<span style="color: #646B77">Enroll</span><span>40 contacts a day</span>
+<span style="color: #646B77">Schedule</span><span>Mon–Fri · 9 AM–5 PM, their time</span>
+<span style="color: #646B77">Audience</span><span>48 contacts</span>
+</div>
+</div>
+<div aria-hidden="true" style="width: 1px; height: 20px; background: #C3C9D3"></div>
+<div style="width: 100%; max-width: 260px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 10px; box-shadow: 0 1px 2px rgba(22,24,29,0.05)">
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid #EEF0F4">
+<span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 7px; background: #EBF1FE; color: #2E63E7; display: flex; align-items: center; justify-content: center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.mail }}"></path></svg></span>
+<div style="min-width: 0"><div style="font-size: 12.5px; font-weight: 700">Email</div><div style="font-size: 11px; color: #646B77">Step 1 · Day 1</div></div>
+</div>
+<div style="padding: 7px 10px; font-size: 11.5px; color: #555C68">Pricing follow-up, personalised per contact</div>
+</div>
+<div aria-hidden="true" style="width: 1px; height: 20px; background: #C3C9D3"></div>
+<div style="width: 100%; max-width: 260px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 10px; box-shadow: 0 1px 2px rgba(22,24,29,0.05)">
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid #EEF0F4">
+<span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 7px; background: #E6EFF8; color: #0A5BB0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">in</span>
+<div style="min-width: 0"><div style="font-size: 12.5px; font-weight: 700">LinkedIn</div><div style="font-size: 11px; color: #646B77">Step 2 · Day 2</div></div>
+</div>
+<div style="padding: 7px 10px; font-size: 11.5px; color: #555C68">Connection request with a note</div>
+</div>
+<div aria-hidden="true" style="width: 1px; height: 20px; background: #C3C9D3"></div>
+<button type="button" aria-label="Step 3, Call. Open its settings" aria-pressed="{{ panelOpen }}" onClick="{{ openPanel }}" style="width: 100%; max-width: 260px; box-sizing: border-box; padding: 0; background: #FFFFFF; border: 1px solid {{ nodeSel.border }}; border-radius: 10px; box-shadow: {{ nodeSel.shadow }}; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid #EEF0F4">
+<span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 7px; background: #E7F5EE; color: #1B6B45; display: flex; align-items: center; justify-content: center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.phone }}"></path></svg></span>
+<div style="min-width: 0"><div style="font-size: 12.5px; font-weight: 700">Call</div><div style="font-size: 11px; color: #646B77">Step 3 · {{ dayLabel }}</div></div>
+</div>
+<sc-if value="{{ callNode.isSingle }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px 10px">
+<span style="padding: 1px 7px; border-radius: 6px; font-size: 11px; font-weight: 800; background: {{ callNode.chipBg }}; color: {{ callNode.chipFg }}">{{ callNode.chip }}</span>
+<sc-if value="{{ callNode.hasAlert }}" hint-placeholder-val="{{ false }}">
+<span style="padding: 1px 7px; border-radius: 6px; font-size: 11px; font-weight: 800; background: #FDEEEC; color: #B42318">{{ callNode.alert }}</span>
+</sc-if>
+<span style="flex: 1 1 100%; font-size: 11.5px; color: #555C68">{{ callNode.sub }}</span>
+</div>
+</sc-if>
+<sc-if value="{{ callNode.isSplit }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 8px 10px">
+<sc-for list="{{ callNode.rows }}" as="cr" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 7px; font-size: 11.5px">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="{{ cr.color }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ cr.d }}"></path></svg>
+<span style="font-weight: 700">{{ cr.label }}</span>
+<span style="margin-left: auto; color: #555C68">{{ cr.count }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</button>
+<div aria-hidden="true" style="width: 1px; height: 20px; background: #C3C9D3"></div>
+<span style="padding: 3px 9px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E7EAF0; font-size: 11px; font-weight: 600; color: #646B77">End of journey</span>
+</div>
+
+<div style="display: flex; align-items: center; gap: 4px; padding: 10px 12px">
+<button type="button" aria-label="Zoom out" style="width: 28px; height: 28px; border-radius: 7px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 14px; color: #555C68">−</button>
+<span style="min-width: 44px; text-align: center; font-size: 11.5px; font-weight: 700; color: #555C68">75%</span>
+<button type="button" aria-label="Zoom in" style="width: 28px; height: 28px; border-radius: 7px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 14px; color: #555C68">+</button>
+<button type="button" style="height: 28px; padding: 0 10px; border-radius: 7px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 11.5px; font-weight: 700; color: #555C68">Fit</button>
+</div>
+</section>
+
+<sc-if value="{{ panelOpen }}" hint-placeholder-val="{{ true }}">
+<aside aria-label="Step settings" style="flex: 1 1 {{ panelBasis }}; min-width: 0; max-height: 690px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px; display: flex; flex-direction: column">
+<div style="display: flex; align-items: center; gap: 9px; padding: 12px 16px; border-bottom: 1px solid #EEF0F4">
+<span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 7px; background: #E7F5EE; color: #1B6B45; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.phone }}"></path></svg></span>
+<div style="flex: 1; min-width: 0"><div style="font-size: 13px; font-weight: 800">Call</div><div style="font-size: 11.5px; color: #646B77">Step 3 of 3 · {{ dayLabel }}</div></div>
+<button type="button" aria-label="Close step settings" onClick="{{ closePanel }}" style="width: 30px; height: 30px; border: 0; border-radius: 8px; background: transparent; color: #555C68; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.x }}"></path></svg></button>
+</div>
+<nav aria-label="Call step progress" style="display: flex; flex-wrap: wrap; align-items: center; gap: 2px 4px; padding: 8px 12px; border-bottom: 1px solid #EEF0F4; background: #FAFBFC">
+<sc-for list="{{ flowSteps }}" as="fs" hint-placeholder-count="4">
+<button type="button" onClick="{{ fs.go }}" disabled="{{ fs.disabled }}" aria-current="{{ fs.current }}" style="display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 8px; border: 0; border-radius: 7px; background: {{ fs.bg }}; box-shadow: {{ fs.shadow }}; color: {{ fs.fg }}; font: inherit; font-size: 11.5px; font-weight: 700; cursor: {{ fs.cursor }}">
+<span aria-hidden="true" style="width: 16px; height: 16px; flex: 0 0 16px; border-radius: 50%; background: {{ fs.dotBg }}; color: {{ fs.dotFg }}; font-size: 9.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{ fs.done }}" hint-placeholder-val="{{ false }}"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ fs.check }}"></path></svg></sc-if>
+<sc-if value="{{ fs.notDone }}" hint-placeholder-val="{{ true }}"><span>{{ fs.num }}</span></sc-if>
+</span>
+<span>{{ fs.label }}</span>
+</button>
+<sc-if value="{{ fs.hasNext }}" hint-placeholder-val="{{ true }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8A919D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ fs.chev }}"></path></svg></sc-if>
+</sc-for>
+</nav>
+
+<div style="flex: 1 1 auto; overflow-y: auto; padding: 14px 16px">
+
+<sc-if value="{{ showMode }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div>
+<h3 style="margin: 0; font-size: 15px; font-weight: 800; letter-spacing: -0.01em">How should these calls run?</h3>
+<p style="margin: 3px 0 0; font-size: 12px; color: #555C68">Pick one mode for this step. You can change it until the campaign launches.</p>
+</div>
+<div role="radiogroup" aria-label="Call mode" style="display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{ modeCards }}" as="m" hint-placeholder-count="2">
+<button type="button" role="radio" aria-checked="{{ m.on }}" onClick="{{ m.pick }}" style="display: flex; gap: 12px; align-items: flex-start; width: 100%; box-sizing: border-box; padding: 12px; border-radius: 11px; border: 1px solid {{ m.border }}; background: {{ m.bg }}; box-shadow: {{ m.ring }}; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<span aria-hidden="true" style="width: 34px; height: 34px; flex: 0 0 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: {{ m.tile }}; color: {{ m.fg }}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ m.d }}"></path></svg>
+</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px">
+<span style="display: flex; align-items: center; gap: 8px">
+<span style="font-size: 14px; font-weight: 800">{{ m.title }}</span>
+<span style="padding: 1px 6px; border-radius: 5px; background: {{ m.tile }}; color: {{ m.fg }}; font-size: 10.5px; font-weight: 800">{{ m.tag }}</span>
+<span aria-hidden="true" style="margin-left: auto; width: 16px; height: 16px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid {{ m.radio }}; display: flex; align-items: center; justify-content: center"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{ m.dot }}"></span></span>
+</span>
+<span style="font-size: 12.5px; font-weight: 700">{{ m.lead }}</span>
+<sc-for list="{{ m.points }}" as="pt" hint-placeholder-count="3">
+<span style="display: flex; gap: 7px; font-size: 12px; color: #555C68"><span aria-hidden="true" style="width: 4px; height: 4px; margin-top: 7px; flex: 0 0 4px; border-radius: 50%; background: #8A919D"></span><span>{{ pt }}</span></span>
+</sc-for>
+</span>
+</button>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 10px 12px; border-radius: 10px; background: #F6F7F9; border: 1px solid #EEF0F4">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#555C68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.clock }}"></path></svg>
+<label for="call-delay" style="font-size: 12px; color: #555C68">Wait after the LinkedIn step</label>
+<span style="position: relative; display: inline-block">
+<select id="call-delay" value="{{ delay }}" onChange="{{ setDelay }}" style="height: 32px; box-sizing: border-box; padding: 0 28px 0 10px; border-radius: 8px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer; appearance: none">
+<option value="0">No wait</option>
+<option value="1">1 day</option>
+<option value="2">2 days</option>
+<option value="3">3 days</option>
+<option value="5">5 days</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<span style="flex: 1 1 150px; min-width: 0; font-size: 12px; color: #555C68">Calls go out on <strong style="color: #16181D; font-weight: 700">{{ dayLower }}</strong>, inside the campaign schedule.</span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showLiveSetup }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: flex-start; gap: 10px">
+<span aria-hidden="true" style="width: 32px; height: 32px; flex: 0 0 32px; border-radius: 9px; background: #EEF0F4; color: #16181D; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.headset }}"></path></svg></span>
+<div style="flex: 1; min-width: 0">
+<h3 style="margin: 0; font-size: 15px; font-weight: 800">{{ liveTitle }}</h3>
+<p style="margin: 2px 0 0; font-size: 12px; color: #555C68">{{ liveLead }}</p>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 18px">
+<div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+
+<section aria-labelledby="la-s1" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">1</span>
+<h4 id="la-s1" style="margin: 0; font-size: 13px; font-weight: 800">Who calls</h4>
+</div>
+<div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 8px 12px">
+<span style="font-size: 12px; font-weight: 700; color: #555C68">BDR queue</span>
+<span style="position: relative; display: block; min-width: 0">
+<select aria-label="BDR queue" value="{{ bdrQueue }}" onChange="{{ setBdrQueue }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
+<option value="outbound">Outbound team · 3 BDRs</option>
+<option value="enterprise">Enterprise team · 5 BDRs</option>
+<option value="me">Only me · Dharam C.</option>
+</select>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<span style="font-size: 12px; font-weight: 700; color: #555C68">Calling from</span>
+<span style="position: relative; display: block; min-width: 0">
+<select aria-label="Calling from" value="{{ fromLive }}" onChange="{{ setFromLive }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
+<option value="+1 (415) 555 0168">+1 (415) 555 0168 · San Francisco, CA</option>
+<option value="+1 (615) 555 0142">+1 (615) 555 0142 · Nashville, TN</option>
+<option value="sg" disabled="">+65 6011 2240 · Singapore · not connected yet</option>
+</select>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<span aria-hidden="true"></span>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; color: #1B6B45"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #1B6B45"></span>{{ liveHealth }}</span>
+</div>
+</section>
+
+<section aria-labelledby="la-s2" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">2</span>
+<h4 id="la-s2" style="margin: 0; font-size: 13px; font-weight: 800">Call script</h4>
+<span style="margin-left: auto; font-size: 11.5px; color: #646B77">Said in this order</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="la-opener" style="font-size: 12px; font-weight: 700; color: #555C68">Opener</label>
+<textarea id="la-opener" rows="3" value="{{ opener }}" onChange="{{ setOpener }}" onFocus="{{ focusOpener }}" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 44px; padding: 9px 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.5; color: #16181D"></textarea>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="la-ask" style="font-size: 12px; font-weight: 700; color: #555C68">Ask</label>
+<textarea id="la-ask" rows="2" value="{{ ask }}" onChange="{{ setAsk }}" onFocus="{{ focusAsk }}" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 44px; padding: 9px 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.5; color: #16181D"></textarea>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="la-close" style="font-size: 12px; font-weight: 700; color: #555C68">Close</label>
+<textarea id="la-close" rows="2" value="{{ close }}" onChange="{{ setClose }}" onFocus="{{ focusClose }}" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 44px; padding: 9px 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.5; color: #16181D"></textarea>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
+<span style="font-size: 11.5px; color: #646B77">Insert into {{ focusName }}</span>
+<sc-for list="{{ liveVars }}" as="v" hint-placeholder-count="4">
+<button type="button" onClick="{{ v.insert }}" style="height: 26px; padding: 0 8px; border-radius: 6px; border: 1px solid #E7EAF0; background: #F6F7F9; font: inherit; font-size: 11px; font-weight: 700; color: #555C68; cursor: pointer">{{ v.label }}</button>
+</sc-for>
+</div>
+</section>
+
+<section aria-labelledby="la-s3" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">3</span>
+<h4 id="la-s3" style="margin: 0; font-size: 13px; font-weight: 800">Talking points</h4>
+<span style="margin-left: auto; font-size: 11.5px; color: #646B77">Said when they fit</span>
+</div>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{ points }}" as="pt" hint-placeholder-count="3">
+<li style="display: flex; align-items: center; gap: 8px; min-height: 40px; box-sizing: border-box; padding: 4px 4px 4px 8px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF">
+<span aria-hidden="true" style="width: 6px; height: 6px; flex: 0 0 6px; margin: 0 4px; border-radius: 50%; background: #8A919D"></span>
+<input type="text" value="{{ pt.text }}" onChange="{{ pt.set }}" placeholder="Type a talking point" aria-label="Talking point" style="flex: 1; min-width: 0; height: 30px; padding: 0 4px; border: 0; border-radius: 6px; background: transparent; font: inherit; font-size: 13px; color: #16181D">
+<button type="button" aria-label="Remove this talking point" onClick="{{ pt.remove }}" style="width: 30px; height: 30px; flex: 0 0 30px; border: 0; border-radius: 7px; background: transparent; color: #646B77; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ pt.x }}"></path></svg></button>
+</li>
+</sc-for>
+</ul>
+<button type="button" onClick="{{ addPoint }}" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 4px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.plus }}"></path></svg>Add talking point</button>
+</section>
+
+<section aria-labelledby="la-s4" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">4</span>
+<h4 id="la-s4" style="margin: 0; font-size: 13px; font-weight: 800">Objections</h4>
+<span style="margin-left: auto; font-size: 11.5px; color: #646B77">Shown when the prospect says a trigger word</span>
+</div>
+<sc-for list="{{ objs }}" as="ob" hint-placeholder-count="1">
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 12px; border-radius: 10px; border: 1px solid #E7EAF0; background: #FFFFFF">
+<div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: start; gap: 10px 12px">
+<span style="padding-top: 9px; font-size: 12px; font-weight: 700; color: #555C68">When they say</span>
+<div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<input type="text" value="{{ ob.words }}" onChange="{{ ob.setWords }}" placeholder="ZoomInfo, Zoom Info, ZI" aria-label="Trigger words, separated by commas" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; color: #16181D">
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ ob.chips }}" as="tg" hint-placeholder-count="3">
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 7px; background: #EBF1FE; color: #1D46A8; font-size: 11.5px; font-weight: 700">{{ tg }}</span>
+</sc-for>
+</div>
+</div>
+<span style="padding-top: 9px; font-size: 12px; font-weight: 700; color: #555C68">Answer</span>
+<textarea aria-label="Answer to this objection" rows="3" value="{{ ob.answer }}" onChange="{{ ob.setAnswer }}" placeholder="What the BDR should say" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 44px; padding: 9px 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.5; color: #16181D"></textarea>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<p style="flex: 1 1 200px; margin: 0; font-size: 11.5px; color: #646B77">Separate words with commas. Add the ways speech-to-text might spell a name, so the answer still shows.</p>
+<button type="button" onClick="{{ ob.remove }}" style="min-height: 30px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #B42318; cursor: pointer">Remove</button>
+</div>
+</div>
+</sc-for>
+<button type="button" onClick="{{ addObj }}" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 4px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.plus }}"></path></svg>Add objection</button>
+</section>
+
+<section aria-labelledby="la-s5" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">5</span>
+<h4 id="la-s5" style="margin: 0; font-size: 13px; font-weight: 800">Answers to questions</h4>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #F6F7F9; border: 1px solid #EEF0F4">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D46A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.fileText }}"></path></svg>
+<div style="flex: 1 1 200px; min-width: 0"><div style="font-size: 12.5px; font-weight: 700">Approved answers · 12 topics</div><div style="font-size: 11.5px; color: #555C68">When the prospect asks a question, Whisper shows the matching approved answer and its source. The answers come from your knowledge base.</div></div>
+</div>
+</section>
+</div>
+
+<div style="flex: 1 1 260px; min-width: 0; position: sticky; top: 0; align-self: flex-start; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; color: #646B77">PREVIEW IN WHISPER</span>
+<span style="position: relative; display: inline-block">
+<select aria-label="Preview as this contact" value="{{ pvIdx }}" onChange="{{ setPreview }}" style="height: 30px; box-sizing: border-box; padding: 0 26px 0 9px; border-radius: 8px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 11.5px; font-weight: 700; color: #16181D; cursor: pointer; appearance: none">
+<option value="0">as Aditi Rao</option>
+<option value="1">as Karthik Iyer</option>
+<option value="2">as Lukas Becker</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 8px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+</div>
+<div style="border-radius: 12px; border: 1px solid #E7EAF0; background: #FFFFFF; overflow: hidden; box-shadow: 0 1px 2px rgba(22,24,29,0.05)">
+<div style="display: flex; align-items: center; gap: 7px; padding: 9px 11px; background: #FAFBFF; border-bottom: 1px solid #EEF0F4">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E63E7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.ear }}"></path></svg>
+<span style="font-size: 12.5px; font-weight: 800">Whisper</span>
+<span style="margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600; color: #555C68"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.lock }}"></path></svg>Only the BDR sees this</span>
+</div>
+<ol style="list-style: none; margin: 0; padding: 10px; display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{ previewSteps }}" as="ps" hint-placeholder-count="5">
+<li style="display: flex; gap: 8px; padding: 7px 8px; border-radius: 9px; background: {{ ps.bg }}; box-shadow: inset 0 0 0 1px {{ ps.border }}">
+<span aria-hidden="true" style="width: 18px; height: 18px; flex: 0 0 18px; border-radius: 50%; background: {{ ps.markBg }}; color: {{ ps.markFg }}; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center">{{ ps.num }}</span>
+<div style="flex: 1; min-width: 0">
+<div style="font-size: 11px; font-weight: 800; color: {{ ps.titleColor }}">{{ ps.title }}</div>
+<sc-if value="{{ ps.hasText }}" hint-placeholder-val="{{ true }}"><div style="margin-top: 1px; font-size: 12px; line-height: 1.45">{{ ps.text }}</div></sc-if>
+<sc-if value="{{ ps.hasBullets }}" hint-placeholder-val="{{ false }}"><ul style="margin: 2px 0 0; padding-left: 14px; font-size: 12px; line-height: 1.45"><sc-for list="{{ ps.bullets }}" as="b" hint-placeholder-count="3"><li>{{ b }}</li></sc-for></ul></sc-if>
+</div>
+</li>
+</sc-for>
+</ol>
+</div>
+<p style="margin: 0; font-size: 11.5px; color: #646B77">Filled in for {{ pv.first }} and updates as you type. On a call, Whisper also marks the line to say next and adds the live transcript and answers.</p>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showSetup }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: flex-start; gap: 10px">
+<span aria-hidden="true" style="width: 32px; height: 32px; flex: 0 0 32px; border-radius: 9px; background: #EBF1FE; color: #2E63E7; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg></span>
+<div style="flex: 1; min-width: 0">
+<h3 style="margin: 0; font-size: 15px; font-weight: 800">Autopilot</h3>
+<p style="margin: 2px 0 0; font-size: 12px; color: #555C68">The AI makes these calls on the campaign schedule. Write its prompt, pick the voice and number, and connect the calendar it books meetings on.</p>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 18px">
+<div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">1</span>
+<label for="ap-prompt" style="font-size: 13px; font-weight: 800">Agent prompt</label>
+</div>
+<textarea id="ap-prompt" rows="12" value="{{ prompt }}" onChange="{{ setPrompt }}" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 180px; padding: 11px 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.55; color: #16181D"></textarea>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
+<span style="font-size: 11.5px; color: #646B77">Insert</span>
+<sc-for list="{{ vars }}" as="v" hint-placeholder-count="4">
+<button type="button" onClick="{{ v.insert }}" style="height: 26px; padding: 0 8px; border-radius: 6px; border: 1px solid #E7EAF0; background: #F6F7F9; font: inherit; font-size: 11px; font-weight: 700; color: #555C68; cursor: pointer">{{ v.label }}</button>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">2</span>
+<span style="font-size: 13px; font-weight: 800">Voice and number</span>
+</div>
+<div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 8px 12px">
+<label for="ap-voice" style="font-size: 12px; font-weight: 700; color: #555C68">Voice</label>
+<span style="position: relative; display: block; min-width: 0">
+<select id="ap-voice" value="{{ voice }}" onChange="{{ setVoice }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
+<option value="Maya">Maya · warm · English</option>
+<option value="Arjun">Arjun · steady · English</option>
+<option value="Ava">Ava · bright · English</option>
+</select>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<label for="ap-from" style="font-size: 12px; font-weight: 700; color: #555C68">Calling from</label>
+<span style="position: relative; display: block; min-width: 0">
+<select id="ap-from" value="{{ fromAuto }}" onChange="{{ setFromAuto }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
+<option value="+1 (615) 555 0142 · Nashville, TN">+1 (615) 555 0142 · Nashville, TN</option>
+<option value="+1 (415) 555 0168 · San Francisco, CA">+1 (415) 555 0168 · San Francisco, CA</option>
+<option value="sg" disabled="">+65 6011 2240 · Singapore · not connected yet</option>
+</select>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<span aria-hidden="true"></span>
+<span style="font-size: 11.5px; color: #646B77">Need another number? Buy one in <a href="PhoneNumbers.dc.html" style="color: #1D46A8; font-weight: 700">Dialer › Phone numbers</a>.</span>
+</div>
+</section>
+
+<section id="ap-cal" style="display: flex; flex-direction: column; gap: 8px; scroll-margin-top: 12px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">3</span>
+<span style="font-size: 13px; font-weight: 800">Calendar</span>
+<span style="margin-left: auto; padding: 1px 7px; border-radius: 6px; font-size: 11px; font-weight: 800; background: {{ calChip.bg }}; color: {{ calChip.fg }}">{{ calChip.label }}</span>
+</div>
+<sc-if value="{{ calOff }}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0; font-size: 12px; color: #555C68">The AI books meetings here when a prospect agrees, using only your free slots.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px">
+<button type="button" onClick="{{ connectCal }}" style="display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.cal }}"></path></svg>Connect Google Calendar</button>
+<button type="button" onClick="{{ connectCal }}" style="display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.cal }}"></path></svg>Connect Outlook</button>
+</div>
+</sc-if>
+<sc-if value="{{ calendar }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; border: 1px solid #BFE3CF; background: #F3FAF6">
+<span aria-hidden="true" style="width: 28px; height: 28px; flex: 0 0 28px; border-radius: 8px; background: #FFFFFF; color: #1B6B45; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 1px #BFE3CF"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.calCheck }}"></path></svg></span>
+<div style="flex: 1; min-width: 0"><div style="font-size: 12.5px; font-weight: 700">dharam@sprouts.ai</div><div style="font-size: 11.5px; color: #555C68">Google Calendar · offers free slots only</div></div>
+<button type="button" onClick="{{ changeCal }}" style="min-height: 32px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer">Disconnect</button>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<div style="flex: 1 1 140px; min-width: 0; display: flex; flex-direction: column; gap: 5px">
+<label for="ap-len" style="font-size: 11.5px; font-weight: 700; color: #555C68">Meeting length</label>
+<span style="position: relative; display: block; min-width: 0">
+<select id="ap-len" value="{{ meetLen }}" onChange="{{ setMeetLen }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
+<option value="15">15 minutes</option>
+<option value="30">30 minutes</option>
+<option value="45">45 minutes</option>
+<option value="60">60 minutes</option>
+</select>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+</div>
+<div style="flex: 1 1 140px; min-width: 0; display: flex; flex-direction: column; gap: 5px">
+<label for="ap-win" style="font-size: 11.5px; font-weight: 700; color: #555C68">Offer slots in</label>
+<span style="position: relative; display: block; min-width: 0">
+<select id="ap-win" value="{{ slotWin }}" onChange="{{ setSlotWin }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
+<option value="3">Next 3 working days</option>
+<option value="5">Next 5 working days</option>
+<option value="10">Next 10 working days</option>
+</select>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+</div>
+</div>
+</sc-if>
+</section>
+
+</div>
+
+<div style="flex: 1 1 260px; min-width: 0; position: sticky; top: 0; align-self: flex-start; display: flex; flex-direction: column; gap: 12px">
+<section aria-labelledby="ap-checks" style="border-radius: 12px; border: 1px solid #E7EAF0; background: #FFFFFF; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid #EEF0F4; background: #FAFBFC">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D46A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.listChecks }}"></path></svg>
+<h4 id="ap-checks" style="margin: 0; font-size: 12.5px; font-weight: 800">Prompt guidelines</h4>
+<span style="margin-left: auto; font-size: 11.5px; font-weight: 700; color: {{ coveredColor }}">{{ coveredLabel }}</span>
+</div>
+<ul aria-live="polite" style="list-style: none; margin: 0; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ promptChecks }}" as="pc" hint-placeholder-count="6">
+<li style="display: flex; gap: 8px; align-items: flex-start; font-size: 12px; line-height: 1.4; color: {{ pc.textColor }}">
+<span aria-hidden="true" style="width: 18px; height: 18px; flex: 0 0 18px; border-radius: 50%; background: {{ pc.bg }}; color: {{ pc.fg }}; display: flex; align-items: center; justify-content: center"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ pc.icon }}"></path></svg></span>
+<span>{{ pc.label }}<sc-if value="{{ pc.notOk }}" hint-placeholder-val="{{ false }}"><span style="font-weight: 700"> · not in the prompt</span></sc-if></span>
+</li>
+</sc-for>
+</ul>
+<p style="margin: 0; padding: 0 12px 12px; font-size: 11.5px; color: #646B77">Checked as you type. Recommended, not required to launch.</p>
+</section>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; border: 1px dashed #C9D9FB; background: #F7F9FF">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D46A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.phoneOut }}"></path></svg>
+<div style="flex: 1 1 160px; min-width: 0"><div style="font-size: 12.5px; font-weight: 700">Hear it before launch</div><div aria-live="polite" style="font-size: 11.5px; color: #555C68">{{ testText }}</div></div>
+<button type="button" onClick="{{ testCall }}" disabled="{{ testBusy }}" style="height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9D9FB; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer">{{ testLabel }}</button>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showReady }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: flex-start; gap: 10px">
+<span aria-hidden="true" style="width: 32px; height: 32px; flex: 0 0 32px; border-radius: 9px; background: #EBF1FE; color: #2E63E7; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg></span>
+<div style="flex: 1; min-width: 0">
+<h3 style="margin: 0; font-size: 15px; font-weight: 800">Autopilot is ready</h3>
+<p style="margin: 2px 0 0; font-size: 12px; color: #555C68">Every check passed. Launch from the banner above.</p>
+</div>
+</div>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border: 1px solid #E7EAF0; border-radius: 10px">
+<sc-for list="{{ readyItems }}" as="r" hint-placeholder-count="4">
+<li style="display: flex; gap: 10px; padding: 11px 12px; border-top: {{ r.divider }}">
+<span aria-hidden="true" style="width: 20px; height: 20px; flex: 0 0 20px; border-radius: 50%; background: #E7F5EE; color: #1B6B45; display: flex; align-items: center; justify-content: center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ r.check }}"></path></svg></span>
+<div style="flex: 1; min-width: 0">
+<div style="font-size: 12.5px; font-weight: 700">{{ r.title }}</div>
+<div style="font-size: 12px; color: #555C68">{{ r.text }}</div>
+<sc-for list="{{ r.subs }}" as="sb" hint-placeholder-count="0">
+<div style="display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 11.5px; color: #555C68"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ sb.icon }}"></path></svg><span>{{ sb.text }}</span></div>
+</sc-for>
+</div>
+</li>
+</sc-for>
+</ul>
+<div style="padding: 12px; border-radius: 10px; background: #F6F7F9; border: 1px solid #EEF0F4">
+<div style="font-size: 12px; font-weight: 800; margin-bottom: 6px">After launch</div>
+<ol style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #555C68">
+<li>Calls start on the campaign schedule, one contact at a time. No BDR needed.</li>
+<li>No pickup: the contact gets Call not answered and the next call starts.</li>
+<li>Each call logs its recording, transcript, outcome and any meeting.</li>
+</ol>
+</div>
+</div>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 16px; border-top: 1px solid #EEF0F4">
+<sc-if value="{{ showMode }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ closePanel }}" style="height: 36px; padding: 0 12px; border: 0; border-radius: 9px; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #555C68; cursor: pointer">Close</button>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 8px">
+<sc-if value="{{ isAuto }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ toSetup }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: #1C1F26; color: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer">Set up Autopilot<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowR }}"></path></svg></button>
+</sc-if>
+<sc-if value="{{ isLive }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ toLiveSetup }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: #1C1F26; color: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer">Set up Live Assist<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowR }}"></path></svg></button>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ showLiveSetup }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ liveBack }}" style="height: 36px; padding: 0 12px; border: 0; border-radius: 9px; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #555C68; cursor: pointer">Back</button>
+<div style="flex: 1 1 160px; min-width: 0; font-size: 11.5px; color: #555C68">{{ liveHint }}</div>
+<sc-if value="{{ liveUnsaved }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ saveLive }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: #1C1F26; color: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer">{{ saveLiveLabel }}</button>
+</sc-if>
+<sc-if value="{{ liveSaved }}" hint-placeholder-val="{{ false }}">
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; background: #E7F5EE; color: #1B6B45; font-size: 12px; font-weight: 800"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.check }}"></path></svg>Step saved</span>
+</sc-if>
+</sc-if>
+<sc-if value="{{ showSetup }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ toMode }}" style="height: 36px; padding: 0 12px; border: 0; border-radius: 9px; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #555C68; cursor: pointer">Back</button>
+<sc-if value="{{ calOff }}" hint-placeholder-val="{{ true }}">
+<a href="#ap-cal" style="flex: 1 1 180px; min-width: 0; font-size: 11.5px; font-weight: 700; color: #8A5A00">Connect a calendar to continue</a>
+</sc-if>
+<sc-if value="{{ calendar }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1 1 180px; min-width: 0; font-size: 11.5px; color: #555C68">Next: we check all 48 numbers against country rules and DNC lists.</div>
+</sc-if>
+<button type="button" onClick="{{ runCheck }}" disabled="{{ checkDisabled }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border: 0; border-radius: 9px; font: inherit; font-size: 12.5px; font-weight: 700; background: {{ checkBtn.bg }}; color: {{ checkBtn.fg }}; cursor: {{ checkBtn.cursor }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.shield }}"></path></svg>Check numbers</button>
+</sc-if>
+<sc-if value="{{ showReady }}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 11.5px; color: #555C68">Checks passed today at 10:42</span>
+<button type="button" onClick="{{ toSetup }}" style="margin-left: auto; height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; color: #16181D; cursor: pointer">Edit setup</button>
+</sc-if>
+</div>
+</aside>
+</sc-if>
+
+</div>
+</main>
+
+<sc-if value="{{ showChecking }}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; z-index: 30; box-sizing: border-box; background: rgba(22, 24, 29, 0.36); display: flex; justify-content: center; align-items: flex-start; padding: 120px 16px 40px; overflow-y: auto">
+<div role="dialog" aria-modal="true" aria-labelledby="ckg-title" style="width: 100%; max-width: 500px; background: #FFFFFF; border-radius: 14px; box-shadow: 0 24px 64px rgba(22,24,29,0.24), 0 2px 8px rgba(22,24,29,0.08); display: flex; flex-direction: column">
+<div style="display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px 6px">
+<span aria-hidden="true" style="width: 36px; height: 36px; flex: 0 0 36px; border-radius: 10px; background: #EBF1FE; color: #2E63E7; display: flex; align-items: center; justify-content: center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.shield }}"></path></svg></span>
+<div style="flex: 1; min-width: 0">
+<h2 id="ckg-title" style="margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.01em">Checking 48 numbers</h2>
+<p style="margin: 3px 0 0; font-size: 12.5px; color: #555C68">This takes a few seconds. Autopilot can launch once every number passes, or once you decide what happens to the ones that don't.</p>
+</div>
+</div>
+<div style="padding: 12px 20px 4px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px"><span aria-live="polite" style="font-weight: 800">{{ checkedLabel }}</span><span style="color: #555C68; font-variant-numeric: tabular-nums">{{ checkedPct }}</span></div>
+<div role="progressbar" aria-label="Numbers checked" aria-valuemin="0" aria-valuemax="48" aria-valuenow="{{ checked }}" style="height: 8px; border-radius: 999px; background: #EEF0F4; overflow: hidden"><div style="height: 100%; width: {{ checkedPct }}; border-radius: 999px; background: #2E63E7"></div></div>
+</div>
+<ul style="list-style: none; margin: 0; padding: 10px 20px 16px; display: flex; flex-direction: column">
+<sc-for list="{{ checkPhases }}" as="ph" hint-placeholder-count="3">
+<li style="display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-top: {{ ph.divider }}">
+<span aria-hidden="true" style="width: 20px; height: 20px; flex: 0 0 20px; box-sizing: border-box; border-radius: 50%; background: {{ ph.dotBg }}; border: 2px solid {{ ph.dotBorder }}; color: {{ ph.dotFg }}; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{ ph.isDone }}" hint-placeholder-val="{{ false }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ph.check }}"></path></svg></sc-if>
+</span>
+<div style="flex: 1; min-width: 0"><div style="font-size: 12.5px; font-weight: 700">{{ ph.label }}</div><div style="font-size: 12px; color: #555C68">{{ ph.sub }}</div></div>
+<span style="font-size: 11.5px; font-weight: 700; color: {{ ph.statusColor }}; white-space: nowrap">{{ ph.status }}</span>
+</li>
+</sc-for>
+</ul>
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-top: 1px solid #EEF0F4; background: #FBFBFC; border-radius: 0 0 14px 14px">
+<div style="flex: 1; min-width: 0; font-size: 12px; color: #555C68">Nothing is called during the check.</div>
+<button type="button" onClick="{{ cancelChecking }}" style="height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; color: #16181D; cursor: pointer">Cancel</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showLaunch }}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; z-index: 30; box-sizing: border-box; background: rgba(22, 24, 29, 0.36); display: flex; justify-content: center; align-items: flex-start; padding: 96px 16px 40px; overflow-y: auto">
+<div role="dialog" aria-modal="true" aria-labelledby="ln-title" style="width: 100%; max-width: 540px; background: #FFFFFF; border-radius: 14px; box-shadow: 0 24px 64px rgba(22,24,29,0.24), 0 2px 8px rgba(22,24,29,0.08); display: flex; flex-direction: column">
+<div style="display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px 12px">
+<span aria-hidden="true" style="width: 36px; height: 36px; flex: 0 0 36px; border-radius: 10px; background: #EBF1FE; color: #2E63E7; display: flex; align-items: center; justify-content: center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.rocket }}"></path></svg></span>
+<div style="flex: 1; min-width: 0">
+<h2 id="ln-title" style="margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.01em">Launch this campaign?</h2>
+<p style="margin: 3px 0 0; font-size: 12.5px; color: #555C68">Pricing-intent · Q4 follow-up · 48 contacts · Email, LinkedIn, Call</p>
+</div>
+<button type="button" onClick="{{ closeLaunch }}" aria-label="Close" style="width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #555C68; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.x }}"></path></svg></button>
+</div>
+<div style="padding: 0 20px 16px; display: flex; flex-direction: column; gap: 14px">
+<div>
+<div style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77; margin-bottom: 6px">THE CALL STEP</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr)); gap: 8px">
+<sc-for list="{{ launchStats }}" as="ls" hint-placeholder-count="3">
+<div style="padding: 10px 12px; border-radius: 10px; border: 1px solid #E7EAF0">
+<div style="display: flex; align-items: center; gap: 6px; font-size: 20px; font-weight: 800; letter-spacing: -0.02em"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="{{ ls.color }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ls.d }}"></path></svg>{{ ls.n }}</div>
+<div style="font-size: 12px; color: #555C68">{{ ls.label }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div>
+<div style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77; margin-bottom: 6px">WHAT HAPPENS NEXT</div>
+<ol style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; font-size: 12.5px">
+<sc-for list="{{ launchLines }}" as="ll" hint-placeholder-count="3"><li>{{ ll }}</li></sc-for>
+</ol>
+</div>
+<div style="display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; background: #F6F7F9; font-size: 12px; color: #555C68">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 14px; margin-top: 2px"><path d="{{ ic.info }}"></path></svg>
+<span>{{ launchNote }}</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px; padding: 14px 20px; border-top: 1px solid #EEF0F4; background: #FBFBFC; border-radius: 0 0 14px 14px">
+<button type="button" onClick="{{ closeLaunch }}" style="height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; color: #16181D; cursor: pointer">Not yet</button>
+<a href="{{ launchHref }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; border-radius: 9px; background: #1C1F26; color: #FFFFFF; font-size: 12.5px; font-weight: 700; text-decoration: none">Launch campaign<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowR }}"></path></svg></a>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showCheck }}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; z-index: 30; box-sizing: border-box; background: rgba(22, 24, 29, 0.36); display: flex; justify-content: center; align-items: flex-start; padding: 40px 16px; overflow-y: auto">
+<div role="dialog" aria-modal="true" aria-labelledby="chk-title" style="width: 100%; max-width: 780px; background: #FFFFFF; border-radius: 14px; box-shadow: 0 24px 64px rgba(22,24,29,0.24), 0 2px 8px rgba(22,24,29,0.08); display: flex; flex-direction: column">
+<div style="display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px 14px">
+<span aria-hidden="true" style="width: 36px; height: 36px; flex: 0 0 36px; border-radius: 10px; background: #FDEEEC; color: #B42318; display: flex; align-items: center; justify-content: center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.shieldX }}"></path></svg></span>
+<div style="flex: 1; min-width: 0">
+<h2 id="chk-title" style="margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.01em">6 contacts can't be called via AI</h2>
+<p style="margin: 3px 0 0; font-size: 12.5px; color: #555C68">Autopilot can't launch until you decide what happens to them. Nothing changes until you choose.</p>
+</div>
+<button type="button" onClick="{{ cancelCheck }}" aria-label="Close" style="width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #555C68; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.x }}"></path></svg></button>
+</div>
+
+<div style="padding: 0 20px 16px; display: flex; flex-direction: column; gap: 12px">
+<section style="border: 1px solid #E7EAF0; border-radius: 12px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #EEF0F4">
+<span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 6px; background: #FDEEEC; color: #B42318; font-size: 11.5px; font-weight: 800"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.globe }}"></path></svg>Country restrictions · 4</span>
+<span style="font-size: 11.5px; color: #646B77">AI calls are allowed in the United States and Singapore. Set in Dialer › Calling rules.</span>
+</div>
+<p style="margin: 0; padding: 12px 14px 2px; font-size: 13.5px; font-weight: 800">We cannot call these numbers via AI because of country restrictions.</p>
+<div role="table" aria-label="Contacts restricted by country" style="padding: 2px 14px 6px">
+<sc-for list="{{ countryRows }}" as="row" hint-placeholder-count="4">
+<div role="row" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 8px 0; border-top: {{ row.divider }}">
+<div role="cell" style="flex: 1 1 220px; min-width: 0"><div style="font-size: 12.5px; font-weight: 700">{{ row.name }}</div><div style="font-size: 11.5px; color: #555C68">{{ row.role }}</div></div>
+<div role="cell" style="flex: 0 1 150px; font-size: 12px; font-variant-numeric: tabular-nums">{{ row.number }}</div>
+<div role="cell" style="flex: 1 1 170px; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #B42318"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ row.icon }}"></path></svg><span>{{ row.reason }}</span></div>
+</div>
+</sc-for>
+</div>
+<div style="padding: 10px 14px 14px; border-top: 1px solid #EEF0F4">
+<div id="chk-q" style="font-size: 12.5px; font-weight: 800; margin-bottom: 8px">What should happen to these 4 contacts?</div>
+<div role="radiogroup" aria-labelledby="chk-q" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 10px">
+<sc-for list="{{ choices }}" as="ch" hint-placeholder-count="2">
+<button type="button" role="radio" aria-checked="{{ ch.on }}" onClick="{{ ch.pick }}" style="display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: 11px; border: 1px solid {{ ch.border }}; background: {{ ch.bg }}; box-shadow: {{ ch.ring }}; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<span aria-hidden="true" style="width: 16px; height: 16px; flex: 0 0 16px; margin-top: 1px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid {{ ch.radio }}; display: flex; align-items: center; justify-content: center"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{ ch.dot }}"></span></span>
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ch.icon }}"></path></svg>{{ ch.title }}</span>
+<span style="font-size: 12px; color: #555C68">{{ ch.text }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="border: 1px solid #E7EAF0; border-radius: 12px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #EEF0F4">
+<span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 6px; background: #FDEEEC; color: #B42318; font-size: 11.5px; font-weight: 800"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.shield }}"></path></svg>Do Not Call lists · 2</span>
+</div>
+<div role="table" aria-label="Contacts on a Do Not Call list" style="padding: 2px 14px 6px">
+<sc-for list="{{ dncRows }}" as="row" hint-placeholder-count="2">
+<div role="row" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 8px 0; border-top: {{ row.divider }}">
+<div role="cell" style="flex: 1 1 220px; min-width: 0"><div style="font-size: 12.5px; font-weight: 700">{{ row.name }}</div><div style="font-size: 11.5px; color: #555C68">{{ row.role }}</div></div>
+<div role="cell" style="flex: 0 1 150px; font-size: 12px; font-variant-numeric: tabular-nums">{{ row.number }}</div>
+<div role="cell" style="flex: 1 1 170px; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #B42318"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ row.icon }}"></path></svg><span>{{ row.reason }}</span></div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 8px; align-items: flex-start; margin: 0 14px 14px; padding: 10px 12px; border-radius: 10px; background: #F6F7F9; font-size: 12px; color: #555C68">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 14px; margin-top: 2px"><path d="{{ ic.info }}"></path></svg>
+<span>DNC lists cover calls made by people too, so these 2 can't move to Live Assist. They'll be removed from this Call step.</span>
+</div>
+</section>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 14px 20px; border-top: 1px solid #EEF0F4; background: #FBFBFC; border-radius: 0 0 14px 14px">
+<div style="flex: 1 1 260px; min-width: 0; font-size: 12.5px; font-weight: 700; color: {{ applyHintColor }}">{{ applyHint }}</div>
+<button type="button" onClick="{{ cancelCheck }}" style="height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; color: #16181D; cursor: pointer">Cancel</button>
+<button type="button" onClick="{{ applyCheck }}" disabled="{{ applyDisabled }}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 9px; font: inherit; font-size: 12.5px; font-weight: 700; background: {{ applyBtn.bg }}; color: {{ applyBtn.fg }}; cursor: {{ applyBtn.cursor }}">Apply and continue</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"stage":{"editor":"enum","options":["mode","livesetup","setup","checking","check","ready","launch"],"default":"mode"},"mode":{"editor":"enum","options":["autopilot","live"],"default":"autopilot"},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  icons() {
+    return {
+      brief: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18',
+      rocket: 'M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0 M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5',
+      search: 'M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0z M21 21l-4.3-4.3',
+      globe: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20 M2 12h20',
+      users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+      handshake: 'M11 17l2 2a1 1 0 1 0 3-3 M14 14l2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4 M21 3l1 11h-2 M3 3L2 14l6.5 6.5a1 1 0 1 0 3-3 M3 4h8',
+      megaphone: 'M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14 M8 6v8',
+      inbox: 'M22 12h-6l-2 3h-4l-2-3H2 M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z',
+      phone: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z',
+      phoneOut: 'M16 2h6v6 M22 2l-6 6 M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z',
+      building: 'M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2 M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2 M10 6h4 M10 10h4 M10 14h4 M10 18h4',
+      briefcase: 'M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16 M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z',
+      bot: 'M12 8V4H8 M6 8h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z M2 14h2 M20 14h2 M15 13v2 M9 13v2',
+      zap: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
+      plug: 'M12 22v-5 M9 8V2 M15 8V2 M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z',
+      bell: 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0',
+      chevR: 'M9 18l6-6-6-6',
+      chevD: 'M6 9l6 6 6-6',
+      chevL: 'M15 18l-6-6 6-6',
+      arrowR: 'M5 12h14 M12 5l7 7-7 7',
+      mail: 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M22 6l-10 7L2 6',
+      clock: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 6v6l4 2',
+      check: 'M20 6L9 17l-5-5',
+      x: 'M18 6L6 18 M6 6l12 12',
+      alert: 'M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01',
+      shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      shieldX: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M14.5 9.5l-5 5 M9.5 9.5l5 5',
+      info: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 16v-4 M12 8h.01',
+      cal: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18',
+      calCheck: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18 M9 16l2 2 4-4',
+      sparkles: 'M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z M20 3v4 M22 5h-4 M4 17v2 M5 18H3',
+      headset: 'M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5z M3 11a9 9 0 0 1 18 0 M21 11v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z M21 16v2a4 4 0 0 1-4 4h-5',
+      userMinus: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0z M22 11h-6',
+      fileText: 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z M14 2v4a2 2 0 0 0 2 2h4 M16 13H8 M16 17H8 M10 9H8',
+      listChecks: 'M3 17l2 2 4-4 M3 7l2 2 4-4 M13 6h8 M13 12h8 M13 18h8',
+      ear: 'M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0 M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4',
+      wait: 'M5 22h14 M5 2h14 M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22 M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2',
+      play: 'M6 3l14 9-14 9V3z',
+      lock: 'M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z M7 11V7a5 5 0 0 1 10 0v4',
+      grip: 'M9 5h.01 M9 12h.01 M9 19h.01 M15 5h.01 M15 12h.01 M15 19h.01',
+      plus: 'M12 5v14 M5 12h14',
+      excl: 'M12 7v6 M12 17h.01'
+    };
+  }
+
+  navGroups(active, ic) {
+    const mk = (label, d, href) => {
+      const on = label === active;
+      return {
+        label: label,
+        d: d,
+        href: href || '#',
+        current: on ? 'page' : undefined,
+        color: on ? '#16181D' : '#555C68',
+        bg: on ? '#FFFFFF' : 'transparent',
+        shadow: on ? '0 0 0 1px #E7EAF0, 0 1px 2px rgba(22,24,29,0.06)' : 'none'
+      };
+    };
+    return [
+      { has: false, label: '', items: [mk('Daily Brief', ic.brief), mk('Get started', ic.rocket)] },
+      { has: true, label: 'DISCOVER', items: [mk('Global Search', ic.search), mk('Website Visitors', ic.globe)] },
+      { has: true, label: 'QUALIFY', items: [mk('Prospects', ic.users), mk('Partners', ic.handshake)] },
+      { has: true, label: 'OUTREACH', items: [mk('Campaigns', ic.megaphone, 'Main.dc.html'), mk('Inbox', ic.inbox), mk('Dialer', ic.phone, 'LiveAssist.dc.html')] },
+      { has: true, label: 'CONVERSION', items: [mk('Account Intelligence', ic.building), mk('Opportunities', ic.briefcase)] },
+      { has: true, label: 'ORCHESTRATOR', items: [mk('Agents', ic.bot), mk('Personalization', ic.zap), mk('Connectors', ic.plug)] }
+    ];
+  }
+
+  componentWillUnmount() {
+    this.clearTimers();
+  }
+
+  clearTimers() {
+    if (this._t) { clearTimeout(this._t); this._t = null; }
+    if (this._iv) { clearInterval(this._iv); this._iv = null; }
+    if (this._tt) { clearTimeout(this._tt); this._tt = null; }
+  }
+
+  startCheck() {
+    this.clearTimers();
+    this.setState({ stage: 'checking', mode: 'autopilot', calendar: true, checked: 0 });
+    this._iv = setInterval(() => {
+      const n = Math.min(48, (((this.state || {}).checked) || 0) + 4);
+      if (n >= 48) {
+        clearInterval(this._iv);
+        this._iv = null;
+        this.setState({ checked: 48 });
+        this._t = setTimeout(() => this.setState({ stage: 'check' }), 600);
+      } else {
+        this.setState({ checked: n });
+      }
+    }, 220);
+  }
+
+  renderVals() {
+    const s = this.state || {};
+    const p = this.props || {};
+    const ic = this.icons();
+    let stage = s.stage || p.stage || 'mode';
+    const launchOpen = s.launchOpen !== undefined ? s.launchOpen : stage === 'launch';
+    if (stage === 'launch') stage = 'ready';
+    const mode = s.mode || p.mode || 'autopilot';
+    const isAuto = mode === 'autopilot';
+    const isLive = !isAuto;
+    const moved = stage === 'livesetup' && isAuto;
+    const calendar = s.calendar !== undefined ? s.calendar : (stage === 'checking' || stage === 'check' || stage === 'ready' || moved);
+    const choice = s.choice !== undefined ? s.choice : ((stage === 'ready' || moved) ? 'live' : null);
+    const checked = s.checked !== undefined ? s.checked : 31;
+    const saved = !!s.saved;
+    const go = (patch) => () => this.setState(patch);
+    const setKey = (key) => (e) => this.setState({ [key]: e.target.value });
+    const panelOpen = s.panelOpen !== false;
+    const delay = s.delay !== undefined ? s.delay : '1';
+    const dayNum = 2 + Number(delay);
+    const voice = s.voice || 'Maya';
+    const fromAuto = s.fromAuto || '+1 (615) 555 0142 · Nashville, TN';
+    const meetLen = s.meetLen || '30';
+    const slotWin = s.slotWin || '5';
+    const bdrQueue = s.bdrQueue || 'outbound';
+    const fromLive = s.fromLive || '+1 (415) 555 0168';
+    const queueNames = { outbound: "the Outbound team's", enterprise: "the Enterprise team's", me: 'your own' };
+    const queueShort = { outbound: 'Outbound team', enterprise: 'Enterprise team', me: 'Only you' };
+    const test = s.test || 'idle';
+
+    const showMode = stage === 'mode';
+    const showSetup = stage === 'setup' || stage === 'checking' || stage === 'check';
+    const showChecking = stage === 'checking';
+    const showCheck = stage === 'check';
+    const showReady = stage === 'ready';
+    const showLiveSetup = stage === 'livesetup';
+    const movedLive = choice !== 'remove';
+    const showLaunch = launchOpen && (showReady || (isLive && saved && showLiveSetup));
+
+    const chip = (label, kind) => {
+      if (kind === 'ok') return { label: label, icon: ic.check, bg: '#FFFFFF', fg: '#1B6B45', border: '#BFE3CF' };
+      if (kind === 'bad') return { label: label, icon: ic.x, bg: '#FFFFFF', fg: '#B42318', border: '#F6C9C3' };
+      return { label: label, icon: ic.alert, bg: '#FFFFFF', fg: '#8A5A00', border: '#F0DDAE' };
+    };
+    const info = { bg: '#F5F8FF', border: '#DCE6FB', fg: '#1D46A8' };
+    const danger = { bg: '#FFF7F6', border: '#F6C9C3', fg: '#B42318' };
+    const success = { bg: '#F3FAF6', border: '#BFE3CF', fg: '#1B6B45' };
+
+    let banner;
+    if (showReady) {
+      banner = Object.assign({}, success, {
+        icon: ic.check, eyebrow: 'READY TO LAUNCH', title: 'All setup checks passed',
+        text: movedLive ? 'Autopilot calls 42 contacts on the campaign schedule. 4 wait in the Live Assist queue.' : 'Autopilot calls 42 contacts on the campaign schedule. 6 were removed.',
+        chips: [chip('Audience · 48 contacts', 'ok'), chip('Call step · Autopilot', 'ok'), chip('Number check · 42 cleared', 'ok')],
+        isLink: false, isButton: true, cta: 'Launch campaign', action: go({ launchOpen: true })
+      });
+    } else if (moved) {
+      banner = Object.assign({}, info, {
+        icon: ic.info, eyebrow: 'COMPLETE CAMPAIGN SETUP', title: '1 setup check needs attention',
+        text: 'Add the Live Assist script for the 4 contacts you moved.',
+        chips: [chip('Audience · 48 contacts', 'ok'), chip('Number check · decision made', 'ok'), chip('Live Assist script needed', 'warn')],
+        isLink: false, isButton: true, cta: 'Save and continue', action: go({ stage: 'ready', choice: 'live', calendar: true })
+      });
+    } else if (showChecking) {
+      banner = Object.assign({}, info, {
+        icon: ic.info, eyebrow: 'COMPLETE CAMPAIGN SETUP', title: 'Checking 48 numbers',
+        text: 'Country rules and Do Not Call lists. This takes a few seconds.',
+        chips: [chip('Audience · 48 contacts', 'ok'), chip('Prompt and calendar', 'ok'), chip('Number check running', 'warn')],
+        isLink: false, isButton: false, cta: '', action: go({})
+      });
+    } else if (showCheck) {
+      banner = Object.assign({}, danger, {
+        icon: ic.shieldX, eyebrow: 'LAUNCH BLOCKED', title: "6 contacts can't be called via AI",
+        text: 'Decide what happens to them to continue.',
+        chips: [chip('Audience · 48 contacts', 'ok'), chip('Prompt and calendar', 'ok'), chip('Number check · 6 need a decision', 'bad')],
+        isLink: false, isButton: true, cta: 'Review contacts', action: go({})
+      });
+    } else if (showSetup) {
+      banner = Object.assign({}, info, {
+        icon: ic.info, eyebrow: 'COMPLETE CAMPAIGN SETUP',
+        title: calendar ? '1 setup check needs attention' : '2 setup checks need attention',
+        text: calendar ? 'Check the numbers before Autopilot can launch.' : 'Connect a calendar, then check the numbers.',
+        chips: [chip('Audience · 48 contacts', 'ok'), calendar ? chip('Calendar connected', 'ok') : chip('Calendar not connected', 'warn'), chip('Numbers not checked', 'warn')],
+        isLink: false, isButton: true, cta: calendar ? 'Check numbers' : 'Connect calendar',
+        action: calendar ? () => this.startCheck() : go({ calendar: true })
+      });
+    } else if (isLive && saved) {
+      banner = Object.assign({}, success, {
+        icon: ic.check, eyebrow: 'READY TO LAUNCH', title: 'All setup checks passed',
+        text: 'On day ' + dayNum + ', the 48 contacts go to ' + queueNames[bdrQueue] + ' Live Assist queue.',
+        chips: [chip('Audience · 48 contacts', 'ok'), chip('Call step · Live Assist', 'ok'), chip('Accounts ready', 'ok')],
+        isLink: false, isButton: true, cta: 'Launch campaign', action: go({ launchOpen: true })
+      });
+    } else if (showLiveSetup) {
+      banner = Object.assign({}, info, {
+        icon: ic.info, eyebrow: 'COMPLETE CAMPAIGN SETUP', title: '1 setup check needs attention',
+        text: 'Save the Call step to finish setup.',
+        chips: [chip('Audience · 48 contacts', 'ok'), chip('Call step not saved', 'warn'), chip('Accounts ready', 'ok')],
+        isLink: false, isButton: true, cta: 'Save step', action: go({ saved: true })
+      });
+    } else {
+      banner = Object.assign({}, info, {
+        icon: ic.info, eyebrow: 'COMPLETE CAMPAIGN SETUP', title: '1 setup check needs attention',
+        text: 'Set up the Call step: choose how these calls run.',
+        chips: [chip('Audience · 48 contacts', 'ok'), chip('Call step needs setup', 'warn'), chip('Accounts ready', 'ok')],
+        isLink: false, isButton: true, cta: 'Resolve next check',
+        action: isAuto ? go({ stage: 'setup', calendar: calendar }) : go({ stage: 'livesetup', mode: 'live' })
+      });
+    }
+    const bannerAct = banner.action || (() => {});
+    banner.action = () => {
+      if (!panelOpen) this.setState({ panelOpen: true });
+      bannerAct();
+    };
+
+    const card = (on) => ({
+      border: on ? '#2E63E7' : '#E7EAF0',
+      bg: on ? '#F7F9FF' : '#FFFFFF',
+      ring: on ? '0 0 0 3px rgba(46,99,231,0.14)' : 'none',
+      radio: on ? '#2E63E7' : '#8A919D',
+      dot: on ? '#2E63E7' : 'transparent'
+    });
+
+    const modeCards = [
+      Object.assign(card(isAuto), {
+        on: isAuto, pick: go({ mode: 'autopilot', saved: false }), d: ic.sparkles, tile: '#EBF1FE', fg: '#1D46A8',
+        title: 'Autopilot', tag: 'AI calls', lead: 'The AI makes the calls',
+        points: ['Runs on the campaign schedule, no BDR needed', 'Follows your prompt and books meetings on your calendar', 'Only numbers allowed to receive AI calls']
+      }),
+      Object.assign(card(isLive), {
+        on: isLive, pick: go({ mode: 'live' }), d: ic.headset, tile: '#EEF0F4', fg: '#16181D',
+        title: 'Live Assist', tag: 'BDR calls', lead: 'Your BDRs make the calls',
+        points: ['Contacts wait in a call queue, one call at a time', 'Script, live transcript and answers on screen', 'Works for every contact']
+      })
+    ];
+
+    let callNode;
+    if (showReady || moved) {
+      callNode = {
+        isSingle: false, isSplit: true,
+        rows: movedLive
+          ? [{ d: ic.sparkles, color: '#2E63E7', label: 'Autopilot', count: '42 contacts' }, { d: ic.headset, color: '#16181D', label: 'Live Assist', count: '4 contacts' }]
+          : [{ d: ic.sparkles, color: '#2E63E7', label: 'Autopilot', count: '42 contacts' }, { d: ic.userMinus, color: '#555C68', label: 'Removed', count: '6 contacts' }]
+      };
+    } else if (isLive && (showMode || showLiveSetup)) {
+      callNode = { isSingle: true, isSplit: false, chip: 'Live Assist', chipBg: '#EEF0F4', chipFg: '#16181D', hasAlert: false, alert: '', sub: saved ? '48 contacts go to the BDR queue' : (showLiveSetup ? 'Script not saved yet' : 'Not set up yet') };
+    } else if (showMode) {
+      callNode = { isSingle: true, isSplit: false, chip: 'Autopilot', chipBg: '#EBF1FE', chipFg: '#1D46A8', hasAlert: false, alert: '', sub: 'Not set up yet' };
+    } else if (showCheck) {
+      callNode = { isSingle: true, isSplit: false, chip: 'Autopilot', chipBg: '#EBF1FE', chipFg: '#1D46A8', hasAlert: true, alert: '6 blocked', sub: 'Waiting for your decision' };
+    } else {
+      callNode = { isSingle: true, isSplit: false, chip: 'Autopilot', chipBg: '#EBF1FE', chipFg: '#1D46A8', hasAlert: false, alert: '', sub: showChecking ? 'Checking numbers…' : (calendar ? 'Numbers not checked yet' : 'Calendar not connected') };
+    }
+
+    const stepTypes = [
+      { label: 'Email', sub: 'Send a personalised message', isIcon: true, isText: false, text: '', d: ic.mail, tile: '#EBF1FE', fg: '#2E63E7', bg: 'transparent', ring: 'none' },
+      { label: 'LinkedIn', sub: 'Connect, message or send an InMail', isIcon: false, isText: true, text: 'in', d: '', tile: '#E6EFF8', fg: '#0A5BB0', bg: 'transparent', ring: 'none' },
+      { label: 'Call', sub: 'Autopilot or Live Assist', isIcon: true, isText: false, text: '', d: ic.phone, tile: '#E7F5EE', fg: '#1B6B45', bg: '#F7F9FF', ring: 'inset 0 0 0 1px #DCE6FB' },
+      { label: 'Wait', sub: 'Give the conversation time', isIcon: true, isText: false, text: '', d: ic.wait, tile: '#FBF3DF', fg: '#8A5A00', bg: 'transparent', ring: 'none' }
+    ];
+
+    const line = '1px solid #EEF0F4';
+    const countryRows = [
+      { name: 'Aditi Rao', role: 'VP RevOps · Razorpay', number: '+91 98450 22190', reason: 'Number in India', icon: ic.globe, divider: '0' },
+      { name: 'Karthik Iyer', role: 'Head of Sales Ops · Freshworks', number: '+91 99001 45872', reason: 'Number in India', icon: ic.globe, divider: line },
+      { name: 'Lukas Becker', role: 'Head of RevOps · Nordwerk Logistik', number: '+49 89 4410 2275', reason: 'Number in Germany', icon: ic.globe, divider: line },
+      { name: 'Priya Shah', role: 'VP Sales · Hartwell & Co', number: '+1 (917) 555 0182', reason: 'Contact located in the UK', icon: ic.globe, divider: line }
+    ];
+    const dncRows = [
+      { name: 'Wei Ling Tan', role: 'Head of Growth · Lumen Pay', number: '+65 9123 4567', reason: 'Singapore DNC Registry', icon: ic.shield, divider: '0' },
+      { name: 'Jordan Lee', role: 'Sales Director · Brightline', number: '+1 (312) 555 0147', reason: 'Asked not to be called · Sprouts list', icon: ic.shield, divider: line }
+    ];
+
+    const choices = [
+      Object.assign(card(choice === 'live'), {
+        on: choice === 'live', pick: go({ choice: 'live' }), icon: ic.headset,
+        title: 'Run them in Live Assist', text: 'A BDR calls them from a Live Assist queue, with the script on screen. You pick the queue next.'
+      }),
+      Object.assign(card(choice === 'remove'), {
+        on: choice === 'remove', pick: go({ choice: 'remove' }), icon: ic.userMinus,
+        title: 'Remove them', text: 'They leave this Call step. Autopilot runs on the other 42.'
+      })
+    ];
+    const applyHint = choice === 'live' ? '42 on Autopilot · 4 to Live Assist · 2 removed'
+      : choice === 'remove' ? '42 on Autopilot · 6 removed'
+      : 'Choose what happens to the 4 contacts restricted by country.';
+
+    const readyItems = [
+      { check: ic.check, title: 'Agent prompt', text: 'Ridge · outbound qualifier · ' + voice + ' voice', subs: [], divider: '0' },
+      { check: ic.check, title: 'Calendar', text: 'dharam@sprouts.ai · Google Calendar · ' + meetLen + '-minute meetings', subs: [], divider: line },
+      {
+        check: ic.check, title: 'Number check', text: '42 of 48 numbers cleared for AI calls', divider: line,
+        subs: movedLive
+          ? [{ icon: ic.headset, text: '4 moved to the Live Assist queue · country rules' }, { icon: ic.shield, text: '2 removed · on a DNC list' }]
+          : [{ icon: ic.userMinus, text: '4 removed · country rules' }, { icon: ic.shield, text: '2 removed · on a DNC list' }]
+      },
+      { check: ic.check, title: 'Calling from', text: fromAuto, subs: [], divider: line }
+    ];
+    if (movedLive) {
+      readyItems.splice(3, 0, { check: ic.check, title: 'Live Assist script', text: 'For the 4 moved contacts · ' + queueShort[bdrQueue] + ' · from ' + fromLive, subs: [], divider: line });
+    }
+
+    const phase = (from, to) => (checked >= to ? 'done' : (checked >= from ? 'run' : 'wait'));
+    const mkPhase = (label, sub, st, first) => ({
+      label: label, sub: sub, isDone: st === 'done', check: ic.check,
+      status: st === 'done' ? 'Done' : (st === 'run' ? 'Checking…' : 'Waiting'),
+      statusColor: st === 'done' ? '#1B6B45' : (st === 'run' ? '#1D46A8' : '#646B77'),
+      dotBg: st === 'done' ? '#E7F5EE' : '#FFFFFF',
+      dotBorder: st === 'done' ? '#E7F5EE' : (st === 'run' ? '#2E63E7' : '#D5DAE2'),
+      dotFg: '#1B6B45',
+      divider: first ? '0' : line
+    });
+    const checkPhases = [
+      mkPhase('Country of each phone number', 'AI calls are allowed in the United States and Singapore', phase(0, 16), true),
+      mkPhase("Each contact's location", 'Taken from the contact record', phase(16, 32), false),
+      mkPhase('Do Not Call lists', 'Connected registers and your Sprouts list', phase(32, 48), false)
+    ];
+
+    let launchStats;
+    let launchLines;
+    if (isLive) {
+      launchStats = [{ n: '48', label: 'Live Assist queue', d: ic.headset, color: '#16181D' }];
+      launchLines = [
+        'Enrolment starts today, 40 contacts a day.',
+        'Each contact gets the email on day 1 and the LinkedIn request on day 2.',
+        'On day ' + dayNum + ', each contact joins ' + queueNames[bdrQueue] + ' Live Assist queue for a BDR to call.'
+      ];
+    } else if (movedLive) {
+      launchStats = [
+        { n: '42', label: 'Autopilot calls', d: ic.sparkles, color: '#2E63E7' },
+        { n: '4', label: 'Live Assist queue', d: ic.headset, color: '#16181D' },
+        { n: '2', label: 'Removed · DNC', d: ic.userMinus, color: '#555C68' }
+      ];
+      launchLines = [
+        'Enrolment starts today, 40 contacts a day.',
+        'Each contact gets the email on day 1 and the LinkedIn request on day 2.',
+        'On day ' + dayNum + ', Autopilot calls 42 contacts, Mon–Fri, 9 AM–5 PM in their time.',
+        'The 4 moved contacts join ' + queueNames[bdrQueue] + ' Live Assist queue on their day ' + dayNum + '.'
+      ];
+    } else {
+      launchStats = [
+        { n: '42', label: 'Autopilot calls', d: ic.sparkles, color: '#2E63E7' },
+        { n: '6', label: 'Removed from this step', d: ic.userMinus, color: '#555C68' }
+      ];
+      launchLines = [
+        'Enrolment starts today, 40 contacts a day.',
+        'Each contact gets the email on day 1 and the LinkedIn request on day 2.',
+        'On day ' + dayNum + ', Autopilot calls 42 contacts, Mon–Fri, 9 AM–5 PM in their time.',
+        'The 6 removed contacts still get the email and LinkedIn steps, but no call.'
+      ];
+    }
+
+    const promptDefault = "You are Ridge, an AI assistant calling on behalf of Sprouts. Say you are an AI assistant in your first sentence.\nGoal: book a 30-minute walkthrough with a Sprouts specialist.\nContext: {first name} at {company} looked at our pricing page recently.\nAnswer only from Sprouts' approved information. If you don't know, say so and offer a follow-up by email.\nKeep answers short and steer back to the meeting.\nBefore booking, confirm the date, time and email address.\nIf they ask to end the call or not to be called again, thank them and end the call.";
+    const prompt = s.prompt !== undefined ? s.prompt : promptDefault;
+    const pl = String(prompt).toLowerCase();
+    const has = (words) => words.some((w) => pl.indexOf(w) !== -1);
+    const checkDefs = [
+      { label: "Says it's an AI assistant at the start", ok: has(['ai assistant', 'an ai ']) },
+      { label: 'Answers only from approved company information', ok: has(['approved']) },
+      { label: "Says when it doesn't know, and offers a follow-up", ok: has(["don't know", 'don’t know', 'do not know', 'not sure']) && has(['follow-up', 'follow up']) },
+      { label: 'Keeps answers short and steers to the goal', ok: has(['short', 'brief', 'concise']) },
+      { label: 'Confirms date, time and email before booking', ok: has(['confirm']) && has(['email']) },
+      { label: 'Ends the call when asked, and notes not to call again', ok: has(['end the call', 'not to be called', 'not be called', 'do not call']) }
+    ];
+    const covered = checkDefs.filter((c) => c.ok).length;
+    const promptChecks = checkDefs.map((c) => ({
+      label: c.label, notOk: !c.ok, icon: c.ok ? ic.check : ic.excl,
+      bg: c.ok ? '#E7F5EE' : '#FBF3DF', fg: c.ok ? '#1B6B45' : '#8A5A00', textColor: c.ok ? '#16181D' : '#8A5A00'
+    }));
+
+    const withMoved = isAuto && choice === 'live' && (moved || showReady);
+    const flowDefs = isAuto
+      ? [{ key: 'mode', label: 'Mode' }, { key: 'setup', label: 'Set up' }, { key: 'check', label: 'Numbers' }]
+        .concat(withMoved ? [{ key: 'movedscript', label: 'Live Assist script' }] : [])
+        .concat([{ key: 'ready', label: 'Launch' }])
+      : [{ key: 'mode', label: 'Mode' }, { key: 'livesetup', label: 'Set up' }, { key: 'launch', label: 'Launch' }];
+    let flowIdx = 0;
+    if (isAuto) {
+      if (stage === 'setup') flowIdx = 1;
+      else if (stage === 'checking' || stage === 'check') flowIdx = 2;
+      else if (moved) flowIdx = 3;
+      else if (stage === 'ready') flowIdx = withMoved ? 4 : 3;
+    } else {
+      flowIdx = stage === 'livesetup' ? (saved ? 2 : 1) : 0;
+    }
+    const flowGo = (key) => {
+      if (key === 'mode') return go({ stage: 'mode', calendar: calendar, launchOpen: false });
+      if (key === 'setup') return go({ stage: 'setup', mode: 'autopilot', calendar: calendar, launchOpen: false });
+      if (key === 'check') return go({ stage: 'check', calendar: true, launchOpen: false });
+      if (key === 'movedscript') return go({ stage: 'livesetup', mode: 'autopilot', choice: 'live', calendar: true, launchOpen: false });
+      if (key === 'livesetup') return go({ stage: 'livesetup', mode: 'live', launchOpen: false });
+      return go({});
+    };
+    const flowSteps = flowDefs.map((d, i) => {
+      const done = i < flowIdx;
+      const here = i === flowIdx;
+      return {
+        label: d.label, num: String(i + 1), done: done, notDone: !done,
+        current: here ? 'step' : undefined, go: flowGo(d.key), disabled: !done,
+        bg: here ? '#FFFFFF' : 'transparent',
+        shadow: here ? '0 0 0 1px #E7EAF0, 0 1px 2px rgba(22,24,29,0.06)' : 'none',
+        fg: (done || here) ? '#16181D' : '#646B77',
+        cursor: done ? 'pointer' : 'default',
+        dotBg: done ? '#E7F5EE' : (here ? '#16181D' : '#EEF0F4'),
+        dotFg: done ? '#1B6B45' : (here ? '#FFFFFF' : '#646B77'),
+        hasNext: i < flowDefs.length - 1, chev: ic.chevR, check: ic.check
+      };
+    });
+
+    const opener = s.opener !== undefined ? s.opener : "Hi {first name}, it's {your name} from Sprouts. I'll be quick: your team looked at our pricing page last week. Do you have two minutes?";
+    const ask = s.ask !== undefined ? s.ask : 'How many tools feed your CRM today, and who fixes it when they disagree?';
+    const close = s.close !== undefined ? s.close : 'Would a 30-minute walkthrough on Thursday or Friday work?';
+    const objList = s.objs || [{ words: 'ZoomInfo, Zoom Info, ZI', answer: 'Most teams keep it. We fill what it misses and verify every record before it writes to the CRM.' }];
+    const pointList = s.points || ['Every record is verified before it reaches the CRM', '250+ data partners behind one search', 'Works inside Salesforce and Dynamics 365'];
+    const pointTexts = pointList.filter((t) => String(t).trim());
+    const splitWords = (w) => String(w).split(',').map((x) => x.trim()).filter((x) => x);
+    const setObjAt = (i, patch) => this.setState({ objs: objList.map((o, j) => (j === i ? Object.assign({}, o, patch) : o)) });
+    const focusField = s.focusField || 'opener';
+    const focusNames = { opener: 'Opener', ask: 'Ask', close: 'Close' };
+    const appendTo = (text, add) => String(text) + (text && !/\s$/.test(text) ? ' ' : '') + add;
+    const people = [
+      { name: 'Aditi Rao', first: 'Aditi', company: 'Razorpay', title: 'VP RevOps' },
+      { name: 'Karthik Iyer', first: 'Karthik', company: 'Freshworks', title: 'Head of Sales Ops' },
+      { name: 'Lukas Becker', first: 'Lukas', company: 'Nordwerk Logistik', title: 'Head of RevOps' }
+    ];
+    const pIdx = s.pIdx || 0;
+    const pv = people[pIdx % people.length];
+    const fill = (t) => String(t)
+      .split('{first name}').join(pv.first)
+      .split('{company}').join(pv.company)
+      .split('{title}').join(pv.title)
+      .split('{your name}').join('Dharam')
+      .split('{recent signal}').join('looked at the pricing page twice last week');
+    const pvStep = (num, title, text, bullets, isFirst) => ({
+      num: String(num), title: title, text: text, hasText: !!text,
+      bullets: bullets || [], hasBullets: !!(bullets && bullets.length),
+      bg: isFirst ? '#F5F8FF' : '#FFFFFF', border: isFirst ? '#C9D9FB' : '#EEF0F4',
+      markBg: isFirst ? '#2E63E7' : '#F1F3F6', markFg: isFirst ? '#FFFFFF' : '#555C68',
+      titleColor: isFirst ? '#1D46A8' : '#16181D'
+    });
+    const pvList = [['Opener', fill(opener), null], ['Ask', fill(ask), null]];
+    objList.forEach((o) => {
+      const w = splitWords(o.words);
+      if (w.length || o.answer) pvList.push(['If they say “' + (w[0] || '…') + '”', fill(o.answer), null]);
+    });
+    if (pointTexts.length) pvList.push(['Talking points', '', pointTexts]);
+    pvList.push(['Close', fill(close), null]);
+    const previewSteps = pvList.map((x, i) => pvStep(i + 1, x[0], x[1], x[2], i === 0));
+    const fieldVals = { opener: opener, ask: ask, close: close };
+
+    return {
+      ic: ic,
+      navGroups: this.navGroups('Campaigns', ic),
+      showLiveSetup: showLiveSetup,
+      showAddPanel: !panelOpen || (!showLiveSetup && !showSetup),
+      panelBasis: (showLiveSetup || showSetup) ? '760px' : (showReady ? '560px' : '420px'),
+      showChecking: showChecking,
+      checked: checked,
+      checkedLabel: checked + ' of 48 checked',
+      checkedPct: Math.round((checked / 48) * 100) + '%',
+      checkPhases: checkPhases,
+      cancelChecking: () => { this.clearTimers(); this.setState({ stage: 'setup', calendar: true }); },
+      showLaunch: showLaunch,
+      launchStats: launchStats,
+      launchLines: launchLines,
+      launchHref: isAuto ? 'Autopilot.dc.html' : 'LiveAssist.dc.html',
+      launchNote: isAuto ? 'You can pause Autopilot at any time from Dialer › Autopilot.' : 'Your BDRs find the queue under Dialer › Live Assist.',
+      closeLaunch: go({ launchOpen: false }),
+      liveTitle: moved ? 'Live Assist for the 4 moved contacts' : 'Live Assist',
+      liveLead: moved
+        ? "These 4 can't get AI calls, so your BDRs call them. Whisper shows this script during the call; the prospect never hears it."
+        : 'Your BDRs make these calls. Whisper shows them this script during the call; the prospect never hears it.',
+      liveBack: moved ? go({ stage: 'check', calendar: true }) : go({ stage: 'mode', calendar: calendar }),
+      saveLiveLabel: moved ? 'Save and continue' : 'Save step',
+      prompt: prompt,
+      setPrompt: (e) => this.setState({ prompt: e.target.value }),
+      promptChecks: promptChecks,
+      coveredLabel: covered + ' of ' + checkDefs.length + ' covered',
+      coveredColor: covered === checkDefs.length ? '#1B6B45' : '#8A5A00',
+      flowSteps: flowSteps,
+      toLiveSetup: go({ stage: 'livesetup', mode: 'live' }),
+      liveHint: moved ? 'Autopilot keeps its own prompt for the other 42 contacts.' : (saved ? 'Launch the campaign from the banner above.' : 'Edits show in the preview as you type.'),
+      opener: opener,
+      ask: ask,
+      close: close,
+      setOpener: (e) => this.setState({ opener: e.target.value }),
+      setAsk: (e) => this.setState({ ask: e.target.value }),
+      setClose: (e) => this.setState({ close: e.target.value }),
+      focusOpener: () => { if (focusField !== 'opener') this.setState({ focusField: 'opener' }); },
+      focusAsk: () => { if (focusField !== 'ask') this.setState({ focusField: 'ask' }); },
+      focusClose: () => { if (focusField !== 'close') this.setState({ focusField: 'close' }); },
+      focusName: focusNames[focusField],
+      liveVars: ['{first name}', '{company}', '{your name}', '{recent signal}'].map((label) => ({
+        label: label,
+        insert: () => this.setState({ [focusField]: appendTo(fieldVals[focusField], label) })
+      })),
+      points: pointList.map((t, i) => ({
+        text: t, grip: ic.grip, x: ic.x,
+        set: (e) => this.setState({ points: pointList.map((p0, j) => (j === i ? e.target.value : p0)) }),
+        remove: () => this.setState({ points: pointList.filter((p0, j) => j !== i) })
+      })),
+      addPoint: () => this.setState({ points: pointList.concat(['']) }),
+      objs: objList.map((o, i) => ({
+        words: o.words, answer: o.answer, chips: splitWords(o.words),
+        setWords: (e) => setObjAt(i, { words: e.target.value }),
+        setAnswer: (e) => setObjAt(i, { answer: e.target.value }),
+        remove: () => this.setState({ objs: objList.filter((x, j) => j !== i) })
+      })),
+      addObj: () => this.setState({ objs: objList.concat([{ words: '', answer: '' }]) }),
+      pv: pv,
+      pvIdx: String(pIdx % people.length),
+      setPreview: (e) => this.setState({ pIdx: Number(e.target.value) }),
+      previewSteps: previewSteps,
+      panelOpen: panelOpen,
+      closePanel: go({ panelOpen: false }),
+      openPanel: go({ panelOpen: true }),
+      nodeSel: panelOpen
+        ? { border: '#2E63E7', shadow: '0 0 0 3px rgba(46,99,231,0.16)' }
+        : { border: '#E7EAF0', shadow: '0 1px 2px rgba(22,24,29,0.05)' },
+      canvasHint: panelOpen ? '3 steps · 48 contacts' : '3 steps · 48 contacts · select the Call step to set it up',
+      reviewCampaign: banner.action,
+      delay: delay,
+      setDelay: setKey('delay'),
+      dayLabel: 'Day ' + dayNum,
+      dayLower: 'day ' + dayNum,
+      voice: voice,
+      setVoice: setKey('voice'),
+      fromAuto: fromAuto,
+      setFromAuto: setKey('fromAuto'),
+      meetLen: meetLen,
+      setMeetLen: setKey('meetLen'),
+      slotWin: slotWin,
+      setSlotWin: setKey('slotWin'),
+      bdrQueue: bdrQueue,
+      setBdrQueue: setKey('bdrQueue'),
+      fromLive: fromLive,
+      setFromLive: setKey('fromLive'),
+      liveHealth: fromLive === '+1 (415) 555 0168' ? 'Healthy · 22% connect today' : 'Healthy · 18% connect today',
+      changeCal: go({ calendar: false }),
+      testText: test === 'calling'
+        ? 'Calling your phone now…'
+        : (test === 'done' ? 'Test call finished. Change the prompt and call again if it sounded off.' : 'The agent calls your phone with this prompt. Nothing is logged to contacts.'),
+      testLabel: test === 'calling' ? 'Calling…' : (test === 'done' ? 'Call again' : 'Test call'),
+      testBusy: test === 'calling',
+      testCall: () => {
+        this.setState({ test: 'calling' });
+        if (this._tt) clearTimeout(this._tt);
+        this._tt = setTimeout(() => this.setState({ test: 'done' }), 2500);
+      },
+      banner: banner,
+      stepTypes: stepTypes,
+      callNode: callNode,
+      showMode: showMode,
+      showSetup: showSetup,
+      showCheck: showCheck,
+      showReady: showReady,
+      isAuto: isAuto,
+      isLive: isLive,
+      liveUnsaved: showLiveSetup && (moved || !saved),
+      liveSaved: showLiveSetup && !moved && saved,
+      modeCards: modeCards,
+      toSetup: go({ stage: 'setup', mode: 'autopilot', calendar: calendar }),
+      toMode: go({ stage: 'mode', calendar: calendar }),
+      saveLive: moved ? go({ stage: 'ready', choice: 'live', calendar: true }) : go({ saved: true }),
+      calendar: calendar,
+      calOff: !calendar,
+      calChip: calendar ? { label: 'Connected', bg: '#E7F5EE', fg: '#1B6B45' } : { label: 'Required', bg: '#FBF3DF', fg: '#8A5A00' },
+      connectCal: go({ calendar: true }),
+      vars: ['{first name}', '{company}', '{title}', '{recent signal}'].map((label) => ({
+        label: label,
+        insert: () => this.setState({ prompt: appendTo(prompt, label) })
+      })),
+      guidelines: [
+        "Says it's an AI assistant at the start",
+        'Answers only from approved company information',
+        "Says when it doesn't know, and offers a follow-up",
+        'Keeps answers short and steers to the goal',
+        'Confirms date, time and email before booking',
+        'Ends the call when asked, and notes not to call again'
+      ],
+      setupHint: calendar ? 'Next: we check all 48 numbers against country rules and DNC lists.' : 'Connect a calendar to continue.',
+      checkDisabled: !calendar,
+      checkBtn: calendar ? { bg: '#1C1F26', fg: '#FFFFFF', cursor: 'pointer' } : { bg: '#E7EAF0', fg: '#646B77', cursor: 'not-allowed' },
+      runCheck: () => { if (calendar) this.startCheck(); },
+      countryRows: countryRows,
+      dncRows: dncRows,
+      choices: choices,
+      applyHint: applyHint,
+      applyHintColor: choice ? '#16181D' : '#8A5A00',
+      applyDisabled: !choice,
+      applyBtn: choice ? { bg: '#1C1F26', fg: '#FFFFFF', cursor: 'pointer' } : { bg: '#E7EAF0', fg: '#646B77', cursor: 'not-allowed' },
+      applyCheck: () => { if (choice) this.setState({ stage: choice === 'live' ? 'livesetup' : 'ready', mode: 'autopilot', choice: choice, calendar: true }); },
+      cancelCheck: go({ stage: 'setup', calendar: true }),
+      readyItems: readyItems
+    };
+  }
+}
+</script>
+</body>
+</html>

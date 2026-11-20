@@ -3,9 +3,24 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/app", "destination": "/", "permanent": false }
+    { "source": "/app", "destination": "/", "permanent": false },
+    { "source": "/dialer", "destination": "/dialer/Main.dc", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/qos/:path*", "destination": "https://qms.sprouts.ai/:path*" }
+    {
+      "source": "/qos/:path*",
+      "destination": "https://qms.sprouts.ai/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/_blob/(.*)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        }
+      ]
+    }
   ]
 }

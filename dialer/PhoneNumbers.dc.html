@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dialer — Phone numbers</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap; background: #F6F7F9; font-family: Manrope, 'Segoe UI', system-ui, -apple-system, sans-serif; color: #16181D; font-size: 13px; font-weight: 500; line-height: 1.45">
+
+<nav aria-label="Main" style="flex: 1 1 190px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; padding: 10px 8px 12px; background: #F8F9FB; border-right: 1px solid #E7EAF0">
+<div style="display: flex; align-items: center; gap: 8px; padding: 2px 6px 6px">
+<img src="/_blob/f3ef3dd45903c0199d6a4165ce97d877" alt="" style="width: 24px; height: 24px; display: block">
+<span style="font-size: 14px; font-weight: 800; letter-spacing: -0.01em">Sprouts.ai</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 2px 12px">
+<sc-for list="{{ navGroups }}" as="g" hint-placeholder-count="6">
+<div style="flex: 1 1 160px; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<sc-if value="{{ g.has }}" hint-placeholder-val="{{ true }}">
+<div style="padding: 10px 8px 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; color: #646B77">{{ g.label }}</div>
+</sc-if>
+<sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+<a href="{{ it.href }}" aria-current="{{ it.current }}" style="display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; font-size: 12.5px; font-weight: 600; text-decoration: none; color: {{ it.color }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ it.d }}"></path></svg>
+<span>{{ it.label }}</span>
+</a>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 14px">
+<a href="#" style="display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px; background: #EBF1FE; color: #1D46A8; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<span aria-hidden="true" style="width: 15px; height: 15px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #A9C6FF 0%, #2E63E7 55%, #1D46A8 100%)"></span>
+<span>Savant</span>
+<span style="margin-left: auto; font-size: 11px; font-weight: 600">⌘K</span>
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 600; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.bell }}"></path></svg>
+<span>Notifications</span>
+</a>
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 0; margin-top: 6px; border-top: 1px solid #E7EAF0">
+<span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 50%; background: #DDE5F5; color: #1D46A8; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center">DC</span>
+<span style="font-size: 12.5px; font-weight: 600">Dharam C.</span>
+</div>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 20px; background: #FFFFFF; border-bottom: 1px solid #E7EAF0">
+<div style="flex: 1 1 280px; min-width: 0">
+<div style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700">
+<a href="LiveAssist.dc.html" style="display: inline-flex; align-items: center; gap: 5px; color: #1D46A8; text-decoration: none"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowL }}"></path></svg>Dialer</a>
+</div>
+<h1 style="margin: 2px 0 0; font-size: 20px; font-weight: 800; letter-spacing: -0.015em">Phone numbers</h1>
+<p style="margin: 2px 0 0; font-size: 12px; color: #555C68">Buy numbers from Twilio, see where they're from, and choose which mode calls from each one.</p>
+</div>
+<div role="tablist" aria-label="Dialer mode" style="display: inline-flex; gap: 2px; padding: 3px; border-radius: 11px; background: #F1F3F6; border: 1px solid #E7EAF0">
+<a href="LiveAssist.dc.html" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.headset }}"></path></svg>
+<span>Live Assist</span>
+</a>
+<a href="Autopilot.dc.html" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg>
+<span>Autopilot</span>
+</a>
+<a href="CallHistory.dc.html" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.history }}"></path></svg>
+<span>Call history</span>
+</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span aria-current="page" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #C9D9FB; background: #EBF1FE; font-size: 12px; font-weight: 700; color: #1D46A8">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.hash }}"></path></svg>
+<span>Phone numbers</span>
+</span>
+<a href="CallingRules.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #16181D; text-decoration: none">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.shield }}"></path></svg>
+<span>Calling rules</span>
+</a>
+</div>
+</header>
+
+<div style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 12px; padding: 16px 20px 20px">
+
+<sc-if value="{{ hasBanner }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 12px 14px; border-radius: 12px; background: #F3FAF6; border: 1px solid #BFE3CF">
+<span aria-hidden="true" style="width: 30px; height: 30px; flex: 0 0 30px; border-radius: 50%; background: #E7F5EE; color: #1B6B45; display: flex; align-items: center; justify-content: center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.check }}"></path></svg></span>
+<div style="flex: 1 1 260px; min-width: 0">
+<div style="font-size: 13.5px; font-weight: 800">{{ banner.title }}</div>
+<div style="font-size: 12px; color: #555C68">{{ banner.text }}</div>
+</div>
+<button type="button" onClick="{{ dismissBanner }}" style="height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #BFE3CF; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer">Dismiss</button>
+</div>
+</sc-if>
+
+<section aria-label="Your numbers" style="background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 14px 16px">
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0; font-size: 15px; font-weight: 800">Your numbers</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ chips }}" as="ch" hint-placeholder-count="4">
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 7px; font-size: 11.5px; font-weight: 700; background: {{ ch.bg }}; color: {{ ch.fg }}">{{ ch.label }}</span>
+</sc-for>
+</div>
+</div>
+<label style="flex: 1 1 220px; min-width: 0; max-width: 320px; display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; box-sizing: border-box; border-radius: 9px; background: #F6F7F9; border: 1px solid #EEF0F4; color: #646B77">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.search }}"></path></svg>
+<input type="search" value="{{ q }}" onChange="{{ setQ }}" placeholder="Search a number, city or mode" aria-label="Search a number, city or mode" style="flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; font-size: 12px; color: #16181D; outline: none">
+</label>
+<button type="button" onClick="{{ openBuy }}" style="display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 16px; border: 0; border-radius: 10px; background: #1C1F26; color: #FFFFFF; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.plus }}"></path></svg>
+<span>Buy a number</span>
+</button>
+</div>
+
+<div style="overflow-x: auto">
+<div role="table" aria-label="Your phone numbers" style="min-width: 1000px">
+<div role="row" style="display: grid; grid-template-columns: minmax(170px, 1.2fr) minmax(150px, 1.1fr) minmax(220px, 1.5fr) minmax(170px, 1.2fr) 132px 78px; gap: 12px; padding: 8px 16px; font-size: 11px; font-weight: 800; letter-spacing: 0.04em; color: #646B77; background: #FAFBFC; border-top: 1px solid #EEF0F4; border-bottom: 1px solid #EEF0F4">
+<span role="columnheader">NUMBER</span><span role="columnheader">LOCATION</span><span role="columnheader">USED FOR</span><span role="columnheader">NUMBER HEALTH</span><span role="columnheader">SUPPORTS</span><span role="columnheader"></span>
+</div>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="3">
+<div style="border-bottom: 1px solid #EEF0F4; background: {{ r.bg }}">
+<div role="row" style="display: grid; grid-template-columns: minmax(170px, 1.2fr) minmax(150px, 1.1fr) minmax(220px, 1.5fr) minmax(170px, 1.2fr) 132px 78px; gap: 12px; align-items: center; min-height: 64px; padding: 8px 16px">
+<span role="cell" style="min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px"><span style="font-size: 13.5px; font-weight: 800; font-variant-numeric: tabular-nums">{{ r.number }}</span><sc-if value="{{ r.isNew }}" hint-placeholder-val="{{ false }}"><span style="padding: 0 6px; border-radius: 5px; background: #E7F5EE; color: #1B6B45; font-size: 10px; font-weight: 800; letter-spacing: 0.04em">NEW</span></sc-if></span>
+<span style="font-size: 11.5px; color: #646B77">{{ r.bought }}</span>
+</span>
+<span role="cell" style="min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 12.5px; font-weight: 700">{{ r.city }}</span>
+<span style="font-size: 11.5px; color: #555C68">{{ r.country }}</span>
+</span>
+<span role="cell" style="min-width: 0; display: flex; flex-direction: column; gap: 3px">
+<span style="position: relative; display: block; max-width: 290px">
+<select aria-label="Used for, {{ r.number }}" value="{{ r.use }}" onChange="{{ r.setUse }}" style="width: 100%; height: 34px; box-sizing: border-box; padding: 0 28px 0 10px; border-radius: 9px; border: 1px solid {{ r.useBorder }}; background: {{ r.useBg }}; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
+<option value="both">Autopilot and Live Assist</option>
+<option value="auto">Autopilot only</option>
+<option value="live">Live Assist only</option>
+<option value="none">Not connected</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<span style="font-size: 11.5px; color: {{ r.subColor }}">{{ r.sub }}</span>
+</span>
+<span role="cell" style="min-width: 0"><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: {{ r.healthFg }}"><span aria-hidden="true" style="width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: {{ r.healthDot }}"></span>{{ r.health }}</span></span>
+<span role="cell" style="display: flex; flex-wrap: wrap; gap: 4px">
+<sc-for list="{{ r.caps }}" as="cp" hint-placeholder-count="3">
+<span style="padding: 1px 7px; border-radius: 6px; background: #F1F3F6; color: #555C68; font-size: 11px; font-weight: 700">{{ cp }}</span>
+</sc-for>
+</span>
+<span role="cell" style="display: flex; justify-content: flex-end">
+<button type="button" onClick="{{ r.askRelease }}" aria-label="Release {{ r.number }}" style="min-height: 32px; padding: 0 10px; border-radius: 8px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer">Release</button>
+</span>
+</div>
+<sc-if value="{{ r.showBlocked }}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 16px 12px; padding: 10px 12px; border-radius: 10px; background: #FBF3DF; font-size: 12.5px">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 15px"><path d="{{ ic.alert }}"></path></svg>
+<span style="flex: 1 1 280px; min-width: 0">{{ r.blockedText }}</span>
+<button type="button" onClick="{{ r.cancelRelease }}" style="min-height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid #E7CE8F; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer">OK</button>
+</div>
+</sc-if>
+<sc-if value="{{ r.showConfirm }}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 16px 12px; padding: 10px 12px; border-radius: 10px; background: #FDEEEC; font-size: 12.5px">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 15px"><path d="{{ ic.alert }}"></path></svg>
+<span style="flex: 1 1 280px; min-width: 0">Release <strong style="font-weight: 800">{{ r.number }}</strong>? It goes back to Twilio and you may not get the same number again.</span>
+<button type="button" onClick="{{ r.release }}" style="min-height: 32px; padding: 0 12px; border: 0; border-radius: 8px; background: #B42318; color: #FFFFFF; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer">Release number</button>
+<button type="button" onClick="{{ r.cancelRelease }}" style="min-height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid #F6C9C3; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer">Keep it</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 18px 16px; border-bottom: 1px solid #EEF0F4; font-size: 12.5px; color: #555C68">
+<span>{{ noRowsText }}</span>
+<sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ clearQ }}" style="min-height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer">Clear search</button>
+</sc-if>
+</div>
+</sc-if>
+<p style="margin: 0; padding: 10px 16px 12px; font-size: 12px; color: #646B77">A number set to Not connected stays yours but makes no calls. Who each mode can call still follows the <a href="CallingRules.dc.html" style="color: #1D46A8; font-weight: 700">Calling rules</a>.</p>
+</section>
+
+</div>
+</main>
+
+<sc-if value="{{ buyOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; z-index: 30; box-sizing: border-box; background: rgba(22, 24, 29, 0.36); display: flex; justify-content: center; align-items: flex-start; padding: 24px 16px; overflow-y: auto">
+<div role="dialog" aria-modal="true" aria-labelledby="buy-title" style="width: 100%; max-width: 1060px; max-height: calc(100vh - 48px); background: #FFFFFF; border-radius: 14px; box-shadow: 0 24px 64px rgba(22,24,29,0.24), 0 2px 8px rgba(22,24,29,0.08); display: flex; flex-direction: column; overflow: hidden">
+
+<div style="display: flex; align-items: flex-start; gap: 12px; padding: 16px 18px 12px; border-bottom: 1px solid #EEF0F4">
+<div style="flex: 1; min-width: 0">
+<h2 id="buy-title" style="margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -0.01em">Buy a number</h2>
+<p style="margin: 2px 0 0; font-size: 12.5px; color: #555C68">Search Twilio's inventory, pick the exact number you want, then buy it.</p>
+</div>
+<button type="button" onClick="{{ closeBuy }}" aria-label="Close" style="width: 34px; height: 34px; flex: 0 0 34px; border: 0; border-radius: 8px; background: transparent; color: #555C68; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.x }}"></path></svg></button>
+</div>
+
+<div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-wrap: wrap; align-items: stretch">
+
+<div style="flex: 1 1 310px; min-width: 0; box-sizing: border-box; padding: 14px 18px 16px; background: #FAFBFC; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">WHERE AND WHAT KIND</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(112px, 100%), 1fr)); gap: 10px">
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 4px">
+<label for="bn-country" style="font-size: 12px; font-weight: 700">Country</label>
+<span style="position: relative; display: block">
+<select id="bn-country" value="{{ f.country }}" onChange="{{ setCountry }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 28px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none">
+<option value="US">United States</option>
+<option value="CA">Canada</option>
+<option value="GB">United Kingdom</option>
+<option value="SG">Singapore</option>
+<option value="AU">Australia</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="bn-type" style="font-size: 12px; font-weight: 700">Number type</label>
+<span style="position: relative; display: block">
+<select id="bn-type" value="{{ f.type }}" onChange="{{ setType }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 28px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none">
+<option value="local">Local</option>
+<option value="tollfree">Toll-free</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+</div>
+<sc-if value="{{ showState }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="bn-state" style="font-size: 12px; font-weight: 700">State</label>
+<span style="position: relative; display: block">
+<select id="bn-state" value="{{ f.state }}" onChange="{{ setRegion }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 28px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none">
+<option value="any">Any state</option>
+<option value="CA">California</option>
+<option value="IL">Illinois</option>
+<option value="MA">Massachusetts</option>
+<option value="NY">New York</option>
+<option value="TN">Tennessee</option>
+<option value="TX">Texas</option>
+<option value="WA">Washington</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="bn-city" style="font-size: 12px; font-weight: 700">City</label>
+<input id="bn-city" type="text" value="{{ f.city }}" onChange="{{ setCity }}" placeholder="San Francisco" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; color: #16181D">
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="bn-area" style="font-size: 12px; font-weight: 700">Area code</label>
+<input id="bn-area" type="text" inputmode="numeric" value="{{ f.area }}" onChange="{{ setArea }}" placeholder="415" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; color: #16181D">
+</div>
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 4px">
+<label for="bn-contains" style="font-size: 12px; font-weight: 700">Number contains</label>
+<input id="bn-contains" type="text" value="{{ f.contains }}" onChange="{{ setContains }}" placeholder="0126 or SALES" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; color: #16181D">
+<span style="font-size: 11.5px; color: #646B77">Digits or letters that must appear in the number.</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div id="bn-svc" style="font-size: 12px; font-weight: 700">Must support</div>
+<div role="group" aria-labelledby="bn-svc" style="display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{ services }}" as="sv" hint-placeholder-count="3">
+<button type="button" role="checkbox" aria-checked="{{ sv.on }}" aria-disabled="{{ sv.locked }}" onClick="{{ sv.toggle }}" style="display: flex; align-items: center; gap: 9px; min-height: 40px; padding: 6px 10px; border-radius: 9px; border: 1px solid {{ sv.border }}; background: {{ sv.bg }}; font: inherit; color: #16181D; text-align: left; cursor: {{ sv.cursor }}">
+<span aria-hidden="true" style="width: 16px; height: 16px; flex: 0 0 16px; box-sizing: border-box; border-radius: 5px; border: 1.5px solid {{ sv.boxBorder }}; background: {{ sv.boxBg }}; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><sc-if value="{{ sv.on }}" hint-placeholder-val="{{ true }}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ sv.checkD }}"></path></svg></sc-if></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3"><span style="font-size: 12.5px; font-weight: 700">{{ sv.label }}</span><span style="font-size: 11.5px; color: #555C68">{{ sv.text }}</span></span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<button type="button" aria-expanded="{{ advOpen }}" onClick="{{ toggleAdv }}" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 2px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ advIcon }}"></path></svg>{{ advLabel }}</button>
+<sc-if value="{{ advOpen }}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(118px, 100%), 1fr)); gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="bn-zip" style="font-size: 12px; font-weight: 700">Postal code</label>
+<input id="bn-zip" type="text" value="{{ f.zip }}" onChange="{{ setZip }}" placeholder="94105" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; color: #16181D">
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="bn-miles" style="font-size: 12px; font-weight: 700">Within, miles</label>
+<input id="bn-miles" type="text" inputmode="numeric" value="{{ f.miles }}" onChange="{{ setMiles }}" placeholder="25" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; color: #16181D">
+</div>
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 4px">
+<label for="bn-near" style="font-size: 12px; font-weight: 700">Near this phone number</label>
+<input id="bn-near" type="tel" value="{{ f.near }}" onChange="{{ setNear }}" placeholder="+1 415 555 0168" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; color: #16181D">
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="bn-rate" style="font-size: 12px; font-weight: 700">Rate center</label>
+<input id="bn-rate" type="text" value="{{ f.rate }}" onChange="{{ setRate }}" placeholder="SNFC CNTRL" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; color: #16181D">
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="bn-lata" style="font-size: 12px; font-weight: 700">LATA</label>
+<input id="bn-lata" type="text" inputmode="numeric" value="{{ f.lata }}" onChange="{{ setLata }}" placeholder="722" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; color: #16181D">
+</div>
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{ advChecks }}" as="ac" hint-placeholder-count="2">
+<button type="button" role="checkbox" aria-checked="{{ ac.on }}" onClick="{{ ac.toggle }}" style="display: flex; align-items: center; gap: 9px; min-height: 36px; padding: 4px 2px; border: 0; background: transparent; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; text-align: left; cursor: pointer">
+<span aria-hidden="true" style="width: 16px; height: 16px; flex: 0 0 16px; box-sizing: border-box; border-radius: 5px; border: 1.5px solid {{ ac.boxBorder }}; background: {{ ac.boxBg }}; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><sc-if value="{{ ac.on }}" hint-placeholder-val="{{ false }}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ac.checkD }}"></path></svg></sc-if></span>
+<span>{{ ac.label }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 2px">
+<button type="button" onClick="{{ runSearch }}" disabled="{{ isLoading }}" style="flex: 1 1 140px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: #1C1F26; color: #FFFFFF; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.search }}"></path></svg>{{ searchLabel }}</button>
+<button type="button" onClick="{{ resetFilters }}" style="height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; color: #16181D; cursor: pointer">Reset</button>
+</div>
+</div>
+
+<div style="flex: 999 1 460px; min-width: 0; box-sizing: border-box; padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px">
+<h3 style="margin: 0; font-size: 14px; font-weight: 800">Available numbers</h3>
+<span aria-live="polite" style="font-size: 12px; color: #555C68">{{ resultCaption }}</span>
+</div>
+
+<sc-if value="{{ isIdle }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 44px 16px; border-radius: 12px; border: 1px dashed #D5DAE2; text-align: center">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 12px; background: #F1F3F6; color: #555C68; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.search }}"></path></svg></span>
+<div style="font-size: 13.5px; font-weight: 800">Set the filters, then search</div>
+<div style="max-width: 360px; font-size: 12.5px; color: #555C68">Pick a country and, if you want, a city or area code. The numbers Twilio has for sale show up here.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 44px 16px; border-radius: 12px; background: #FAFBFC; border: 1px solid #EEF0F4; font-size: 13px; font-weight: 700; color: #555C68">
+<span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 50%; background: #2E63E7; box-shadow: 0 0 0 5px rgba(46,99,231,0.16)"></span>
+Searching Twilio's inventory…
+</div>
+</sc-if>
+
+<sc-if value="{{ isStale }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 9px; background: #FBF3DF; font-size: 12px; color: #16181D"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 14px"><path d="{{ ic.info }}"></path></svg><span>The filters changed after this search. Search again to update the list.</span></div>
+</sc-if>
+
+<sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+<div style="overflow-x: auto; border: 1px solid #EEF0F4; border-radius: 12px">
+<div role="radiogroup" aria-label="Available numbers" style="min-width: 540px">
+<div aria-hidden="true" style="display: grid; grid-template-columns: 20px minmax(140px, 1.2fr) minmax(130px, 1.2fr) 124px minmax(130px, 1fr); gap: 10px; padding: 8px 12px; font-size: 11px; font-weight: 800; letter-spacing: 0.04em; color: #646B77; background: #FAFBFC; border-bottom: 1px solid #EEF0F4">
+<span></span><span>PHONE NUMBER</span><span>LOCATION</span><span>SUPPORTS</span><span>ADDRESS</span>
+</div>
+<sc-for list="{{ results }}" as="n" hint-placeholder-count="5">
+<button type="button" role="radio" aria-checked="{{ n.on }}" onClick="{{ n.pick }}" style="width: 100%; display: grid; grid-template-columns: 20px minmax(140px, 1.2fr) minmax(130px, 1.2fr) 124px minmax(130px, 1fr); gap: 10px; align-items: center; min-height: 48px; padding: 6px 12px; border: 0; border-bottom: 1px solid #EEF0F4; background: {{ n.bg }}; box-shadow: inset 3px 0 0 {{ n.bar }}; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<span aria-hidden="true" style="width: 16px; height: 16px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid {{ n.dotBorder }}; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{ n.dot }}"></span></span>
+<span style="font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums">{{ n.number }}</span>
+<span style="font-size: 12.5px; min-width: 0">{{ n.place }}</span>
+<span style="display: flex; flex-wrap: wrap; gap: 4px">
+<sc-for list="{{ n.caps }}" as="cp" hint-placeholder-count="3">
+<span style="padding: 1px 6px; border-radius: 6px; background: #F1F3F6; color: #555C68; font-size: 10.5px; font-weight: 800">{{ cp }}</span>
+</sc-for>
+</span>
+<span style="font-size: 12px; color: {{ n.addrColor }}">{{ n.addr }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 36px 16px; border-radius: 12px; border: 1px dashed #D5DAE2; text-align: center">
+<div style="font-size: 13.5px; font-weight: 800">No numbers match these filters</div>
+<div style="max-width: 360px; font-size: 12.5px; color: #555C68">Try a wider search: clear the city, area code or "number contains", then search again.</div>
+</div>
+</sc-if>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 12px 18px; border-top: 1px solid #EEF0F4; background: #FFFFFF">
+<div aria-live="polite" style="flex: 1 1 240px; min-width: 0">
+<div style="font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums">{{ pickTitle }}</div>
+<div style="font-size: 12px; color: #555C68">{{ pickSub }}</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<label for="bn-use" style="font-size: 12px; font-weight: 700; white-space: nowrap">Use it for</label>
+<span style="position: relative; display: block">
+<select id="bn-use" value="{{ buyUse }}" onChange="{{ setBuyUse }}" style="height: 40px; box-sizing: border-box; padding: 0 28px 0 10px; border-radius: 10px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; color: #16181D; cursor: pointer; appearance: none">
+<option value="both">Autopilot and Live Assist</option>
+<option value="auto">Autopilot only</option>
+<option value="live">Live Assist only</option>
+<option value="none">Decide later</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+</div>
+<div style="display: flex; gap: 8px">
+<button type="button" onClick="{{ closeBuy }}" style="height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; color: #16181D; cursor: pointer">Cancel</button>
+<button type="button" onClick="{{ buy }}" disabled="{{ buyDisabled }}" style="height: 40px; padding: 0 18px; border: 0; border-radius: 10px; background: {{ buyBtn.bg }}; color: {{ buyBtn.fg }}; font: inherit; font-size: 13px; font-weight: 800; cursor: {{ buyBtn.cursor }}">{{ buyLabel }}</button>
+</div>
+</div>
+
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"view":{"editor":"enum","options":["list","buy","bought"],"default":"list"},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  icons() {
+    return {
+      brief: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18',
+      rocket: 'M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0 M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5',
+      search: 'M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0z M21 21l-4.3-4.3',
+      globe: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20 M2 12h20',
+      users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+      handshake: 'M11 17l2 2a1 1 0 1 0 3-3 M14 14l2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4 M21 3l1 11h-2 M3 3L2 14l6.5 6.5a1 1 0 1 0 3-3 M3 4h8',
+      megaphone: 'M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14 M8 6v8',
+      inbox: 'M22 12h-6l-2 3h-4l-2-3H2 M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z',
+      phone: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z',
+      building: 'M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2 M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2 M10 6h4 M10 10h4 M10 14h4 M10 18h4',
+      briefcase: 'M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16 M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z',
+      bot: 'M12 8V4H8 M6 8h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z M2 14h2 M20 14h2 M15 13v2 M9 13v2',
+      zap: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
+      plug: 'M12 22v-5 M9 8V2 M15 8V2 M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z',
+      bell: 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0',
+      arrowL: 'M19 12H5 M12 19l-7-7 7-7',
+      chevD: 'M6 9l6 6 6-6',
+      chevU: 'M18 15l-6-6-6 6',
+      check: 'M20 6L9 17l-5-5',
+      x: 'M18 6L6 18 M6 6l12 12',
+      plus: 'M12 5v14 M5 12h14',
+      hash: 'M4 9h16 M4 15h16 M10 3L8 21 M16 3l-2 18',
+      info: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 16v-4 M12 8h.01',
+      alert: 'M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01',
+      shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      sparkles: 'M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z M20 3v4 M22 5h-4 M4 17v2 M5 18H3',
+      headset: 'M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5z M3 11a9 9 0 0 1 18 0 M21 11v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z M21 16v2a4 4 0 0 1-4 4h-5',
+      history: 'M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8 M3 3v5h5 M12 7v5l4 2'
+    };
+  }
+
+  navGroups(active, ic) {
+    const mk = (label, d, href) => {
+      const on = label === active;
+      return {
+        label: label,
+        d: d,
+        href: href || '#',
+        current: on ? 'page' : undefined,
+        color: on ? '#16181D' : '#555C68',
+        bg: on ? '#FFFFFF' : 'transparent',
+        shadow: on ? '0 0 0 1px #E7EAF0, 0 1px 2px rgba(22,24,29,0.06)' : 'none'
+      };
+    };
+    return [
+      { has: false, label: '', items: [mk('Daily Brief', ic.brief), mk('Get started', ic.rocket)] },
+      { has: true, label: 'DISCOVER', items: [mk('Global Search', ic.search), mk('Website Visitors', ic.globe)] },
+      { has: true, label: 'QUALIFY', items: [mk('Prospects', ic.users), mk('Partners', ic.handshake)] },
+      { has: true, label: 'OUTREACH', items: [mk('Campaigns', ic.megaphone, 'Main.dc.html'), mk('Inbox', ic.inbox), mk('Dialer', ic.phone, 'LiveAssist.dc.html')] },
+      { has: true, label: 'CONVERSION', items: [mk('Account Intelligence', ic.building), mk('Opportunities', ic.briefcase)] },
+      { has: true, label: 'ORCHESTRATOR', items: [mk('Agents', ic.bot), mk('Personalization', ic.zap), mk('Connectors', ic.plug)] }
+    ];
+  }
+
+  // Numbers Twilio has for sale in this mock. All are fictional (555-01xx and the UK and Australian drama ranges).
+  inventory() {
+    const mk = (id, number, city, state, country, type, sms, mms, addr) => ({
+      id: id, number: number, digits: number.replace(/\D/g, ''), city: city, state: state, country: country,
+      type: type, sms: sms, mms: mms, addr: addr
+    });
+    return [
+      mk('us4150126', '+1 (415) 555 0126', 'San Francisco, CA', 'CA', 'US', 'local', true, true, 'none'),
+      mk('us4150184', '+1 (415) 555 0184', 'San Francisco, CA', 'CA', 'US', 'local', true, true, 'none'),
+      mk('us6280111', '+1 (628) 555 0111', 'San Francisco, CA', 'CA', 'US', 'local', true, false, 'none'),
+      mk('us5100173', '+1 (510) 555 0173', 'Oakland, CA', 'CA', 'US', 'local', true, true, 'none'),
+      mk('us2130149', '+1 (213) 555 0149', 'Los Angeles, CA', 'CA', 'US', 'local', true, true, 'none'),
+      mk('us2120162', '+1 (212) 555 0162', 'New York, NY', 'NY', 'US', 'local', true, true, 'none'),
+      mk('us6460105', '+1 (646) 555 0105', 'New York, NY', 'NY', 'US', 'local', true, false, 'none'),
+      mk('us6150190', '+1 (615) 555 0190', 'Nashville, TN', 'TN', 'US', 'local', true, true, 'none'),
+      mk('us5120138', '+1 (512) 555 0138', 'Austin, TX', 'TX', 'US', 'local', true, true, 'none'),
+      mk('us3120157', '+1 (312) 555 0157', 'Chicago, IL', 'IL', 'US', 'local', true, true, 'none'),
+      mk('us6170121', '+1 (617) 555 0121', 'Boston, MA', 'MA', 'US', 'local', true, true, 'none'),
+      mk('us2060166', '+1 (206) 555 0166', 'Seattle, WA', 'WA', 'US', 'local', true, true, 'none'),
+      mk('us8880143', '+1 (888) 555 0143', 'Toll-free', '', 'US', 'tollfree', true, false, 'none'),
+      mk('us8770170', '+1 (877) 555 0170', 'Toll-free', '', 'US', 'tollfree', true, false, 'none'),
+      mk('ca4160114', '+1 (416) 555 0114', 'Toronto, ON', '', 'CA', 'local', true, true, 'none'),
+      mk('ca6040188', '+1 (604) 555 0188', 'Vancouver, BC', '', 'CA', 'local', true, true, 'none'),
+      mk('gb2079460321', '+44 20 7946 0321', 'London', '', 'GB', 'local', false, false, 'local'),
+      mk('gb1614960456', '+44 161 496 0456', 'Manchester', '', 'GB', 'local', false, false, 'local'),
+      mk('sg60112268', '+65 6011 2268', 'Singapore', '', 'SG', 'local', false, false, 'local'),
+      mk('sg60112291', '+65 6011 2291', 'Singapore', '', 'SG', 'local', false, false, 'local'),
+      mk('au255500142', '+61 2 5550 0142', 'Sydney, NSW', '', 'AU', 'local', false, false, 'local'),
+      mk('au355500167', '+61 3 5550 0167', 'Melbourne, VIC', '', 'AU', 'local', false, false, 'local')
+    ];
+  }
+
+  componentWillUnmount() {
+    this.clearTimers();
+  }
+
+  clearTimers() {
+    if (this._t) { clearTimeout(this._t); this._t = null; }
+  }
+
+  renderVals() {
+    const s = this.state || {};
+    const p = this.props || {};
+    const ic = this.icons();
+    const inv = this.inventory();
+    const byId = {};
+    inv.forEach((x) => { byId[x.id] = x; });
+    const view = p.view || 'list';
+    const propBuy = view === 'buy';
+    const COUNTRY = { US: 'United States', CA: 'Canada', GB: 'United Kingdom', SG: 'Singapore', AU: 'Australia' };
+    const STATE = { CA: 'California', IL: 'Illinois', MA: 'Massachusetts', NY: 'New York', TN: 'Tennessee', TX: 'Texas', WA: 'Washington' };
+    const USE = { both: 'Autopilot and Live Assist', auto: 'Autopilot only', live: 'Live Assist only', none: 'Not connected' };
+
+    // ---- Your numbers
+    const uses = s.uses || {};
+    const released = s.released || [];
+    const added = s.added || (view === 'bought' ? [{ id: 'us4150126', use: 'both' }] : []);
+    const bannerId = s.banner !== undefined ? s.banner : (view === 'bought' ? 'us4150126' : null);
+    const confirmId = s.confirmId || null;
+    const q = s.q || '';
+    const qText = q.trim().toLowerCase();
+    const qDigits = q.replace(/\D/g, '');
+
+    const base = [
+      { id: 'nash', number: '+1 (615) 555 0142', city: 'Nashville, TN', country: 'United States · 37203', use: 'both', health: 'Healthy · 18% connect today', healthy: true, caps: ['Calls', 'SMS', 'MMS'], bought: 'Bought 12 Oct 2026', isNew: false },
+      { id: 'sf', number: '+1 (415) 555 0168', city: 'San Francisco, CA', country: 'United States · 94105', use: 'both', health: 'Healthy · 22% connect today', healthy: true, caps: ['Calls', 'SMS', 'MMS'], bought: 'Bought 3 Nov 2026', isNew: false },
+      { id: 'sg', number: '+65 6011 2240', city: 'Singapore', country: 'Singapore', use: 'none', health: 'No calls yet', healthy: false, caps: ['Calls'], bought: 'Bought 17 Nov 2026', isNew: false }
+    ];
+    const fromAdded = added.map((a) => {
+      const x = byId[a.id];
+      const caps = ['Calls'];
+      if (x.sms) caps.push('SMS');
+      if (x.mms) caps.push('MMS');
+      return { id: x.id, number: x.number, city: x.city, country: COUNTRY[x.country], use: a.use, health: 'New · no calls yet', healthy: false, caps: caps, bought: 'Bought just now', isNew: true };
+    });
+    const owned = fromAdded.concat(base).filter((r) => released.indexOf(r.id) === -1);
+    const withUse = owned.map((r) => Object.assign({}, r, { use: uses[r.id] !== undefined ? uses[r.id] : r.use }));
+    const shown = withUse.filter((r) => {
+      if (!qText) return true;
+      const hay = (r.city + ' ' + r.country + ' ' + USE[r.use]).toLowerCase();
+      return hay.indexOf(qText) !== -1 || (qDigits.length > 0 && r.number.replace(/\D/g, '').indexOf(qDigits) !== -1);
+    });
+    const rows = shown.map((r) => {
+      const autoOn = r.use === 'both' || r.use === 'auto';
+      const liveOn = r.use === 'both' || r.use === 'live';
+      let sub = 'Not making calls. Pick a mode to use it.';
+      let busy = '';
+      if (r.id === 'nash' && autoOn) { sub = 'Autopilot is calling from it now'; busy = 'Autopilot is calling from this number in Pricing-intent · Q4 follow-up. Pause that campaign or give it another number before you release this one.'; }
+      else if (r.id === 'sf' && liveOn) { sub = "On the Outbound team's Live Assist queue"; busy = "The Outbound team's Live Assist queue calls from this number. Give the queue another number before you release this one."; }
+      else if (r.use !== 'none') { sub = 'Shows in the Calling from list for ' + (r.use === 'both' ? 'both modes' : (autoOn ? 'Autopilot' : 'Live Assist')); }
+      const confirming = confirmId === r.id;
+      return Object.assign({}, r, {
+        sub: sub,
+        subColor: r.use === 'none' ? '#8A5A00' : '#555C68',
+        useBorder: r.use === 'none' ? '#E7CE8F' : '#E7EAF0',
+        useBg: r.use === 'none' ? '#FFFBF2' : '#FFFFFF',
+        healthFg: r.healthy ? '#1B6B45' : '#555C68',
+        healthDot: r.healthy ? '#1B6B45' : '#8A919D',
+        bg: confirming ? '#FAFBFC' : '#FFFFFF',
+        setUse: (e) => this.setState({ uses: Object.assign({}, uses, { [r.id]: e.target.value }) }),
+        askRelease: () => this.setState({ confirmId: r.id }),
+        cancelRelease: () => this.setState({ confirmId: null }),
+        release: () => this.setState({ released: released.concat([r.id]), confirmId: null, banner: bannerId === r.id ? null : bannerId }),
+        showBlocked: confirming && !!busy,
+        showConfirm: confirming && !busy,
+        blockedText: busy
+      });
+    });
+    const inUse = withUse.filter((r) => r.use !== 'none').length;
+    const idle = withUse.length - inUse;
+    const countries = {};
+    withUse.forEach((r) => { countries[r.country.split(' · ')[0]] = true; });
+    const nCountries = Object.keys(countries).length;
+    const gray = { bg: '#F1F3F6', fg: '#16181D' };
+    const chips = [
+      Object.assign({ label: withUse.length + (withUse.length === 1 ? ' number' : ' numbers') }, gray),
+      { label: inUse + ' in use', bg: '#E7F5EE', fg: '#1B6B45' },
+      idle > 0 ? { label: idle + ' not connected', bg: '#FBF3DF', fg: '#8A5A00' } : Object.assign({ label: '0 not connected' }, gray),
+      Object.assign({ label: nCountries + (nCountries === 1 ? ' country' : ' countries') }, gray)
+    ];
+    const bannerNum = bannerId && byId[bannerId] ? byId[bannerId] : null;
+    const bannerRow = bannerNum ? withUse.filter((r) => r.id === bannerNum.id)[0] : null;
+
+    // ---- Buy a number
+    const defaults = { country: 'US', type: 'local', state: 'any', city: '', area: '', contains: '', sms: false, mms: false, noAddr: false, beta: false, zip: '', miles: '', near: '', rate: '', lata: '' };
+    const f = Object.assign({}, defaults, propBuy ? { state: 'CA' } : {}, s.f || {});
+    const applied = s.applied !== undefined ? s.applied : (propBuy ? Object.assign({}, defaults, { state: 'CA' }) : null);
+    const search = s.search || (propBuy ? 'done' : 'idle');
+    const buyOpen = s.buyOpen !== undefined ? s.buyOpen : propBuy;
+    const buyUse = s.buyUse || 'both';
+    const buying = !!s.buying;
+    const advOpen = !!s.advOpen;
+    const keypad = (t) => String(t).toLowerCase().replace(/[abc]/g, '2').replace(/[def]/g, '3').replace(/[ghi]/g, '4').replace(/[jkl]/g, '5').replace(/[mno]/g, '6').replace(/[pqrs]/g, '7').replace(/[tuv]/g, '8').replace(/[wxyz]/g, '9').replace(/\D/g, '');
+    const ownedIds = withUse.map((r) => r.id);
+    const match = (flt) => {
+      const city = flt.city.trim().toLowerCase();
+      const area = flt.area.replace(/\D/g, '');
+      const has = keypad(flt.contains);
+      return inv.filter((x) => {
+        if (ownedIds.indexOf(x.id) !== -1) return false;
+        if (x.country !== flt.country || x.type !== flt.type) return false;
+        if (flt.country === 'US' && flt.type === 'local' && flt.state !== 'any' && x.state !== flt.state) return false;
+        if (city && x.city.toLowerCase().indexOf(city) === -1) return false;
+        const national = x.digits.slice(x.country === 'US' || x.country === 'CA' ? 1 : 2);
+        if (area && national.indexOf(area) !== 0) return false;
+        if (has && x.digits.indexOf(has) === -1) return false;
+        if (flt.sms && !x.sms) return false;
+        if (flt.mms && !x.mms) return false;
+        if (flt.noAddr && x.addr !== 'none') return false;
+        return true;
+      });
+    };
+    const found = search === 'done' && applied ? match(applied) : [];
+    const pickId = s.pick !== undefined ? s.pick : (propBuy ? 'us4150126' : null);
+    const picked = found.filter((x) => x.id === pickId)[0] || null;
+    const setF = (key) => (e) => this.setState({ f: Object.assign({}, f, { [key]: e.target.value }) });
+    const toggleF = (key) => () => this.setState({ f: Object.assign({}, f, { [key]: !f[key] }) });
+    const results = found.map((x) => {
+      const on = !!picked && picked.id === x.id;
+      const caps = ['VOICE'];
+      if (x.sms) caps.push('SMS');
+      if (x.mms) caps.push('MMS');
+      return {
+        number: x.number, place: x.city, caps: caps, on: on,
+        addr: x.addr === 'none' ? 'No address needed' : 'Local address needed',
+        addrColor: x.addr === 'none' ? '#555C68' : '#8A5A00',
+        bg: on ? '#F5F8FF' : '#FFFFFF', bar: on ? '#2E63E7' : 'transparent',
+        dotBorder: on ? '#2E63E7' : '#8A919D', dot: on ? '#2E63E7' : 'transparent',
+        pick: () => this.setState({ pick: x.id })
+      };
+    });
+    const stale = search === 'done' && !!applied && JSON.stringify(applied) !== JSON.stringify(f);
+    const box = (on) => ({ boxBorder: on ? '#2E63E7' : '#8A919D', boxBg: on ? '#2E63E7' : '#FFFFFF', checkD: ic.check });
+    const svc = (key, label, text, locked) => {
+      const on = locked ? true : !!f[key];
+      return Object.assign({
+        label: label, text: text, on: on, locked: locked ? 'true' : undefined,
+        border: on ? '#C9D9FB' : '#E7EAF0', bg: on ? '#F5F8FF' : '#FFFFFF',
+        cursor: locked ? 'default' : 'pointer',
+        toggle: locked ? () => {} : toggleF(key)
+      }, box(on));
+    };
+    let resultCaption = "Nothing searched yet";
+    if (search === 'loading') resultCaption = 'Searching…';
+    else if (search === 'done' && applied) {
+      const where = COUNTRY[applied.country] + (applied.country === 'US' && applied.type === 'local' && applied.state !== 'any' ? ' · ' + STATE[applied.state] : '') + (applied.type === 'tollfree' ? ' · toll-free' : '');
+      resultCaption = found.length + (found.length === 1 ? ' number in ' : ' numbers in ') + where;
+    }
+    const buyDisabled = !picked || buying;
+
+    return {
+      ic: ic,
+      navGroups: this.navGroups('Dialer', ic),
+      chips: chips,
+      q: q,
+      setQ: (e) => this.setState({ q: e.target.value }),
+      hasQ: !!qText,
+      clearQ: () => this.setState({ q: '' }),
+      rows: rows,
+      noRows: rows.length === 0,
+      noRowsText: withUse.length === 0 ? "You don't have any numbers yet. Buy one to start calling." : 'No number matches “' + q.trim() + '”.',
+      hasBanner: !!bannerRow,
+      banner: bannerRow
+        ? { title: bannerRow.number + ' is yours', text: 'Bought from Twilio just now · ' + bannerRow.city + ' · ' + (bannerRow.use === 'none' ? 'not connected yet, so pick a mode in the Used for column' : 'set for ' + USE[bannerRow.use]) }
+        : { title: '', text: '' },
+      dismissBanner: () => this.setState({ banner: null }),
+
+      buyOpen: buyOpen,
+      openBuy: () => { this.clearTimers(); this.setState({ buyOpen: true, f: {}, applied: null, search: 'idle', pick: null, buying: false, confirmId: null }); },
+      closeBuy: () => { this.clearTimers(); this.setState({ buyOpen: false, buying: false }); },
+      f: f,
+      setCountry: (e) => this.setState({ f: Object.assign({}, f, { country: e.target.value, state: 'any' }) }),
+      setType: setF('type'),
+      setRegion: setF('state'),
+      setCity: setF('city'),
+      setArea: setF('area'),
+      setContains: setF('contains'),
+      setZip: setF('zip'),
+      setMiles: setF('miles'),
+      setNear: setF('near'),
+      setRate: setF('rate'),
+      setLata: setF('lata'),
+      showState: f.country === 'US' && f.type === 'local',
+      services: [
+        svc('voice', 'Voice', 'Inbound and outbound calls. Always on.', true),
+        svc('sms', 'SMS', 'Text messages', false),
+        svc('mms', 'MMS', 'Picture messages', false)
+      ],
+      advOpen: advOpen,
+      toggleAdv: () => this.setState({ advOpen: !advOpen }),
+      advIcon: advOpen ? ic.chevU : ic.chevD,
+      advLabel: advOpen ? 'Hide advanced filters' : 'Advanced filters',
+      advChecks: [
+        Object.assign({ label: 'Only numbers that need no address', on: !!f.noAddr, toggle: toggleF('noAddr') }, box(!!f.noAddr)),
+        Object.assign({ label: 'Include beta numbers', on: !!f.beta, toggle: toggleF('beta') }, box(!!f.beta))
+      ],
+      runSearch: () => {
+        this.clearTimers();
+        const snap = Object.assign({}, f);
+        this.setState({ search: 'loading', pick: null });
+        this._t = setTimeout(() => this.setState({ search: 'done', applied: snap }), 700);
+      },
+      resetFilters: () => { this.clearTimers(); this.setState({ f: {}, applied: null, search: 'idle', pick: null }); },
+      searchLabel: search === 'loading' ? 'Searching…' : (search === 'done' ? 'Search again' : 'Search numbers'),
+      isIdle: search === 'idle',
+      isLoading: search === 'loading',
+      isStale: stale,
+      hasResults: search === 'done' && results.length > 0,
+      noResults: search === 'done' && results.length === 0,
+      results: results,
+      resultCaption: resultCaption,
+      pickTitle: picked ? picked.number + ' · ' + picked.city : 'Select a number to continue',
+      pickSub: picked
+        ? (picked.addr === 'none' ? 'No address needed.' : 'Needs a local address on file before it can make calls.')
+        : 'You can change what a number is used for at any time.',
+      buyUse: buyUse,
+      setBuyUse: (e) => this.setState({ buyUse: e.target.value }),
+      buyDisabled: buyDisabled,
+      buyBtn: buyDisabled ? { bg: '#E7EAF0', fg: '#646B77', cursor: 'not-allowed' } : { bg: '#1C1F26', fg: '#FFFFFF', cursor: 'pointer' },
+      buyLabel: buying ? 'Buying…' : 'Buy this number',
+      buy: () => {
+        if (buyDisabled) return;
+        this.clearTimers();
+        const id = picked.id;
+        this.setState({ buying: true });
+        this._t = setTimeout(() => this.setState({
+          buying: false, buyOpen: false, banner: id,
+          added: [{ id: id, use: buyUse }].concat(added),
+          applied: null, search: 'idle', pick: null, q: ''
+        }), 900);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

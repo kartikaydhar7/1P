@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dialer — Call history</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap; background: #F6F7F9; font-family: Manrope, 'Segoe UI', system-ui, -apple-system, sans-serif; color: #16181D; font-size: 13px; font-weight: 500; line-height: 1.45">
+
+<nav aria-label="Main" style="flex: 1 1 190px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; padding: 10px 8px 12px; background: #F8F9FB; border-right: 1px solid #E7EAF0">
+<div style="display: flex; align-items: center; gap: 8px; padding: 2px 6px 6px">
+<img src="/_blob/f3ef3dd45903c0199d6a4165ce97d877" alt="" style="width: 24px; height: 24px; display: block">
+<span style="font-size: 14px; font-weight: 800; letter-spacing: -0.01em">Sprouts.ai</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 2px 12px">
+<sc-for list="{{ navGroups }}" as="g" hint-placeholder-count="6">
+<div style="flex: 1 1 160px; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<sc-if value="{{ g.has }}" hint-placeholder-val="{{ true }}">
+<div style="padding: 10px 8px 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; color: #646B77">{{ g.label }}</div>
+</sc-if>
+<sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+<a href="{{ it.href }}" aria-current="{{ it.current }}" style="display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; font-size: 12.5px; font-weight: 600; text-decoration: none; color: {{ it.color }}; background: {{ it.bg }}; box-shadow: {{ it.shadow }}">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ it.d }}"></path></svg>
+<span>{{ it.label }}</span>
+</a>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 2px; padding-top: 14px">
+<a href="#" style="display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px; background: #EBF1FE; color: #1D46A8; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<span aria-hidden="true" style="width: 15px; height: 15px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #A9C6FF 0%, #2E63E7 55%, #1D46A8 100%)"></span>
+<span>Savant</span>
+<span style="margin-left: auto; font-size: 11px; font-weight: 600">⌘K</span>
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 600; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.bell }}"></path></svg>
+<span>Notifications</span>
+</a>
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 0; margin-top: 6px; border-top: 1px solid #E7EAF0">
+<span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 50%; background: #DDE5F5; color: #1D46A8; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center">DC</span>
+<span style="font-size: 12.5px; font-weight: 600">Dharam C.</span>
+</div>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 20px; background: #FFFFFF; border-bottom: 1px solid #E7EAF0">
+<div style="flex: 1 1 280px; min-width: 0">
+<h1 style="margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.015em">Dialer</h1>
+<p style="margin: 2px 0 0; font-size: 12px; color: #555C68">Every call from both modes, with its recording, transcript, outcome and any meeting.</p>
+</div>
+<div role="tablist" aria-label="Dialer mode" style="display: inline-flex; gap: 2px; padding: 3px; border-radius: 11px; background: #F1F3F6; border: 1px solid #E7EAF0">
+<a href="LiveAssist.dc.html" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.headset }}"></path></svg>
+<span>Live Assist</span>
+<span style="padding: 0 6px; border-radius: 5px; background: #E7EAF0; color: #555C68; font-size: 11px; font-weight: 700">4 due</span>
+</a>
+<a href="Autopilot.dc.html" role="tab" aria-selected="false" style="display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; color: #555C68; font-size: 12.5px; font-weight: 700; text-decoration: none">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg>
+<span>Autopilot</span>
+<span style="padding: 0 6px; border-radius: 5px; background: #E7EAF0; color: #555C68; font-size: 11px; font-weight: 700">1 running</span>
+</a>
+<span role="tab" aria-selected="true" style="display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 8px; background: #FFFFFF; color: #16181D; font-size: 12.5px; font-weight: 700; box-shadow: 0 0 0 1px #E7EAF0, 0 1px 2px rgba(22,24,29,0.08)">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.history }}"></path></svg>
+<span>Call history</span>
+</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<a href="PhoneNumbers.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #16181D; text-decoration: none">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.hash }}"></path></svg>
+<span>Phone numbers</span>
+</a>
+<a href="CallingRules.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #16181D; text-decoration: none">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.shield }}"></path></svg>
+<span>Calling rules</span>
+</a>
+</div>
+</header>
+
+<div style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 12px; padding: 14px 20px 20px">
+
+<section aria-label="Filters" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px">
+<div role="radiogroup" aria-label="Mode" style="display: inline-flex; gap: 2px; padding: 3px; border-radius: 10px; background: #F1F3F6">
+<sc-for list="{{ modeFilters }}" as="mf" hint-placeholder-count="3">
+<button type="button" role="radio" aria-checked="{{ mf.on }}" onClick="{{ mf.pick }}" style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 11px; border: 0; border-radius: 7px; background: {{ mf.bg }}; box-shadow: {{ mf.shadow }}; color: {{ mf.fg }}; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer">
+<span>{{ mf.label }}</span>
+<span style="font-weight: 600; color: #646B77">{{ mf.count }}</span>
+</button>
+</sc-for>
+</div>
+<span style="position: relative; display: inline-block">
+<select aria-label="Outcome" value="{{ outcomeSel }}" onChange="{{ setOutcome }}" style="height: 34px; box-sizing: border-box; padding: 0 28px 0 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer; appearance: none">
+<option value="all">All outcomes</option>
+<option value="Meeting booked">Meeting booked</option>
+<option value="Interested, follow up">Interested, follow up</option>
+<option value="Not interested">Not interested</option>
+<option value="Asked not to be called">Asked not to be called</option>
+<option value="Call not answered">Call not answered</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<span style="position: relative; display: inline-block">
+<select aria-label="Campaign" value="{{ campaignSel }}" onChange="{{ setCampaign }}" style="height: 34px; box-sizing: border-box; padding: 0 28px 0 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer; appearance: none">
+<option value="all">All campaigns</option>
+<option value="Pricing-intent · Q4 follow-up">Pricing-intent · Q4 follow-up</option>
+<option value="Logistics outbound · APAC">Logistics outbound · APAC</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<span style="position: relative; display: inline-block">
+<select aria-label="Period" value="{{ periodSel }}" onChange="{{ setPeriod }}" style="height: 34px; box-sizing: border-box; padding: 0 28px 0 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer; appearance: none">
+<option value="day">Last 24 hours</option>
+<option value="week">Last 7 days</option>
+<option value="month">Last 30 days</option>
+</select>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 9px; top: 50%; margin-top: -6px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<label style="flex: 1 1 200px; min-width: 0; margin-left: auto; max-width: 300px; display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 10px; box-sizing: border-box; border-radius: 9px; background: #F6F7F9; border: 1px solid #EEF0F4; color: #646B77">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.search }}"></path></svg>
+<input type="search" value="{{ query }}" onChange="{{ setQuery }}" placeholder="Search a contact or company" aria-label="Search a contact or company" style="flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; font-size: 12px; color: #16181D; outline: none">
+</label>
+</section>
+
+<section aria-label="Calls" style="background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #EEF0F4">
+<h2 style="margin: 0; font-size: 13.5px; font-weight: 800">{{ tableTitle }}</h2>
+<span style="font-size: 12px; color: #646B77">Latest first · times in your time zone (IST) · open a call for its record</span>
+</div>
+<div style="overflow-x: auto">
+<div role="table" aria-label="Call history" style="min-width: 900px">
+<div role="row" style="display: grid; grid-template-columns: minmax(170px, 1.7fr) 112px minmax(160px, 1.4fr) 62px minmax(100px, 0.9fr) minmax(170px, 1.5fr) minmax(130px, 1fr); gap: 12px; padding: 8px 16px; font-size: 11px; font-weight: 800; letter-spacing: 0.04em; color: #646B77; background: #FAFBFC; border-bottom: 1px solid #EEF0F4">
+<span role="columnheader">CONTACT</span><span role="columnheader">MODE</span><span role="columnheader">OUTCOME</span><span role="columnheader">LENGTH</span><span role="columnheader">CALLED BY</span><span role="columnheader">CAMPAIGN</span><span role="columnheader">WHEN</span>
+</div>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="9">
+<button type="button" role="row" onClick="{{ r.open }}" style="width: 100%; display: grid; grid-template-columns: minmax(170px, 1.7fr) 112px minmax(160px, 1.4fr) 62px minmax(100px, 0.9fr) minmax(170px, 1.5fr) minmax(130px, 1fr); gap: 12px; align-items: center; min-height: 48px; padding: 8px 16px; border: 0; border-bottom: 1px solid #EEF0F4; background: {{ r.bg }}; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<span role="cell" style="min-width: 0; display: flex; flex-direction: column"><span style="font-size: 12.5px; font-weight: 700">{{ r.name }}</span><span style="font-size: 11.5px; color: #555C68">{{ r.company }}</span></span>
+<span role="cell"><span style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: {{ r.modeFg }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ r.modeIcon }}"></path></svg>{{ r.modeLabel }}</span></span>
+<span role="cell"><span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 800; background: {{ r.tone.bg }}; color: {{ r.tone.fg }}"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: currentColor"></span>{{ r.outcome }}</span></span>
+<span role="cell" style="font-size: 12px; font-variant-numeric: tabular-nums; color: #555C68">{{ r.duration }}</span>
+<span role="cell" style="font-size: 12px; min-width: 0">{{ r.by }}</span>
+<span role="cell" style="font-size: 12px; color: #555C68; min-width: 0">{{ r.campaign }}</span>
+<span role="cell" style="font-size: 12px; color: #555C68">{{ r.when }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 18px 16px; border-bottom: 1px solid #EEF0F4; font-size: 12.5px; color: #555C68">
+<span>No calls match these filters.</span>
+<button type="button" onClick="{{ clearFilters }}" style="min-height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer">Clear filters</button>
+</div>
+</sc-if>
+<div style="padding: 10px 16px; font-size: 12px; color: #646B77">{{ footNote }}</div>
+</section>
+</div>
+</main>
+
+<sc-if value="{{ hasRec }}" hint-placeholder-val="{{ false }}">
+<button type="button" aria-label="Close call record" onClick="{{ closeRec }}" style="position: fixed; inset: 0; z-index: 30; border: 0; padding: 0; margin: 0; background: rgba(22, 24, 29, 0.24); cursor: default"></button>
+<aside role="dialog" aria-modal="true" aria-labelledby="rec-title" style="position: fixed; top: 0; right: 0; bottom: 0; z-index: 31; width: 500px; max-width: 100%; box-sizing: border-box; background: #FFFFFF; box-shadow: -24px 0 64px rgba(22,24,29,0.18); display: flex; flex-direction: column">
+<div style="display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px 14px; border-bottom: 1px solid #EEF0F4">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; background: #EBF1FE; color: #1D46A8; border: 1px solid #C9D9FB; box-sizing: border-box; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center">{{ rec.initials }}</span>
+<div style="flex: 1; min-width: 0">
+<h2 id="rec-title" style="margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -0.01em">{{ rec.name }}</h2>
+<div style="font-size: 12px; color: #555C68">{{ rec.role }}</div>
+<div style="font-size: 12px; color: #555C68; font-variant-numeric: tabular-nums">{{ rec.number }}</div>
+</div>
+<button type="button" onClick="{{ closeRec }}" aria-label="Close" style="width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #555C68; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.x }}"></path></svg></button>
+</div>
+
+<div style="flex: 1 1 auto; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<span style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 7px; font-size: 12px; font-weight: 800; background: {{ rec.tone.bg }}; color: {{ rec.tone.fg }}"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: currentColor"></span>{{ rec.outcome }}</span>
+<span style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 7px; background: #F1F3F6; font-size: 12px; font-weight: 700; color: #16181D"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ rec.modeIcon }}"></path></svg>{{ rec.modeLabel }}</span>
+</div>
+<div style="font-size: 12px; color: #555C68">{{ rec.meta }}</div>
+
+<sc-if value="{{ rec.hasMeeting }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid #BFE3CF; background: #F3FAF6">
+<span aria-hidden="true" style="width: 32px; height: 32px; flex: 0 0 32px; border-radius: 9px; background: #FFFFFF; color: #1B6B45; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 1px #BFE3CF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.calCheck }}"></path></svg></span>
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 13px; font-weight: 800">{{ rec.meeting.title }}</div>
+<div style="font-size: 12.5px; font-weight: 700">{{ rec.meeting.time }}</div>
+<div style="font-size: 12px; color: #555C68">{{ rec.meeting.invite }}</div>
+<div style="font-size: 12px; color: #555C68">{{ rec.meeting.calendar }}</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ rec.hasFollow }}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 4px 12px; padding: 10px 12px; border-radius: 10px; background: #F5F8FF; border: 1px solid #DCE6FB; font-size: 12.5px">
+<span style="color: #555C68">Follow up on</span><span style="font-weight: 700">{{ rec.follow.date }}</span>
+<span style="color: #555C68">Next step</span><span style="font-weight: 700">{{ rec.follow.step }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ rec.hasNote }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; background: {{ rec.noteBg }}; font-size: 12.5px; color: #16181D">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 15px; margin-top: 2px"><path d="{{ ic.info }}"></path></svg>
+<span>{{ rec.note }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ rec.hasBdrNotes }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">NOTES FROM {{ rec.byUpper }}</span>
+<div style="font-size: 12.5px; line-height: 1.5">{{ rec.bdrNotes }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ rec.hasWhisper }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">WHAT WHISPER SHOWED</span>
+<sc-for list="{{ rec.whisper }}" as="wh" hint-placeholder-count="2">
+<div style="display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E63E7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 14px; margin-top: 2px"><path d="{{ wh.icon }}"></path></svg><span><strong style="font-weight: 700">{{ wh.kind }}</strong> {{ wh.text }}</span></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ rec.hasAudio }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">RECORDING</span>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid #E7EAF0">
+<button type="button" aria-label="{{ playLabel }}" onClick="{{ togglePlay }}" style="width: 36px; height: 36px; flex: 0 0 36px; border: 0; border-radius: 50%; background: #1C1F26; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ playIcon }}"></path></svg></button>
+<div aria-hidden="true" style="flex: 1; min-width: 0; height: 32px; display: flex; align-items: center; gap: 2px; overflow: hidden">
+<sc-for list="{{ wave }}" as="w" hint-placeholder-count="40">
+<span style="flex: 1 1 0; min-width: 2px; max-width: 4px; height: {{ w.h }}px; border-radius: 2px; background: {{ w.bg }}"></span>
+</sc-for>
+</div>
+<span style="font-size: 11.5px; font-weight: 700; color: #555C68; font-variant-numeric: tabular-nums; white-space: nowrap">{{ playClock }} / {{ rec.duration }}</span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ rec.hasLines }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">TRANSCRIPT</span>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{ rec.lines }}" as="ln" hint-placeholder-count="4">
+<li style="display: flex; flex-direction: column; gap: 2px">
+<span style="display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800; color: {{ ln.color }}">{{ ln.who }}<span style="font-weight: 600; color: #646B77; font-variant-numeric: tabular-nums">{{ ln.t }}</span></span>
+<span style="font-size: 12.5px; line-height: 1.5">{{ ln.text }}</span>
+</li>
+</sc-for>
+</ol>
+</div>
+</sc-if>
+</div>
+
+<div style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-top: 1px solid #EEF0F4; font-size: 11.5px; color: #555C68">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B6B45" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.check }}"></path></svg>
+<span>{{ rec.saved }}</span>
+</div>
+</aside>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"record":{"editor":"enum","options":["none","karthik","hannah","owen","lena","tomas","alex","jennifer","aditi","lukas"],"default":"none"},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  icons() {
+    return {
+      brief: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18',
+      rocket: 'M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0 M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5',
+      search: 'M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0z M21 21l-4.3-4.3',
+      globe: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20 M2 12h20',
+      users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+      handshake: 'M11 17l2 2a1 1 0 1 0 3-3 M14 14l2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4 M21 3l1 11h-2 M3 3L2 14l6.5 6.5a1 1 0 1 0 3-3 M3 4h8',
+      megaphone: 'M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14 M8 6v8',
+      inbox: 'M22 12h-6l-2 3h-4l-2-3H2 M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z',
+      phone: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z',
+      building: 'M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18z M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2 M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2 M10 6h4 M10 10h4 M10 14h4 M10 18h4',
+      briefcase: 'M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16 M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z',
+      bot: 'M12 8V4H8 M6 8h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z M2 14h2 M20 14h2 M15 13v2 M9 13v2',
+      zap: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
+      plug: 'M12 22v-5 M9 8V2 M15 8V2 M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z',
+      bell: 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0',
+      chevD: 'M6 9l6 6 6-6',
+      check: 'M20 6L9 17l-5-5',
+      x: 'M18 6L6 18 M6 6l12 12',
+      shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      info: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z M12 16v-4 M12 8h.01',
+      calCheck: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18 M9 16l2 2 4-4',
+      sparkles: 'M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z M20 3v4 M22 5h-4 M4 17v2 M5 18H3',
+      headset: 'M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5z M3 11a9 9 0 0 1 18 0 M21 11v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z M21 16v2a4 4 0 0 1-4 4h-5',
+      history: 'M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8 M3 3v5h5 M12 7v5l4 2',
+      hash: 'M4 9h16 M4 15h16 M10 3L8 21 M16 3l-2 18',
+      pause: 'M10 4H6v16h4V4z M18 4h-4v16h4V4z',
+      messageQ: 'M7.9 20A9 9 0 1 0 4 16.1L2 22z M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3 M12 17h.01',
+      ear: 'M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0 M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4',
+      play: 'M6 3l14 9-14 9V3z'
+    };
+  }
+
+  navGroups(active, ic) {
+    const mk = (label, d, href) => {
+      const on = label === active;
+      return {
+        label: label,
+        d: d,
+        href: href || '#',
+        current: on ? 'page' : undefined,
+        color: on ? '#16181D' : '#555C68',
+        bg: on ? '#FFFFFF' : 'transparent',
+        shadow: on ? '0 0 0 1px #E7EAF0, 0 1px 2px rgba(22,24,29,0.06)' : 'none'
+      };
+    };
+    return [
+      { has: false, label: '', items: [mk('Daily Brief', ic.brief), mk('Get started', ic.rocket)] },
+      { has: true, label: 'DISCOVER', items: [mk('Global Search', ic.search), mk('Website Visitors', ic.globe)] },
+      { has: true, label: 'QUALIFY', items: [mk('Prospects', ic.users), mk('Partners', ic.handshake)] },
+      { has: true, label: 'OUTREACH', items: [mk('Campaigns', ic.megaphone, 'Main.dc.html'), mk('Inbox', ic.inbox), mk('Dialer', ic.phone, 'LiveAssist.dc.html')] },
+      { has: true, label: 'CONVERSION', items: [mk('Account Intelligence', ic.building), mk('Opportunities', ic.briefcase)] },
+      { has: true, label: 'ORCHESTRATOR', items: [mk('Agents', ic.bot), mk('Personalization', ic.zap), mk('Connectors', ic.plug)] }
+    ];
+  }
+
+  records() {
+    const ic = this.icons();
+    const green = { bg: '#E7F5EE', fg: '#1B6B45' };
+    const blue = { bg: '#EBF1FE', fg: '#1D46A8' };
+    const gray = { bg: '#F1F3F6', fg: '#555C68' };
+    const red = { bg: '#FDEEEC', fg: '#B42318' };
+    const amber = { bg: '#FBF3DF', fg: '#8A5A00' };
+    const Q4 = 'Pricing-intent · Q4 follow-up';
+    const ai = (t, text) => ({ who: 'Ridge (AI)', color: '#1D46A8', t: t, text: text });
+    const you = (who, t, text) => ({ who: who, color: '#1D46A8', t: t, text: text });
+    const them = (who, t, text) => ({ who: who, color: '#16181D', t: t, text: text });
+    const base = { hasMeeting: false, meeting: {}, hasFollow: false, follow: {}, hasNote: false, note: '', noteBg: '#F5F8FF', hasBdrNotes: false, bdrNotes: '', hasWhisper: false, whisper: [], hasAudio: true, hasLines: true, lines: [] };
+    const mk = (o) => Object.assign({}, base, o);
+    return {
+      owen: mk({
+        name: 'Owen Wright', initials: 'OW', company: 'Twilio', role: 'Head of Revenue Operations · Twilio', number: '+1 (415) 555 0177 · San Francisco',
+        mode: 'autopilot', by: 'Ridge (AI)', campaign: Q4, outcome: 'Meeting booked', tone: green, duration: '4:12', when: 'Mon 23 Nov, 11:30 PM',
+        hasMeeting: true,
+        meeting: { title: 'Intro: Sprouts and Twilio', time: 'Wed 25 Nov · 10:30–11:00 AM PT', invite: 'Invite sent to owen.wright@twilio.com, confirmed on the call', calendar: 'On dharam@sprouts.ai · Google Calendar' },
+        lines: [
+          ai('0:00', 'Hi Owen, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?'),
+          them('Owen', '0:05', "Sure, what's this about?"),
+          ai('0:08', 'Your team looked at our pricing page twice last week. Would a 30-minute walkthrough with a Sprouts specialist be useful?'),
+          them('Owen', '0:16', 'Maybe. Does it work with Salesforce?'),
+          ai('0:20', 'Yes. Sprouts works inside Salesforce and Dynamics 365.'),
+          them('Owen', '3:41', 'Okay. Wednesday morning works for me.'),
+          ai('3:46', 'Wednesday 25 November at 10:30 AM Pacific, and I will send the invite to owen.wright@twilio.com. Is that right?'),
+          them('Owen', '3:55', "Yes, that's right."),
+          ai('3:58', 'Booked. The invite is on its way. Thanks, Owen.')
+        ],
+        saved: 'On Owen’s activity: recording, transcript, outcome and meeting'
+      }),
+      jennifer: mk({
+        name: 'Jennifer Lee', initials: 'JL', company: 'Robinhood', role: 'VP Sales Development · Robinhood', number: '+1 (650) 555 0134 · Menlo Park',
+        mode: 'autopilot', by: 'Ridge (AI)', campaign: Q4, outcome: 'Call not answered', tone: amber, duration: '—', when: 'Mon 23 Nov, 11:24 PM',
+        hasNote: true, noteBg: '#FBF3DF', note: 'Nobody picked up. Status set to Call not answered and the next contact was called.',
+        hasAudio: false, hasLines: false,
+        saved: 'On Jennifer’s activity: outcome'
+      }),
+      lena: mk({
+        name: 'Lena Ortiz', initials: 'LO', company: 'Mercury', role: 'Sales Ops Manager · Mercury', number: '+1 (415) 555 0193 · San Francisco',
+        mode: 'autopilot', by: 'Ridge (AI)', campaign: Q4, outcome: 'Asked not to be called', tone: red, duration: '0:14', when: 'Mon 23 Nov, 11:18 PM',
+        hasNote: true, noteBg: '#FDEEEC', note: 'Added to the Sprouts DNC list. Lena won’t be called again in either mode.',
+        lines: [
+          ai('0:00', 'Hi Lena, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?'),
+          them('Lena', '0:05', 'No. Please take me off your list.'),
+          ai('0:09', "Understood. I've noted that you don't want to be called again. Have a good day.")
+        ],
+        saved: 'On Lena’s activity: recording, transcript and outcome'
+      }),
+      tomas: mk({
+        name: 'Tomás Rivera', initials: 'TR', company: 'HighRadius', role: 'Director, Sales Ops · HighRadius', number: '+1 (832) 555 0163 · Houston',
+        mode: 'autopilot', by: 'Ridge (AI)', campaign: Q4, outcome: 'Interested, follow up', tone: blue, duration: '3:05', when: 'Mon 23 Nov, 11:11 PM',
+        hasFollow: true, follow: { date: 'Today', step: 'A specialist emails pricing for 40 seats' },
+        lines: [
+          ai('0:00', 'Hi Tomás, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?'),
+          them('Tomás', '0:06', 'A quick one, yes.'),
+          ai('0:09', 'Your team looked at our pricing page last week. Would a 30-minute walkthrough be useful?'),
+          them('Tomás', '2:40', 'Not yet. Send me pricing for 40 seats and I will look at it this week.'),
+          ai('2:48', "I don't have a 40-seat quote on hand, so a specialist will email it to you today. Thanks, Tomás.")
+        ],
+        saved: 'On Tomás’s activity: recording, transcript and outcome'
+      }),
+      alex: mk({
+        name: 'Alex Nakamura', initials: 'AN', company: 'SoFi', role: 'RevOps Lead · SoFi', number: '+1 (415) 555 0156 · San Francisco',
+        mode: 'autopilot', by: 'Ridge (AI)', campaign: Q4, outcome: 'Not interested', tone: gray, duration: '1:12', when: 'Mon 23 Nov, 11:04 PM',
+        lines: [
+          ai('0:00', 'Hi Alex, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?'),
+          them('Alex', '0:05', 'Go ahead.'),
+          ai('0:08', 'Your team looked at our pricing page last week. Would a 30-minute walkthrough be useful?'),
+          them('Alex', '0:58', 'We just renewed with another vendor, so not this year.'),
+          ai('1:03', 'Thanks for letting me know, Alex. Have a good day.')
+        ],
+        saved: 'On Alex’s activity: recording, transcript and outcome'
+      }),
+      lukas: mk({
+        name: 'Lukas Becker', initials: 'LB', company: 'Nordwerk Logistik', role: 'Head of RevOps · Nordwerk Logistik', number: '+49 89 4410 2275 · Munich',
+        mode: 'live', by: 'Dharam C.', campaign: Q4, outcome: 'Call not answered', tone: amber, duration: '—', when: 'Mon 23 Nov, 3:44 PM',
+        hasNote: true, noteBg: '#FBF3DF', note: 'Nobody picked up. Status set to Call not answered and the queue moved to the next contact.',
+        hasAudio: false, hasLines: false,
+        saved: 'On Lukas’s activity: outcome'
+      }),
+      karthik: mk({
+        name: 'Karthik Iyer', initials: 'KI', company: 'Freshworks', role: 'Head of Sales Ops · Freshworks', number: '+91 99001 45872 · Chennai',
+        mode: 'live', by: 'Dharam C.', campaign: Q4, outcome: 'Interested, follow up', tone: blue, duration: '4:18', when: 'Mon 23 Nov, 3:38 PM',
+        hasFollow: true, follow: { date: 'Mon 30 Nov', step: 'Send a sample match on their accounts' },
+        hasBdrNotes: true, bdrNotes: '3 data tools; ZoomInfo is the main one. Weak on Indian mobile numbers. Wants a sample match before a meeting.',
+        hasWhisper: true,
+        whisper: [
+          { icon: ic.messageQ, kind: 'Answer:', text: '“How do you handle Indian mobile numbers?” · from Approved answers, Data coverage' },
+          { icon: ic.ear, kind: 'Talking point:', text: 'heard “ZoomInfo” and showed the ZoomInfo objection' }
+        ],
+        lines: [
+          them('Karthik', '0:00', 'Hello, Karthik speaking.'),
+          you('Dharam', '0:03', "Hi Karthik, it's Dharam from Sprouts. I'll be quick: your team looked at our pricing page last week. Do you have two minutes?"),
+          them('Karthik', '0:11', 'Sure, go ahead.'),
+          you('Dharam', '0:14', 'How many tools feed your CRM today, and who fixes it when they disagree?'),
+          them('Karthik', '0:22', 'Three, I think. We already use ZoomInfo for most of it.'),
+          you('Dharam', '0:29', 'Most teams keep it. We fill what it misses and verify every record before it writes to the CRM.'),
+          them('Karthik', '1:02', "How do you handle Indian mobile numbers? That's where we're weakest."),
+          you('Dharam', '1:09', 'Every number is checked across our data partners and verified before it reaches the CRM. I can run a sample match on your accounts.'),
+          them('Karthik', '1:20', 'That would help.'),
+          you('Dharam', '3:48', 'Would a 30-minute walkthrough on Thursday or Friday work?'),
+          them('Karthik', '3:55', "Send the sample match first, then let's talk next week.")
+        ],
+        saved: 'On Karthik’s activity: recording, transcript, outcome and notes'
+      }),
+      aditi: mk({
+        name: 'Aditi Rao', initials: 'AR', company: 'Razorpay', role: 'VP RevOps · Razorpay', number: '+91 98450 22190 · Bengaluru',
+        mode: 'live', by: 'Dharam C.', campaign: Q4, outcome: 'Call not answered', tone: amber, duration: '—', when: 'Mon 23 Nov, 3:33 PM',
+        hasNote: true, noteBg: '#FBF3DF', note: 'Nobody picked up. Status set to Call not answered and the queue moved to the next contact.',
+        hasAudio: false, hasLines: false,
+        saved: 'On Aditi’s activity: outcome'
+      }),
+      hannah: mk({
+        name: 'Hannah Brooks', initials: 'HB', company: 'Northwind Freight', role: 'Head of Sales Ops · Northwind Freight', number: '+65 8123 4410 · Singapore',
+        mode: 'live', by: 'Arjun M.', campaign: 'Logistics outbound · APAC', outcome: 'Meeting booked', tone: green, duration: '6:47', when: 'Fri 20 Nov, 12:40 PM',
+        hasMeeting: true,
+        meeting: { title: 'Intro: Sprouts and Northwind Freight', time: 'Thu 26 Nov · 11:00–11:30 AM SGT', invite: 'Invite sent to hannah.brooks@northwind.example', calendar: 'On arjun@sprouts.ai · Google Calendar · picked by Arjun at wrap-up' },
+        hasBdrNotes: true, bdrNotes: 'Two data vendors today. Wants APAC coverage numbers in the meeting.',
+        hasWhisper: true,
+        whisper: [{ icon: ic.messageQ, kind: 'Answer:', text: '“Which countries do you cover in APAC?” · from Approved answers, Data coverage' }],
+        lines: [
+          them('Hannah', '0:00', 'Hannah Brooks.'),
+          you('Arjun', '0:02', "Hi Hannah, it's Arjun from Sprouts. Your team downloaded our logistics data guide. Do you have two minutes?"),
+          them('Hannah', '0:10', 'Two minutes, yes. Which countries do you cover in APAC?'),
+          you('Arjun', '0:16', 'I would rather show you than guess. Can I bring the exact coverage numbers for your markets to a 30-minute walkthrough?'),
+          them('Hannah', '6:20', 'Fine. Thursday late morning works.'),
+          you('Arjun', '6:26', 'Thursday at 11:00 AM your time. I will send the invite to your work email now.')
+        ],
+        saved: 'On Hannah’s activity: recording, transcript, outcome, notes and meeting'
+      })
+    };
+  }
+
+  renderVals() {
+    const s = this.state || {};
+    const p = this.props || {};
+    const ic = this.icons();
+    const recs = this.records();
+    const fromProp = p.record && p.record !== 'none' ? p.record : null;
+    const recId = s.rec !== undefined ? s.rec : fromProp;
+    const filter = s.filter || 'all';
+    const order = ['owen', 'jennifer', 'lena', 'tomas', 'alex', 'lukas', 'karthik', 'aditi', 'hannah'];
+    const decorate = (id) => {
+      const r = recs[id];
+      const live = r.mode === 'live';
+      return Object.assign({}, r, {
+        id: id,
+        modeLabel: live ? 'Live Assist' : 'Autopilot',
+        modeIcon: live ? ic.headset : ic.sparkles,
+        modeFg: live ? '#16181D' : '#1D46A8',
+        byUpper: String(r.by).toUpperCase(),
+        meta: (r.duration === '—' ? '' : r.duration + ' · ') + r.when + ' · called by ' + r.by + ' · ' + r.campaign
+      });
+    };
+    const all = order.map(decorate);
+    const outcomeSel = s.outcomeSel || 'all';
+    const campaignSel = s.campaignSel || 'all';
+    const periodSel = s.periodSel || 'week';
+    const query = s.query || '';
+    const q = query.trim().toLowerCase();
+    const stopPlay = () => { if (this._pv) { clearInterval(this._pv); this._pv = null; } };
+    const inScope = all.filter((r) =>
+      (outcomeSel === 'all' || r.outcome === outcomeSel) &&
+      (campaignSel === 'all' || r.campaign === campaignSel) &&
+      (periodSel !== 'day' || r.when.indexOf('Mon 23 Nov') === 0) &&
+      (!q || (r.name + ' ' + r.company).toLowerCase().indexOf(q) !== -1));
+    const shown = inScope.filter((r) => filter === 'all' || r.mode === filter);
+    const rows = shown.map((r) => Object.assign({}, r, {
+      bg: r.id === recId ? '#F5F8FF' : '#FFFFFF',
+      open: () => { stopPlay(); this.setState({ rec: r.id, playing: false, playAt: 0 }); }
+    }));
+    const count = (m) => String(inScope.filter((r) => m === 'all' || r.mode === m).length);
+    const periodText = { day: 'the last 24 hours', week: 'the last 7 days', month: 'the last 30 days' };
+    const mkFilter = (key, label) => {
+      const on = filter === key;
+      return {
+        label: label, count: count(key), on: on,
+        bg: on ? '#FFFFFF' : 'transparent',
+        shadow: on ? '0 0 0 1px #E7EAF0, 0 1px 2px rgba(22,24,29,0.08)' : 'none',
+        fg: on ? '#16181D' : '#555C68',
+        pick: () => this.setState({ filter: key })
+      };
+    };
+    const rec = recId && recs[recId] ? decorate(recId) : null;
+    const durParts = /^(\d+):(\d+)$/.exec(rec ? rec.duration : '');
+    const durSec = durParts ? Number(durParts[1]) * 60 + Number(durParts[2]) : 0;
+    const playAt = Math.min(s.playAt || 0, durSec);
+    const playing = !!s.playing && playAt < durSec;
+    const wave = [];
+    for (let i = 0; i < 64; i++) {
+      const h = 6 + Math.round(Math.abs(Math.sin(i * 0.55) * 14 + Math.sin(i * 1.7) * 7));
+      wave.push({ h: Math.min(28, h), bg: (durSec && playAt > 0 && i / 64 < playAt / durSec) ? '#2E63E7' : '#B8C3D6' });
+    }
+    return {
+      outcomeSel: outcomeSel,
+      setOutcome: (e) => this.setState({ outcomeSel: e.target.value }),
+      campaignSel: campaignSel,
+      setCampaign: (e) => this.setState({ campaignSel: e.target.value }),
+      periodSel: periodSel,
+      setPeriod: (e) => this.setState({ periodSel: e.target.value }),
+      query: query,
+      setQuery: (e) => this.setState({ query: e.target.value }),
+      noRows: rows.length === 0,
+      clearFilters: () => this.setState({ outcomeSel: 'all', campaignSel: 'all', periodSel: 'week', query: '', filter: 'all' }),
+      playLabel: playing ? 'Pause recording' : 'Play recording',
+      playIcon: playing ? ic.pause : ic.play,
+      playClock: Math.floor(playAt / 60) + ':' + (playAt % 60 < 10 ? '0' : '') + (playAt % 60),
+      togglePlay: () => {
+        stopPlay();
+        if (playing) { this.setState({ playing: false }); return; }
+        this.setState({ playing: true, playAt: playAt >= durSec ? 0 : playAt });
+        this._pv = setInterval(() => {
+          const st = this.state || {};
+          const n = (st.playAt || 0) + 1;
+          if (n >= durSec) { stopPlay(); this.setState({ playAt: durSec, playing: false }); }
+          else this.setState({ playAt: n });
+        }, 1000);
+      },
+      ic: ic,
+      navGroups: this.navGroups('Dialer', ic),
+      modeFilters: [mkFilter('all', 'All calls'), mkFilter('autopilot', 'Autopilot'), mkFilter('live', 'Live Assist')],
+      rows: rows,
+      tableTitle: filter === 'all' ? 'All calls' : (filter === 'live' ? 'Live Assist calls' : 'Autopilot calls'),
+      footNote: 'Showing ' + rows.length + ' of ' + all.length + ' calls · ' + periodText[periodSel],
+      wave: wave,
+      hasRec: !!rec,
+      rec: rec || decorate('karthik'),
+      closeRec: () => { stopPlay(); this.setState({ rec: null, playing: false, playAt: 0 }); }
+    };
+  }
+
+  componentWillUnmount() {
+    if (this._pv) { clearInterval(this._pv); this._pv = null; }
+  }
+}
+</script>
+</body>
+</html>
