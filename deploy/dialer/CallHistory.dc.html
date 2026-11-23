@@ -76,6 +76,10 @@ body{margin:0}
 </span>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px">
+<a href="AgentEditor.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #16181D; text-decoration: none">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.bot }}"></path></svg>
+<span>Voice agents</span>
+</a>
 <a href="PhoneNumbers.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #16181D; text-decoration: none">
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.hash }}"></path></svg>
 <span>Phone numbers</span>
@@ -414,8 +418,8 @@ class Component extends DCLogic {
         hasBdrNotes: true, bdrNotes: '3 data tools; ZoomInfo is the main one. Weak on Indian mobile numbers. Wants a sample match before a meeting.',
         hasWhisper: true,
         whisper: [
-          { icon: ic.messageQ, kind: 'Answer:', text: '“How do you handle Indian mobile numbers?” · from Approved answers, Data coverage' },
-          { icon: ic.ear, kind: 'Talking point:', text: 'heard “ZoomInfo” and showed the ZoomInfo objection' }
+          { icon: ic.messageQ, kind: 'Facts:', text: '“How do you handle Indian mobile numbers?” · 1 talking point and 1 testimonial from Personalization. No India coverage figure was found, so none was shown.' },
+          { icon: ic.ear, kind: 'Objection:', text: 'heard “ZoomInfo” and showed the answer from Personalization · Competitors' }
         ],
         lines: [
           them('Karthik', '0:00', 'Hello, Karthik speaking.'),
@@ -423,9 +427,9 @@ class Component extends DCLogic {
           them('Karthik', '0:11', 'Sure, go ahead.'),
           you('Dharam', '0:14', 'How many tools feed your CRM today, and who fixes it when they disagree?'),
           them('Karthik', '0:22', 'Three, I think. We already use ZoomInfo for most of it.'),
-          you('Dharam', '0:29', 'Most teams keep it. We fill what it misses and verify every record before it writes to the CRM.'),
+          you('Dharam', '0:29', 'Most teams keep it. ZoomInfo gives you the data export. We keep that data enriched and run the outreach on top of it.'),
           them('Karthik', '1:02', "How do you handle Indian mobile numbers? That's where we're weakest."),
-          you('Dharam', '1:09', 'Every number is checked across our data partners and verified before it reaches the CRM. I can run a sample match on your accounts.'),
+          you('Dharam', '1:09', "We pull verified data from more than 20 sources, and customers tell us they find mobile numbers they were missing. Rather than quote you a number for India, can I run a sample match on your accounts?"),
           them('Karthik', '1:20', 'That would help.'),
           you('Dharam', '3:48', 'Would a 30-minute walkthrough on Thursday or Friday work?'),
           them('Karthik', '3:55', "Send the sample match first, then let's talk next week.")
@@ -446,7 +450,7 @@ class Component extends DCLogic {
         meeting: { title: 'Intro: Sprouts and Northwind Freight', time: 'Thu 26 Nov · 11:00–11:30 AM SGT', invite: 'Invite sent to hannah.brooks@northwind.example', calendar: 'On arjun@sprouts.ai · Google Calendar · picked by Arjun at wrap-up' },
         hasBdrNotes: true, bdrNotes: 'Two data vendors today. Wants APAC coverage numbers in the meeting.',
         hasWhisper: true,
-        whisper: [{ icon: ic.messageQ, kind: 'Answer:', text: '“Which countries do you cover in APAC?” · from Approved answers, Data coverage' }],
+        whisper: [{ icon: ic.messageQ, kind: 'No match:', text: '“Which countries do you cover in APAC?” · nothing in Personalization answered it, so Whisper showed no answer and suggested a follow-up' }],
         lines: [
           them('Hannah', '0:00', 'Hannah Brooks.'),
           you('Arjun', '0:02', "Hi Hannah, it's Arjun from Sprouts. Your team downloaded our logistics data guide. Do you have two minutes?"),

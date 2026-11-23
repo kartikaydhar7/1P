@@ -76,6 +76,10 @@ body{margin:0}
 </a>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px">
+<a href="AgentEditor.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #16181D; text-decoration: none">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.bot }}"></path></svg>
+<span>Voice agents</span>
+</a>
 <a href="PhoneNumbers.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #16181D; text-decoration: none">
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.hash }}"></path></svg>
 <span>Phone numbers</span>
@@ -126,6 +130,72 @@ body{margin:0}
 
 <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px">
 
+<sc-if value="{{ showPanel }}" hint-placeholder-val="{{ false }}">
+<aside aria-label="Contact details" style="flex: 1 1 320px; min-width: 0; max-height: 770px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 6px; padding: 8px 12px 8px 8px; border-bottom: 1px solid #EEF0F4; background: #FAFBFC">
+<button type="button" onClick="{{ closePanel }}" style="display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 0 8px; border: 0; border-radius: 8px; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowL }}"></path></svg>Back to queue</button>
+<span style="margin-left: auto; font-size: 11px; font-weight: 700; color: #646B77">Contact · from Prospects</span>
+</div>
+<div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; gap: 10px; align-items: flex-start">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; background: #EBF1FE; color: #1D46A8; border: 1px solid #C9D9FB; box-sizing: border-box; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center">{{ pc.initials }}</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px"><h2 style="margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -0.01em">{{ pc.name }}</h2><span style="padding: 1px 7px; border-radius: 6px; background: #EBF1FE; color: #1D46A8; font-size: 10.5px; font-weight: 800">{{ pc.role }}</span></div>
+<div style="font-size: 12.5px; color: #16181D">{{ pc.title }} at <strong style="font-weight: 700">{{ pc.company }}</strong></div>
+<div style="font-size: 12px; color: #555C68">{{ pc.place }} · {{ pc.local }} local · {{ pc.tenure }}</div>
+<span style="align-self: flex-start; margin-top: 3px; padding: 1px 7px; border-radius: 6px; font-size: 11px; font-weight: 800; background: {{ pc.statusBg }}; color: {{ pc.statusFg }}">{{ pc.status }}</span>
+</div>
+</div>
+<div role="tablist" aria-label="Contact sections" style="display: inline-flex; align-self: flex-start; gap: 2px; padding: 3px; border-radius: 10px; background: #F1F3F6">
+<sc-for list="{{ pTabs }}" as="pt" hint-placeholder-count="2">
+<button type="button" role="tab" aria-selected="{{ pt.on }}" onClick="{{ pt.pick }}" style="height: 30px; padding: 0 12px; border: 0; border-radius: 7px; background: {{ pt.bg }}; box-shadow: {{ pt.shadow }}; color: {{ pt.fg }}; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer">{{ pt.label }}</button>
+</sc-for>
+</div>
+<sc-if value="{{ pOverview }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<section aria-label="Savant insights" style="border-radius: 10px; border: 1px solid #DCE6FB; background: #F5F8FF; padding: 10px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 800"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E63E7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg>Why now · Savant insights</div>
+<sc-for list="{{ pc.insights }}" as="pi" hint-placeholder-count="2">
+<div style="padding: 8px 10px; border-radius: 9px; background: #FFFFFF; border: 1px solid #E7EAF0; display: flex; flex-direction: column; gap: 3px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px"><span style="font-size: 12px; font-weight: 800">{{ pi.label }}</span><span style="padding: 0 6px; border-radius: 5px; background: #F1F3F6; color: #555C68; font-size: 10.5px; font-weight: 700">{{ pi.tag }}</span></div>
+<div style="font-size: 12.5px; line-height: 1.45">{{ pi.context }}</div>
+<div style="font-size: 12px; line-height: 1.45; color: #1D46A8"><strong style="font-weight: 800">Next step:</strong> {{ pi.next }}</div>
+</div>
+</sc-for>
+</section>
+<section aria-label="About" style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">ABOUT</div>
+<div style="display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; font-size: 12.5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555C68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 13px"><path d="{{ ic.mail }}"></path></svg><span style="flex: 1; min-width: 0; overflow-wrap: anywhere">{{ pc.email }}</span><span style="display: inline-flex; align-items: center; gap: 4px; padding: 0 6px; border-radius: 5px; background: #E7F5EE; color: #1B6B45; font-size: 10.5px; font-weight: 800">Verified</span></div>
+<div style="display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; font-size: 12.5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555C68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 13px"><path d="{{ ic.phone }}"></path></svg><span style="flex: 1; min-width: 0; font-variant-numeric: tabular-nums; white-space: nowrap">{{ pc.number }}</span><span style="font-size: 11px; color: #646B77">{{ pc.numberNote }}</span></div>
+</section>
+<section aria-label="Work experience" style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">WORK EXPERIENCE</div>
+<sc-for list="{{ pc.exp }}" as="ex" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 12.5px; font-weight: 700">{{ ex.role }}</span><span style="font-size: 12px; color: #555C68">{{ ex.where }} · {{ ex.when }}</span></div>
+</sc-for>
+</section>
+<section aria-label="Sequences" style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #646B77">SEQUENCES</div>
+<div style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 12.5px; font-weight: 700">Pricing-intent · Q4 follow-up</span><span style="font-size: 12px; color: #555C68">Step 3 of 3 · Call · Live Assist</span></div>
+</section>
+</div>
+</sc-if>
+<sc-if value="{{ pEngagement }}" hint-placeholder-val="{{ false }}">
+<ol aria-label="Engagement, newest first" style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+<sc-for list="{{ pc.timeline }}" as="tl" hint-placeholder-count="4">
+<li style="display: flex; gap: 10px; padding: 9px 2px; border-bottom: 1px solid #EEF0F4">
+<span aria-hidden="true" style="width: 8px; height: 8px; flex: 0 0 8px; margin-top: 5px; border-radius: 50%; background: {{ tl.dot }}"></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px"><span style="font-size: 12px; font-weight: 700">{{ tl.label }}</span><span style="font-size: 12.5px; color: #555C68">{{ tl.text }}</span></div>
+</li>
+</sc-for>
+</ol>
+</sc-if>
+<p style="margin: 0; font-size: 11.5px; color: #646B77">Read only on the dialer, so nothing changes mid-call. The full record is in Prospects.</p>
+</div>
+</aside>
+</sc-if>
+
+<sc-if value="{{ showQueue }}" hint-placeholder-val="{{ true }}">
 <aside aria-label="Queue" style="flex: 1 1 220px; min-width: 0; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px">
 <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 4px 2px">
 <h2 style="margin: 0; font-size: 13px; font-weight: 800">Queue</h2>
@@ -133,15 +203,18 @@ body{margin:0}
 </div>
 <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px">
 <sc-for list="{{ queue }}" as="q" hint-placeholder-count="4">
-<li aria-current="{{ q.current }}" style="display: flex; gap: 10px; padding: 9px 10px; border-radius: 10px; background: {{ q.bg }}; box-shadow: inset 0 0 0 1px {{ q.border }}">
+<li aria-current="{{ q.current }}" style="border-radius: 10px; background: {{ q.bg }}; box-shadow: inset 0 0 0 1px {{ q.border }}">
+<button type="button" onClick="{{ q.open }}" aria-label="Open contact details for {{ q.name }}" style="width: 100%; box-sizing: border-box; display: flex; gap: 10px; align-items: flex-start; padding: 9px 8px 9px 10px; border: 0; border-radius: 10px; background: transparent; font: inherit; color: inherit; text-align: left; cursor: pointer">
 <span aria-hidden="true" style="width: 20px; height: 20px; flex: 0 0 20px; border-radius: 50%; background: #F1F3F6; color: #555C68; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">{{ q.num }}</span>
-<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
 <span style="font-size: 12.5px; font-weight: 700">{{ q.name }}</span>
 <span style="font-size: 11.5px; color: #555C68">{{ q.sub }}</span>
 <sc-if value="{{ q.hasChip }}" hint-placeholder-val="{{ true }}">
 <span style="align-self: flex-start; margin-top: 2px; padding: 1px 7px; border-radius: 6px; font-size: 11px; font-weight: 800; background: {{ q.chipBg }}; color: {{ q.chipFg }}">{{ q.chip }}</span>
 </sc-if>
-</div>
+</span>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#646B77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 13px; margin-top: 3px"><path d="{{ q.chev }}"></path></svg>
+</button>
 </li>
 </sc-for>
 </ol>
@@ -155,17 +228,18 @@ body{margin:0}
 <p style="margin: 0; padding: 2px 4px 6px; font-size: 12px; color: #555C68">Nobody is waiting for a call.</p>
 </sc-if>
 </aside>
+</sc-if>
 
 <section aria-label="Current call" style="flex: 999 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
 
 <sc-if value="{{ showContact }}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #E7EAF0; border-radius: 12px">
 <span aria-hidden="true" style="width: 44px; height: 44px; flex: 0 0 44px; border-radius: 50%; background: #EBF1FE; color: #1D46A8; border: 1px solid #C9D9FB; box-sizing: border-box; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center">{{ c.initials }}</span>
-<div style="flex: 1 1 220px; min-width: 0">
-<div style="font-size: 18px; font-weight: 800; letter-spacing: -0.01em">{{ c.name }}</div>
-<div style="font-size: 12.5px; color: #555C68">{{ c.title }} · {{ c.company }}</div>
-<div style="font-size: 12.5px; color: #555C68; font-variant-numeric: tabular-nums">{{ c.number }} · {{ c.place }} · {{ c.local }} local</div>
-</div>
+<button type="button" onClick="{{ openCurrent }}" aria-expanded="{{ curOpen }}" style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; padding: 4px 8px; margin: -4px -8px; border: 0; border-radius: 9px; background: transparent; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<span style="display: inline-flex; flex-wrap: wrap; align-items: center; gap: 2px 10px"><span style="font-size: 18px; font-weight: 800; letter-spacing: -0.01em">{{ c.name }}</span><span style="display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 700; color: #1D46A8">{{ detailsLabel }}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.chevR }}"></path></svg></span></span>
+<span style="font-size: 12.5px; color: #555C68">{{ c.title }} · {{ c.company }}</span>
+<span style="font-size: 12.5px; color: #555C68; font-variant-numeric: tabular-nums">{{ c.number }} · {{ c.place }} · {{ c.local }} local</span>
+</button>
 <span style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 7px; background: #F1F3F6; color: #555C68; font-size: 11px; font-weight: 700"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg>From Autopilot · country rule</span>
 </div>
 </sc-if>
@@ -235,10 +309,10 @@ body{margin:0}
 <sc-if value="{{ isConnected }}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 12px 14px; background: #F3FAF6; border: 1px solid #BFE3CF; border-radius: 12px">
 <span aria-hidden="true" style="width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; background: #FFFFFF; color: #1B6B45; border: 1px solid #BFE3CF; box-sizing: border-box; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center">{{ c.initials }}</span>
-<div style="flex: 1 1 200px; min-width: 0">
-<div style="font-size: 16px; font-weight: 800; letter-spacing: -0.01em">{{ c.name }}</div>
-<div style="font-size: 12px; color: #555C68">{{ c.title }} · {{ c.company }} · {{ c.place }}</div>
-</div>
+<button type="button" onClick="{{ openCurrent }}" aria-expanded="{{ curOpen }}" style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; padding: 4px 8px; margin: -4px -8px; border: 0; border-radius: 9px; background: transparent; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<span style="display: inline-flex; flex-wrap: wrap; align-items: center; gap: 2px 10px"><span style="font-size: 16px; font-weight: 800; letter-spacing: -0.01em">{{ c.name }}</span><span style="display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 700; color: #1D46A8">{{ detailsLabel }}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.chevR }}"></path></svg></span></span>
+<span style="font-size: 12px; color: #555C68">{{ c.title }} · {{ c.company }} · {{ c.place }}</span>
+</button>
 <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2">
 <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 800; color: #1B6B45"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #1B6B45; box-shadow: 0 0 0 4px rgba(27,107,69,0.15)"></span>{{ liveLabel }}</span>
 <span aria-label="Call time" style="font-size: 22px; font-weight: 800; letter-spacing: -0.01em; font-variant-numeric: tabular-nums">{{ clock }}</span>
@@ -398,16 +472,25 @@ body{margin:0}
 <h2 style="margin: 0; font-size: 14px; font-weight: 800">Whisper</h2>
 <span style="margin-left: auto; display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; color: #555C68"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.lock }}"></path></svg>Only you see this. The prospect never hears the AI.</span>
 </div>
+<div style="margin-top: 6px; font-size: 11.5px; color: #555C68">Talking points, objections and answers come from Personalization › Company model.</div>
 </div>
 
 <div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px">
 
 <sc-if value="{{ showAnswer }}" hint-placeholder-val="{{ false }}">
-<section aria-label="Answer to the prospect's question" style="padding: 12px; border-radius: 12px; background: #F5F8FF; border: 1px solid #C9D9FB; display: flex; flex-direction: column; gap: 5px">
+<section aria-label="Facts for the prospect's question" style="padding: 12px; border-radius: 12px; background: #F5F8FF; border: 1px solid #C9D9FB; display: flex; flex-direction: column; gap: 8px">
 <div style="display: flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; color: #1D46A8"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.messageQ }}"></path></svg>{{ askedLabel }}</div>
 <div style="font-size: 13px; font-weight: 700; color: #555C68">“How do you handle Indian mobile numbers?”</div>
-<div style="margin-top: 3px; font-size: 14.5px; font-weight: 600; line-height: 1.5">Every number is checked across our data partners and verified before it reaches the CRM. Offer a sample match on their accounts to show coverage.</div>
-<span style="align-self: flex-start; margin-top: 2px; display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 6px; background: #FFFFFF; border: 1px solid #DCE6FB; font-size: 11px; font-weight: 700; color: #1D46A8"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.fileText }}"></path></svg>Approved answers · Data coverage</span>
+<div style="font-size: 11.5px; font-weight: 800; color: #16181D">Facts you can use, from Personalization</div>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{ answerFacts }}" as="af" hint-placeholder-count="2">
+<li style="display: flex; flex-direction: column; gap: 4px; padding: 8px 10px; border-radius: 9px; background: #FFFFFF; border: 1px solid #DCE6FB">
+<span style="font-size: 14px; font-weight: 600; line-height: 1.45">{{ af.text }}</span>
+<span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #1D46A8"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 12px"><path d="{{ af.icon }}"></path></svg>{{ af.src }}</span>
+</li>
+</sc-for>
+</ul>
+<div style="display: flex; gap: 7px; align-items: flex-start; padding: 8px 10px; border-radius: 9px; background: #FBF3DF; font-size: 12px; line-height: 1.45; color: #16181D"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 14px; margin-top: 2px"><path d="{{ ic.info }}"></path></svg><span>Nothing in Personalization covers India on its own, so don't quote a coverage number. Offer a sample match on their accounts.</span></div>
 </section>
 </sc-if>
 
@@ -439,6 +522,7 @@ body{margin:0}
 <sc-if value="{{ st.hasTrigger }}" hint-placeholder-val="{{ false }}"><span style="padding: 0 6px; border-radius: 5px; background: #EBF1FE; color: #1D46A8; font-size: 10.5px; font-weight: 800">{{ st.trigger }}</span></sc-if>
 <sc-if value="{{ st.isCurrent }}" hint-placeholder-val="{{ false }}"><span style="margin-left: auto; font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em; color: #1D46A8">SAY NEXT</span></sc-if>
 </div>
+<sc-if value="{{ st.hasSrc }}" hint-placeholder-val="{{ false }}"><div style="font-size: 10.5px; font-weight: 700; color: #646B77">{{ st.src }}</div></sc-if>
 <sc-if value="{{ st.showText }}" hint-placeholder-val="{{ true }}">
 <div style="margin-top: 2px; font-size: {{ st.size }}; line-height: 1.5; font-weight: {{ st.weight }}; color: {{ st.textColor }}">{{ st.text }}</div>
 </sc-if>
@@ -510,6 +594,8 @@ class Component extends DCLogic {
       chevD: 'M6 9l6 6 6-6',
       hash: 'M4 9h16 M4 15h16 M10 3L8 21 M16 3l-2 18',
       arrowR: 'M5 12h14 M12 5l7 7-7 7',
+      arrowL: 'M19 12H5 M12 19l-7-7 7-7',
+      chevR: 'M9 6l6 6-6 6',
       history: 'M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8 M3 3v5h5 M12 7v5l4 2',
       mail: 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M22 6l-10 7L2 6',
       check: 'M20 6L9 17l-5-5',
@@ -561,25 +647,53 @@ class Component extends DCLogic {
         id: 'aditi', name: 'Aditi Rao', first: 'Aditi', initials: 'AR', title: 'VP RevOps', company: 'Razorpay',
         number: '+91 98450 22190', place: 'Bengaluru', local: '3:32 PM', tz: 'IST', email: 'aditi.rao@razorpay.com',
         why: ['Looked at the pricing page twice last week', 'Opened the Step 1 email on Monday'],
-        touches: [{ label: 'Email · Step 1 · Mon', text: 'Opened, no reply' }, { label: 'LinkedIn · Step 2 · Tue', text: 'Connection accepted' }]
+        touches: [{ label: 'Email · Step 1 · Mon', text: 'Opened, no reply' }, { label: 'LinkedIn · Step 2 · Tue', text: 'Connection accepted' }],
+        role: 'Economic buyer', tenure: '2 yr 4 mo in role',
+        insights: [
+          { label: 'Website activity', tag: 'Web visit', context: 'Viewed the pricing page twice last week.', next: 'Open with pricing and ask what prompted the second look.' },
+          { label: 'Email engagement', tag: 'Email open', context: 'Opened the Step 1 email on Monday and did not reply.', next: 'Mention the email in one line, then ask your question.' }
+        ],
+        exp: [{ role: 'VP RevOps', where: 'Razorpay', when: 'Jul 2024 to now' }, { role: 'Director, Sales Operations', where: 'Razorpay', when: '2022 to 2024' }],
+        web: { label: 'Website · last week', text: 'Viewed the pricing page twice', recent: false }
       },
       {
         id: 'karthik', name: 'Karthik Iyer', first: 'Karthik', initials: 'KI', title: 'Head of Sales Ops', company: 'Freshworks',
         number: '+91 99001 45872', place: 'Chennai', local: '3:34 PM', tz: 'IST', email: 'karthik.iyer@freshworks.com',
         why: ['Looked at the pricing page twice last week', 'Clicked the data coverage link in the Step 1 email'],
-        touches: [{ label: 'Email · Step 1 · Mon', text: 'Clicked the data coverage link' }, { label: 'LinkedIn · Step 2 · Tue', text: 'Request pending' }]
+        touches: [{ label: 'Email · Step 1 · Mon', text: 'Clicked the data coverage link' }, { label: 'LinkedIn · Step 2 · Tue', text: 'Request pending' }],
+        role: 'Champion', tenure: '3 yr 1 mo in role',
+        insights: [
+          { label: 'Website activity', tag: 'Web visit', context: 'Viewed the pricing page twice last week.', next: 'Open with pricing and ask what prompted the second look.' },
+          { label: 'Email engagement', tag: 'Email click', context: 'Clicked the data coverage link in the Step 1 email.', next: 'Expect coverage questions. Offer a sample match on his accounts.' }
+        ],
+        exp: [{ role: 'Head of Sales Ops', where: 'Freshworks', when: 'Oct 2023 to now' }, { role: 'Senior Manager, Sales Ops', where: 'Freshworks', when: '2021 to 2023' }],
+        web: { label: 'Website · last week', text: 'Viewed the pricing page twice', recent: false }
       },
       {
         id: 'lukas', name: 'Lukas Becker', first: 'Lukas', initials: 'LB', title: 'Head of RevOps', company: 'Nordwerk Logistik',
         number: '+49 89 4410 2275', place: 'Munich', local: '11:06 AM', tz: 'CET', email: 'lukas.becker@nordwerk-logistik.example',
         why: ['Downloaded the data coverage guide', 'Two colleagues looked at the pricing page'],
-        touches: [{ label: 'Email · Step 1 · Mon', text: 'Opened twice' }, { label: 'LinkedIn · Step 2 · Tue', text: 'Connection accepted' }]
+        touches: [{ label: 'Email · Step 1 · Mon', text: 'Opened twice' }, { label: 'LinkedIn · Step 2 · Tue', text: 'Connection accepted' }],
+        role: 'Decision maker', tenure: '1 yr 8 mo in role',
+        insights: [
+          { label: 'Content', tag: 'Download', context: 'Downloaded the data coverage guide.', next: 'Ask which regions he was checking.' },
+          { label: 'Account activity', tag: 'Web visit', context: 'Two colleagues viewed the pricing page.', next: 'Ask who else is part of the evaluation.' }
+        ],
+        exp: [{ role: 'Head of RevOps', where: 'Nordwerk Logistik', when: 'Mar 2025 to now' }, { role: 'RevOps Manager', where: 'Nordwerk Logistik', when: '2023 to 2025' }],
+        web: { label: 'Website · last week', text: 'Downloaded the data coverage guide. Two colleagues viewed the pricing page.', recent: false }
       },
       {
         id: 'priya', name: 'Priya Shah', first: 'Priya', initials: 'PS', title: 'VP Sales', company: 'Hartwell & Co',
         number: '+1 (917) 555 0182', place: 'London', local: '10:06 AM', tz: 'GMT', email: 'priya.shah@hartwell.example',
         why: ['Replied "maybe next quarter" to the Step 1 email', 'Looked at the pricing page yesterday'],
-        touches: [{ label: 'Email · Step 1 · Mon', text: 'Replied: maybe next quarter' }, { label: 'LinkedIn · Step 2 · Tue', text: 'Request pending' }]
+        touches: [{ label: 'Email · Step 1 · Mon', text: 'Replied: maybe next quarter' }, { label: 'LinkedIn · Step 2 · Tue', text: 'Request pending' }],
+        role: 'Decision maker', tenure: '4 yr in role',
+        insights: [
+          { label: 'Email reply', tag: 'Reply', context: 'Replied "maybe next quarter" to the Step 1 email.', next: 'Acknowledge the timing and ask what changes next quarter.' },
+          { label: 'Website activity', tag: 'Web visit', context: 'Viewed the pricing page yesterday.', next: 'Ask what she wanted to see on pricing.' }
+        ],
+        exp: [{ role: 'VP Sales', where: 'Hartwell & Co', when: 'Nov 2022 to now' }, { role: 'Sales Director', where: 'Hartwell & Co', when: '2020 to 2022' }],
+        web: { label: 'Website · yesterday', text: 'Viewed the pricing page', recent: true }
       }
     ];
   }
@@ -593,9 +707,9 @@ class Component extends DCLogic {
       k('Sure, go ahead.'),
       y('How many tools feed your CRM today, and who fixes it when they disagree?'),
       k('Three, I think. We already use ZoomInfo for most of it.'),
-      y('Most teams keep it. We fill what it misses and verify every record before it writes to the CRM.'),
+      y('Most teams keep it. ZoomInfo gives you the data export. We keep that data enriched and run the outreach on top of it.'),
       k("How do you handle Indian mobile numbers? That's where we're weakest."),
-      y('Every number is checked across our data partners and verified before it reaches the CRM. I can run a sample match on your accounts.'),
+      y("We pull verified data from more than 20 sources, and customers tell us they find mobile numbers they were missing. Rather than quote you a number for India, can I run a sample match on your accounts?"),
       k('That would help.'),
       y('Would a 30-minute walkthrough on Thursday or Friday work?'),
       k("Send the sample match first, then let's talk next week.")
@@ -615,7 +729,8 @@ class Component extends DCLogic {
     this.clearTimers();
     const list = this.contacts();
     const who = list[i];
-    this.setState({ stage: 'dialing', idx: i, results: results, lines: 0, secs: 0, outcome: null, muted: false, resumed: false });
+    const open = (this.state || {}).contactOpen;
+    this.setState({ stage: 'dialing', idx: i, results: results, lines: 0, secs: 0, outcome: null, muted: false, resumed: false, contactOpen: open ? who.id : null });
     this._t = setTimeout(() => {
       if (who.id === 'karthik') this.connect(i, results);
       else this.noAnswer(i, results);
@@ -727,9 +842,52 @@ class Component extends DCLogic {
         num: String(i + 1), name: q.name, sub: q.company + ' · ' + q.local + ' local',
         hasChip: !!chip, chip: chip || '', chipBg: tone.bg, chipFg: tone.fg,
         bg: here ? '#EBF1FE' : '#FFFFFF', border: here ? '#C9D9FB' : 'transparent',
-        current: here ? 'true' : undefined
+        current: here ? 'true' : undefined,
+        id: q.id, chev: ic.chevR,
+        open: () => this.setState({ contactOpen: q.id, pTab: 'overview' })
       };
     });
+
+    const openId = s.contactOpen || null;
+    const showPanel = !!openId && !isEmpty;
+    const pBase = contacts.find((x) => x.id === openId) || c;
+    const pRow = queue.find((x) => x.id === pBase.id);
+    const pTab = s.pTab || 'overview';
+    const pOnNow = pBase.id === c.id && (isDialing || isConnected || isWrapup);
+    const pRes = results[pBase.id];
+    const timeline = [];
+    if (pOnNow) {
+      timeline.push({
+        label: 'Call · now · Live Assist',
+        text: isDialing ? 'Ringing' : (isConnected ? 'Connected · ' + clock : 'Ended at ' + clock + ' · outcome not saved yet'),
+        dot: '#1B6B45'
+      });
+    } else if (pRes) {
+      timeline.push({ label: 'Call · today · Live Assist', text: pRes, dot: toneFor(pRes).fg });
+    }
+    const movedEntry = { label: 'Dialer · Fri 20 Nov', text: 'Moved from Autopilot to Live Assist because of a country rule', dot: '#646B77' };
+    const webEntry = { label: pBase.web.label, text: pBase.web.text, dot: '#2E63E7' };
+    timeline.push(movedEntry);
+    if (pBase.web.recent) timeline.push(webEntry);
+    pBase.touches.slice().reverse().forEach((t) => timeline.push({ label: t.label, text: t.text, dot: '#2E63E7' }));
+    if (!pBase.web.recent) timeline.push(webEntry);
+    const pc = Object.assign({}, pBase, {
+      status: pRow && pRow.hasChip ? pRow.chip : 'In queue',
+      statusBg: pRow && pRow.hasChip ? pRow.chipBg : gray.bg,
+      statusFg: pRow && pRow.hasChip ? pRow.chipFg : gray.fg,
+      numberNote: pOnNow ? 'On this call' : (pRes ? 'Called today' : 'Next to be called'),
+      timeline: timeline
+    });
+    const pTabs = [['overview', 'Overview'], ['engagement', 'Engagement']].map((t) => {
+      const on = pTab === t[0];
+      return {
+        label: t[1], on: on ? 'true' : 'false',
+        bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#16181D' : '#555C68',
+        shadow: on ? '0 0 0 1px #E7EAF0, 0 1px 2px rgba(22,24,29,0.08)' : 'none',
+        pick: () => this.setState({ pTab: t[0] })
+      };
+    });
+    const curOpen = showPanel && openId === c.id;
 
     const called = Object.keys(results).length;
     let cur = 0;
@@ -741,8 +899,8 @@ class Component extends DCLogic {
     const base = [
       { title: 'Opener', text: 'Hi ' + c.first + ", it's Dharam from Sprouts. I'll be quick: your team looked at our pricing page last week. Do you have two minutes?", bullets: [] },
       { title: 'Ask', text: 'How many tools feed your CRM today, and who fixes it when they disagree?', bullets: [] },
-      { title: 'If they use ZoomInfo', text: 'Most teams keep it. We fill what it misses and verify every record before it writes to the CRM.', bullets: [] },
-      { title: 'Talking points', text: '', bullets: ['Every record is verified before it reaches the CRM', '250+ data partners behind one search', 'Works inside Salesforce and Dynamics 365'] },
+      { title: 'If they use ZoomInfo', text: 'Most teams keep it. ZoomInfo gives you the data export. We keep that data enriched and run the outreach on top of it.', bullets: [], src: 'Personalization · Competitors · ZoomInfo' },
+      { title: 'Talking points', text: '', bullets: ['Verified data from 20+ integrated sources, with no separate provider contracts', 'CloudSEK: 30% increase in SDR/BDR efficiency', 'Clinion: 4x more meetings booked, quarter over quarter'], src: 'Personalization · 3 of 27 talking points, each with proof' },
       { title: 'Close', text: 'Would a 30-minute walkthrough on Thursday or Friday work?', bullets: [] }
     ];
     const steps = base.map((st, i) => {
@@ -753,6 +911,7 @@ class Component extends DCLogic {
         isDone: done, notDone: !done, isCurrent: current,
         showText: !done && !!st.text, showBullets: !done && st.bullets.length > 0,
         hasTrigger: isConnected && i === 2 && lines >= 5, trigger: 'Heard “ZoomInfo”',
+        hasSrc: !done && !!st.src, src: st.src || '',
         bg: current ? '#F5F8FF' : '#FFFFFF',
         border: current ? '#C9D9FB' : '#EEF0F4',
         markBg: done ? '#E7F5EE' : (current ? '#2E63E7' : '#F1F3F6'),
@@ -780,7 +939,7 @@ class Component extends DCLogic {
         bg: isQ ? '#F5F8FF' : 'transparent',
         bar: isQ ? '#2E63E7' : 'transparent',
         hasTag: isConnected && (isQ || isObj),
-        tag: isQ ? 'Question · the answer is in Whisper' : 'Heard “ZoomInfo” · the answer is in the script'
+        tag: isQ ? 'Question · facts for it are in Whisper' : 'Heard “ZoomInfo” · the answer is in the script'
       };
     });
     const queueLocked = isDialing || isNoAnswer || isConnected || isWrapup;
@@ -834,15 +993,29 @@ class Component extends DCLogic {
     }));
     const saveDisabled = outcome === 'meeting' && !slot;
     const savedItems = ['Recording · ' + clock, 'Transcript · ' + visible.length + ' lines'];
-    if (lines >= 7) savedItems.push('1 answer shown on screen');
+    if (lines >= 7) savedItems.push('What Whisper showed · 2 facts for 1 question');
 
     return {
       ic: ic,
       navGroups: this.navGroups('Dialer', ic),
       c: c,
       queue: queue,
+      showPanel: showPanel,
+      showQueue: !showPanel,
+      pc: pc,
+      pTabs: pTabs,
+      pOverview: pTab === 'overview',
+      pEngagement: pTab === 'engagement',
+      curOpen: curOpen ? 'true' : 'false',
+      detailsLabel: curOpen ? 'Hide details' : 'Contact details',
+      openCurrent: () => this.setState({ contactOpen: curOpen ? null : c.id, pTab: 'overview' }),
+      closePanel: () => this.setState({ contactOpen: null }),
       steps: steps,
       liveLines: liveLines,
+      answerFacts: [
+        { text: 'Verified data from 20+ integrated data sources, with no separate provider contracts.', src: 'Talking points · Feature · proof linked', icon: ic.fileText },
+        { text: 'A G2 reviewer: “They got us data with tons of emails and mobile numbers we totally missed out on before.”', src: 'Testimonials · verified G2 review', icon: ic.fileText }
+      ],
       queueSel: queueSel,
       setQueue: (e) => { this.clearTimers(); this.setState({ queueSel: e.target.value }); },
       queueLocked: queueLocked,
@@ -858,7 +1031,7 @@ class Component extends DCLogic {
       followOn: followOn,
       setFollowOn: (e) => this.setState({ followOn: e.target.value }),
       showContact: !isDone && !isEmpty && !isConnected,
-      whisperBasis: isConnected ? '340px' : '420px',
+      whisperBasis: (isConnected || showPanel) ? '340px' : '420px',
       liveLabel: muted ? 'Connected · you are muted' : 'Connected',
       outcomeOpts: outcomeOpts,
       isEmpty: isEmpty,
@@ -918,7 +1091,7 @@ class Component extends DCLogic {
       callNow: () => { this.clearTimers(); this.advance(idx, results); },
       pauseQueue: () => {
         this.clearTimers();
-        if (next) this.setState({ stage: 'ready', idx: idx + 1, results: results, resumed: true });
+        if (next) this.setState({ stage: 'ready', idx: idx + 1, results: results, resumed: true, contactOpen: openId ? next.id : null });
         else this.setState({ stage: 'done', results: results });
       },
       toggleMute: () => this.setState({ muted: !muted }),
@@ -928,7 +1101,7 @@ class Component extends DCLogic {
         if (saveDisabled) return;
         this.clearTimers();
         const r = withOutcome();
-        if (next) this.setState({ stage: 'ready', idx: idx + 1, results: r, resumed: true, outcome: null });
+        if (next) this.setState({ stage: 'ready', idx: idx + 1, results: r, resumed: true, outcome: null, contactOpen: openId ? next.id : null });
         else this.setState({ stage: 'done', results: r });
       },
       restart: () => { this.clearTimers(); this.setState({ stage: 'ready', idx: 0, results: {}, resumed: false, outcome: null, lines: 0, secs: 0 }); }

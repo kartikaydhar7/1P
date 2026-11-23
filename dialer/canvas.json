@@ -2,6 +2,51 @@
   "v": 3,
   "attachments": {},
   "boards": {
+    "AgentEditor.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "5a · Voice agent: what it says and does",
+      "w": 1440,
+      "x": 0,
+      "y": 5600
+    },
+    "AgentPace.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "5b · One pace choice for the timing settings",
+      "w": 1440,
+      "x": 1520,
+      "y": 5600
+    },
+    "AgentOutcomes.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "5c · Outcomes and hang-up rules",
+      "w": 1440,
+      "x": 3040,
+      "y": 5600
+    },
+    "AgentChanged.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "5d · Only what differs from the defaults",
+      "w": 1440,
+      "x": 4560,
+      "y": 5600
+    },
+    "AgentFind.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "title": "5e · Find any setting by name",
+      "w": 1440,
+      "x": 6080,
+      "y": 5600
+    },
     "Autopilot.dc.html": {
       "expand": "fill",
       "h": 960,
@@ -51,7 +96,7 @@
       "expand": "fill",
       "h": 960,
       "is_interactive": true,
-      "title": "1c · Autopilot: prompt, voice, calendar",
+      "title": "1c · Autopilot: agent, brief, calendar",
       "w": 1440,
       "x": 3040,
       "y": 0
@@ -275,13 +320,16 @@
     "n5",
     "n6",
     "n8",
-    "n7"
+    "n7",
+    "t5",
+    "n9",
+    "n10"
   ],
   "notes": {
     "n1": {
       "fill": "blue",
       "size": 24,
-      "text": "Row 1 covers FR-1 to FR-8\n\n• FR-1, FR-2: one Call step next to Email and LinkedIn. Pick Autopilot or Live Assist.\n• FR-6, FR-7: agent prompt with guideline checks that update as you type; calendar connect. Check numbers stays off until a calendar is connected.\n• FR-3: 1d shows the check running on every number: country by number, country by contact location, then DNC.\n• FR-4, FR-5: 1e blocks launch with the PRD message. The user picks Live Assist or Remove; nothing is preselected.\n• New in 1f: contacts moved to Live Assist need a script, so the flow asks for one before launch.\n• FR-8: 1h says what starts when. After that Autopilot runs on its own.\n\nTo confirm with the PRD owner: DNC contacts can only be removed, because DNC lists cover calls made by people too.",
+      "text": "Row 1 covers FR-1 to FR-8\n\n• FR-1, FR-2: one Call step next to Email and LinkedIn. Pick Autopilot or Live Assist.\n• FR-6, FR-7: the step picks a saved voice agent and adds a short brief for this campaign. The full prompt and its guideline checks now live on the agent (row 5). Calendar connect is unchanged: Check numbers stays off until a calendar is connected.\n• The Call node shows the agent and version, voice and goal, and the calling number. The panel sums up the agent's 118 settings in 7 lines that open in place, with a search and a changed-only view.\n• FR-3: 1d shows the check running on every number: country by number, country by contact location, then DNC.\n• FR-4, FR-5: 1e blocks launch with the PRD message. The user picks Live Assist or Remove; nothing is preselected.\n• New in 1f: contacts moved to Live Assist need a script, so the flow asks for one before launch. In 1b and 1f the talking points and competitor objections are picked from Personalization, and 1c names it as what the agent answers from. The dialer keeps no content of its own.\n• FR-8: 1h says what starts when. After that Autopilot runs on its own.\n\nTo confirm with the PRD owner: DNC contacts can only be removed, because DNC lists cover calls made by people too.",
       "w": 460,
       "x": 12160,
       "y": 0
@@ -297,7 +345,7 @@
     "n3": {
       "fill": "orange",
       "size": 24,
-      "text": "Ideas from the Nooks teardown (not in PRD V1; keep or cut)\n\n• Connect cue: the prospect's first words show on pickup\n• Each on-screen answer cites its source\n• A competitor mention, including speech-to-text spellings, brings up the matching talking point\n• Number health next to Calling from\n• Test call before launch\n• Suggested outcome from the transcript\n\nLeft out on purpose: parallel lines, a multi-tab call view, a model picker.",
+      "text": "Ideas from the Nooks teardown (not in PRD V1; keep or cut)\n\n• Connect cue: the live transcript opens with the prospect's first words\n• Each on-screen answer cites its source\n• A competitor mention, including speech-to-text spellings, brings up the matching talking point\n• Number health next to Calling from\n• Test call before launch\n• Suggested outcome from the transcript\n\nLeft out on purpose: parallel lines, a multi-tab call view, a model picker.",
       "w": 440,
       "x": 9620,
       "y": 1400
@@ -313,7 +361,7 @@
     "n5": {
       "fill": "blue",
       "size": 24,
-      "text": "Row 3 covers FR-9, FR-10, FR-11, FR-12\n\n• The queue dials one contact at a time; pickup connects to the BDR.\n• No answer: the status saves and the next call starts in 3 s. The BDR can call now or pause.\n• Whisper shows the script and talking points, live transcript and on-screen answers. Only the BDR sees it.\n• 3c: the live transcript gets the middle of the screen at reading size, newest line at the bottom, the prospect's words in bold. The answer and the script stay on the right.\n• Wrap-up: the BDR logs the outcome. For Meeting booked, 3e picks a free slot from the BDR's calendar.\n• 3g: the browser has to allow the microphone before the first call.\n\nIn Play, Start calling on 3a runs the whole loop.",
+      "text": "Row 3 covers FR-9, FR-10, FR-11, FR-12\n\n• The queue dials one contact at a time; pickup connects to the BDR.\n• No answer: the status saves and the next call starts in 3 s. The BDR can call now or pause.\n• Whisper shows the script and talking points, live transcript and on-screen answers. Only the BDR sees it. Its talking points, competitor objections and answers come from Personalization › Company model, each with its source. When nothing there matches a question, Whisper shows no answer. The sample content is Sprouts' own company model as read on 23 Nov.\n• 3c: the live transcript gets the middle of the screen at reading size, newest line at the bottom, the prospect's words in bold. The answer and the script stay on the right.\n• Wrap-up: the BDR logs the outcome. For Meeting booked, 3e picks a free slot from the BDR's calendar.\n• 3g: the browser has to allow the microphone before the first call.\n• Contact details, on 3a to 3f: the contact's name, or any row in the queue, opens that contact's record in place of the queue. It shows why now, engagement, email and number, and work history. The transcript, Mute, Hang up and Whisper stay where they are, and the call is not touched. The panel is read only. In the build it is the Prospects contact panel, with the full record opening in a new tab.\n\nIn Play, Start calling on 3a runs the whole loop.",
       "w": 440,
       "x": 12160,
       "y": 2800
@@ -329,7 +377,7 @@
     "n7": {
       "fill": "orange",
       "size": 24,
-      "text": "Questions for the PRD (the design assumes an answer for each)\n\n1. FR-10 ends with [custom markings]. Can teams rename or add call outcomes? The design uses a fixed list.\n2. Voicemail, busy and wrong numbers: all Call not answered? The design says yes.\n3. Are unanswered calls retried? The design calls each contact once.\n4. Calling rules are editable (decided). Still open: which roles can edit them, and whether a team may allow AI calls where Sprouts blocks them. The design allows it and shows a warning.\n5. Can the call mode change after launch? The design locks it at launch.\n6. Calendar disconnects mid-run: stop calling (as drawn in 2d) or keep calling without booking?\n7. Sprouts buys the numbers from Twilio (decided). Still open: what a number costs. 4e shows no price for now.",
+      "text": "Questions for the PRD (the design assumes an answer for each)\n\n1. FR-10 ends with [custom markings]. The live dialer lets each agent add outcomes, so 5c does too for Autopilot. Still open: whether Live Assist wrap-up uses the same list.\n2. The live dialer detects Voicemail, IVR, Unreachable and Unresolved on its own, and 5c lists them. Still open: whether call history shows them separately or rolls them into Call not answered, as rows 2 to 4 do today.\n3. Are unanswered calls retried? The design calls each contact once.\n4. Calling rules are editable (decided). Still open: which roles can edit them, and whether a team may allow AI calls where Sprouts blocks them. The design allows it and shows a warning.\n5. Can the call mode change after launch? The design locks it at launch.\n6. Calendar disconnects mid-run: stop calling (as drawn in 2d) or keep calling without booking?\n7. Sprouts buys the numbers from Twilio (decided). Still open: what a number costs. 4e shows no price for now. Also open: whether Whisper matches a live question to Personalization in V1 or later, and who refreshes the company model (it was 26 days old on 23 Nov).",
       "w": 460,
       "x": 10160,
       "y": 4200
@@ -337,10 +385,34 @@
     "n8": {
       "fill": "blue",
       "size": 24,
-      "text": "4d to 4f: phone numbers, bought from Twilio\n\n• 4d lists the team's numbers: where each is from, which mode calls from it, and its health.\n• Used for is one choice per number: Autopilot and Live Assist, one of the two, or Not connected. It stands in for 'Connect agent' in the current product, because V1 has two modes and no agent list.\n• 4e keeps the current product's Twilio search (country, state, city, area code, number contains, services). The rarely used filters sit under Advanced.\n• 4f: the new number lands at the top of the list with its mode set.\n• Release asks first. It is blocked while a campaign or queue is calling from the number.\n\nDecided: Sprouts buys the numbers, and one number can serve both modes. No price is shown yet.\n\nNot in the V1 PRD, which only names Twilio as the phone layer.",
+      "text": "4d to 4f: phone numbers, bought from Twilio\n\n• 4d lists the team's numbers: where each is from, which mode calls from it, and its health.\n• Used for is one choice per number: Autopilot and Live Assist, one of the two, or Not connected. It replaces 'Connect agent' in the current product. A number belongs to a mode and the campaign picks it on the Call step, so one agent can call from several numbers.\n• 4e keeps the current product's Twilio search (country, state, city, area code, number contains, services). The rarely used filters sit under Advanced.\n• 4f: the new number lands at the top of the list with its mode set.\n• Release asks first. It is blocked while a campaign or queue is calling from the number.\n\nDecided: Sprouts buys the numbers, and one number can serve both modes. No price is shown yet.\n\nNot in the V1 PRD, which only names Twilio as the phone layer.",
       "w": 460,
       "x": 9620,
       "y": 4200
+    },
+    "n9": {
+      "fill": "blue",
+      "size": 24,
+      "text": "Row 5: where the agent's settings live\n\nThe live AI Dialer has about 120 settings on one agent, across 7 tabs, and nearly all of them sit on the provider default. Three layers keep them off the Call node:\n\n• Node (row 1): agent and version, voice and goal, calling number, and what is blocking launch. Nothing else.\n• Call step panel (1c): pick a saved agent. Seven summary lines, one per group, open in place. A search covers every setting, and one button lists only what was changed. Below that sits only what differs per campaign: brief, number, calendar.\n• Agent editor (5a to 5e): every setting has a home, grouped by what the user wants to do instead of by provider tab.\n\nIn the editor:\n• A few essentials per group are real controls.\n• One choice replaces a cluster of knobs. Pace sets 4 timing settings (5b). Guardrails sets 14 filter settings.\n• The rest stay on Sprouts' defaults behind one line per group. Each can be changed and reset.\n• 5d lists only what differs from the defaults. 5e finds any setting by name.\n• Draft and publish work as they do today. Campaigns use the published version.\n• The right rail shows what the Call node will display for this agent.",
+      "w": 460,
+      "x": 7600,
+      "y": 5600
+    },
+    "n10": {
+      "fill": "orange",
+      "size": 24,
+      "text": "How the live tabs map to the groups (118 settings, plus 2 for numbers)\n\n• Says and does, 11: Behavior tab (name, opening line, six instruction topics, placeholders, stages, tags)\n• Voice and language, 23: voice, language and sound settings\n• Listening and pace, 27: speech recognition and timing\n• Knowledge, 9: Knowledge tab and retrieval settings. Sources come from Personalization\n• Ending and outcomes, 13: Tools & outcomes, hang-up rules, time limit, analysis\n• Safety and privacy, 20: guardrails and privacy\n• Engine, 15: models and limits\n• 'Answers calls on' and 'Calls people from' move to Phone numbers and the Call step\n\nChanges from the live product, to confirm:\n1. Placeholders fill from the contact record, not from CSV columns.\n2. Provider names are hidden. 'Provider default' reads as 'Sprouts default'.\n3. The step sends a short campaign brief along with the agent's instructions. Engineering needs to confirm the voice provider can take it per call.\n4. 'Calls at once' (1 to 5 lines) is left out. V1 dials one contact at a time.\n5. Voice agents sit under Dialer. One Platform also has Orchestrator › Agents, so decide which is home.\n6. Guided instructions only. The live 'Single prompt' mode is not drawn.\n7. The values behind Pace and Guardrails are placeholders for engineering to set.\n8. The second and third agents in the 1c picker are sample data.",
+      "w": 460,
+      "x": 8100,
+      "y": 5600
+    },
+    "t5": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "5 · Autopilot agent: about 120 settings, shown in three layers",
+      "w": 240,
+      "x": 0,
+      "y": 5300
     },
     "t1": {
       "kind": "title1",
@@ -403,7 +475,12 @@
     "CallingRules.dc.html",
     "PhoneNumbers.dc.html",
     "BuyNumber.dc.html",
-    "NumberBought.dc.html"
+    "NumberBought.dc.html",
+    "AgentEditor.dc.html",
+    "AgentPace.dc.html",
+    "AgentOutcomes.dc.html",
+    "AgentChanged.dc.html",
+    "AgentFind.dc.html"
   ],
   "pages": [],
   "title": "AI Dialer Redesign — Autopilot & Live Assist"

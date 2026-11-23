@@ -207,6 +207,13 @@ body{margin:0}
 </sc-for>
 </div>
 </sc-if>
+<sc-if value="{{ nodeAgent.show }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 1px; padding: 7px 10px 8px; border-top: 1px solid #EEF0F4">
+<span style="font-size: 11.5px; font-weight: 700">{{ nodeAgent.a }}</span>
+<span style="font-size: 11px; color: #555C68">{{ nodeAgent.b }}</span>
+<span style="font-size: 11px; color: #555C68">{{ nodeAgent.c }}</span>
+</div>
+</sc-if>
 </button>
 <div aria-hidden="true" style="width: 1px; height: 20px; background: #C3C9D3"></div>
 <span style="padding: 3px 9px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E7EAF0; font-size: 11px; font-weight: 600; color: #646B77">End of journey</span>
@@ -293,6 +300,7 @@ body{margin:0}
 <div style="flex: 1; min-width: 0">
 <h3 style="margin: 0; font-size: 15px; font-weight: 800">{{ liveTitle }}</h3>
 <p style="margin: 2px 0 0; font-size: 12px; color: #555C68">{{ liveLead }}</p>
+<p style="margin: 8px 0 0; display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 7px; background: #EBF1FE; font-size: 11.5px; font-weight: 700; color: #1D46A8"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.fileText }}"></path></svg>Talking points, objections and answers come from Personalization › Company model</p>
 </div>
 </div>
 
@@ -337,6 +345,10 @@ body{margin:0}
 <div style="display: flex; flex-direction: column; gap: 4px">
 <label for="la-opener" style="font-size: 12px; font-weight: 700; color: #555C68">Opener</label>
 <textarea id="la-opener" rows="3" value="{{ opener }}" onChange="{{ setOpener }}" onFocus="{{ focusOpener }}" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 44px; padding: 9px 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.5; color: #16181D"></textarea>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 11.5px; color: #555C68">
+<span style="flex: 1 1 220px; min-width: 0">Persona line for Revenue operations leaders, from Personalization: “{{ personaLine }}”</span>
+<button type="button" onClick="{{ addPersonaLine }}" style="min-height: 28px; padding: 0 10px; border-radius: 7px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 11.5px; font-weight: 700; color: #1D46A8; cursor: pointer">Add to opener</button>
+</div>
 </div>
 <div style="display: flex; flex-direction: column; gap: 4px">
 <label for="la-ask" style="font-size: 12px; font-weight: 700; color: #555C68">Ask</label>
@@ -358,25 +370,48 @@ body{margin:0}
 <div style="display: flex; align-items: center; gap: 8px">
 <span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">3</span>
 <h4 id="la-s3" style="margin: 0; font-size: 13px; font-weight: 800">Talking points</h4>
-<span style="margin-left: auto; font-size: 11.5px; color: #646B77">Said when they fit</span>
+<span style="margin-left: auto; font-size: 11.5px; color: #646B77">{{ pointsHint }}</span>
 </div>
 <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
 <sc-for list="{{ points }}" as="pt" hint-placeholder-count="3">
-<li style="display: flex; align-items: center; gap: 8px; min-height: 40px; box-sizing: border-box; padding: 4px 4px 4px 8px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF">
-<span aria-hidden="true" style="width: 6px; height: 6px; flex: 0 0 6px; margin: 0 4px; border-radius: 50%; background: #8A919D"></span>
-<input type="text" value="{{ pt.text }}" onChange="{{ pt.set }}" placeholder="Type a talking point" aria-label="Talking point" style="flex: 1; min-width: 0; height: 30px; padding: 0 4px; border: 0; border-radius: 6px; background: transparent; font: inherit; font-size: 13px; color: #16181D">
+<li style="display: flex; align-items: flex-start; gap: 8px; box-sizing: border-box; padding: 8px 4px 8px 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF">
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px">
+<sc-if value="{{ pt.fromPz }}" hint-placeholder-val="{{ true }}"><span style="font-size: 13px; line-height: 1.45">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.isCustom }}" hint-placeholder-val="{{ false }}"><input type="text" value="{{ pt.text }}" onChange="{{ pt.set }}" placeholder="Type a talking point" aria-label="Talking point for this campaign" style="width: 100%; height: 32px; box-sizing: border-box; padding: 0 9px; border-radius: 7px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; color: #16181D"></sc-if>
+<span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px">
+<span style="padding: 0 7px; border-radius: 5px; background: {{ pt.kindBg }}; color: {{ pt.kindFg }}; font-size: 10.5px; font-weight: 800">{{ pt.kind }}</span>
+<span style="font-size: 11px; color: #646B77">{{ pt.srcText }}</span>
+</span>
+</div>
 <button type="button" aria-label="Remove this talking point" onClick="{{ pt.remove }}" style="width: 30px; height: 30px; flex: 0 0 30px; border: 0; border-radius: 7px; background: transparent; color: #646B77; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ pt.x }}"></path></svg></button>
 </li>
 </sc-for>
 </ul>
-<button type="button" onClick="{{ addPoint }}" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 4px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.plus }}"></path></svg>Add talking point</button>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<span style="position: relative; display: block; flex: 1 1 240px; min-width: 0">
+<select aria-label="Add a talking point from Personalization" value="{{ addPointVal }}" onChange="{{ addPzPoint }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 700; color: #1D46A8; cursor: pointer; appearance: none; text-overflow: ellipsis">
+<option value="">Add from Personalization…</option>
+<option value="f1" disabled="{{ ptOff.f1 }}">Feature · Verified data from 20+ integrated data sources</option>
+<option value="f2" disabled="{{ ptOff.f2 }}">Feature · AI-powered ICP analysis and filters for account lists</option>
+<option value="f3" disabled="{{ ptOff.f3 }}">Feature · Identify website visitors at contact and account level</option>
+<option value="f5" disabled="{{ ptOff.f5 }}">Feature · Score accounts and leads by conversion potential</option>
+<option value="o1" disabled="{{ ptOff.o1 }}">Outcome · CloudSEK: data on 60,000 contacts and 30,000 accounts</option>
+<option value="o3" disabled="{{ ptOff.o3 }}">Outcome · Clinion: 4x increase in meetings booked</option>
+<option value="o4" disabled="{{ ptOff.o4 }}">Outcome · CloudSEK: 30% increase in SDR/BDR efficiency</option>
+<option value="o5" disabled="{{ ptOff.o5 }}">Outcome · Finsire: 4x increase in response rates</option>
+</select>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D46A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<button type="button" onClick="{{ addPoint }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.plus }}"></path></svg>Write your own</button>
+</div>
+<p style="margin: 0; font-size: 11.5px; color: #646B77">Whisper shows these when they fit. A point from Personalization is edited there, so every campaign gets the change.</p>
 </section>
 
 <section aria-labelledby="la-s4" style="display: flex; flex-direction: column; gap: 10px">
 <div style="display: flex; align-items: center; gap: 8px">
 <span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">4</span>
 <h4 id="la-s4" style="margin: 0; font-size: 13px; font-weight: 800">Objections</h4>
-<span style="margin-left: auto; font-size: 11.5px; color: #646B77">Shown when the prospect says a trigger word</span>
+<span style="margin-left: auto; font-size: 11.5px; color: #646B77">Shown when the prospect names a competitor</span>
 </div>
 <sc-for list="{{ objs }}" as="ob" hint-placeholder-count="1">
 <div style="display: flex; flex-direction: column; gap: 10px; padding: 12px; border-radius: 10px; border: 1px solid #E7EAF0; background: #FFFFFF">
@@ -391,15 +426,23 @@ body{margin:0}
 </div>
 </div>
 <span style="padding-top: 9px; font-size: 12px; font-weight: 700; color: #555C68">Answer</span>
-<textarea aria-label="Answer to this objection" rows="3" value="{{ ob.answer }}" onChange="{{ ob.setAnswer }}" placeholder="What the BDR should say" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 44px; padding: 9px 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.5; color: #16181D"></textarea>
+<textarea aria-label="Answer to this objection" rows="3" value="{{ ob.answer }}" onChange="{{ ob.setAnswer }}" placeholder="{{ ob.placeholder }}" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 44px; padding: 9px 11px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.5; color: #16181D"></textarea>
 </div>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
-<p style="flex: 1 1 200px; margin: 0; font-size: 11.5px; color: #646B77">Separate words with commas. Add the ways speech-to-text might spell a name, so the answer still shows.</p>
+<div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 3px">
+<span style="align-self: flex-start; padding: 0 7px; border-radius: 5px; background: {{ ob.srcBg }}; color: {{ ob.srcFg }}; font-size: 10.5px; font-weight: 800">{{ ob.srcText }}</span>
+<span style="font-size: 11.5px; color: #646B77">Separate words with commas. Add the ways speech-to-text might spell a name, so the answer still shows.</span>
+</div>
 <button type="button" onClick="{{ ob.remove }}" style="min-height: 30px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #B42318; cursor: pointer">Remove</button>
 </div>
 </div>
 </sc-for>
-<button type="button" onClick="{{ addObj }}" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 4px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.plus }}"></path></svg>Add objection</button>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-if value="{{ canAddRox }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ addRox }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #1D46A8; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.plus }}"></path></svg>Add Rox from Competitors</button>
+</sc-if>
+<button type="button" onClick="{{ addObj }}" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; color: #16181D; cursor: pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.plus }}"></path></svg>Write your own</button>
+</div>
 </section>
 
 <section aria-labelledby="la-s5" style="display: flex; flex-direction: column; gap: 10px">
@@ -407,9 +450,17 @@ body{margin:0}
 <span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">5</span>
 <h4 id="la-s5" style="margin: 0; font-size: 13px; font-weight: 800">Answers to questions</h4>
 </div>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #F6F7F9; border: 1px solid #EEF0F4">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D46A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.fileText }}"></path></svg>
-<div style="flex: 1 1 200px; min-width: 0"><div style="font-size: 12.5px; font-weight: 700">Approved answers · 12 topics</div><div style="font-size: 11.5px; color: #555C68">When the prospect asks a question, Whisper shows the matching approved answer and its source. The answers come from your knowledge base.</div></div>
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 12px; border-radius: 10px; background: #F6F7F9; border: 1px solid #EEF0F4">
+<div style="display: flex; gap: 10px; align-items: flex-start">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D46A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 16px; margin-top: 2px"><path d="{{ ic.fileText }}"></path></svg>
+<div style="flex: 1; min-width: 0"><div style="font-size: 12.5px; font-weight: 700">Answers come from Personalization</div><div style="font-size: 11.5px; color: #555C68">When the prospect asks a question, Whisper shows the facts that match, each with its proof. When nothing matches, it says so and shows no answer.</div></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr)); gap: 8px">
+<sc-for list="{{ pzSources }}" as="sr" hint-placeholder-count="3">
+<div style="padding: 8px 10px; border-radius: 9px; background: #FFFFFF; border: 1px solid #E7EAF0"><div style="font-size: 15px; font-weight: 800">{{ sr.n }}</div><div style="font-size: 11.5px; font-weight: 700">{{ sr.label }}</div><div style="font-size: 11px; color: #646B77">{{ sr.note }}</div></div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 7px; align-items: flex-start; font-size: 11.5px; color: #8A5A00"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 13px; margin-top: 2px"><path d="{{ ic.clock }}"></path></svg><span>The company model was last enriched 26 days ago and no refresh is scheduled. Refresh it in Personalization so reps don't read out stale facts.</span></div>
 </div>
 </section>
 </div>
@@ -457,7 +508,7 @@ body{margin:0}
 <span aria-hidden="true" style="width: 32px; height: 32px; flex: 0 0 32px; border-radius: 9px; background: #EBF1FE; color: #2E63E7; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.sparkles }}"></path></svg></span>
 <div style="flex: 1; min-width: 0">
 <h3 style="margin: 0; font-size: 15px; font-weight: 800">Autopilot</h3>
-<p style="margin: 2px 0 0; font-size: 12px; color: #555C68">The AI makes these calls on the campaign schedule. Write its prompt, pick the voice and number, and connect the calendar it books meetings on.</p>
+<p style="margin: 2px 0 0; font-size: 12px; color: #555C68">The AI makes these calls on the campaign schedule. Pick the agent, tell it what this campaign is about, and connect the calendar it books meetings on.</p>
 </div>
 </div>
 
@@ -467,9 +518,87 @@ body{margin:0}
 <section style="display: flex; flex-direction: column; gap: 8px">
 <div style="display: flex; align-items: center; gap: 8px">
 <span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">1</span>
-<label for="ap-prompt" style="font-size: 13px; font-weight: 800">Agent prompt</label>
+<label for="ap-agent" style="font-size: 13px; font-weight: 800">Agent</label>
+<a href="AgentEditor.dc.html" style="margin-left: auto; display: inline-flex; align-items: center; gap: 5px; min-height: 30px; font-size: 12px; font-weight: 700; color: #1D46A8; text-decoration: none">Edit agent<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.arrowR }}"></path></svg></a>
 </div>
-<textarea id="ap-prompt" rows="12" value="{{ prompt }}" onChange="{{ setPrompt }}" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 180px; padding: 11px 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.55; color: #16181D"></textarea>
+<span style="position: relative; display: block; min-width: 0">
+<select id="ap-agent" value="{{ agentSel }}" onChange="{{ setAgent }}" style="width: 100%; height: 38px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; font-weight: 700; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
+<option value="ridge">Ridge · Outbound qualifier · v4</option>
+<option value="renew">Ridge · Renewal check-in · v2</option>
+<option value="events">Ava · Event follow-up · v7</option>
+</select>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
+</span>
+<div style="font-size: 11.5px; color: #555C68">{{ agent.meta }}</div>
+<sc-if value="{{ agent.hasDraft }}" hint-placeholder-val="{{ false }}">
+<div style="font-size: 11.5px; color: #8A5A00">{{ agent.draft }}</div>
+</sc-if>
+
+<div style="border: 1px solid #E7EAF0; border-radius: 10px; overflow: hidden">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; padding: 8px 10px; background: #FAFBFC; border-bottom: 1px solid #EEF0F4">
+<span style="font-size: 12px; font-weight: 800">What this agent is set to</span>
+<button type="button" aria-pressed="{{ chgPressed }}" aria-label="Show only the settings changed from Sprouts defaults" onClick="{{ toggleChg }}" style="margin-left: auto; min-height: 28px; padding: 0 9px; border-radius: 7px; border: 1px solid {{ chgBtn.border }}; background: {{ chgBtn.bg }}; font: inherit; font-size: 11.5px; font-weight: 700; color: {{ chgBtn.fg }}; cursor: pointer">{{ chgLabel }}</button>
+</div>
+<div style="display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 10px; border-bottom: 1px solid #EEF0F4">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555C68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 13px"><path d="{{ ic.search }}"></path></svg>
+<input type="search" value="{{ setq }}" onChange="{{ setSetq }}" placeholder="Find any of the 118 settings, such as voicemail or silence" aria-label="Find a setting on this agent" style="flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; font-size: 12.5px; color: #16181D; outline: none">
+</div>
+
+<sc-if value="{{ showGroups }}" hint-placeholder-val="{{ true }}">
+<div>
+<sc-for list="{{ agentGroups }}" as="ag" hint-placeholder-count="7">
+<div style="border-top: {{ ag.divider }}">
+<button type="button" aria-expanded="{{ ag.open }}" onClick="{{ ag.toggle }}" style="width: 100%; box-sizing: border-box; display: flex; align-items: flex-start; gap: 9px; padding: 9px 10px; border: 0; background: {{ ag.bg }}; font: inherit; color: inherit; text-align: left; cursor: pointer">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#555C68" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 15px; margin-top: 2px"><path d="{{ ag.d }}"></path></svg>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px"><span style="font-size: 12.5px; font-weight: 700">{{ ag.label }}</span><span style="padding: 0 6px; border-radius: 5px; background: {{ ag.chipBg }}; color: {{ ag.chipFg }}; font-size: 10.5px; font-weight: 800">{{ ag.chip }}</span></span>
+<span style="font-size: 11.5px; color: #555C68">{{ ag.sum }}</span>
+</span>
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#646B77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 13px; margin-top: 3px"><path d="{{ ag.chev }}"></path></svg>
+</button>
+<sc-if value="{{ ag.isOpen }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; padding: 0 10px 10px 34px; background: #FAFBFC">
+<sc-for list="{{ ag.rows }}" as="ar" hint-placeholder-count="4">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding: 5px 0; border-top: 1px solid #EEF0F4; font-size: 12px">
+<span style="flex: 0 0 132px; min-width: 0; color: #555C68">{{ ar.name }}</span>
+<span style="flex: 1 1 110px; min-width: 0; font-weight: 600">{{ ar.value }}</span>
+<sc-if value="{{ ar.changed }}" hint-placeholder-val="{{ false }}"><span style="padding: 0 6px; border-radius: 5px; background: #EBF1FE; color: #1D46A8; font-size: 10.5px; font-weight: 800">Changed</span></sc-if>
+</div>
+</sc-for>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; padding-top: 7px; border-top: 1px solid #EEF0F4; font-size: 11.5px; color: #646B77"><span style="flex: 1 1 150px">{{ ag.moreText }}</span><a href="{{ ag.href }}" style="font-weight: 700; color: #1D46A8">Open in the agent editor</a></div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ showFound }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; padding: 4px 10px 10px">
+<div aria-live="polite" style="padding: 5px 0; font-size: 11.5px; color: #646B77">{{ foundLabel }}</div>
+<sc-for list="{{ found }}" as="fr" hint-placeholder-count="4">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding: 6px 0; border-top: 1px solid #EEF0F4; font-size: 12px">
+<span style="flex: 0 0 172px; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 700">{{ fr.name }}</span><span style="font-size: 11.5px; color: #646B77">{{ fr.group }}</span></span>
+<span style="flex: 1 1 90px; min-width: 0; color: {{ fr.valueColor }}">{{ fr.value }}</span>
+<sc-if value="{{ fr.changed }}" hint-placeholder-val="{{ false }}"><span style="padding: 0 6px; border-radius: 5px; background: #EBF1FE; color: #1D46A8; font-size: 10.5px; font-weight: 800">Changed</span></sc-if>
+</div>
+</sc-for>
+<sc-if value="{{ foundHasMore }}" hint-placeholder-val="{{ false }}">
+<div style="padding-top: 6px; border-top: 1px solid #EEF0F4; font-size: 11.5px; color: #646B77">{{ foundMoreText }}</div>
+</sc-if>
+</div>
+</sc-if>
+</div>
+<p style="margin: 0; font-size: 11.5px; color: #646B77">These settings belong to the agent, so every campaign that picks it gets the same behaviour. Change them in the agent editor.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">2</span>
+<label for="ap-brief" style="font-size: 13px; font-weight: 800">Brief for this campaign</label>
+</div>
+<p style="margin: 0; font-size: 12px; color: #555C68">Why you are calling these contacts and what to ask for. It is added to the agent's instructions for this campaign only.</p>
+<textarea id="ap-brief" rows="5" value="{{ brief }}" onChange="{{ setBrief }}" style="width: 100%; box-sizing: border-box; resize: vertical; field-sizing: content; min-height: 110px; padding: 10px 12px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 13px; line-height: 1.55; color: #16181D"></textarea>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
 <span style="font-size: 11.5px; color: #646B77">Insert</span>
 <sc-for list="{{ vars }}" as="v" hint-placeholder-count="4">
@@ -480,20 +609,10 @@ body{margin:0}
 
 <section style="display: flex; flex-direction: column; gap: 8px">
 <div style="display: flex; align-items: center; gap: 8px">
-<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">2</span>
-<span style="font-size: 13px; font-weight: 800">Voice and number</span>
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">3</span>
+<label for="ap-from" style="font-size: 13px; font-weight: 800">Calling from</label>
 </div>
-<div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 8px 12px">
-<label for="ap-voice" style="font-size: 12px; font-weight: 700; color: #555C68">Voice</label>
-<span style="position: relative; display: block; min-width: 0">
-<select id="ap-voice" value="{{ voice }}" onChange="{{ setVoice }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
-<option value="Maya">Maya · warm · English</option>
-<option value="Arjun">Arjun · steady · English</option>
-<option value="Ava">Ava · bright · English</option>
-</select>
-<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
-</span>
-<label for="ap-from" style="font-size: 12px; font-weight: 700; color: #555C68">Calling from</label>
+<div style="display: flex; flex-direction: column; gap: 6px">
 <span style="position: relative; display: block; min-width: 0">
 <select id="ap-from" value="{{ fromAuto }}" onChange="{{ setFromAuto }}" style="width: 100%; height: 36px; box-sizing: border-box; padding: 0 30px 0 10px; border-radius: 9px; border: 1px solid #E7EAF0; background: #FFFFFF; font: inherit; font-size: 12.5px; font-weight: 600; color: #16181D; cursor: pointer; appearance: none; text-overflow: ellipsis">
 <option value="+1 (615) 555 0142 · Nashville, TN">+1 (615) 555 0142 · Nashville, TN</option>
@@ -502,14 +621,13 @@ body{margin:0}
 </select>
 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; right: 10px; top: 50%; margin-top: -6.5px; pointer-events: none"><path d="{{ ic.chevD }}"></path></svg>
 </span>
-<span aria-hidden="true"></span>
-<span style="font-size: 11.5px; color: #646B77">Need another number? Buy one in <a href="PhoneNumbers.dc.html" style="color: #1D46A8; font-weight: 700">Dialer › Phone numbers</a>.</span>
+<span style="font-size: 11.5px; color: #646B77">The number belongs to the campaign, so one agent can call from different numbers. Need another? Buy one in <a href="PhoneNumbers.dc.html" style="color: #1D46A8; font-weight: 700">Dialer › Phone numbers</a>.</span>
 </div>
 </section>
 
 <section id="ap-cal" style="display: flex; flex-direction: column; gap: 8px; scroll-margin-top: 12px">
 <div style="display: flex; align-items: center; gap: 8px">
-<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">3</span>
+<span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: #16181D; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center">4</span>
 <span style="font-size: 13px; font-weight: 800">Calendar</span>
 <span style="margin-left: auto; padding: 1px 7px; border-radius: 6px; font-size: 11px; font-weight: 800; background: {{ calChip.bg }}; color: {{ calChip.fg }}">{{ calChip.label }}</span>
 </div>
@@ -560,19 +678,27 @@ body{margin:0}
 <section aria-labelledby="ap-checks" style="border-radius: 12px; border: 1px solid #E7EAF0; background: #FFFFFF; overflow: hidden">
 <div style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid #EEF0F4; background: #FAFBFC">
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D46A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.listChecks }}"></path></svg>
-<h4 id="ap-checks" style="margin: 0; font-size: 12.5px; font-weight: 800">Prompt guidelines</h4>
+<h4 id="ap-checks" style="margin: 0; font-size: 12.5px; font-weight: 800">Before the number check</h4>
 <span style="margin-left: auto; font-size: 11.5px; font-weight: 700; color: {{ coveredColor }}">{{ coveredLabel }}</span>
 </div>
-<ul aria-live="polite" style="list-style: none; margin: 0; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px">
-<sc-for list="{{ promptChecks }}" as="pc" hint-placeholder-count="6">
-<li style="display: flex; gap: 8px; align-items: flex-start; font-size: 12px; line-height: 1.4; color: {{ pc.textColor }}">
+<ul aria-live="polite" style="list-style: none; margin: 0; padding: 10px 12px; display: flex; flex-direction: column; gap: 9px">
+<sc-for list="{{ setupChecks }}" as="pc" hint-placeholder-count="5">
+<li style="display: flex; gap: 8px; align-items: flex-start; font-size: 12px; line-height: 1.4">
 <span aria-hidden="true" style="width: 18px; height: 18px; flex: 0 0 18px; border-radius: 50%; background: {{ pc.bg }}; color: {{ pc.fg }}; display: flex; align-items: center; justify-content: center"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ pc.icon }}"></path></svg></span>
-<span>{{ pc.label }}<sc-if value="{{ pc.notOk }}" hint-placeholder-val="{{ false }}"><span style="font-weight: 700"> · not in the prompt</span></sc-if></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 700">{{ pc.label }}</span><span style="font-size: 11.5px; color: {{ pc.subColor }}">{{ pc.sub }}</span></span>
 </li>
 </sc-for>
 </ul>
-<p style="margin: 0; padding: 0 12px 12px; font-size: 11.5px; color: #646B77">Checked as you type. Recommended, not required to launch.</p>
+<p style="margin: 0; padding: 0 12px 12px; font-size: 11.5px; color: #646B77">Only the calendar is required. The prompt guidelines are checked on the agent as it is written.</p>
 </section>
+<div style="display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; border: 1px solid #E7EAF0; background: #FFFFFF">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D46A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 16px; margin-top: 2px"><path d="{{ ic.fileText }}"></path></svg>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px">
+<div style="font-size: 12.5px; font-weight: 700">What the agent answers from</div>
+<div style="font-size: 11.5px; color: #555C68">Personalization › Company model: 27 talking points, 9 testimonials and 44 knowledge base files. If the answer isn't there, the agent says so and offers a follow-up.</div>
+<div style="font-size: 11.5px; color: #8A5A00">Last enriched 26 days ago · no refresh scheduled</div>
+</div>
+</div>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; border: 1px dashed #C9D9FB; background: #F7F9FF">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D46A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic.phoneOut }}"></path></svg>
 <div style="flex: 1 1 160px; min-width: 0"><div style="font-size: 12.5px; font-weight: 700">Hear it before launch</div><div aria-live="polite" style="font-size: 11.5px; color: #555C68">{{ testText }}</div></div>
@@ -856,6 +982,11 @@ class Component extends DCLogic {
       lock: 'M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z M7 11V7a5 5 0 0 1 10 0v4',
       grip: 'M9 5h.01 M9 12h.01 M9 19h.01 M15 5h.01 M15 12h.01 M15 19h.01',
       plus: 'M12 5v14 M5 12h14',
+      message: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
+      audio: 'M2 10v3 M6 6v11 M10 3v18 M14 8v7 M18 5v13 M22 10v3',
+      book: 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z',
+      flag: 'M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z M4 22v-7',
+      cpu: 'M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M9 9h6v6H9z M9 1v3 M15 1v3 M9 20v3 M15 20v3 M20 9h3 M20 14h3 M1 9h3 M1 14h3',
       excl: 'M12 7v6 M12 17h.01'
     };
   }
@@ -909,6 +1040,94 @@ class Component extends DCLogic {
     }, 220);
   }
 
+  agents() {
+    return {
+      ridge: {
+        name: 'Ridge · Outbound qualifier', ver: 'v4', voice: 'Maya', voiceFull: 'Maya · warm', lang: 'English', guide: 6,
+        opening: 'Hi {first name}, this is Ridge, an AI assistant calling for Sprouts. Do you have a minute?',
+        meta: 'Published 6 Nov · used by 2 campaigns', draft: '',
+        vals: { speed: '1.05×', pace: 'Balanced', endSilence: '20 s', filler: '“One moment.”', maxLen: '8 min' },
+        chg: { speed: true, endSilence: true, filler: true, maxLen: true }
+      },
+      renew: {
+        name: 'Ridge · Renewal check-in', ver: 'v2', voice: 'Arjun', voiceFull: 'Arjun · steady', lang: 'English', guide: 6,
+        opening: 'Hi {first name}, this is Ridge, an AI assistant from Sprouts. I am calling about your renewal.',
+        meta: 'Published 28 Oct · used by 1 campaign', draft: '',
+        vals: { speed: '1.0×', pace: 'Patient', endSilence: '15 s', filler: 'None', maxLen: '5 min' },
+        chg: { pace: true, maxLen: true }
+      },
+      events: {
+        name: 'Ava · Event follow-up', ver: 'v7', voice: 'Ava', voiceFull: 'Ava · bright', lang: 'English + Hindi', guide: 5,
+        opening: 'Hi {first name}, this is Ava, an AI assistant from Sprouts. Thanks for stopping by our booth.',
+        meta: 'Published 14 Nov · not used by a campaign yet',
+        draft: 'A newer draft has 2 unpublished changes. Calls use v7 until someone publishes it.',
+        vals: { speed: '1.1×', pace: 'Quick', endSilence: '15 s', filler: 'None', maxLen: '10 min' },
+        chg: { lang: true, speed: true, pace: true }
+      }
+    };
+  }
+
+  agentCatalog(a, ic) {
+    const v = a.vals;
+    const turn = { Patient: '1.2 s', Balanced: '0.8 s', Quick: '0.5 s' }[v.pace];
+    const eager = { Patient: 'Low', Balanced: 'Normal', Quick: 'High' }[v.pace];
+    const wait = { Patient: '2.0 s', Balanced: '1.5 s', Quick: '1.0 s' }[v.pace];
+    const spell = { Patient: 'High', Balanced: 'Normal', Quick: 'Low' }[v.pace];
+    const filters = ['Sexual content', 'Violence', 'Harassment', 'Self harm', 'Profanity', 'Religion or politics', 'Medical and legal information'];
+    const openingShort = a.opening.length > 44 ? a.opening.slice(0, 42) + '…' : a.opening;
+    return [
+      {
+        id: 'says', label: 'Says and does', d: ic.message, total: 11, href: 'AgentEditor.dc.html',
+        sum: 'Opens with “' + openingShort + '” · 6 of 6 topics written',
+        rows: [['Opening line', a.opening], ['Instructions', '6 of 6 topics written · ' + a.guide + ' of 6 prompt guidelines covered'], ['Placeholders', '4, filled from the contact record'], ['Conversation stages', 'None']],
+        also: [['Agent name', a.name], ['Instructions: Who the agent is', 'Written'], ['Instructions: How it speaks', 'Written'], ['Instructions: What it should achieve', 'Written'], ['Instructions: How the call should go', 'Written'], ['Instructions: Rules to follow', 'Written'], ['Instructions: Facts it can use', 'Written']],
+        more: ['Tags']
+      },
+      {
+        id: 'voice', label: 'Voice and language', d: ic.audio, total: 23, href: 'AgentEditor.dc.html',
+        sum: a.voiceFull + ' · ' + a.lang + ' · speed ' + v.speed,
+        rows: [['Voice', a.voiceFull], ['Conversation language', a.lang, 'lang'], ['Speaking speed', v.speed, 'speed'], ['Expressive speech', 'On'], ['Background ambience', 'Off']],
+        also: [],
+        more: ['Hinglish', 'Localized greetings', 'Time zone', 'Speech model', 'Voice stability', 'Voice similarity', 'Clone strength', 'Phoneme tags', 'Text normalization', 'Streaming latency preference', 'Suggested audio tags', 'Ambience volume', 'Crossfade sound loops', 'Voice filter', 'Voice distance', 'Voice environment', 'Voice noise bed', 'Reverb level']
+      },
+      {
+        id: 'pace', label: 'Listening and pace', d: ic.ear, total: 27, href: 'AgentPace.dc.html',
+        sum: v.pace + ' pace · hangs up after ' + v.endSilence + ' of silence',
+        rows: [['Pace', v.pace + ' · takes its turn after ' + turn + ' of silence', 'pace'], ['End call after silence', v.endSilence, 'endSilence'], ['Filler phrase', v.filler, 'filler'], ['Finish the greeting before interruptions', 'On']],
+        also: [['Take a turn after silence', turn + ' · set by Pace'], ['Response eagerness', eager + ' · set by Pace'], ['Initial wait', wait + ' · set by Pace'], ['Spelling patience', spell + ' · set by Pace']],
+        more: ['Detect noisy environments', 'Recognition model', 'Recognition keywords', 'Filter background speech', 'Turn detection mode', 'Turn model', 'Speculative turns', 'Retranscribe on turn timeout', 'Ignore interruption words', 'Languages for default interruption words', 'Include default interruption words', 'Transcribe during locked speech', 'Noisy environment message', 'Filler delay', 'Additional filler phrases', 'Generate filler phrases', 'Shuffle filler phrases', 'Maximum fillers per response', 'Filler instructions', 'Wait for the first caller message before filling']
+      },
+      {
+        id: 'knows', label: 'Knowledge', d: ic.book, total: 9, href: 'AgentEditor.dc.html',
+        sum: 'Personalization: 27 talking points, 9 testimonials, 44 files',
+        rows: [['Sources', 'Personalization › Company model'], ['Look up answers during the call', 'On'], ['Save the source of each answer', 'On']],
+        also: [],
+        more: ['Embedding model', 'Maximum vector distance', 'Maximum retrieved document length', 'Maximum retrieved chunks', 'Retrieval candidates', 'Query rewrite instructions']
+      },
+      {
+        id: 'ends', label: 'Ending and outcomes', d: ic.flag, total: 13, href: 'AgentOutcomes.dc.html',
+        sum: '6 outcomes · hangs up on voicemail · ' + v.maxLen + ' limit',
+        rows: [['Call outcomes', '6 the agent picks · 4 detected automatically'], ['Hang up on voicemail', 'On'], ['End the call when the caller says stop', 'On'], ['Maximum call length', v.maxLen, 'maxLen']],
+        also: [['When the agent hangs up', 'Written'], ['Main reason for the outcome', 'Always saved']],
+        more: ['End the call when the caller presses a key', 'Time limit message', 'Save the call result', 'Evaluations', 'Analysis model', 'Summary language', 'Translate transcript']
+      },
+      {
+        id: 'safe', label: 'Safety and privacy', d: ic.shield, total: 20, href: 'AgentEditor.dc.html',
+        sum: 'Standard guardrails · records calls · keeps recordings 90 days',
+        rows: [['Guardrails', 'Standard · 7 content filters on'], ['Keep the agent on topic', 'On'], ['Record call audio', 'On'], ['Keep recordings for', '90 days']],
+        also: filters.map((f) => [f, 'On · set by Guardrails']).concat(filters.map((f) => [f + ' sensitivity threshold', "Sprouts' threshold · set by Guardrails"])),
+        more: ['Detect prompt injection', 'Redact personal data in transcripts', 'Entities to redact']
+      },
+      {
+        id: 'engine', label: 'Engine', d: ic.cpu, total: 15, href: 'AgentEditor.dc.html',
+        sum: "Sprouts' model and limits · for admins",
+        rows: [['Language model', 'Sprouts default'], ['Temperature', 'Sprouts default']],
+        also: [],
+        more: ['Conversations per day', 'Execution mode', 'Model service tier', 'Reasoning effort', 'Thinking budget', 'Response token limit', 'Parallel tool calls', 'Reasoning summaries', 'Use only the authored personality', 'Strict tool availability', 'Fallback model delay', 'Concurrent conversations', 'Allow bursting']
+      }
+    ];
+  }
+
   renderVals() {
     const s = this.state || {};
     const p = this.props || {};
@@ -929,7 +1148,10 @@ class Component extends DCLogic {
     const panelOpen = s.panelOpen !== false;
     const delay = s.delay !== undefined ? s.delay : '1';
     const dayNum = 2 + Number(delay);
-    const voice = s.voice || 'Maya';
+    const agentMap = this.agents();
+    const agentSel = agentMap[s.agentSel] ? s.agentSel : 'ridge';
+    const agent = agentMap[agentSel];
+    const voice = agent.voice;
     const fromAuto = s.fromAuto || '+1 (615) 555 0142 · Nashville, TN';
     const meetLen = s.meetLen || '30';
     const slotWin = s.slotWin || '5';
@@ -1036,7 +1258,7 @@ class Component extends DCLogic {
       Object.assign(card(isAuto), {
         on: isAuto, pick: go({ mode: 'autopilot', saved: false }), d: ic.sparkles, tile: '#EBF1FE', fg: '#1D46A8',
         title: 'Autopilot', tag: 'AI calls', lead: 'The AI makes the calls',
-        points: ['Runs on the campaign schedule, no BDR needed', 'Follows your prompt and books meetings on your calendar', 'Only numbers allowed to receive AI calls']
+        points: ['Runs on the campaign schedule, no BDR needed', 'Uses the agent you pick and books meetings on your calendar', 'Only numbers allowed to receive AI calls']
       }),
       Object.assign(card(isLive), {
         on: isLive, pick: go({ mode: 'live' }), d: ic.headset, tile: '#EEF0F4', fg: '#16181D',
@@ -1062,6 +1284,12 @@ class Component extends DCLogic {
     } else {
       callNode = { isSingle: true, isSplit: false, chip: 'Autopilot', chipBg: '#EBF1FE', chipFg: '#1D46A8', hasAlert: false, alert: '', sub: showChecking ? 'Checking numbers…' : (calendar ? 'Numbers not checked yet' : 'Calendar not connected') };
     }
+    const nodeAgent = {
+      show: isAuto && !showMode,
+      a: agent.name + ' · ' + agent.ver,
+      b: agent.voice + ' · ' + agent.lang + ' · books ' + meetLen + '-min meetings',
+      c: 'From ' + String(fromAuto).split(' · ')[0]
+    };
 
     const stepTypes = [
       { label: 'Email', sub: 'Send a personalised message', isIcon: true, isText: false, text: '', d: ic.mail, tile: '#EBF1FE', fg: '#2E63E7', bg: 'transparent', ring: 'none' },
@@ -1097,7 +1325,7 @@ class Component extends DCLogic {
       : 'Choose what happens to the 4 contacts restricted by country.';
 
     const readyItems = [
-      { check: ic.check, title: 'Agent prompt', text: 'Ridge · outbound qualifier · ' + voice + ' voice', subs: [], divider: '0' },
+      { check: ic.check, title: 'Agent', text: agent.name + ' · ' + agent.ver + ' · ' + voice + ' voice', subs: [], divider: '0' },
       { check: ic.check, title: 'Calendar', text: 'dharam@sprouts.ai · Google Calendar · ' + meetLen + '-minute meetings', subs: [], divider: line },
       {
         check: ic.check, title: 'Number check', text: '42 of 48 numbers cleared for AI calls', divider: line,
@@ -1161,23 +1389,52 @@ class Component extends DCLogic {
       ];
     }
 
-    const promptDefault = "You are Ridge, an AI assistant calling on behalf of Sprouts. Say you are an AI assistant in your first sentence.\nGoal: book a 30-minute walkthrough with a Sprouts specialist.\nContext: {first name} at {company} looked at our pricing page recently.\nAnswer only from Sprouts' approved information. If you don't know, say so and offer a follow-up by email.\nKeep answers short and steer back to the meeting.\nBefore booking, confirm the date, time and email address.\nIf they ask to end the call or not to be called again, thank them and end the call.";
-    const prompt = s.prompt !== undefined ? s.prompt : promptDefault;
-    const pl = String(prompt).toLowerCase();
-    const has = (words) => words.some((w) => pl.indexOf(w) !== -1);
-    const checkDefs = [
-      { label: "Says it's an AI assistant at the start", ok: has(['ai assistant', 'an ai ']) },
-      { label: 'Answers only from approved company information', ok: has(['approved']) },
-      { label: "Says when it doesn't know, and offers a follow-up", ok: has(["don't know", 'don’t know', 'do not know', 'not sure']) && has(['follow-up', 'follow up']) },
-      { label: 'Keeps answers short and steers to the goal', ok: has(['short', 'brief', 'concise']) },
-      { label: 'Confirms date, time and email before booking', ok: has(['confirm']) && has(['email']) },
-      { label: 'Ends the call when asked, and notes not to call again', ok: has(['end the call', 'not to be called', 'not be called', 'do not call']) }
+    const briefDefault = 'These contacts looked at our pricing page in the last two weeks.\nMention the visit once, then ask what {first name} was hoping to find.\nGoal for this campaign: a 30-minute walkthrough with a Sprouts specialist.';
+    const brief = s.brief !== undefined ? s.brief : briefDefault;
+    const briefOk = String(brief).trim().length > 0;
+    const okTone = { bg: '#E7F5EE', fg: '#1B6B45', icon: ic.check, subColor: '#555C68' };
+    const warnTone = { bg: '#FBF3DF', fg: '#8A5A00', icon: ic.excl, subColor: '#8A5A00' };
+    const mkCheck = (ok, label, sub) => Object.assign({ label: label, sub: sub, ok: ok }, ok ? okTone : warnTone);
+    const setupChecks = [
+      mkCheck(true, 'Agent is published', agent.name + ' · ' + agent.ver),
+      mkCheck(agent.guide === 6, 'Prompt guidelines', agent.guide === 6 ? '6 of 6 covered in the agent’s instructions' : agent.guide + ' of 6 covered. Recommended, not required.'),
+      mkCheck(briefOk, 'Campaign brief', briefOk ? 'Added to the agent’s instructions for this campaign' : 'Empty. The agent will not know why it is calling.'),
+      mkCheck(true, 'Calling number', String(fromAuto).split(' · ')[0] + ' · healthy'),
+      mkCheck(calendar, 'Calendar', calendar ? 'dharam@sprouts.ai · ' + meetLen + '-minute meetings' : 'Not connected. Required to continue.')
     ];
-    const covered = checkDefs.filter((c) => c.ok).length;
-    const promptChecks = checkDefs.map((c) => ({
-      label: c.label, notOk: !c.ok, icon: c.ok ? ic.check : ic.excl,
-      bg: c.ok ? '#E7F5EE' : '#FBF3DF', fg: c.ok ? '#1B6B45' : '#8A5A00', textColor: c.ok ? '#16181D' : '#8A5A00'
-    }));
+    const covered = setupChecks.filter((c) => c.ok).length;
+
+    const catalog = this.agentCatalog(agent, ic);
+    const openGroup = s.openGroup || null;
+    const setq = s.setq || '';
+    const sq = String(setq).trim().toLowerCase();
+    const chgOnly = !!s.chgOnly;
+    const settingsFlat = [];
+    catalog.forEach((g) => {
+      g.rows.forEach((r) => settingsFlat.push({ name: r[0], group: g.label, value: r[1], changed: !!(r[2] && agent.chg[r[2]]) }));
+      g.also.forEach((r) => settingsFlat.push({ name: r[0], group: g.label, value: r[1], changed: false }));
+      g.more.forEach((n) => settingsFlat.push({ name: n, group: g.label, value: 'Sprouts default', changed: false }));
+    });
+    const changedN = settingsFlat.filter((x) => x.changed).length;
+    const showFound = !!sq || chgOnly;
+    const foundAll = settingsFlat.filter((x) => (!chgOnly || x.changed) && (!sq || x.name.toLowerCase().indexOf(sq) !== -1));
+    const foundCap = 8;
+    const agentGroups = catalog.map((g, i) => {
+      const n = g.rows.filter((r) => r[2] && agent.chg[r[2]]).length;
+      const isOpen = openGroup === g.id;
+      return {
+        label: g.label, d: g.d, sum: g.sum, href: g.href,
+        divider: i === 0 ? '0' : '1px solid #EEF0F4',
+        chip: n ? n + ' changed' : g.total + ' settings',
+        chipBg: n ? '#EBF1FE' : '#F1F3F6', chipFg: n ? '#1D46A8' : '#555C68',
+        open: isOpen ? 'true' : 'false', isOpen: isOpen,
+        bg: isOpen ? '#FAFBFC' : '#FFFFFF',
+        chev: isOpen ? ic.chevD : ic.chevR,
+        toggle: () => this.setState({ openGroup: isOpen ? null : g.id }),
+        rows: g.rows.map((r) => ({ name: r[0], value: r[1], changed: !!(r[2] && agent.chg[r[2]]) })),
+        moreText: g.more.length ? '+ ' + g.more.length + (g.more.length === 1 ? ' more setting' : ' more settings') + ' on Sprouts defaults' : 'Nothing else in this group'
+      };
+    });
 
     const withMoved = isAuto && choice === 'live' && (moved || showReady);
     const flowDefs = isAuto
@@ -1221,9 +1478,31 @@ class Component extends DCLogic {
     const opener = s.opener !== undefined ? s.opener : "Hi {first name}, it's {your name} from Sprouts. I'll be quick: your team looked at our pricing page last week. Do you have two minutes?";
     const ask = s.ask !== undefined ? s.ask : 'How many tools feed your CRM today, and who fixes it when they disagree?';
     const close = s.close !== undefined ? s.close : 'Would a 30-minute walkthrough on Thursday or Friday work?';
-    const objList = s.objs || [{ words: 'ZoomInfo, Zoom Info, ZI', answer: 'Most teams keep it. We fill what it misses and verify every record before it writes to the CRM.' }];
-    const pointList = s.points || ['Every record is verified before it reaches the CRM', '250+ data partners behind one search', 'Works inside Salesforce and Dynamics 365'];
-    const pointTexts = pointList.filter((t) => String(t).trim());
+    // Talking points as they stand in Personalization › Company model › Talking points. Each has a proof link there.
+    const PZ_POINTS = {
+      f1: { kind: 'Feature', src: 'Website', text: 'Access verified data from 20+ integrated data sources without individual provider contracts.', short: 'Verified data from 20+ integrated sources, with no separate provider contracts' },
+      f2: { kind: 'Feature', src: 'Website', text: 'Use AI-powered ICP analysis and advanced filters to create targeted account lists.', short: 'AI-powered ICP analysis and filters for target account lists' },
+      f3: { kind: 'Feature', src: 'Website', text: 'Identify and de-anonymize website visitors at contact and account levels, then assess ICP fit and searched terms.', short: 'Website visitors identified at contact and account level' },
+      f5: { kind: 'Feature', src: 'Offering', text: 'Score and prioritize accounts and leads by their predicted conversion potential.', short: 'Accounts and leads scored by conversion potential' },
+      o1: { kind: 'Outcome', src: 'Website', text: 'In its CloudSEK case study, Sprouts reports sharing data on 60,000 contacts and 30,000 accounts.', short: 'CloudSEK: data on 60,000 contacts and 30,000 accounts' },
+      o3: { kind: 'Outcome', src: 'Website', text: 'In its Clinion case study, Sprouts reports a 4x quarter-over-quarter increase in meetings booked.', short: 'Clinion: 4x more meetings booked, quarter over quarter' },
+      o4: { kind: 'Outcome', src: 'Website', text: 'In its CloudSEK case study, Sprouts reports a 30% increase in SDR/BDR efficiency.', short: 'CloudSEK: 30% increase in SDR/BDR efficiency' },
+      o5: { kind: 'Outcome', src: 'Website', text: 'In its Finsire case study, Sprouts reports a 4x increase in response rates.', short: 'Finsire: 4x increase in response rates' }
+    };
+    const KIND_TONE = {
+      Feature: { bg: '#EBF1FE', fg: '#1D46A8' },
+      Outcome: { bg: '#E7F5EE', fg: '#1B6B45' },
+      'This campaign only': { bg: '#F1F3F6', fg: '#555C68' }
+    };
+    const personaLine = 'Connect your revenue data and execution in one system.';
+    const objList = s.objs || [{ words: 'ZoomInfo, Zoom Info, ZI', answer: 'Most teams keep it. ZoomInfo gives you the data export. We keep that data enriched and run the outreach on top of it.', src: 'ZoomInfo' }];
+    const pointList = s.points || [{ pz: 'f1' }, { pz: 'o4' }, { pz: 'o3' }];
+    const pointFull = (p0) => (p0.pz ? PZ_POINTS[p0.pz].text : String(p0.custom || ''));
+    const pointTexts = pointList.map((p0) => (p0.pz ? PZ_POINTS[p0.pz].short : String(p0.custom || ''))).filter((t) => t.trim());
+    const pzPicked = pointList.filter((p0) => p0.pz).length;
+    const ptOff = {};
+    Object.keys(PZ_POINTS).forEach((k) => { ptOff[k] = pointList.some((p0) => p0.pz === k); });
+    const hasRox = objList.some((o) => o.src === 'Rox');
     const splitWords = (w) => String(w).split(',').map((x) => x.trim()).filter((x) => x);
     const setObjAt = (i, patch) => this.setState({ objs: objList.map((o, j) => (j === i ? Object.assign({}, o, patch) : o)) });
     const focusField = s.focusField || 'opener';
@@ -1252,7 +1531,7 @@ class Component extends DCLogic {
     const pvList = [['Opener', fill(opener), null], ['Ask', fill(ask), null]];
     objList.forEach((o) => {
       const w = splitWords(o.words);
-      if (w.length || o.answer) pvList.push(['If they say “' + (w[0] || '…') + '”', fill(o.answer), null]);
+      if (String(o.answer).trim()) pvList.push(['If they say “' + (w[0] || '…') + '”', fill(o.answer), null]);
     });
     if (pointTexts.length) pvList.push(['Talking points', '', pointTexts]);
     pvList.push(['Close', fill(close), null]);
@@ -1283,14 +1562,36 @@ class Component extends DCLogic {
         : 'Your BDRs make these calls. Whisper shows them this script during the call; the prospect never hears it.',
       liveBack: moved ? go({ stage: 'check', calendar: true }) : go({ stage: 'mode', calendar: calendar }),
       saveLiveLabel: moved ? 'Save and continue' : 'Save step',
-      prompt: prompt,
-      setPrompt: (e) => this.setState({ prompt: e.target.value }),
-      promptChecks: promptChecks,
-      coveredLabel: covered + ' of ' + checkDefs.length + ' covered',
-      coveredColor: covered === checkDefs.length ? '#1B6B45' : '#8A5A00',
+      brief: brief,
+      setBrief: (e) => this.setState({ brief: e.target.value }),
+      setupChecks: setupChecks,
+      coveredLabel: covered + ' of ' + setupChecks.length + ' ready',
+      coveredColor: covered === setupChecks.length ? '#1B6B45' : '#8A5A00',
+      agentSel: agentSel,
+      setAgent: (e) => this.setState({ agentSel: e.target.value, openGroup: null, setq: '', chgOnly: false }),
+      agent: { meta: agent.meta + ' · 118 settings in 7 groups', hasDraft: !!agent.draft, draft: agent.draft },
+      nodeAgent: nodeAgent,
+      chgPressed: chgOnly ? 'true' : 'false',
+      toggleChg: () => this.setState({ chgOnly: !chgOnly }),
+      chgBtn: chgOnly ? { border: '#2E63E7', bg: '#EBF1FE', fg: '#1D46A8' } : { border: '#E7EAF0', bg: '#FFFFFF', fg: '#16181D' },
+      chgLabel: chgOnly ? 'Show all groups' : changedN + ' changed',
+      setq: setq,
+      setSetq: (e) => this.setState({ setq: e.target.value }),
+      showGroups: !showFound,
+      showFound: showFound,
+      agentGroups: agentGroups,
+      found: foundAll.slice(0, foundCap).map((x) => ({
+        name: x.name, group: x.group, value: x.value, changed: x.changed,
+        valueColor: x.value === 'Sprouts default' ? '#646B77' : '#16181D'
+      })),
+      foundLabel: foundAll.length === 0
+        ? (sq ? 'No setting has that in its name. Try another word.' : 'Nothing is changed. Every setting is on its Sprouts default.')
+        : (sq ? foundAll.length + (foundAll.length === 1 ? ' setting matches' : ' settings match') + (chgOnly ? ' · changed only' : '') : foundAll.length + ' changed from Sprouts defaults on this agent'),
+      foundHasMore: foundAll.length > foundCap,
+      foundMoreText: '+ ' + (foundAll.length - foundCap) + ' more. Type another letter to narrow it down.',
       flowSteps: flowSteps,
       toLiveSetup: go({ stage: 'livesetup', mode: 'live' }),
-      liveHint: moved ? 'Autopilot keeps its own prompt for the other 42 contacts.' : (saved ? 'Launch the campaign from the banner above.' : 'Edits show in the preview as you type.'),
+      liveHint: moved ? 'Autopilot keeps its agent and brief for the other 42 contacts.' : (saved ? 'Launch the campaign from the banner above.' : 'Edits show in the preview as you type.'),
       opener: opener,
       ask: ask,
       close: close,
@@ -1305,18 +1606,44 @@ class Component extends DCLogic {
         label: label,
         insert: () => this.setState({ [focusField]: appendTo(fieldVals[focusField], label) })
       })),
-      points: pointList.map((t, i) => ({
-        text: t, grip: ic.grip, x: ic.x,
-        set: (e) => this.setState({ points: pointList.map((p0, j) => (j === i ? e.target.value : p0)) }),
-        remove: () => this.setState({ points: pointList.filter((p0, j) => j !== i) })
-      })),
-      addPoint: () => this.setState({ points: pointList.concat(['']) }),
+      points: pointList.map((p0, i) => {
+        const d = p0.pz ? PZ_POINTS[p0.pz] : null;
+        const kind = d ? d.kind : 'This campaign only';
+        return {
+          text: pointFull(p0), x: ic.x, fromPz: !!d, isCustom: !d,
+          kind: kind, kindBg: KIND_TONE[kind].bg, kindFg: KIND_TONE[kind].fg,
+          srcText: d ? 'Personalization · ' + d.src + ' · proof linked' : 'Not in Personalization',
+          set: (e) => this.setState({ points: pointList.map((q, j) => (j === i ? { custom: e.target.value } : q)) }),
+          remove: () => this.setState({ points: pointList.filter((q, j) => j !== i) })
+        };
+      }),
+      pointsHint: pzPicked + ' of 27 from Personalization',
+      addPoint: () => this.setState({ points: pointList.concat([{ custom: '' }]) }),
+      addPointVal: '',
+      addPzPoint: (e) => {
+        const id = e.target.value;
+        if (id && PZ_POINTS[id] && !ptOff[id]) this.setState({ points: pointList.concat([{ pz: id }]) });
+      },
+      ptOff: ptOff,
+      personaLine: personaLine,
+      addPersonaLine: () => this.setState({ opener: appendTo(opener, personaLine) }),
+      pzSources: [
+        { n: '27', label: 'Talking points', note: 'Each with a proof link' },
+        { n: '9', label: 'Testimonials', note: 'Reviewed or source-linked' },
+        { n: '44', label: 'Knowledge base files', note: 'Indexed, cited by Savant' }
+      ],
       objs: objList.map((o, i) => ({
         words: o.words, answer: o.answer, chips: splitWords(o.words),
+        srcText: o.src ? 'Personalization · Competitors · ' + o.src : 'This campaign only',
+        srcBg: o.src ? '#EBF1FE' : '#F1F3F6',
+        srcFg: o.src ? '#1D46A8' : '#555C68',
+        placeholder: o.src === 'Rox' ? 'No answer yet. Write one from the Rox profile in Personalization.' : 'What the BDR should say',
         setWords: (e) => setObjAt(i, { words: e.target.value }),
         setAnswer: (e) => setObjAt(i, { answer: e.target.value }),
         remove: () => this.setState({ objs: objList.filter((x, j) => j !== i) })
       })),
+      canAddRox: !hasRox,
+      addRox: () => this.setState({ objs: objList.concat([{ words: 'Rox', answer: '', src: 'Rox' }]) }),
       addObj: () => this.setState({ objs: objList.concat([{ words: '', answer: '' }]) }),
       pv: pv,
       pvIdx: String(pIdx % people.length),
@@ -1334,8 +1661,6 @@ class Component extends DCLogic {
       setDelay: setKey('delay'),
       dayLabel: 'Day ' + dayNum,
       dayLower: 'day ' + dayNum,
-      voice: voice,
-      setVoice: setKey('voice'),
       fromAuto: fromAuto,
       setFromAuto: setKey('fromAuto'),
       meetLen: meetLen,
@@ -1350,7 +1675,7 @@ class Component extends DCLogic {
       changeCal: go({ calendar: false }),
       testText: test === 'calling'
         ? 'Calling your phone now…'
-        : (test === 'done' ? 'Test call finished. Change the prompt and call again if it sounded off.' : 'The agent calls your phone with this prompt. Nothing is logged to contacts.'),
+        : (test === 'done' ? 'Test call finished. Change the brief and call again if it sounded off.' : agent.name + ' calls your phone with this brief. Nothing is logged to contacts.'),
       testLabel: test === 'calling' ? 'Calling…' : (test === 'done' ? 'Call again' : 'Test call'),
       testBusy: test === 'calling',
       testCall: () => {
@@ -1379,16 +1704,8 @@ class Component extends DCLogic {
       connectCal: go({ calendar: true }),
       vars: ['{first name}', '{company}', '{title}', '{recent signal}'].map((label) => ({
         label: label,
-        insert: () => this.setState({ prompt: appendTo(prompt, label) })
+        insert: () => this.setState({ brief: appendTo(brief, label) })
       })),
-      guidelines: [
-        "Says it's an AI assistant at the start",
-        'Answers only from approved company information',
-        "Says when it doesn't know, and offers a follow-up",
-        'Keeps answers short and steers to the goal',
-        'Confirms date, time and email before booking',
-        'Ends the call when asked, and notes not to call again'
-      ],
       setupHint: calendar ? 'Next: we check all 48 numbers against country rules and DNC lists.' : 'Connect a calendar to continue.',
       checkDisabled: !calendar,
       checkBtn: calendar ? { bg: '#1C1F26', fg: '#FFFFFF', cursor: 'pointer' } : { bg: '#E7EAF0', fg: '#646B77', cursor: 'not-allowed' },
